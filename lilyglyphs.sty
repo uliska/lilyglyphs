@@ -25,6 +25,9 @@
 %--------------
 % Single Glyphs
 
+% These aren't at any fancy Unicode positions but rather
+% at the places of the ordinary Roman letters
+
 % f for forte
 \newcommand{\lilyF}{\lilyGlyph{1.5}{66}}
 \WithSuffix\newcommand\lilyF*{\lilyF{}}
@@ -96,8 +99,13 @@
 % Accidentals %
 %%%%%%%%%%%%%%%
 
+% "accidentals.natural"
 \renewcommand*{\natural}{\raisebox{0.5ex}{\lilyGlyph{1.35}{E116} }}
+% "accidentals.flat"
 \renewcommand*{\flat}{\raisebox{0.2ex}{\lilyGlyph{1.5}{E11A} }}
+% "accidentals.flatflat"
 \newcommand*{\flatflat}{\raisebox{0.2ex}{\lilyGlyph{1.5}{E123} }}
+% "accidentals.sharp"
+\renewcommand*{\sharp}{\raisebox{0.2ex}{\lilyGlyph{1.5}{E10E} }}
 
 
