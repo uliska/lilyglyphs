@@ -1,0 +1,116 @@
+\documentclass{article}
+\title{The \textbackslash lilyglyphs Package}
+\usepackage{lilyglyphs}
+
+% TODO make this prettier, preferrably using musical glyphs 
+% like e.g. quarter notes for the 'l's and maybe a
+% flipped \flat for the 'p'
+\newcommand{\lilyglyphs}{\texttt{\textbf{lilyglyphs }}}
+
+% Format lilyglyphs commands and save typing of the backslash
+\newcommand*{\cmd}[1]{\texttt{\textbackslash #1}}
+
+% Common table format for reference tables
+% TODO make this prettier
+\newcommand{\tmpCaption}{} % Necessary to pass caption to the end definition
+\newcommand{\tmpLabel}{}
+\newenvironment{reftable}[2]
+	{%
+		\renewcommand{\tmpCaption}{#1}
+		\renewcommand{\tmpLabel}{#2}
+		\begin{table}[ht]
+		\begin{center}
+		\begin{tabular}[t]{lll}
+		\hline
+		&\\
+	}
+	{%
+		&\\
+		\hline
+		\end{tabular}
+		\caption{\tmpCaption}
+		\label{table:\tmpLabel}
+		\end{center}
+		\end{table}
+	}
+
+
+\begin{document}
+\maketitle
+\tableofcontents
+\section{Introduction}
+The package \lilyglyphs is made for authors who want to include single musical elements in their \LaTeX{} texts. This is not meant to be used for musical examples, for which one would use packages like \texttt{musixtex} or the LilyPond software together with lilypond-book\footnote{http://www.lilypond.org}. Here we are talking about entering items like \lilyRFZ* into continuous text, within the paragraphs.
+
+For this purpose the package provides commands to include glyphs from LilyPond's Emmentaler OpenType font. For the implications of this statement see the next section "Requirements".
+
+The \lilyglyphs package was initiated and is maintained by Urs Liska and hosted as a git repository on GitHub\footnote{http://www.github.com/uliska/lilyglyphs -- Contact: git@ursliska.de}
+
+\section{Requirements}
+\lilyglyphs achieves its goal through accessing OpenType fonts provided by the LilyPond notation software. These fonts are accessed through the \texttt{fontspec} package, and \lilyglyphs therefore relies on or any other distribution supporting \texttt{fontspec}. It should also be possible with LuaLaTeX but this hasn't been tested.
+
+Of course the font has to be accessible to \texttt{fontspec}. Please refer to the \texttt{fontspec} documentation on how to make fonts visible to it. 
+
+\textit{On a Linux system it may be enough to copy the font files to your home directory's .fonts directory in or a new subdirectory, possibly running \texttt{fc-cache} afterwards to update the fontconfig cache.}
+
+
+
+\section{Usage}
+\subsection{Setting up your document}
+For activating the capabilities of \lilyglyphs just write \cmd{usepackage\{lilyglyphs\}} in the preamble of your document.
+
+\textbf{TODO:} Declare and implement (and then document) options to control the scaling of the glyphs.
+
+
+
+\subsection{Generic access}
+\textbf{TODO:} Explain the use and internal working of \cmd{lilyGlyph}.\\
+Explain the starred versions with trailing space and the use of this differenciation for combined glyphs and glyphs before punctuations.
+
+
+
+\subsection{Available commands}
+\subsubsection{Notes}
+TBD
+
+
+\subsubsection{Dynamic Text}
+First we have the basic Dynamic Letters \lilyP, \lilyF* -- and their 'modifiers'
+\lilyM, \lilyS* and \lilyZ. See table~\ref{table:singleDynLetters} on page~\pageref{table:singleDynLetters}.
+
+\begin{reftable}{Single Dynamic Letters}{singleDynLetters}
+\lilyF* & \cmd{lilyF} & forte\\
+\lilyP* & \cmd{lilyP} & piano\\
+\lilyM* & \cmd{lilyM} & mezzo-\\
+\lilyR* & \cmd{lilyR} & rin-\\
+\lilyS* & \cmd{lilyS} & s-\\
+\lilyZ* & \cmd{lilyZ} & -z\\
+\end{reftable}
+
+These Letters can be combined to make complex Dynamics. \lilyglyphs provides a set of predefined commands (see table~\ref{table:combinedDynLetters} on page~\pageref{table:combinedDynLetters}) but you can also create custom Dynamics. Keep in mind to use the unstarred versions of the commands for this, otherwise you'll have space between the letters. The predefined commands are also available in starred and unstarred versions, providing or not space after the whole group.
+If you find yourself creating many commands yourself, then feel free to suggest them as enhancement requests. Or contact us and participate directly.
+
+\begin{reftable}{Combined Dynamic Letters}{combinedDynLetters}
+\lilyPPPP* & \cmd{lilyPPPP} & pianissimo-pianissimo\\
+\lilyPPP* & \cmd{lilyPPP} & piano-pianissimo\\
+\lilyPP* & \cmd{lilyPP} & pianissimo\\
+\lilyMF* & \cmd{lilyMF} & mezzoforte\\
+\lilyFF* & \cmd{lilyFF} & fortissimo\\
+\lilyFFF* & \cmd{lilyFFF} & forte-fortissimo\\
+\lilyFFFF* & \cmd{lilyFFFF} & fortissimo-fortissimo\\
+
+\lilySF* & \cmd{lilySF} & sforzato\\
+\lilySFZ* & \cmd{lilySFZ} & sforzato (alternative)\\
+\lilyRF* & \cmd{lilyRF} & rinforzando\\
+\lilyRFZ* & \cmd{lilyRFZ} & rinforzando (alternative)\\
+
+\end{reftable}
+
+
+\subsubsection{Fingerings}
+Fingerings are entered with the command \cmd{finger}, giving the number as the argument. Note that there are numbers from 0 to 9, not only from 1 to 5. Example: \cmd{finger*\{1\}}
+\finger*{1}with following text.
+
+TODO: Ask if these glyphs really are for fingering or rather for figuredbass etc.
+
+
+\end{document}
