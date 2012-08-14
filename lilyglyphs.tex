@@ -5,7 +5,7 @@
 % TODO make this prettier, preferrably using musical glyphs 
 % like e.g. quarter notes for the 'l's and maybe a
 % flipped \flat for the 'p'
-\newcommand{\lilyglyphs}{\texttt{\textbf{lilyglyphs }}}
+\newcommand{\lilyglyphs}{\texttt{\textbf{lilyglyp\sharp s }}}
 
 % Format lilyglyphs commands and save typing of the backslash
 \newcommand*{\cmd}[1]{\texttt{\textbackslash #1}}
@@ -20,7 +20,7 @@
 		\renewcommand{\tmpLabel}{#2}
 		\begin{table}[ht]
 		\begin{center}
-		\begin{tabular}[t]{lll}
+		\begin{tabular}[t]{llll}
 		\hline
 		&\\
 	}
@@ -75,7 +75,7 @@ TBD
 
 \subsubsection{Dynamic Text}
 First we have the basic Dynamic Letters \lilyP, \lilyF* -- and their 'modifiers'
-\lilyM, \lilyS* and \lilyZ. See table~\ref{table:singleDynLetters} on page~\pageref{table:singleDynLetters}.
+\lilyM, \lilyS* and \lilyZ. These glyphs are on the Unicode positions of the respective standard Roman letters. See table~\ref{table:singleDynLetters} on page~\pageref{table:singleDynLetters}.
 
 \begin{reftable}{Single Dynamic Letters}{singleDynLetters}
 \lilyF* & \cmd{lilyF} & forte\\
@@ -106,7 +106,15 @@ If you find yourself creating many commands yourself, then feel free to suggest 
 \end{reftable}
 
 \subsubsection{Accidentals}
-The package starts up with only a few of the standard accidentals of traditional Western music. More should be added soon. We have the \cmd{natural} \natural, the \cmd{flat} \flat and the \cmd{sharp} \sharp -- which replace the respective commands from standard \LaTeX.
+The package starts up with only a few of the standard accidentals of traditional Western music. More should be added soon. We have the \natural, the \flat* and the \sharp* -- which \cmd{renew} the respective commands from standard \LaTeX{} -- plus the double versions \flatflat* and \doublesharp. See table~\ref{table:accidentals} on page~\pageref{table:accidentals}
+
+\begin{reftable}{Accidentals}{accidentals}
+\natural & \cmd{natural} & "accidentals.natural" & U+E116\\
+\flat & \cmd{flat} & "accidentals.flat" & U+E11A\\
+\flatflat & \cmd{flatflat} & "accidentals.flatflat" & U+E123\\
+\sharp & \cmd{sharp} & "accidentals.sharp" & U+E10E\\
+\doublesharp & \cmd{doublesharp} & "accidentals.doublesharp & U+E125\\
+\end{reftable}
 
 \subsubsection{Fingerings}
 Fingerings are entered with the command \cmd{finger}, giving the number as the argument. Note that there are numbers from 0 to 9, not only from 1 to 5. Example: \cmd{finger*\{1\}}

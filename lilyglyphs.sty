@@ -100,12 +100,20 @@
 %%%%%%%%%%%%%%%
 
 % "accidentals.natural"
-\renewcommand*{\natural}{\raisebox{0.5ex}{\lilyGlyph{1.35}{E116} }}
+\renewcommand*{\natural}{\raisebox{0.5ex}{\lilyGlyph{1.35}{E116}}}
+\WithSuffix\newcommand\natural*{\natural{}}
 % "accidentals.flat"
-\renewcommand*{\flat}{\raisebox{0.2ex}{\lilyGlyph{1.5}{E11A} }}
+\renewcommand*{\flat}{\raisebox{0.2ex}{\lilyGlyph{1.5}{E11A}}}
+\WithSuffix\newcommand\flat*{\flat{}}
 % "accidentals.flatflat"
-\newcommand*{\flatflat}{\raisebox{0.2ex}{\lilyGlyph{1.5}{E123} }}
+\newcommand*{\flatflat}{\raisebox{0.2ex}{\lilyGlyph{1.5}{E123}}}
+\WithSuffix\newcommand\flatflat*{\flatflat{}}
 % "accidentals.sharp"
-\renewcommand*{\sharp}{\raisebox{0.2ex}{\lilyGlyph{1.5}{E10E} }}
+\renewcommand*{\sharp}{\raisebox{0.5ex}{\lilyGlyph{1.5}{E10E}}}
+\WithSuffix\newcommand\sharp*{\sharp{}}
+% "accidentals.doublesharp"
+\newcommand*{\doublesharp}{\raisebox{0.35ex}{\lilyGlyph{1.5}{E125}}}
+\WithSuffix\newcommand\doublesharp*{\doublesharp{}}
+
 
 
