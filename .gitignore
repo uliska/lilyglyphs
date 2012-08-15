@@ -16,3 +16,6 @@
 *.toc
 
 *.tif
+
+# exclude the whole deploy dir
+deploy/*
