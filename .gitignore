@@ -19,3 +19,5 @@
 
 # exclude the whole deploy dir
 deploy/*
+# and the font dir
+otf/*
