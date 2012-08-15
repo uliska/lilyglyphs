@@ -1,0 +1,74 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This file is part of the lilyglyphs package %
+% and defines one subset of glyphs            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Dynamic Script letters %
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%--------------
+% Single Glyphs
+
+% These aren't at any fancy Unicode positions but rather
+% at the places of the ordinary Roman letters
+
+% f for forte
+\newcommand{\lilyF}{\lilyGlyphByNumber{1.5}{66}}
+\WithSuffix\newcommand\lilyF*{\lilyF{}}
+% p for piano
+\newcommand{\lilyP}{\lilyGlyphByNumber{1.5}{70}}
+\WithSuffix\newcommand\lilyP*{\lilyP{}}
+% m for mezzo
+\newcommand{\lilyM}{\lilyGlyphByNumber{1.5}{6D}}
+\WithSuffix\newcommand\lilyM*{\lilyM{}}
+% r for rin-
+\newcommand{\lilyR}{\lilyGlyphByNumber{1.5}{72}}
+\WithSuffix\newcommand\lilyR*{\lilyR{}}
+% s for s- (as in sf)
+\newcommand{\lilyS}{\lilyGlyphByNumber{1.5}{73}}
+\WithSuffix\newcommand\lilyS*{\lilyS{}}
+% z for -z (as in sfz)
+\newcommand{\lilyZ}{\lilyGlyphByNumber{1.5}{7A}}
+\WithSuffix\newcommand\lilyZ*{\lilyZ{}}
+
+%-------------------------
+% Combined Dynamic Scripts
+
+% piano series
+% pianissimo
+\newcommand{\lilyPP}{\lilyP\lilyP}
+\WithSuffix\newcommand\lilyPP*{\lilyPP{}}
+% piano-pianissimo
+\newcommand{\lilyPPP}{\lilyP\lilyP\lilyP}
+\WithSuffix\newcommand\lilyPPP*{\lilyPPP{}}
+% pianissimo-pianissimo
+\newcommand{\lilyPPPP}{\lilyP\lilyP\lilyP\lilyP}
+\WithSuffix\newcommand\lilyPPPP*{\lilyPPPP{}}
+% mezzoforte
+\newcommand{\lilyMF}{\lilyM\lilyF}
+\WithSuffix\newcommand\lilyMF*{\lilyMF{}}
+
+% forte series
+% fortissimo
+\newcommand{\lilyFF}{\lilyF\lilyF}
+\WithSuffix\newcommand\lilyFF*{\lilyFF{}}
+% forte-fortissimo
+\newcommand{\lilyFFF}{\lilyF\lilyF\lilyF}
+\WithSuffix\newcommand\lilyFFF*{\lilyFFF{}}
+% fortissimo-fortissimo
+\newcommand{\lilyFFFF}{\lilyF\lilyF\lilyF\lilyF}
+\WithSuffix\newcommand\lilyFFFF*{\lilyFFFF{}}
+
+% sforzato
+\newcommand{\lilySF}{\lilyS\hspace*{0.1ex}\lilyF}
+\WithSuffix\newcommand\lilySF*{\lilySF{}}
+% sforzato with trailing z
+\newcommand{\lilySFZ}{\lilyS\hspace*{0.1ex}\lilyF\lilyZ}
+\WithSuffix\newcommand\lilySFZ*{\lilySFZ{}}
+% rinforzando 
+\newcommand{\lilyRF}{\lilyR\lilyF}
+\WithSuffix\newcommand\lilyRF*{\lilyRF{}}
+% rinforzando with trailing z
+\newcommand{\lilyRFZ}{\lilyR\lilyF\lilyZ}
+\WithSuffix\newcommand\lilyRFZ*{\lilyRFZ{}}
