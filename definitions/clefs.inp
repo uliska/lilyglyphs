@@ -1,0 +1,27 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This file is part of the lilyglyphs package %
+% and defines one subset of glyphs            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%
+% Clef glyphs %
+%%%%%%%%%%%%%%%
+
+% The time signature glyphs don't need starred versions because they already
+% have trailing space built in
+
+% \treble clef
+\newcommand*{\clefGInline}{\raisebox{0.25ex}{\lilyGlyph[0.7]{"clefs.G"} }}
+\newcommand*{\clefG}{\raisebox{0.25ex}{\lilyGlyph[1.2]{"clefs.G"} }}
+
+% \bass clef
+\newcommand*{\clefFInline}{\raisebox{0.65ex}{\lilyGlyph[1]{"clefs.F"} }}
+\newcommand*{\clefF}{\raisebox{0.5ex}{\lilyGlyph[1.4]{"clefs.F"} }}
+
+% \alto clef
+\newcommand*{\clefCInline}{\raisebox{0.6ex}{\lilyGlyph[0.8]{"clefs.C"} }}
+\newcommand*{\clefC}{\raisebox{0.6ex}{\lilyGlyph[1.1]{"clefs.C"} }}
+
+% \time 2/2
+%\newcommand*{\lilyTimeCHalf}{\raisebox{0.7ex}{\lilyGlyph[1.4]{"timesig.C22"} }}
+

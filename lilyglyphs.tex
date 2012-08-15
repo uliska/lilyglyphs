@@ -1,6 +1,7 @@
 \documentclass{article}
 \usepackage{xltxtra}
-\title{The \textbackslash lilyglyphs Package}
+\title{The \textbackslash lilyglyphs Package\\~\\
+	\normalsize Version 0.0.1}
 \author{Urs Liska}
 \usepackage{lilyglyphs}
 
@@ -84,14 +85,23 @@ As you can see the glyph is -- as most \emph{Emmentaler} glyphs are -- placed to
 
 \subsection{Available commands}
 
+\subsubsection{Clefs}
+Some of the clef glyphs are among the few that are too large by default. You couldn't use a G clef within continuous text without severely \clefG damage line spacing. But if you scale them to a size that doesn't disturb line spacing, they look quite disproportionate, especially when combined with other elements: \clefCInline \natural. Therefore we provide the clefs in two forms, a standard form which can be problematic in continuous text, and an -Inline version which looks funny but can be used within the line. See table~\ref{table:clefs} on page~\pageref{table:clefs}
+
+\begin{reftable}{Clefs}{clefs}
+\clefGInline & \cmd{clefG}, \cmd{clefGInline} & "clefs.G"\\
+\clefFInline & \cmd{clefF}, \cmd{clefFInline} & "clefs.F"\\
+\clefCInline & \cmd{clefC}, \cmd{clefCInline} & "clefs.C"\\
+\end{reftable}
+
 \subsubsection{Time Signatures}
 \emph{Emmentaler} provides two 'real' glyphs for time signatures, the \lilyTimeC and the \lilyTimeCHalf. The commands \cmd{lilyTimeC} and \cmd{lilyTimeCHalf} don't have starred versions as the glyphs have their own space built in already. You can see this also at the end of the preceding sentence, where the period is too far away from the glyph.
 
 More time signatures have to be constructed from numbers, which is a desideratum for the package.
 
 \begin{reftable}{Time Signatures}{timesignatures}
-\lilyTimeC & \cmd{lilyTimeC}\\
-\lilyTimeCHalf & \cmd{lilyTimeCHalf}\\
+\lilyTimeC & \cmd{lilyTimeC} & "timesig.C44"\\
+\lilyTimeCHalf & \cmd{lilyTimeCHalf} & "timesig.C22"\\
 \end{reftable}
 
 
