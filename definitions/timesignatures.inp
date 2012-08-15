@@ -1,0 +1,15 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This file is part of the lilyglyphs package %
+% and defines one subset of glyphs            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% Time Signature glyphs %
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand*{\lilyTimeC}{\raisebox{0.7ex}{\lilyGlyph[1.4]{"timesig.C44"} }}
+\WithSuffix\newcommand\lilyTimeC*{\lilyTimeC{}}
+
+\newcommand*{\lilyTimeCHalf}{\raisebox{0.7ex}{\lilyGlyph[1.4]{"timesig.C22"} }}
+\WithSuffix\newcommand\lilyTimeCHalf*{\lilyTimeCHalf{}}
+
