@@ -1,0 +1,16 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This file is part of the lilyglyphs package %
+% and defines one subset of glyphs            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%
+% Notes and Noteheads %
+%%%%%%%%%%%%%%%%%%%%%%%
+
+%TODO This really is only a start
+%TODO There is esp. the question of Stems
+
+\newcommand*{\lilyHalfNotehead}{\lilyGlyph{1.5}{"noteheads.s1"} }
+
+\newcommand{\dottedHalf}{\lilyHalfNotehead \lilyDot}
+

@@ -7,113 +7,36 @@
 % Access OpenTypeFonts
 \RequirePackage{fontspec}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Generic command to select a LilyPond Glyph %
-\newcommand*{\lilyGlyph}[2]{{\fontspec[Scale=#1]{Emmentaler}\char"#2}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Generic command(s) to select a LilyPond Glyph %
+%
+% Determine the glyph by its OpenType glyphName
+\newcommand*{\lilyGlyph}[2]{{\fontspec[Scale=#1]{Emmentaler-11} \XeTeXglyph\XeTeXglyphindex"#2" }}
+% Determine the glyph by its Unicode number 
+% (works for those glyphs that reside in 'standard' places)
+\newcommand*{\lilyGlyphByNumber}[2]{{\fontspec[Scale=#1]{Emmentaler-11}\char"#2}}
+
 
 %%%%%%%%%%%%%%%
 % Misc. tools %
 
 % Dot, e.g. used to create dotted notes
-\newcommand*{\lilyDot}{\lilyGlyph{1.5}{2E}}
+\newcommand*{\lilyDot}{\lilyGlyph{1.5}{"dots.dot"}}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Dynamic Script letters %
-%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{dynamics.inp}
 
-%--------------
-% Single Glyphs
+\input{accidentals.inp}
 
-% These aren't at any fancy Unicode positions but rather
-% at the places of the ordinary Roman letters
+\input{noteheads.inp}
 
-% f for forte
-\newcommand{\lilyF}{\lilyGlyph{1.5}{66}}
-\WithSuffix\newcommand\lilyF*{\lilyF{}}
-% p for piano
-\newcommand{\lilyP}{\lilyGlyph{1.5}{70}}
-\WithSuffix\newcommand\lilyP*{\lilyP{}}
-% m for mezzo
-\newcommand{\lilyM}{\lilyGlyph{1.5}{6D}}
-\WithSuffix\newcommand\lilyM*{\lilyM{}}
-% r for rin-
-\newcommand{\lilyR}{\lilyGlyph{1.5}{72}}
-\WithSuffix\newcommand\lilyR*{\lilyR{}}
-% s for s- (as in sf)
-\newcommand{\lilyS}{\lilyGlyph{1.5}{73}}
-\WithSuffix\newcommand\lilyS*{\lilyS{}}
-% z for -z (as in sfz)
-\newcommand{\lilyZ}{\lilyGlyph{1.5}{7A}}
-\WithSuffix\newcommand\lilyZ*{\lilyZ{}}
+%%%%%%%%%%%
+% Numbers %
+%%%%%%%%%%%
 
-%-------------------------
-% Combined Dynamic Scripts
+\newcommand*{\lilyNumber}[1]{\lilyGlyphByNumber{1.1}{3#1}}
+\WithSuffix\newcommand\lilyNumber*[1]{\lilyNumber{#1} }
 
-% piano series
-% pianissimo
-\newcommand{\lilyPP}{\lilyP\lilyP}
-\WithSuffix\newcommand\lilyPP*{\lilyPP{}}
-% piano-pianissimo
-\newcommand{\lilyPPP}{\lilyP\lilyP\lilyP}
-\WithSuffix\newcommand\lilyPPP*{\lilyPPP{}}
-% pianissimo-pianissimo
-\newcommand{\lilyPPPP}{\lilyP\lilyP\lilyP\lilyP}
-\WithSuffix\newcommand\lilyPPPP*{\lilyPPPP{}}
-% mezzoforte
-\newcommand{\lilyMF}{\lilyM\lilyF}
-\WithSuffix\newcommand\lilyMF*{\lilyMF{}}
-
-% forte series
-% fortissimo
-\newcommand{\lilyFF}{\lilyF\lilyF}
-\WithSuffix\newcommand\lilyFF*{\lilyFF{}}
-% forte-fortissimo
-\newcommand{\lilyFFF}{\lilyF\lilyF\lilyF}
-\WithSuffix\newcommand\lilyFFF*{\lilyFFF{}}
-% fortissimo-fortissimo
-\newcommand{\lilyFFFF}{\lilyF\lilyF\lilyF\lilyF}
-\WithSuffix\newcommand\lilyFFFF*{\lilyFFFF{}}
-
-% sforzato
-\newcommand{\lilySF}{\lilyS\hspace*{0.1ex}\lilyF}
-\WithSuffix\newcommand\lilySF*{\lilySF{}}
-% sforzato with trailing z
-\newcommand{\lilySFZ}{\lilyS\hspace*{0.1ex}\lilyF\lilyZ}
-\WithSuffix\newcommand\lilySFZ*{\lilySFZ{}}
-% rinforzando 
-\newcommand{\lilyRF}{\lilyR\lilyF}
-\WithSuffix\newcommand\lilyRF*{\lilyRF{}}
-% rinforzando with trailing z
-\newcommand{\lilyRFZ}{\lilyR\lilyF\lilyZ}
-\WithSuffix\newcommand\lilyRFZ*{\lilyRFZ{}}
-
-%%%%%%%%%%%%%%
-% Fingerings %
-%%%%%%%%%%%%%%
-
-\newcommand*{\finger}[1]{\lilyGlyph{1.1}{3#1}}
-\WithSuffix\newcommand\finger*[1]{\finger{#1} }
-
-%%%%%%%%%%%%%%%
-% Accidentals %
-%%%%%%%%%%%%%%%
-
-% "accidentals.natural"
-\renewcommand*{\natural}{\raisebox{0.5ex}{\lilyGlyph{1.35}{E116}}}
-\WithSuffix\newcommand\natural*{\natural{}}
-% "accidentals.flat"
-\renewcommand*{\flat}{\raisebox{0.2ex}{\lilyGlyph{1.5}{E11A}}}
-\WithSuffix\newcommand\flat*{\flat{}}
-% "accidentals.flatflat"
-\newcommand*{\flatflat}{\raisebox{0.2ex}{\lilyGlyph{1.5}{E123}}}
-\WithSuffix\newcommand\flatflat*{\flatflat{}}
-% "accidentals.sharp"
-\renewcommand*{\sharp}{\raisebox{0.5ex}{\lilyGlyph{1.5}{E10E}}}
-\WithSuffix\newcommand\sharp*{\sharp{}}
-% "accidentals.doublesharp"
-\newcommand*{\doublesharp}{\raisebox{0.35ex}{\lilyGlyph{1.5}{E125}}}
-\WithSuffix\newcommand\doublesharp*{\doublesharp{}}
 
 
 
