@@ -52,28 +52,37 @@ The \lilyglyphs package was initiated and is maintained by Urs Liska and hosted 
 
 Of course the font has to be accessible to \texttt{fontspec}. Please refer to the \texttt{fontspec} documentation on how to make fonts visible to it. 
 
-\textit{On a Linux system it may be enough to copy the font files to your home directory's .fonts directory in or a new subdirectory, possibly running \texttt{fc-cache} afterwards to update the fontconfig cache.}
+\textit{On a Linux system it may be enough to copy the font files to your home directory's .fonts directory in or a new subdirectory, possibly running \texttt{fc-cache} afterwards to update the fontconfig cache. The font files are located int the usr/share/lilypond/current/fonts/otf subdirectory of your LilyPond installation.}
 
 
 
 \section{Usage}
-\subsection{Setting up your document}
-For activating the capabilities of \lilyglyphs just write \cmd{usepackage\{lilyglyphs\}} in the preamble of your document.
+\subsection{General usage}
+For activating the capabilities of \lilyglyphs just write \cmd{usepackage\{lilyglyphs\}} in the preamble of your document. Then you can use the commands defined by the package or access glyphs directly through one of the generic access commands.
 
-\textbf{TODO:} Declare and implement (and then document) options to control the scaling of the glyphs.
+The predefined commands are generally available in two forms, starred and unstarred (e.\,g. \cmd{flat} and \cmd{flat*}). The unstarred commands provide the glyphs without trailing space while the starred ones append a single space after the glyph. The latter are more convenient to use in continuous text while the plain commands can be used either before punctuations or to create combined glyphs (e.\,g. \lilyS\lilyF\lilyF\lilyZ).
+
+Glyphs are scaled to fit normal text fonts, and the scaling automatically follows the scaling of the text. This also means they are influenced by \LaTeX 's text size commands, so you can write something like \{\cmd{large \textbackslash flat\}} to create a larger {\large \flat} glyph than the normal \flat* one. If you need more fine-grained control you can use the generic commands and set the scaling individually.
+
+You can always combine commands (or glyphs created through generic access as shown in the next section) to make new commands. If you find yourself doing this regularely then please provide useful combinations as feature requests on our issue tracker. Or even better, join us and participate yourself.
 
 
 
 \subsection{Generic access}
-\textbf{TODO:} Explain the use and internal working of \cmd{lilyGlyph}.\\
-Explain the starred versions with trailing space and the use of this differenciation for combined glyphs and glyphs before punctuations.
+\lilyglyphs uses its generic commands \cmd{lilyGlyph} and \cmd{lilyGlyphByNumber} to access the glyphs. If you need a glyph that isn't covered yet by \lilyglyphs you can access it directly through these commands. Besides that they provide control over the size of the glyph.
 
+Both commands expect two arguments. The first -- optional -- one is a scaling factor for the glyph because most of the glyphs won't fit the surrounding text font. You may start with a value of one but usually you will have to increase the value to something between 1.2 and 1.5 in order to create glyphs suiting the continuous text. Of course you can also use this argument to create glyphs of arbitrary size. 
+
+The second argument is the glyph to be selected. \cmd{lilyGlyph} expects the OpenType glyph name, surrounded by double quotation marks. You can look up the glyph names in the Appendix of LilyPond's \emph{Notation Reference} \footnote{http://www.lilypond.org/doc/v2.15/Documentation/notation/the-feta-font.html}. \cmd{lilyGlyphByNumber} expects the Unicode code of the glyph. You will generally not want to use this as the code positions aren't guaranteed to stay the same with new versions of the fonts. There may be some uses for numerical access however.
+
+\subparagraph*{Example:}
+The coda sign isn't implemented yet, so you can create it with \cmd{lilyGlyph\{"scripts.coda"\}}: \lilyGlyph{"scripts.coda"}. If you want you can supply the optional \texttt{Scale} argument to make the glyph somewhat larger: ~\lilyGlyph[1.3]{"scripts.coda"}\\
+\cmd{lilyGlyph[1.3]\{"scripts.coda"\}}.
+
+As you can see the glyph is -- as most \emph{Emmentaler} glyphs are -- placed too low, so you have to place it in a  \cmd{raisebox}: \raisebox{0.25em}{\lilyGlyph[1.3]{"scripts.coda"}}, finding out the offset value by trial-and-error: \cmd{raisebox\{0.25em\}\{\textbackslash lilyGlyph\{"scripts.coda"\}\}}. The syntax is still not fixed yet, because in a future version of the package the \cmd{raisebox} will be a direct part of the \cmd{lilyGlyph} command, with the raise amount being an optional argument.
 
 
 \subsection{Available commands}
-\subsubsection{Notes}
-TBD
-
 
 \subsubsection{Dynamic Text}
 First we have the basic Dynamic Letters \lilyP, \lilyF* -- and their 'modifiers'
@@ -89,7 +98,7 @@ First we have the basic Dynamic Letters \lilyP, \lilyF* -- and their 'modifiers'
 \end{reftable}
 
 These Letters can be combined to make complex Dynamics. \lilyglyphs provides a set of predefined commands (see table~\ref{table:combinedDynLetters} on page~\pageref{table:combinedDynLetters}) but you can also create custom Dynamics. Keep in mind to use the unstarred versions of the commands for this, otherwise you'll have space between the letters. The predefined commands are also available in starred and unstarred versions, providing or not space after the whole group.
-If you find yourself creating many commands yourself, then feel free to suggest them as enhancement requests. Or contact us and participate directly.
+If you find yourself creating commands yourself often, then feel free to suggest them as enhancement requests. Or contact us and participate directly.
 
 \begin{reftable}{Combined Dynamic Letters}{combinedDynLetters}
 \lilyPPPP* & \cmd{lilyPPPP} & pianissimo-pianissimo\\
@@ -108,17 +117,20 @@ If you find yourself creating many commands yourself, then feel free to suggest 
 \end{reftable}
 
 \subsubsection{Accidentals}
-The package starts up with only a few of the standard accidentals of traditional Western music. More should be added soon. We have the \cmd{natural} \natural, the \cmd{flat} \flat* and the \cmd{sharp} \sharp* -- which replace the respective commands from standard \LaTeX.
+The package starts up with only a few of the standard accidentals of traditional Western music. More should be added soon. We have the \cmd{natural} \natural, the \cmd{flat} \flat* and the \cmd{sharp} \sharp* -- which replace the respective commands from standard \LaTeX. Additionally there are the double versions, \cmd{flatflat} \flatflat* and \cmd{doublesharp} \doublesharp. See table~\ref{table:accidentals} on page~\pageref{table:accidentals}. There you will also find the glyphnames.
+
+Accidentals are available in starred and unstarred versions.
+
+\begin{reftable}{Accidentals}{accidentals}
+\natural & \cmd{natural} & "accidentals.natural"\\
+\sharp & \cmd{sharp} & "accidentals.sharp"\\
+\doublesharp & \cmd{doublesharp} & "accidentals.doublesharp"\\
+\flat & \cmd{flat} & "accidentals.flat"\\
+\flatflat & \cmd{flatflat} & "accidentals.flatflat"\\
+\end{reftable}
 
 \subsubsection{Numbers}
 Numbers are entered with the command \cmd{lilyNumber}, giving the number as the argument. There are numbers from 0 to 9, not only from 1 to 5, so they can be used for fingerings or anything else Example: \cmd{lilyNumber*\{1\}} \lilyNumber*{1} with following text.
-
-TODO: Ask if these glyphs really are for fingering or rather for figuredbass etc.
-
-
-\font\1 = "Emmentaler-11"
-  \1
-  \XeTeXglyph \the\XeTeXglyphindex "scripts.varsegno"
 
 
 \end{document}

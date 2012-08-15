@@ -8,17 +8,17 @@
 %%%%%%%%%%%%%%%
 
 % "accidentals.natural"
-\renewcommand*{\natural}{\raisebox{0.5ex}{\lilyGlyph{1.35}{"accidentals.natural"}}}
+\renewcommand*{\natural}{\raisebox{0.5ex}{\lilyGlyph[1.5]{"accidentals.natural"}}}
 \WithSuffix\newcommand\natural*{\natural{}}
 % "accidentals.flat"
-\renewcommand*{\flat}{\raisebox{0.2ex}{\lilyGlyph{1.5}{"accidentals.flat"}}}
+\renewcommand*{\flat}{\raisebox{0.2ex}{\lilyGlyph[1.5]{"accidentals.flat"}}}
 \WithSuffix\newcommand\flat*{\flat{}}
 % "accidentals.flatflat"
-\newcommand*{\flatflat}{\raisebox{0.2ex}{\lilyGlyph{1.5}{"accidentals.flatflat"}}}
+\newcommand*{\flatflat}{\raisebox{0.2ex}{\lilyGlyph[1.5]{"accidentals.flatflat"}}}
 \WithSuffix\newcommand\flatflat*{\flatflat{}}
 % "accidentals.sharp"
-\renewcommand*{\sharp}{\raisebox{0.5ex}{\lilyGlyph{1.5}{"accidentals.sharp"}}}
+\renewcommand*{\sharp}{\raisebox{0.5ex}{\lilyGlyph[1.5]{"accidentals.sharp"}}}
 \WithSuffix\newcommand\sharp*{\sharp{}}
 % "accidentals.doublesharp"
-\newcommand*{\doublesharp}{\raisebox{0.35ex}{\lilyGlyph{1.5}{"accidentals.doublesharp"}}}
+\newcommand*{\doublesharp}{\raisebox{0.35ex}{\lilyGlyph[1.5]{"accidentals.doublesharp"}}}
 \WithSuffix\newcommand\doublesharp*{\doublesharp{}}
