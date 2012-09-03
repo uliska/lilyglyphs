@@ -15,6 +15,9 @@
 % Determine the glyph by its Unicode number 
 % (works for those glyphs that reside in 'standard' places)
 \newcommand*{\lilyGlyphByNumber}[2]{{\fontspec[Scale=#1]{Emmentaler-11}\char"#2}}
+% Determine the glyph by its standard char position
+% This works for dynamics letters and numbers
+\newcommand*{\lilyChar}[2][1]{{\fontspec[Scale=#1]{Emmentaler-11}#2}}
 
 
 %%%%%%%%%%%%%%%

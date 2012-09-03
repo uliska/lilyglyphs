@@ -70,7 +70,7 @@ You can always combine commands (or glyphs created through generic access as sho
 
 
 \subsection{Generic access}
-\lilyglyphs uses its generic commands \cmd{lilyGlyph} and \cmd{lilyGlyphByNumber} to access the glyphs. If you need a glyph that isn't covered yet by \lilyglyphs you can access it directly through these commands. Besides that they provide control over the size of the glyph.
+\lilyglyphs uses its generic commands \cmd{lilyGlyph}, \cmd{lilyChar} and \cmd{lilyGlyphByNumber} to access the glyphs. If you need a glyph that isn't covered yet by \lilyglyphs you can access it directly through these commands. Besides that they provide control over the size of the glyph.
 
 Both commands expect two arguments. The first -- optional -- one is a scaling factor for the glyph because most of the glyphs won't fit the surrounding text font. You may start with a value of one but usually you will have to increase the value to something between 1.2 and 1.5 in order to create glyphs suiting the continuous text. Of course you can also use this argument to create glyphs of arbitrary size. 
 
