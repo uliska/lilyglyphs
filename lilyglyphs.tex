@@ -114,7 +114,8 @@ More time signatures have to be constructed from numbers, which is a desideratum
 
 
 \subsubsection{Numbers}
-Numbers are entered with the command \cmd{lilyNumber}, giving the number as the argument. There are numbers from 0 to 9, not only from 1 to 5, so they can be used for fingerings or anything else Example: \cmd{lilyNumber*\{1\}} \lilyNumber*{1} with following text.
+Numbers can be entered with the already known \cmd{lilyText} command. There are all ten numbers available. With the default scaling of 1.0 they generally fit as lowercase letters like \lilyText{0 1 2 3 4 5 6 7 8 9} \cmd{lilyText\{0 1 2 3 4 5 6 7 8 9\}}. For Uppercase letters you can start trying a scaling of 1.3. A future version of the package will provide convenience functions with default scalings for upper/lowercase letters, fingerings, figured bass numbers, time signature numbers etc.
+
 
 
 \subsubsection{Accidentals}
@@ -135,7 +136,7 @@ Accidentals are available in starred and unstarred versions.
 \subsubsection{Dynamic Text}
 As explained earlier the Dynamic Letters can be accessed through \cmd{lilyText} without providing glyph names or numbers as argument. For the available letters see table~\ref{table:singleDynLetters} on page~\pageref{table:singleDynLetters}. As a convenience there is a predefined command \cmd{lilyDynamics}, which is just a wrapper around \cmd{lilyText} that sets the \texttt{Scale} argument to a default value of 1.5.
 
-\begin{reftable}{Single Dynamic Letters}{singleDynLetters}
+\begin{reftable}{Single Dynamics Letters}{singleDynLetters}
 \lilyDynamics{f} & \cmd{lilyDynamics\{f\}} & forte\\
 \lilyDynamics{p} & \cmd{lilyDynamics\{p\}} & piano\\
 \lilyDynamics{m} & \cmd{lilyDynamics\{m\}} & mezzo-\\
@@ -147,7 +148,7 @@ As explained earlier the Dynamic Letters can be accessed through \cmd{lilyText} 
 These Letters can be combined to make complex Dynamics. \lilyglyphs doesn't provide a full set of predefined commands as they can easily be entered as single strings to \cmd{lilyDynamics}, like \cmd{lilyDynamics\{sffzrmp\}}, resulting in \lilyDynamics{sffzrmp}. In this specific situation you could enter a small horizontal space between the \lilyDynamics{z} and the \lilyDynamics{r} -- but as this combination wouldn't occur in real life, we don't need to demonstrate it here.
 There are a few predefinied commands (see table~\ref{table:combinedDynLetters} on page~\pageref{table:combinedDynLetters}) that are only necessary for combination of letters that need some special \enquote{kerning} attention. These commnds internally use \cmd{lilyDynamics} with its default scaling. These predefined commands need starred and unstarred versions again, as \LaTeX would ignore spaces after the unstarred command.
 
-\begin{reftable}{Combined Dynamic Letters}{combinedDynLetters}
+\begin{reftable}{Combined Dynamics Expressions}{combinedDynLetters}
 \lilyRF* & \cmd{lilyRF}, \cmd{lilyRF*} & rinforzando\\
 \lilyRFZ* & \cmd{lilyRFZ}, \cmd{lilyRFZ*} & rinforzando (alternative)\\
 

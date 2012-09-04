@@ -1,0 +1,21 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This file is part of the lilyglyphs package %
+% and defines one subset of glyphs            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%
+% Numbers %
+%%%%%%%%%%%
+
+%--------------
+% Basic numbers
+
+% Numbers don't have to be accessed through special commands
+% but can be written through \lilyText.
+% Available are all arabic numbers from 0 through 9
+
+%TODO: provide convenience commands with default scalings for 
+	% fingering
+	% Time signatures
+	% figured bass
+	% etc?
