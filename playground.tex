@@ -16,12 +16,21 @@
 \newcommand*{\lilyTimeSignature}[2]{$\frac{\mbox{\lilyText{#1}}}{\mbox{\lilyText{#2}}}$}
 
 \begin{document}
+\section*{Dynamic Letters}
 	\lilyText{sffpzm1+2}
-	\LARGE
+{	\LARGE
 	\lilyText[1.4]{sffpzm1+2 - , .}
+}	
 	
-	\lilyS\lilyF\lilyM\lilyR\lilyP
+	lilyText \lilyText{sf} and lilyDynamics \lilyDynamics{sf} with default scaling.
 	
+	Compare sf with and without small space between:\\
+	\lilyDynamics{rfz}\\
+	\lilyDynamics{r\hspace{0.035ex}fz}\\
+	\lilyRF* more text\\
+	\lilyRFZ.
+	
+\section*{Time Signatures}
 	This is a normal Time signature: \lilyTimeSignature{3}{4}.
 	
 	As the plus sign is also directly accessible you can even
