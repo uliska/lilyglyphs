@@ -33,10 +33,10 @@
 % so we provide predefined commands for them
 
 % rinforzando 
-\newcommand{\lilyRF}{\lilyDynamics{r\hspace{0.035ex}f}}
+\newcommand{\lilyRF}{\mbox{\lilyDynamics{r\hspace{0.035ex}f}}}
 	% Starred version with trailing space
 	\WithSuffix\newcommand\lilyRF*{\lilyRF{}}
 % rinforzando with trailing z
-\newcommand{\lilyRFZ}{\lilyDynamics{r\hspace{0.035ex}fz}}
+\newcommand{\lilyRFZ}{\mbox{\lilyDynamics{r\hspace{0.035ex}fz}}}
 	% Starred version with trailing space
 	\WithSuffix\newcommand\lilyRFZ*{\lilyRFZ{}}
