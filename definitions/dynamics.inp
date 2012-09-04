@@ -14,22 +14,22 @@
 % at the places of the ordinary Roman letters
 
 % f for forte
-\newcommand{\lilyF}{\lilyChar[1.5]{f}}
+\newcommand{\lilyF}{\lilyText[1.5]{f}}
 \WithSuffix\newcommand\lilyF*{\lilyF{}}
 % p for piano
-\newcommand{\lilyP}{\lilyChar[1.5]{p}}
+\newcommand{\lilyP}{\lilyText[1.5]{p}}
 \WithSuffix\newcommand\lilyP*{\lilyP{}}
 % m for mezzo
-\newcommand{\lilyM}{\lilyChar[1.5]{m}}
+\newcommand{\lilyM}{\lilyText[1.5]{m}}
 \WithSuffix\newcommand\lilyM*{\lilyM{}}
 % r for rin-
-\newcommand{\lilyR}{\lilyChar[1.5]{r}}
+\newcommand{\lilyR}{\lilyText[1.5]{r}}
 \WithSuffix\newcommand\lilyR*{\lilyR{}}
 % s for s- (as in sf)
-\newcommand{\lilyS}{\lilyChar[1.5]{s}}
+\newcommand{\lilyS}{\lilyText[1.5]{s}}
 \WithSuffix\newcommand\lilyS*{\lilyS{}}
 % z for -z (as in sfz)
-\newcommand{\lilyZ}{\lilyChar[1.5]{z}}
+\newcommand{\lilyZ}{\lilyText[1.5]{z}}
 \WithSuffix\newcommand\lilyZ*{\lilyZ{}}
 
 %-------------------------

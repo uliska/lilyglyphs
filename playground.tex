@@ -5,9 +5,6 @@
 
 \usepackage{lilyglyphs}
 
-% Print some text in the emmentaler font. Works for the dynamic letters
-% and the digits:
-\newcommand{\lilyText}[1]{{\fontspec[Scale=1.4]{Emmentaler-11}{#1}}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 % Numbers and Dynamics %
@@ -21,7 +18,7 @@
 \begin{document}
 	\lilyText{sffpzm1+2}
 	\LARGE
-	\lilyChar[1.4]{sffpzm1+2 - , .}
+	\lilyText[1.4]{sffpzm1+2 - , .}
 	
 	\lilyS\lilyF\lilyM\lilyR\lilyP
 	
@@ -30,5 +27,10 @@
 	As the plus sign is also directly accessible you can even
 	write \lilyTimeSignature{3+7}{8+4} easily :-)
 
-	%\lilyNumber
+	%Test the space after \lilyText
+	This is a dynamics \lilyText[1.4]{s} line. Space is added.\\
+	Two letters in one command: \lilyText[1.4]{sf}\\
+	Space between dynamics and fullstop? \lilyText[1.4]{s}.\\
+	OK: \textbackslash lilyText doesn't create space afterwards but allows one without having to provide \{\}
+	
 \end{document}
