@@ -10,65 +10,33 @@
 %--------------
 % Single Glyphs
 
-% These aren't at any fancy Unicode positions but rather
-% at the places of the ordinary Roman letters
+% The dynamics letters don't have to be accessed through special commands
+% but can be written through \lilyText.
+% Available glyphs are
+	% f for forte
+	% p for piano
+	% m for mezzo
+	% r for rin-
+	% s for s- (as in sf)
+	% z for -z (as in sfz)
 
-% f for forte
-\newcommand{\lilyF}{\lilyGlyphByNumber{1.5}{66}}
-\WithSuffix\newcommand\lilyF*{\lilyF{}}
-% p for piano
-\newcommand{\lilyP}{\lilyGlyphByNumber{1.5}{70}}
-\WithSuffix\newcommand\lilyP*{\lilyP{}}
-% m for mezzo
-\newcommand{\lilyM}{\lilyGlyphByNumber{1.5}{6D}}
-\WithSuffix\newcommand\lilyM*{\lilyM{}}
-% r for rin-
-\newcommand{\lilyR}{\lilyGlyphByNumber{1.5}{72}}
-\WithSuffix\newcommand\lilyR*{\lilyR{}}
-% s for s- (as in sf)
-\newcommand{\lilyS}{\lilyGlyphByNumber{1.5}{73}}
-\WithSuffix\newcommand\lilyS*{\lilyS{}}
-% z for -z (as in sfz)
-\newcommand{\lilyZ}{\lilyGlyphByNumber{1.5}{7A}}
-\WithSuffix\newcommand\lilyZ*{\lilyZ{}}
+% \lilyDynamics is just a wrapper around \lilyText
+% specifying a default scaling factor
+\newcommand{\lilyDynamics}[2][1.5]{\lilyText[#1]{#2}}
 
 %-------------------------
 % Combined Dynamic Scripts
 
-% piano series
-% pianissimo
-\newcommand{\lilyPP}{\lilyP\lilyP}
-\WithSuffix\newcommand\lilyPP*{\lilyPP{}}
-% piano-pianissimo
-\newcommand{\lilyPPP}{\lilyP\lilyP\lilyP}
-\WithSuffix\newcommand\lilyPPP*{\lilyPPP{}}
-% pianissimo-pianissimo
-\newcommand{\lilyPPPP}{\lilyP\lilyP\lilyP\lilyP}
-\WithSuffix\newcommand\lilyPPPP*{\lilyPPPP{}}
-% mezzoforte
-\newcommand{\lilyMF}{\lilyM\lilyF}
-\WithSuffix\newcommand\lilyMF*{\lilyMF{}}
+% Combined dynamics aren't generally necessary
+% as \lilyText takes any combination of characters as argument.
+% Some combinations seem to need additonal kerning,
+% so we provide predefined commands for them
 
-% forte series
-% fortissimo
-\newcommand{\lilyFF}{\lilyF\lilyF}
-\WithSuffix\newcommand\lilyFF*{\lilyFF{}}
-% forte-fortissimo
-\newcommand{\lilyFFF}{\lilyF\lilyF\lilyF}
-\WithSuffix\newcommand\lilyFFF*{\lilyFFF{}}
-% fortissimo-fortissimo
-\newcommand{\lilyFFFF}{\lilyF\lilyF\lilyF\lilyF}
-\WithSuffix\newcommand\lilyFFFF*{\lilyFFFF{}}
-
-% sforzato
-\newcommand{\lilySF}{\lilyS\hspace*{0.1ex}\lilyF}
-\WithSuffix\newcommand\lilySF*{\lilySF{}}
-% sforzato with trailing z
-\newcommand{\lilySFZ}{\lilyS\hspace*{0.1ex}\lilyF\lilyZ}
-\WithSuffix\newcommand\lilySFZ*{\lilySFZ{}}
 % rinforzando 
-\newcommand{\lilyRF}{\lilyR\lilyF}
-\WithSuffix\newcommand\lilyRF*{\lilyRF{}}
+\newcommand{\lilyRF}{\mbox{\lilyDynamics{r\hspace{0.035ex}f}}}
+	% Starred version with trailing space
+	\WithSuffix\newcommand\lilyRF*{\lilyRF{}}
 % rinforzando with trailing z
-\newcommand{\lilyRFZ}{\lilyR\lilyF\lilyZ}
-\WithSuffix\newcommand\lilyRFZ*{\lilyRFZ{}}
+\newcommand{\lilyRFZ}{\mbox{\lilyDynamics{r\hspace{0.035ex}fz}}}
+	% Starred version with trailing space
+	\WithSuffix\newcommand\lilyRFZ*{\lilyRFZ{}}

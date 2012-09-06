@@ -18,6 +18,9 @@
 % Determine the glyph by its Unicode number 
 % (works for those glyphs that reside in 'standard' places)
 \newcommand*{\lilyGlyphByNumber}[2]{{\fontspec[Scale=#1]{Emmentaler-11}\char"#2}}
+% Don't 'determine' glyph positions but just use plain text.
+% This works for dynamics letters, numbers and + - . ,
+\newcommand*{\lilyText}[2][1]{{\fontspec[Scale=#1]{Emmentaler-11}#2}}
 
 
 %%%%%%%%%%%%%%%
@@ -27,6 +30,8 @@
 \newcommand*{\lilyDot}{\lilyGlyph[1.5]{"dots.dot"}}
 
 \input{definitions/clefs.inp}
+
+\input{definitions/numbers.inp}
 
 \input{definitions/timesignatures.inp}
 
