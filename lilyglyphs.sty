@@ -19,7 +19,10 @@
 \define@key{lilyCmd}{scale}{\def\lilyCmd@scale{#1}}
 \define@key{lilyCmd}{raise}{\def\lilyCmd@raise{#1}}
 
-
+\newcommand{\calclilykeys}[1]{%
+	\setkeys{lilyCmd}{#1}%
+	\lilyCmd@scale
+}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Generic command(s) to select a LilyPond Glyph %
 %
@@ -29,7 +32,7 @@
 	% set defaults
 	\setkeys{lilyglyph}{scale=1,raise=0}%
 	% interpret actual arguments
-	\setkeys{lilyglyph}{#1}%
+	\calclilykeys{lilyglyph}{#1}%
 	\raisebox{{\lily@raise}ex}{%
 	{\fontspec[Scale=\lily@scale]{Emmentaler-16}\XeTeXglyph\XeTeXglyphindex"#2" }%
 	}%

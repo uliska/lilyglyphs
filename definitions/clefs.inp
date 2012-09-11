@@ -7,21 +7,53 @@
 % Clef glyphs %
 %%%%%%%%%%%%%%%
 
-% The time signature glyphs don't need starred versions because they already
-% have trailing space built in
-
 
 \makeatletter
+
 % \treble clef
-\newcommand*{\clefGInline}[1][]{%
-	\setkeys{lilyCmd}{scale=0.7,raise=0.25}%
+\newcommand*{\clefG}[1][]{%
+	\setkeys{lilyCmd}{scale=1.2,raise=0.25}%
 	\setkeys{lilyCmd}{#1}
 	\lilyGlyph[scale=\lilyCmd@scale,raise=\lilyCmd@raise]{"clefs.G"}%	
 }
-%\newcommand*{\clefGInline}{\raisebox{0.25ex}{\lilyGlyph[0.7]{"clefs.G"} }}
-%\newcommand*{\clefG}{\raisebox{0.25ex}{\lilyGlyph[1.2]{"clefs.G"} }}
+\WithSuffix\newcommand\clefG*[1][]{%
+	\setkeys{lilyCmd}{scale=1.2,raise=0.25}%
+	\setkeys{lilyCmd}{#1}
+	\lilyGlyph[scale=\lilyCmd@scale,raise=\lilyCmd@raise]{"clefs.G"}
+}
+\newcommand*{\clefGInline}[1][]{%
+	\setkeys{lilyCmd}{scale=0.7,raise=0.25}%
+	\setkeys{lilyCmd}{#1}%
+	\lilyGlyph[scale=\lilyCmd@scale,raise=\lilyCmd@raise]{"clefs.G"}%
+}
+\WithSuffix\newcommand\clefGInline*[1][]{%
+	\setkeys{lilyCmd}{scale=0.7,raise=0.25}%
+	\setkeys{lilyCmd}{#1}%
+	\lilyGlyph[scale=\lilyCmd@scale,raise=\lilyCmd@raise]{"clefs.G"}
+}
 
+%%%%%%%%%%%%
 % \bass clef
+\newcommand*{\clefF}[1][]{%
+	\setkeys{lilyCmd}{scale=1.4,raise=0.5}%
+	\setkeys{lilyCmd}{#1}
+	\lilyGlyph[scale=\lilyCmd@scale,raise=\lilyCmd@raise]{"clefs.F"}%	
+}
+\WithSuffix\newcommand\clefF*[1][]{%
+	\setkeys{lilyCmd}{scale=1.4,raise=0.5}%
+	\setkeys{lilyCmd}{#1}
+	\lilyGlyph[scale=\lilyCmd@scale,raise=\lilyCmd@raise]{"clefs.F"}
+}
+\newcommand*{\clefFInline}[1][]{%
+	\setkeys{lilyCmd}{scale=1,raise=0.65}%
+	\setkeys{lilyCmd}{#1}%
+	\lilyGlyph[scale=\lilyCmd@scale,raise=\lilyCmd@raise]{"clefs.F"}%
+}
+\WithSuffix\newcommand\clefFInline*[1][]{%
+	\setkeys{lilyCmd}{scale=1,raise=0.65}%
+	\setkeys{lilyCmd}{#1}%
+	\lilyGlyph[scale=\lilyCmd@scale,raise=\lilyCmd@raise]{"clefs.F"}
+}
 %\newcommand*{\clefFInline}{\raisebox{0.65ex}{\lilyGlyph[1]{"clefs.F"} }}
 %\newcommand*{\clefF}{\raisebox{0.5ex}{\lilyGlyph[1.4]{"clefs.F"} }}
 
