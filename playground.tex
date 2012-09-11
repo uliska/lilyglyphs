@@ -15,7 +15,36 @@
 % general \time n/m command (prints time signature as a fraction in emmentaler font)
 \newcommand*{\lilyTimeSignature}[2]{$\frac{\mbox{\lilyText{#1}}}{\mbox{\lilyText{#2}}}$}
 
+%%%%%%%%%%%
+% pgfkeys
+%%%%%%%%%%%
+\usepackage{pgfkeys}
+
+\pgfkeys{
+	/lilyglyph/scale/.code=\pgfkeyssetvalue
+}
+
+\newcommand\testpgf[2][]{%
+	\pgfkeys{/lilyglpyh, #1}
+	{{\fontspec[Scale=\lilyglyphScale]{Emmentaler-11} \XeTeXglyph\XeTeXglyphindex"#2" }}
+}
+
+
+
 \begin{document}
+\section*{pgfkeys}
+%\pgfkeys{/Scale/.code 2 args={{{\fontspec[Scale=#1]{Emmentaler-16}{#2}}}}}
+%\pgfkeys{/Scale={2}{f}}
+
+\testkeyval[scale=2]{f}\testkeyval[raise=1]{f}
+
+\testkeyval[scale=2]{fzm1}\testkeyval[scale=2,raise=0.4]{fzm1}
+
+Hm, where does the hspace between the expressions come from? Test with the old lilyText:
+
+\raisebox{0.5ex}{\lilyText[1.5]{fzm1}}\raisebox{0.5ex}{\lilyText[1.5]{fzm1}}
+
+
 \section*{Dynamic Letters}
 	\lilyText{sffpzm1+2}
 {	\LARGE

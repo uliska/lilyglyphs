@@ -10,18 +10,25 @@
 % The time signature glyphs don't need starred versions because they already
 % have trailing space built in
 
+
+\makeatletter
 % \treble clef
-\newcommand*{\clefGInline}{\raisebox{0.25ex}{\lilyGlyph[0.7]{"clefs.G"} }}
-\newcommand*{\clefG}{\raisebox{0.25ex}{\lilyGlyph[1.2]{"clefs.G"} }}
+\newcommand*{\clefGInline}[1][]{%
+	\setkeys{lilyCmd}{scale=0.7,raise=0.25}%
+	\setkeys{lilyCmd}{#1}
+	\lilyGlyph[scale=\lilyCmd@scale,raise=\lilyCmd@raise]{"clefs.G"}%	
+}
+%\newcommand*{\clefGInline}{\raisebox{0.25ex}{\lilyGlyph[0.7]{"clefs.G"} }}
+%\newcommand*{\clefG}{\raisebox{0.25ex}{\lilyGlyph[1.2]{"clefs.G"} }}
 
 % \bass clef
-\newcommand*{\clefFInline}{\raisebox{0.65ex}{\lilyGlyph[1]{"clefs.F"} }}
-\newcommand*{\clefF}{\raisebox{0.5ex}{\lilyGlyph[1.4]{"clefs.F"} }}
+%\newcommand*{\clefFInline}{\raisebox{0.65ex}{\lilyGlyph[1]{"clefs.F"} }}
+%\newcommand*{\clefF}{\raisebox{0.5ex}{\lilyGlyph[1.4]{"clefs.F"} }}
 
 % \alto clef
-\newcommand*{\clefCInline}{\raisebox{0.6ex}{\lilyGlyph[0.8]{"clefs.C"} }}
-\newcommand*{\clefC}{\raisebox{0.6ex}{\lilyGlyph[1.1]{"clefs.C"} }}
+%\newcommand*{\clefCInline}{\raisebox{0.6ex}{\lilyGlyph[0.8]{"clefs.C"} }}
+%\newcommand*{\clefC}{\raisebox{0.6ex}{\lilyGlyph[1.1]{"clefs.C"} }}
 
 % \time 2/2
 %\newcommand*{\lilyTimeCHalf}{\raisebox{0.7ex}{\lilyGlyph[1.4]{"timesig.C22"} }}
-
+\makeatother
