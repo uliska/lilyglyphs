@@ -12,16 +12,29 @@
 
 % Define keys for keyval options
 \makeatletter
-% To be used by the generic access commands
+% To be used by the generic access commands,
+% values are used literally, scale as a factor,
+% raise as a value in ex.
 \define@key{lilyglyph}{scale}{\def\lily@scale{#1}}
 \define@key{lilyglyph}{raise}{\def\lily@raise{#1}}
-% To be used by high-level music commands
+% To be used by high-level music commands,
+% values are to be calculated against the defaults.
+% scale will be added,
+% raise multiplied with the default value
 \define@key{lilyCmd}{scale}{\def\lilyCmd@scale{#1}}
 \define@key{lilyCmd}{raise}{\def\lilyCmd@raise{#1}}
 
 \newcommand{\calclilykeys}[1]{%
+    % set the temporary keys from the options argument
 	\setkeys{lilyCmd}{#1}%
-	\lilyCmd@scale
+%\lilyCmd@scale	
+	\newcount\effectiveScale{\lilyCmd@scale}
+
+	Scale = \multiply\effectiveScale by 3
+
+%	\multiply\effectiveScale by \lilyCmd@Scale
+	\setkeys{lilyglyph}{{scale=\effectiveScale},raise=1}
+%	\lilyCmd@scale
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Generic command(s) to select a LilyPond Glyph %
@@ -29,10 +42,12 @@
 % Determine the glyph by its OpenType glyphName
 
 \newcommand*{\lilyGlyph}[2][]{%
-	% set defaults
+	% set design defaults for any glyph
 	\setkeys{lilyglyph}{scale=1,raise=0}%
+	% initialize arguments (no argument = no change)
+	\setkeys{lilyCmd}{scale=1,raise=0}
 	% interpret actual arguments
-	\calclilykeys{lilyglyph}{#1}%
+	\calclilykeys{#1}%
 	\raisebox{{\lily@raise}ex}{%
 	{\fontspec[Scale=\lily@scale]{Emmentaler-16}\XeTeXglyph\XeTeXglyphindex"#2" }%
 	}%
