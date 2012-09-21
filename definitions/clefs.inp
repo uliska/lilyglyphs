@@ -8,54 +8,39 @@
 %%%%%%%%%%%%%%%
 
 
-\makeatletter
 
 % \treble clef
 \newcommand*{\clefG}[1][]{%
-	\setkeys{lilyCmd}{scale=1.2,raise=0.25}%
-	\setkeys{lilyCmd}{#1}
-	\lilyGlyph[scale=\lilyCmd@scale,raise=\lilyCmd@raise]{"clefs.G"}%	
+	\setkeys{lilyDesignOptions}{scale=1.2,raise=0.25}%
+	\lilyPrint[#1]{\lilyGetGlyph{clefs.G}}
 }
 \WithSuffix\newcommand\clefG*[1][]{%
-	\setkeys{lilyCmd}{scale=1.2,raise=0.25}%
-	\setkeys{lilyCmd}{#1}
-	\lilyGlyph[scale=\lilyCmd@scale,raise=\lilyCmd@raise]{"clefs.G"}
+	\clefG[#1]{}
 }
 \newcommand*{\clefGInline}[1][]{%
-	\setkeys{lilyCmd}{scale=0.7,raise=0.25}%
-	\setkeys{lilyCmd}{#1}%
-	\lilyGlyph[scale=\lilyCmd@scale,raise=\lilyCmd@raise]{"clefs.G"}%
+	\setkeys{lilyDesignOptions}{scale=0.7,raise=0.25}%
+	\lilyPrint[#1]{\lilyGetGlyph{clefs.G}}
 }
 \WithSuffix\newcommand\clefGInline*[1][]{%
-	\setkeys{lilyCmd}{scale=0.7,raise=0.25}%
-	\setkeys{lilyCmd}{#1}%
-	\lilyGlyph[scale=\lilyCmd@scale,raise=\lilyCmd@raise]{"clefs.G"}
+	\clefGInline[#1]{}
 }
 
 %%%%%%%%%%%%
 % \bass clef
 \newcommand*{\clefF}[1][]{%
-	\setkeys{lilyCmd}{scale=1.4,raise=0.5}%
-	\setkeys{lilyCmd}{#1}
-	\lilyGlyph[scale=\lilyCmd@scale,raise=\lilyCmd@raise]{"clefs.F"}%	
+	\setkeys{lilyDesignOptions}{scale=1.4,raise=0.5}%
+	\lilyPrint[#1]{\lilyGetGlyph{clefs.F}}
 }
 \WithSuffix\newcommand\clefF*[1][]{%
-	\setkeys{lilyCmd}{scale=1.4,raise=0.5}%
-	\setkeys{lilyCmd}{#1}
-	\lilyGlyph[scale=\lilyCmd@scale,raise=\lilyCmd@raise]{"clefs.F"}
+	\clefF[#1]
 }
 \newcommand*{\clefFInline}[1][]{%
-	\setkeys{lilyCmd}{scale=1,raise=0.65}%
-	\setkeys{lilyCmd}{#1}%
-	\lilyGlyph[scale=\lilyCmd@scale,raise=\lilyCmd@raise]{"clefs.F"}%
+	\setkeys{lilyDesignOptions}{scale=1,raise=0.65}%
+	\lilyPrint[#1]{\lilyGetGlyph{clefs.F}}
 }
 \WithSuffix\newcommand\clefFInline*[1][]{%
-	\setkeys{lilyCmd}{scale=1,raise=0.65}%
-	\setkeys{lilyCmd}{#1}%
-	\lilyGlyph[scale=\lilyCmd@scale,raise=\lilyCmd@raise]{"clefs.F"}
+	\clefFInline[#1]
 }
-%\newcommand*{\clefFInline}{\raisebox{0.65ex}{\lilyGlyph[1]{"clefs.F"} }}
-%\newcommand*{\clefF}{\raisebox{0.5ex}{\lilyGlyph[1.4]{"clefs.F"} }}
 
 % \alto clef
 %\newcommand*{\clefCInline}{\raisebox{0.6ex}{\lilyGlyph[0.8]{"clefs.C"} }}
@@ -63,4 +48,4 @@
 
 % \time 2/2
 %\newcommand*{\lilyTimeCHalf}{\raisebox{0.7ex}{\lilyGlyph[1.4]{"timesig.C22"} }}
-\makeatother
+
