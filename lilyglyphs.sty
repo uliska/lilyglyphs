@@ -10,99 +10,44 @@
 % Introduce key=value options
 \RequirePackage{keyval}
 
+% Necessary for calculations.
+% Is that really necessary or can it be achieved much cheaper?
+% OTOH I assume that we will use tikz/pgf anyway.
 \RequirePackage{pgf}
 
-% Define keys for keyval options
-\makeatletter
-% To be used by the generic access commands,
-% values are used literally, scale as a factor,
-% raise as a value in ex.
-\define@key{lilyDesignOptions}{scale}{\def\lilyDesign@scale{#1}}
-\define@key{lilyDesignOptions}{raise}[-0.5]{\def\lilyDesign@raise{#1}}
-% To be used by high-level music commands,
-% values are to be calculated against the defaults.
-% scale will be added,
-% raise multiplied with the default value
-\define@key{lilyCmdOptions}{scale}{\def\lilyCmdOptions@scale{#1}}
-\define@key{lilyCmdOptions}{raise}{\def\lilyCmdOptions@raise{#1}}
-
-% This command calculates the options from the designed defaults and the
-% actual (optional) user values
-\newcommand{\interpretLilyOptions}[1]{%
-	% initialize arguments (no argument = no change)
-	% in order not to have uninitialized arguments
-	\setkeys{lilyCmdOptions}{scale=1,raise=0}%
-    % set the temporary keys from the options argument
-	\setkeys{lilyCmdOptions}{#1}%
-	% calculate the scaling factor from the design value and the optional user value
-	\pgfmathsetmacro{\lilyScaleFactor}{\lilyCmdOptions@scale * \lilyDesign@scale}%
-	% calculate the raise level from the design value and the optional user value
-	\pgfmathsetmacro{\lilyRaiseLevel}{\lilyCmdOptions@raise + \lilyDesign@raise}%
-}
-
-% This is the command that actually prints the glyph(s)
-
-\newcommand*{\lilyLowLevelGlyph}[2][]{%
-	% interpret actual arguments
-	\interpretLilyOptions{#1}%
-	% print the glyph in a raisebox
-	\raisebox{{\lilyRaiseLevel}ex}{%
-		{\fontspec[Scale=\lilyScaleFactor]{Emmentaler-16}#2 }%
-	}%
-	~\lilyScaleFactor
-}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Generic command(s) to select a LilyPond Glyph %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Define the used opticals font
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% Determine the glyph by its OpenType glyphName
+% The Emmentaler font comes in several optical sizes
+% While these are originally intendes for use at different point sizes
+% they are rather weights in the context of continuous text.
+% 
+% Default to 16 (medium)
+\def\lilyOpticalSuffix{16}
+% The following command select from the available fonts 
+% and can be used anywhere in the document
+% #1 is the suffix number of the font file 
+% and has to be on of the following:
+% 11,13,14,16,18,20,23,26
+% Higher the number result in thinner glyphs
+\newcommand{\lilyOpticalSize}[1]{\def\lilyOpticalSuffix{#1}}
 
-\newcommand*{\lilyGetGlyph}[1]{\XeTeXglyph\XeTeXglyphindex"#1"}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% include the functionality for the key=value options
+\input{definitions/keyval.inp}
 
-\newcommand*{\lilyGlyph}[2][]{%
-	% set defaults
-	\setkeys{lilyDesignOptions}{scale=1,raise=0}%
-	\lilyLowLevelGlyph[#1]{\lilyGetGlyph{#2}}%
-}	
-
-
-
-% Determine the glyph by its Unicode number 
-% (works for those glyphs that reside in 'standard' places)
-\newcommand*{\lilyGlyphByNumber}[2][]{%
-	% set defaults
-	\setkeys{lilyLowLevelptions}{scale=1,raise=0}%
-	% interpret actual arguments
-	\setkeys{lilyDesignOptions}{#1}%
-	\raisebox{{\lily@raise}ex}{%
-	{\fontspec[Scale=\lily@scale]{Emmentaler-16}\char"#2 }%
-	}
-}
-
-% Don't 'determine' glyph positions but just use plain text.
-% This works for dynamics letters, numbers and + - . ,
-\newcommand*{\lilyText}[2][]{%
-	% set defaults
-	\setkeys{lilyDesignOptions}{scale=1,raise=0}%
-	% interpret actual arguments
-	\setkeys{lilyDesignOptions}{#1}%
-	\raisebox{{\lily@raise}ex}{%
-	{\fontspec[Scale=\lily@scale]{Emmentaler-16}#2}%
-	}%
-}
-
-\makeatother
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% include the basic functionality to select and print glyphs
+\input{definitions/genericAccess.inp}
 
 %%%%%%%%%%%%%%%
 % Misc. tools %
 
-% Dot is a test to creating commands with defaults
-% Dot, e.g. used to create dotted notes
+% Dot, e.g. necessary to create dotted notes
 \newcommand*{\lilyDot}[1][]{%
 	\setkeys{lilyDesignOptions}{scale=1.5,raise=0}%
-	\lilyLowLevelGlyph[#1]{\lilyGetGlyph{dots.dot}}%
+	\lilyPrint[#1]{\lilyGetGlyph{dots.dot}}%
 }
 
 
