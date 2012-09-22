@@ -7,8 +7,6 @@
 % Clef glyphs %
 %%%%%%%%%%%%%%%
 
-
-
 % \treble clef
 \newcommand*{\clefG}[1][]{%
 	\setkeys{lilyDesignOptions}{scale=1.2,raise=0.25}%
@@ -18,7 +16,7 @@
 	\clefG[#1]{}
 }
 \newcommand*{\clefGInline}[1][]{%
-	\setkeys{lilyDesignOptions}{scale=0.7,raise=0.25}%
+	\setkeys{lilyDesignOptions}{scale=0.8,raise=0.15}%
 	\lilyPrint[#1]{\lilyGetGlyph{clefs.G}}
 }
 \WithSuffix\newcommand\clefGInline*[1][]{%
@@ -32,20 +30,29 @@
 	\lilyPrint[#1]{\lilyGetGlyph{clefs.F}}
 }
 \WithSuffix\newcommand\clefF*[1][]{%
-	\clefF[#1]
+	\clefF[#1]{}
 }
 \newcommand*{\clefFInline}[1][]{%
-	\setkeys{lilyDesignOptions}{scale=1,raise=0.65}%
+	\setkeys{lilyDesignOptions}{scale=1.1,raise=0.65}%
 	\lilyPrint[#1]{\lilyGetGlyph{clefs.F}}
 }
 \WithSuffix\newcommand\clefFInline*[1][]{%
-	\clefFInline[#1]
+	\clefFInline[#1]{}
 }
 
 % \alto clef
 %\newcommand*{\clefCInline}{\raisebox{0.6ex}{\lilyGlyph[0.8]{"clefs.C"} }}
-%\newcommand*{\clefC}{\raisebox{0.6ex}{\lilyGlyph[1.1]{"clefs.C"} }}
-
-% \time 2/2
-%\newcommand*{\lilyTimeCHalf}{\raisebox{0.7ex}{\lilyGlyph[1.4]{"timesig.C22"} }}
-
+\newcommand*{\clefC}[1][]{%
+	\setkeys{lilyDesignOptions}{scale=1.1,raise=0.6}%
+	\lilyPrint[#1]{\lilyGetGlyph{clefs.C}}
+}
+\WithSuffix\newcommand\clefC*[1][]{%
+	\clefC[#1]{}
+}
+\newcommand*{\clefCInline}[1][]{%
+	\setkeys{lilyDesignOptions}{scale=0.9,raise=0.6}%
+	\lilyPrint[#1]{\lilyGetGlyph{clefs.C}}
+}
+\WithSuffix\newcommand\clefCInline*[1][]{%
+	\clefCInline[#1]{}
+}
