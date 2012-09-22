@@ -15,40 +15,14 @@
 % general \time n/m command (prints time signature as a fraction in emmentaler font)
 \newcommand*{\lilyTimeSignature}[2]{$\frac{\mbox{\lilyText{#1}}}{\mbox{\lilyText{#2}}}$}
 
-%%%%%%%%%%%
-% pgfkeys
-%%%%%%%%%%%
-\usepackage{pgfkeys}
-
-\pgfkeys{
-	/lilyglyph/scale/.code=\pgfkeyssetvalue
-}
-
-\newcommand\testpgf[2][]{%
-	\pgfkeys{/lilyglpyh, #1}
-	{{\fontspec[Scale=\lilyglyphScale]{Emmentaler-11} \XeTeXglyph\XeTeXglyphindex"#2" }}
-}
-
 
 
 \begin{document}
-\section*{pgfkeys}
-%\pgfkeys{/Scale/.code 2 args={{{\fontspec[Scale=#1]{Emmentaler-16}{#2}}}}}
-%\pgfkeys{/Scale={2}{f}}
-
-\testkeyval[scale=2]{f}\testkeyval[raise=1]{f}
-
-\testkeyval[scale=2]{fzm1}\testkeyval[scale=2,raise=0.4]{fzm1}
-
-Hm, where does the hspace between the expressions come from? Test with the old lilyText:
-
-\raisebox{0.5ex}{\lilyText[1.5]{fzm1}}\raisebox{0.5ex}{\lilyText[1.5]{fzm1}}
-
 
 \section*{Dynamic Letters}
 	\lilyText{sffpzm1+2}
 {	\LARGE
-	\lilyText[1.4]{sffpzm1+2 - , .}
+	\lilyText[scale=1.4]{sffpzm1+2 - , .}
 }	
 	
 	lilyText \lilyText{sf} and lilyDynamics \lilyDynamics{sf} with default scaling.
@@ -61,7 +35,7 @@ Hm, where does the hspace between the expressions come from? Test with the old l
 	
 \section*{Numbers}
 Numbers with scaling 1 suit like this: \lilyText{0 1 2 3 4 5 6 7 8 9} in a line.\\
-If you want them like uppercase letters you should try a scaling of \lilyText[1.3]{0 + 1 4 7} 1.3 instead.
+If you want them like uppercase letters you should try a scaling of \lilyText[scale=1.3]{0 + 1 4 7} 1.3 instead.
 
 \section*{Time Signatures}
 	This is a normal Time signature: \lilyTimeSignature{3}{4}.
@@ -69,12 +43,12 @@ If you want them like uppercase letters you should try a scaling of \lilyText[1.
 	As the plus sign is also directly accessible you can even
 	write \lilyTimeSignature{3+7}{8+4} easily :-)
 	
-	One more option: \lilyTimeSignature{3}{8} \lilyText{+} \lilyTimeSignature{7}{4} (note the space that the formula environment makes around it. Maybe this isn't the best approach?
+	One more option: \lilyTimeSignature{3}{8} \lilyText{+} \lilyTimeSignature{7}{4}. (note the space that the formula environment makes around it. Maybe this isn't the best approach?
 
 	%Test the space after \lilyText
-	This is a dynamics \lilyText[1.4]{s} line. Space is added.\\
-	Two letters in one command: \lilyText[1.4]{sf}\\
-	Space between dynamics and fullstop? \lilyText[1.4]{s}.\\
-	OK: \textbackslash lilyText doesn't create space afterwards but allows one without having to provide \{\}
+	This is a dynamics \lilyText[scale=1.4]{s} line. Space is added.\\
+	Two letters in one command: \lilyText[scale=1.4]{sf}\\
+	Space between dynamics and fullstop? \lilyText[scale=1.4]{s}.\\
+	
 	
 \end{document}

@@ -38,7 +38,7 @@
 \begin{document}
 
 \title{The \lilyglyphs Package\\~\\
-	\normalsize Version 0.0.1}
+	\normalsize Version 0.0.2}
 \author{Urs Liska}
 
 \maketitle
@@ -80,15 +80,15 @@ All three commands expect two arguments. The first -- optional -- one is a scali
 
 The second argument is the glyph to be selected.\\
 \cmd{lilyGlyph} expects the OpenType glyph name, surrounded by double quotation marks. You can look up the glyph names in the Appendix of LilyPond's \emph{Notation Reference}\footnote{http://www.lilypond.org/doc/v2.15/Documentation/notation/the-feta-font.html} or the somewhat reduced html page provided in the package download.\\
-\cmd{lilyText} expects ordinary text as its argument. In fact it just switches the font to Emmentaler and then writes the string given as the argument. This only works for Dynamics letters, numbers and the glyphs \lilyText[2]{+ - , .} -- as these glyphs are located at their ordinary character position in Emmentaler. For further reference see the corresponding sections later in this documentation. But you can also enter any spacing commands (like \cmd{hspace} or plain spaces). Keep in mind that this may result in line breaking inside your expression. If you need to prevent this you can surround your expression by a \cmd{mbox}. \cmd{lilyText} doesn't need a starred version. By itself it doesn't add a traling space, but if you enter a space after the closing curly brace, \LaTeX will respect it.\\ 
+\cmd{lilyText} expects ordinary text as its argument. In fact it just switches the font to Emmentaler and then writes the string given as the argument. This only works for Dynamics letters, numbers and the glyphs \lilyText[scale=2]{+ - , .} -- as these glyphs are located at their ordinary character position in Emmentaler. For further reference see the corresponding sections later in this documentation. But you can also enter any spacing commands (like \cmd{hspace} or plain spaces). Keep in mind that this may result in line breaking inside your expression. If you need to prevent this you can surround your expression by a \cmd{mbox}. \cmd{lilyText} doesn't need a starred version. By itself it doesn't add a traling space, but if you enter a space after the closing curly brace, \LaTeX will respect it.\\ 
 \cmd{lilyGlyphByNumber} expects the Unicode code of the glyph. You will generally not want to use this as the code positions aren't guaranteed to stay the same with new versions of the fonts. There may be some uses for numerical access however.
 
 
 \subparagraph*{Example:}
-The coda sign isn't implemented yet as a predefined command, so you can create it with \cmd{lilyGlyph\{"scripts.coda"\}}: \lilyGlyph{"scripts.coda"}. If you want you can supply the optional \texttt{Scale} argument to make the glyph somewhat larger: ~\lilyGlyph[1.3]{"scripts.coda"}\\
+The coda sign isn't implemented yet as a predefined command, so you can create it with \cmd{lilyGlyph\{"scripts.coda"\}}: \lilyGlyph{"scripts.coda"}. If you want you can supply the optional \texttt{Scale} argument to make the glyph somewhat larger: ~\lilyGlyph[scale=1.3]{"scripts.coda"}\\
 \cmd{lilyGlyph[1.3]\{"scripts.coda"\}}.
 
-As you can see the glyph is -- as most \emph{Emmentaler} glyphs are -- placed too low, so you have to place it in a  \cmd{raisebox}: \raisebox{0.4em}{\lilyGlyph[1.3]{"scripts.coda"}}, finding out the offset value by trial-and-error: \cmd{raisebox\{0.4em\}\{\textbackslash lilyGlyph\{"scripts.coda"\}\}}. The syntax is still not fixed yet, because in version 0.1 of \lilyglyphs the \cmd{raisebox} will be directly incorporated in the \cmd{lilyGlyph} command, with the raise amount being an optional argument.
+As you can see the glyph is -- as most \emph{Emmentaler} glyphs are -- placed too low, so you have to place it in a  \cmd{raisebox}: \raisebox{0.4em}{\lilyGlyph[scale=1.3]{"scripts.coda"}}, finding out the offset value by trial-and-error: \cmd{raisebox\{0.4em\}\{\textbackslash lilyGlyph\{"scripts.coda"\}\}}. The syntax is still not fixed yet, because in version 0.1 of \lilyglyphs the \cmd{raisebox} will be directly incorporated in the \cmd{lilyGlyph} command, with the raise amount being an optional argument.
 
 
 \subsection{Available commands}
@@ -117,7 +117,7 @@ More time signatures have to be constructed from numbers, which is a desideratum
 Numbers can be entered with the already known \cmd{lilyText} command. There are all ten numbers available. With the default scaling of 1.0 they generally fit as lowercase letters like \lilyText{0 1 2 3 4 5 6 7 8 9} \cmd{lilyText\{0 1 2 3 4 5 6 7 8 9\}}. For Uppercase letters you can start trying a scaling of 1.3. A future version of the package will provide convenience functions with default scalings for upper/lowercase letters, fingerings, figured bass numbers, time signature numbers etc.
 
 A special case are four glyphs that are grouped among the numbers:\\
-\lilyText[1.5]{+~-~.~,} (plus, hyphen, fullstop and comma). \\
+\lilyText[scale=.5]{+~-~.~,} (plus, hyphen, fullstop and comma). \\
 These are also accessible through \cmd{lilyText}, the example in the previous sentence being written as \cmd{lilyText[1.5]\{+~-~.~,\}}.
 
 \subsubsection{Accidentals}
