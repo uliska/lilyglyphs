@@ -12,6 +12,8 @@
 
 % The dynamics letters don't have to be accessed through special commands
 % but can be written through \lilyText.
+% A chain of glyphs can be printed at once, 
+% normal space is possible between letters
 % Available glyphs are
 	% f for forte
 	% p for piano
@@ -22,7 +24,10 @@
 
 % \lilyDynamics is just a wrapper around \lilyText
 % specifying a default scaling factor
-\newcommand{\lilyDynamics}[2][1.5]{\lilyText[#1]{#2}}
+\newcommand{\lilyDynamics}[2][]{%
+	\setkeys{lilyDesignOptions}{scale=1.5,raise=0}%
+	\lilyPrint[#1]{#2}%
+}
 
 %-------------------------
 % Combined Dynamic Scripts
