@@ -1,0 +1,23 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This file is part of the lilyglyphs package %
+% and defines one subset of glyphs            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Define the used optical size font
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% The Emmentaler font comes in several optical sizes
+% While these are originally intendes for use at different point sizes
+% they are rather weights in the context of continuous text.
+% 
+% Default to 16 (medium)
+\def\lilyOpticalSuffix{16}
+% The following command select from the available fonts 
+% and can be used anywhere in the document
+% #1 is the suffix number of the font file 
+% and has to be on of the following:
+% 11,13,14,16,18,20,23,26
+% Higher the number result in thinner glyphs
+\newcommand{\lilyOpticalSize}[1]{\def\lilyOpticalSuffix{#1}}
+
