@@ -282,10 +282,56 @@ There are a few predefinied commands (see table~\ref{table:combinedDynLetters} o
 
 \end{reftable}
 
-\section{Internals (Empty)}
+\section{Internals}
 
-\subsection{Documentation of the generic access commands (Empty)}
+\subsection{Documentation of the generic access commands}
+This section is essential for readers who want to understand how this package works internally, for example if they want to actively participate in its development.
+And it is recommended (but not exactly mandatory) for readers who want to write their own predefined commands or to contribute to the package by adding commands to it. 
+The latter target group might be satisfied reading the next subsection about writing predefined commands, but understanding will be easier and deeper with this subsection.
 
-\subsection{How to write predefined commands (Empty)}
+In order to make the package .sty file easier to understand, its contents are split into multiple input files in the 'definitions' subfolder. 
+The most fundamental definitions are in the \texttt{keyval.inp} and \texttt{genericAccess.inp} files.
+
+\bigskip
+The command that actually prints glyphs from the Emmentaler fonts is \cmd{lilyPrint}, defined in \texttt{genericAccess.inp}.
+It isn't intended to be called directly within a document, but only from the predefined commands.
+It takes two arguments, the first -- optional -- being the comma-separated list of \texttt{<key=value>} pairs, the second the actual content to be printed.
+
+At first the command \cmd{interpretLilyOptions} is called, where the options of the different levels are evaluated and calculated to their effective values.
+Then the content of \#2 is printed, within a \textbackslash raisebox and with the currently selected opticals version of the Emmentaler font.
+
+\cmd{interpretLilyOptions}:\\
+The key=value mechanism is achieved using the \texttt{keyval} package as the most basic solution available.
+It uses three families of keys, corresponding to the three levels of options:
+\texttt{lilyGlobalOptions}, \texttt{lilyDesignOptions} and \texttt{lilyCmdOptions}.
+In a first step the actual command options are initialized to a neutral state.
+This is necessary because otherwise options that aren't actually present in the command invocation were in an uninitialized state or in the state set by the last occurence of the option.
+After this the command options are set to the actual state given in the command.
+Options that are explicitely given override the default state while options that are not present don't affect it.
+Finally the effective values of the options are calculated from the global, the design and the command options. 
+The scaling values are multiplied, the raise values added.
+While the command options have just been determined, the global options are valid globally (and can be changed globally) and the design options have been set by the command that actually called \cmd{lilyPrint}.
+This is the reason why \cmd{lilyPrint} should never be invoked directly -- the design options would be in the unknown state of the previous invocation of\cmd{lilyPrint}.
+
+\bigskip
+The next step are the three generic access functions \cmd{lilyGlyph}, \cmd{lilyGlyphByNumber} and \cmd{lilyText}.
+They are very similar and differ only in the way they determine the actual content to be printed.
+As stated in the end user part of this documentation they expect two arguments, the optional key=value pair list and the contents.
+As a first step the commands initialize the design options to a neutral state, because the 'design' of the generic glyphs has to be neutral.
+In the second step they invoke \cmd{lilyPrint}, passing the optional argument along and determine the printed content individually:
+\cmd{lilyGlyph} calls the helper function \cmd{lilyGetGlyph}, \cmd{lilyGlyphByNumber} calls \cmd{lilyGetGlyphByNumber}, while \cmd{lilyText} just passes its contents argument unchanged to \cmd{lilyPrint}.
+
+These helper functions are important because most predefined commands call one of them to select glyphs from the Emmentaler fonts.\\
+\cmd{lilyGetGlyph} takes the glyph name as found in the LilyPond documentation.\\
+\cmd{lilyGetGlyphByNumber} takes the Unicode character index of the intended glyph.
+But be aware that the Unicode index may change at any time with new versions of the Emmentaler font, so it usually isn't a good idea to access glyphs through their index.
+
+\subsection{How to write predefined commands}
+Writing your own predefined commands is actually quite straightforward -- and identical if you want to write a command for your document or for inclusion in the package.
+
+\noindent Commands that print Emmentaler glyphs:
+
+D
+
 
 \end{document}
