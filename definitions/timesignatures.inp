@@ -7,12 +7,22 @@
 % Time Signature glyphs %
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-% The time signature glyphs don't need starred versions because they already
-% have trailing space built in
-
 % \time 4/4
-\newcommand*{\lilyTimeC}{\raisebox{0.7ex}{\lilyGlyph[1.4]{"timesig.C44"} }}
+\newcommand*{\lilyTimeC}[1][]{%
+	\setkeys{lilyDesignOptions}{scale=1.4,raise=0.7}%
+	\lilyPrint[#1]{\lilyGetGlyph{timesig.C44}}%
+}
+\WithSuffix\newcommand\lilyTimeC*[1][]{%
+	\lilyTimeC[#1]
+}
 
 % \time 2/2
-\newcommand*{\lilyTimeCHalf}{\raisebox{0.7ex}{\lilyGlyph[1.4]{"timesig.C22"} }}
+\newcommand*{\lilyTimeCHalf}[1][]{%
+	\setkeys{lilyDesignOptions}{scale=1.4,raise=0.7}%
+	\lilyPrint[#1]{\lilyGetGlyph{timesig.C22}}%
+}
+\WithSuffix\newcommand\lilyTimeCHalf*[1][]{%
+	\lilyTimeCHalf[#1]
+}
 
+%TODO: The numerical time signatures have to be created differently

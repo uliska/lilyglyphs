@@ -1,0 +1,68 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This file is part of the lilyglyphs package %
+% and defines the key-value functionality     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Define keys for keyval options
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Family lilyDesignOptions
+%
+% This family is used for defining default values for the options at design time
+% i.e. when developping predefined commands.
+\define@key{lilyDesignOptions}{scale}{\def\lilyDesignOptions@scale{#1}}
+\define@key{lilyDesignOptions}{raise}{\def\lilyDesignOptions@raise{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Family lilyGlobalOptions
+%
+% This family is used for globally adjusting the option values.
+% The user can globally override options at any time
+% using the command \lilyOptions.
+% This is originally intended for cases where the package defaults
+% are not very suitable for the font of the continuous text
+\define@key{lilyGlobalOptions}{scale}{\def\lilyGlobalOptions@scale{#1}}
+\define@key{lilyGlobalOptions}{raise}{\def\lilyGlobalOptions@raise{#1}}
+% Initialize these \defs to 'no adjustment' because the user doesn't have to do that
+\def\lilyGlobalOptions@scale{1}
+\def\lilyGlobalOptions@raise{0}
+
+% Change any of the global options at any place in the document
+% (only options that are present are affected)
+\newcommand*{\lilyGlobalOptions}[1]{\setkeys{lilyGlobalOptions}{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+% Family lilyCmdOptions
+%
+% This family is used for options the end user can use to fine tune the output
+% (i.e. within the actual document)
+\define@key{lilyCmdOptions}{scale}{\def\lilyCmdOptions@scale{#1}}
+\define@key{lilyCmdOptions}{raise}{\def\lilyCmdOptions@raise{#1}}
+
+% Calculate the effective option values from 
+% - global defaults,
+% - design time defaults and
+% - actual user options
+%
+% Scaling factors are multiplied.
+% Raise levels are summed.
+\newcommand*{\interpretLilyOptions}[1]{%
+	% initialize user arguments (no argument = no change)
+	% in order to avoid uninitialized arguments
+	\setkeys{lilyCmdOptions}{scale=1,raise=0}%
+	% Options that are present override the defaults
+	\setkeys{lilyCmdOptions}{#1}%
+	% calculate the scaling factor 
+	\pgfmathsetmacro{\lilyEffectiveScale}{%
+		\lilyGlobalOptions@scale * \lilyCmdOptions@scale * \lilyDesignOptions@scale}%
+	% calculate the raise level from the design value and the optional user value
+	\pgfmathsetmacro{\lilyEffectiveRaise}{%
+		\lilyGlobalOptions@raise + \lilyCmdOptions@raise + \lilyDesignOptions@raise}%
+}
+
+\makeatother
+

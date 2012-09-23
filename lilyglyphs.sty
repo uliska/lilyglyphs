@@ -10,24 +10,39 @@
 % Graphics program
 \RequirePackage{tikz}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Generic command(s) to select a LilyPond Glyph %
-%
-% Determine the glyph by its OpenType glyphName
-\newcommand*{\lilyGlyph}[2][1]{{\fontspec[Scale=#1]{Emmentaler-11} \XeTeXglyph\XeTeXglyphindex"#2" }}
-% Determine the glyph by its Unicode number 
-% (works for those glyphs that reside in 'standard' places)
-\newcommand*{\lilyGlyphByNumber}[2]{{\fontspec[Scale=#1]{Emmentaler-11}\char"#2}}
-% Don't 'determine' glyph positions but just use plain text.
-% This works for dynamics letters, numbers and + - . ,
-\newcommand*{\lilyText}[2][1]{{\fontspec[Scale=#1]{Emmentaler-11}#2}}
+% Introduce key=value options
+\RequirePackage{keyval}
 
+% Necessary for calculations.
+% Is that really necessary or can it be achieved much cheaper?
+% OTOH I assume that we will use tikz/pgf anyway.
+\RequirePackage{pgf}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% select from the optical sizes fonts
+\input{definitions/opticals.inp}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% include the functionality for the key=value options
+\input{definitions/keyval.inp}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% include the basic functionality to select and print glyphs
+\input{definitions/genericAccess.inp}
 
 %%%%%%%%%%%%%%%
 % Misc. tools %
 
-% Dot, e.g. used to create dotted notes
-\newcommand*{\lilyDot}{\lilyGlyph[1.5]{"dots.dot"}}
+% Dot, e.g. necessary to create dotted notes
+\newcommand*{\lilyDot}[1][]{%
+	\setkeys{lilyDesignOptions}{scale=1.5,raise=0}%
+	\lilyPrint[#1]{\lilyGetGlyph{dots.dot}}%
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Definitions of the glyphs in groups
+% corresponding to the glyph list in the LilyPond docs
 
 \input{definitions/clefs.inp}
 
@@ -39,14 +54,8 @@
 
 \input{definitions/accidentals.inp}
 
-\input{definitions/noteheads.inp}
+%\input{definitions/noteheads.inp}
 
-%%%%%%%%%%%
-% Numbers %
-%%%%%%%%%%%
-
-\newcommand*{\lilyNumber}[1]{\lilyGlyphByNumber{1.1}{3#1}}
-\WithSuffix\newcommand\lilyNumber*[1]{\lilyNumber{#1} }
 
 
 
