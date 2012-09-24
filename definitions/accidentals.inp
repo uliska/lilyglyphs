@@ -8,36 +8,41 @@
 %%%%%%%%%%%%%%%
 
 % "accidentals.natural"
-\renewcommand*{\natural}[1][]{%
+\newcommand*{\naturalBase}[1][]{%
 	\setkeys{lilyDesignOptions}{scale=1.5,raise=0.5}%
 	\lilyPrint[#1]{\lilyGetGlyph{accidentals.natural}}%
 }
-\WithSuffix\newcommand\natural*[1][]{\natural[#1] }
+\renewcommand*{\natural}[1][]{\naturalBase[#1] }
+\WithSuffix\newcommand\natural*[1][]{\naturalBase[#1]}
 
 % "accidentals.flat"
-\renewcommand*{\flat}[1][]{%
+\newcommand*{\flatBase}[1][]{%
 	\setkeys{lilyDesignOptions}{scale=1.5,raise=0.2}%
 	\lilyPrint[#1]{\lilyGetGlyph{accidentals.flat}}%
 }
-\WithSuffix\newcommand\flat*[1][]{\flat[#1] }
+\renewcommand*{\flat}[1][]{\flatBase[#1] }
+\WithSuffix\newcommand\flat*[1][]{\flatBase[#1]}
 
 % "accidentals.flatflat"
-\newcommand*{\flatflat}[1][]{%
+\newcommand*{\flatflatBase}[1][]{%
 	\setkeys{lilyDesignOptions}{scale=1.5,raise=0.2}%
 	\lilyPrint[#1]{\lilyGetGlyph{accidentals.flatflat}}%
 }
-\WithSuffix\newcommand\flatflat*[1][]{\flatflat[#1] }
+\newcommand*{\flatflat}[1][]{\flatflatBase[#1] }
+\WithSuffix\newcommand\flatflat*[1][]{\flatflatBase[#1]}
 
 % "accidentals.sharp"
-\renewcommand*{\sharp}[1][]{%
+\newcommand*{\sharpBase}[1][]{%
 	\setkeys{lilyDesignOptions}{scale=1.5,raise=0.5}%
 	\lilyPrint[#1]{\lilyGetGlyph{accidentals.sharp}}%
 }
-\WithSuffix\newcommand\sharp*[1][]{\sharp[#1] }
+\renewcommand*{\sharp}[1][]{\sharpBase[#1] }
+\WithSuffix\newcommand\sharp*[1][]{\sharpBase[#1]}
 
 % "accidentals.doublesharp"
-\newcommand*{\doublesharp}[1][]{%
+\newcommand*{\doublesharpBase}[1][]{%
 	\setkeys{lilyDesignOptions}{scale=1.5,raise=0.35}%
 	\lilyPrint[#1]{\lilyGetGlyph{accidentals.doublesharp}}%
 }
-\WithSuffix\newcommand\doublesharp*[1][]{\doublesharp[#1] }
+\newcommand*{\doublesharp}[1][]{\doublesharpBase[#1] }
+\WithSuffix\newcommand\doublesharp*[1][]{\doublesharpBase[#1]}

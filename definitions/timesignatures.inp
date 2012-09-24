@@ -8,22 +8,20 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
 % \time 4/4
-\newcommand*{\lilyTimeC}[1][]{%
+\newcommand*{\lilyTimeCBase}[1][]{%
 	\setkeys{lilyDesignOptions}{scale=1.4,raise=0.7}%
 	\lilyPrint[#1]{\lilyGetGlyph{timesig.C44}}%
 }
-\WithSuffix\newcommand\lilyTimeC*[1][]{%
-	\lilyTimeC[#1]
-}
+\newcommand*{\lilyTimeC}[1][]{\lilyTimeCBase[#1] }
+\WithSuffix\newcommand\lilyTimeC*[1][]{\lilyTimeCBase[#1]}
 
 % \time 2/2
-\newcommand*{\lilyTimeCHalf}[1][]{%
+\newcommand*{\lilyTimeCHalfBase}[1][]{%
 	\setkeys{lilyDesignOptions}{scale=1.4,raise=0.7}%
 	\lilyPrint[#1]{\lilyGetGlyph{timesig.C22}}%
 }
-\WithSuffix\newcommand\lilyTimeCHalf*[1][]{%
-	\lilyTimeCHalf[#1]
-}
+\newcommand*{\lilyTimeCHalf}[1][]{\lilyTimeCHalfBase[#1] }
+\WithSuffix\newcommand\lilyTimeCHalf*[1][]{\lilyTimeCHalfBase[#1]}
 
 % general \time n/m command (prints time signature as a fraction in emmentaler font)
 % doesn't need a starred version

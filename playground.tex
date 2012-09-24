@@ -18,32 +18,17 @@
 
 
 
-\section*{Fix trailing space}
-Trailing space? \lilyDynamics{ff} here
+\section*{exchange starred?}
 
-Call by glyph: \lilyGlyph{accidentals.flat} here\
-\flat* text \flat text
+If I write a \flat in a sentence, it is like I expect it.\\
+And a \lilyRFZ is equally \lilyRF .
 
+And a time signature \lilyTimeSignature{3}{4} ?
 
+A \lilyRFZ in text and at the end \lilyRFZ*.
 
+General Dynamics \lilyDynamics{ff} aren't a problem \lilyDynamics{ff}.
 
-\section*{Numbers}
-Numbers with scaling 1 suit like this: \lilyText{0 1 2 3 4 5 6 7 8 9} in a line.\\
-If you want them like uppercase letters you should try a scaling of \lilyText[scale=1.3]{0 + 1 4 7} 1.3 instead.
-
-\section*{Time Signatures}
-	This is a normal Time signature: \lilyTimeSignature[scale=4]{3}{4}.
-	
-	As the plus sign is also directly accessible you can write 
-	\lilyTimeSignature{1\,+\,7}{8} or even	
-	\lilyTimeSignature{1 + 7}{8 + 4} easily :-)
-	
-	One more option: \lilyTimeSignature{3}{8}\lilyText{+}\lilyTimeSignature{7}{4}. 
-
-	It respects the \texttt{raise} option, but that makes no sense: \lilyTimeSignature[raise=1]{4}{8}.
-	
-	Also it doesn't really work with \texttt{scale} values smaller than 1:
-	\lilyTimeSignature[scale=.5]{3}{4}.
 
 	
 \end{document}
