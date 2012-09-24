@@ -15,7 +15,7 @@
 	\interpretLilyOptions{#1}%
 	% print the glyph in a raisebox
 	\raisebox{{\lilyEffectiveRaise}ex}{%
-		{\fontspec[Scale=\lilyEffectiveScale]{Emmentaler-\lilyOpticalSuffix}#2 }%
+		{\fontspec[Scale=\lilyEffectiveScale]{Emmentaler-\lilyOpticalSuffix}#2}%
 	}%
 }
 
@@ -29,11 +29,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Determine the glyph by its OpenType glyphName
-\newcommand*{\lilyGetGlyph}[1]{\XeTeXglyph\XeTeXglyphindex"#1"}
+\newcommand*{\lilyGetGlyph}[1]{\XeTeXglyph\XeTeXglyphindex"#1" }
 
 % Determine the glyph by its OpenType character number
 % (these may change with new versions of the fonts!)
-\newcommand*{\lilyGetGlyphByNumber}[1]{\char"#1}
+\newcommand*{\lilyGetGlyphByNumber}[1]{\char"#1 }
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

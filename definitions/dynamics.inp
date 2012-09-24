@@ -38,10 +38,19 @@
 % so we provide predefined commands for them
 
 % rinforzando 
-\newcommand{\lilyRF}[1][]{\mbox{\lilyDynamics[#1]{r\hspace{0.035ex}f}}}
-	% Starred version with trailing space
-	\WithSuffix\newcommand\lilyRF*[1][]{\lilyRF[#1]{}}
+\newcommand{\lilyRFBase}[1][]{%
+	\mbox{%
+		\lilyDynamics[#1]{r\hspace{0.035ex}f}%
+	}%
+}
+\newcommand*{\lilyRF}[1][]{\lilyRFBase[#1] }
+\WithSuffix\newcommand\lilyRF*[1][]{\lilyRFBase[#1]}
+	
 % rinforzando with trailing z
-\newcommand{\lilyRFZ}[1][]{\mbox{\lilyDynamics[#1]{r\hspace{0.035ex}fz}}}
-	% Starred version with trailing space
-	\WithSuffix\newcommand\lilyRFZ*[1][]{\lilyRFZ[#1]{}}
+\newcommand{\lilyRFZBase}[1][]{%
+	\mbox{%
+		\lilyDynamics[#1]{r\hspace{0.035ex}fz}%
+	}%
+}
+\newcommand{\lilyRFZ}[1][]{\lilyRFZBase[#1] }
+\WithSuffix\newcommand\lilyRFZ*[1][]{\lilyRFZBase[#1]}

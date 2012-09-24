@@ -8,21 +8,35 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
 % \time 4/4
-\newcommand*{\lilyTimeC}[1][]{%
+\newcommand*{\lilyTimeCBase}[1][]{%
 	\setkeys{lilyDesignOptions}{scale=1.4,raise=0.7}%
 	\lilyPrint[#1]{\lilyGetGlyph{timesig.C44}}%
 }
-\WithSuffix\newcommand\lilyTimeC*[1][]{%
-	\lilyTimeC[#1]
-}
+\newcommand*{\lilyTimeC}[1][]{\lilyTimeCBase[#1] }
+\WithSuffix\newcommand\lilyTimeC*[1][]{\lilyTimeCBase[#1]}
 
 % \time 2/2
-\newcommand*{\lilyTimeCHalf}[1][]{%
+\newcommand*{\lilyTimeCHalfBase}[1][]{%
 	\setkeys{lilyDesignOptions}{scale=1.4,raise=0.7}%
 	\lilyPrint[#1]{\lilyGetGlyph{timesig.C22}}%
 }
-\WithSuffix\newcommand\lilyTimeCHalf*[1][]{%
-	\lilyTimeCHalf[#1]
-}
+\newcommand*{\lilyTimeCHalf}[1][]{\lilyTimeCHalfBase[#1] }
+\WithSuffix\newcommand\lilyTimeCHalf*[1][]{\lilyTimeCHalfBase[#1]}
 
-%TODO: The numerical time signatures have to be created differently
+% general \time n/m command (prints time signature as a fraction in emmentaler font)
+% doesn't need a starred version
+\newcommand*{\lilyTimeSignature}[3][]{%
+	\makeatletter%
+%	\setkeys{lilyCmdOptions}{scale=1,raise=0}
+%	\setkeys{lilyCmdOptions}{#1}%
+%	\def\fracRaise{\lilyCmdOptions@raise}
+%	\def\numberScale{\lilyCmdOptions@scale}
+	\def\fracRaise{0}%
+%	\raisebox{{\fracRaise}ex}%
+	{%
+		$\genfrac{}{}{0.15ex}{}%
+		{\lilyText[#1]{#2}}%
+		{\lilyText[#1]{#3}}$%
+	}%
+	\makeatother%
+}
