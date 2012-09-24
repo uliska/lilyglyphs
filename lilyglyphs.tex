@@ -53,7 +53,7 @@
 
 The package \lilyglyphs is made for authors who want to include single musical elements in their \LaTeX{} texts. 
 This is not meant to be used for musical examples, for which one would use packages like \texttt{musixtex} or the LilyPond software together with lilypond-book\footnote{http://www.lilypond.org}. 
-Here we are talking about inserting items like \lilyRFZ* into continuous text, within the paragraphs.
+Here we are talking about inserting items like \lilyRFZ into continuous text, within the paragraphs.
 
 For this purpose the package provides commands to include glyphs from LilyPond's \emmentaler OpenType font. 
 For the implications of this statement see the next section \enquote{Requirements}. 
@@ -84,11 +84,10 @@ Then you can use the commands defined by the package or access glyphs directly t
 Both are described in detail later, in this section you'll only find a general overview of the possibilities.
 
 The predefined commands are generally available in two forms, starred and unstarred (e.\,g.\ \cmd{flat} and \cmd{flat*}). 
-The unstarred commands provide the glyphs without trailing space while the starred ones append a single space after the glyph. 
-The latter are more convenient to use in continuous text while the plain commands can be used either before punctuations or to create combined glyphs (e.\,g. \lilyDynamics{sffz}).
+The unstarred commands append a single space after the glyph while the starred ones provide the glyphs without trailing space. 
 
 Glyphs are scaled to fit normal text fonts, and the scaling automatically follows the scaling of the text. 
-This also means they are influenced by \LaTeX 's text size commands, so you can write something like \{\cmd{large \textbackslash flat\}} to create a larger {\large \flat} glyph than the normal \flat* one or even something really \cmd{Huge} {\Huge \lilyDynamics{sfz}} -- which will probably spoil your line spacing if used within a paragraph. 
+This also means they are influenced by \LaTeX 's text size commands, so you can write something like \{\cmd{large \textbackslash flat\}} to create a larger {\large \flat}glyph than the normal \flat one or even something really \cmd{Huge} {\Huge \lilyDynamics{sfz}} -- which will probably spoil your line spacing if used within a paragraph. 
 You can influence the size and vertical position of the glyphs -- with the predefined commands as well as the generic ones -- individually or globally through the use of optional arguments, which are described later.
 There you will also find how to adjust the global size and position, e.g. to accomodate an extraordinary text font.
 
@@ -119,12 +118,9 @@ For further reference see the corresponding sections later in this documentation
 But you can also enter any spacing commands (like \cmd{hspace} or plain spaces). 
 Keep in mind that this may result in line breaking inside your expression. 
 If you need to prevent this you can surround your expression by a \cmd{mbox}.
-{
-\color{red}
+
 \cmd{lilyText} doesn't need a starred version. 
-By itself it doesn't add a traling space, but if you enter a space after the closing curly brace, \LaTeX will respect it.\\
-\textit{(The above sentence explains the intended behaviour. Unfortunately there is actually an issue about it (see issue \#18 on github))} 
-}
+By itself it doesn't add a traling space, but if you enter a space after the closing curly brace, \LaTeX{} will respect it.\\
 
 \cmd{lilyGlyphByNumber} expects the Unicode code of the glyph. 
 You will generally not want to use this as the code positions aren't guaranteed to stay the same with new versions of the fonts. 
@@ -212,7 +208,9 @@ Some of the clef glyphs are among the few that are too large by default.
 You couldn't use a G clef within continuous text without severely \clefG* damaging line spacing. 
 But if you scale them to a size that doesn't disturb line spacing, they look quite disproportionate, especially when combined with other elements: \mbox{ \clefCInline* \natural.}
 Therefore we provide the clefs in two forms, a standard form which can be problematic in continuous text, and an -Inline version which looks funny but can be used within the line.
-See table~\ref{table:clefs} on page~\pageref{table:clefs}
+See table~\ref{table:clefs} on page~\pageref{table:clefs}.
+
+The clef commands are available in the starred and in the unstarred form.
 
 \begin{reftable}{Clefs}{clefs}
 \clefGInline & \cmd{clefG}, \cmd{clefGInline} & "clefs.G"\\
@@ -221,12 +219,14 @@ See table~\ref{table:clefs} on page~\pageref{table:clefs}
 \end{reftable}
 
 \subsubsection{Time Signatures}
-\emmentaler provides two 'real' glyphs for time signatures, the \lilyTimeC* and the \lilyTimeCHalf.
+\emmentaler provides two 'real' glyphs for time signatures, the \lilyTimeC and the \lilyTimeCHalf*.
 The commands \cmd{lilyTimeC} and \cmd{lilyTimeCHalf} have starred and unstarred versions. 
 
 Numerical (single and compound) time signatures can be printed using \cmd{lilyTimeSignature}: \lilyTimeSignature{4}{4}.
 This command expects two mandatory arguments: numerator and denominator.
 They are treated as \cmd{lilyText}, so you can easily write compound time signatures like \cmd{lilyTimeSignature\{4 + 7\}\{8\}} \lilyTimeSignature{4 + 7}{8}.
+
+\cmd{lilyTimeSignature} doesn't need a starred version as it behaves as you would expect: It doesn't print a trailing space but respects any whitespace after the closing bracket.
 
 \begin{reftable}{Time Signatures}{timesignatures}
 \lilyTimeC & \cmd{lilyTimeC} & "timesig.C44"\\
@@ -254,8 +254,8 @@ These are also accessible through \cmd{lilyText}, the example in the previous se
 \subsubsection{Accidentals}
 The package starts up with only a few of the standard accidentals of traditional Western music. 
 More should be added soon. 
-We have the \cmd{natural} \natural, the \cmd{flat} \flat* and the \cmd{sharp} \sharp* -- which replace the respective commands from standard \LaTeX. 
-Additionally there are the double versions, \cmd{flatflat} \flatflat* and \cmd{doublesharp} \doublesharp. See table~\ref{table:accidentals} on page~\pageref{table:accidentals}. 
+We have the \cmd{natural} \natural*, the \cmd{flat} \flat and the \cmd{sharp} \sharp -- which replace the respective commands from standard \LaTeX. 
+Additionally there are the double versions, \cmd{flatflat} \flatflat and \cmd{doublesharp} \doublesharp*. See table~\ref{table:accidentals} on page~\pageref{table:accidentals}. 
 There you will also find the glyphnames.
 
 Accidentals are available in starred and unstarred versions.
@@ -353,14 +353,16 @@ Let's review an example of a predefined command, the \cmd{doublesharp}.
 
 \begin{verbatim}
 % "accidentals.doublesharp"
-\newcommand*{\doublesharp}[1][]{%
+\newcommand*{\doublesharpBase}[1][]{%
 	\setkeys{lilyDesignOptions}{scale=1.5,raise=0.35}%
 	\lilyPrint[#1]{\lilyGetGlyph{accidentals.doublesharp}}%
 }
 
-\WithSuffix\newcommand\doublesharp*[1][]{\doublesharp[#1] }
+\newcommand*{\doublesharp}[1][]{\doublesharpBase[#1] }
+
+\WithSuffix\newcommand\doublesharp*[1][]{\doublesharpBase[#1]}
 \end{verbatim}
-As you can see there are actually two commands, the starred and the unstarred version.
+As you can see there are actually three commands, a base command and the starred and the unstarred versions.
 But let's start with the original command.
 
 We use the starred version of \cmd{newcommand}, because we always know that our commands are restricted to single paragraphs.
@@ -373,18 +375,20 @@ In the example the designer has decided that a doublesharp glyph should be scale
 
 The third line calls the internal \cmd{lilyPrint} command. 
 It passes the optional argument, with which the end user can override (i.\,e.\ modify) the designed values.
-As the \doublesharp* is a glyph that has to be selected by its glyph name, we call \cmd{lilyGetGlyph}, supplying the glyph name found in the documentation.
+As the \doublesharp is a glyph that has to be selected by its glyph name, we call \cmd{lilyGetGlyph}, supplying the glyph name found in the documentation.
 The result of this command is passed as the \texttt{\#2} to \cmd{lilyPrint}.
 
 To summarize: Writing a predefined command for printing a glyph from \emmentaler involves just two steps, setting the design time options and calling \cmd{lilyPrint} with the appropriate \#2 argument.
 
 \medskip
 If we have done it right, the new command prints the desired glyph without any trailing space. 
-While this is the desired behaviour when we want to combine glyphs or before punctuation marks, it will suffer from the side-effect that \LaTeX will ignore any whitespace after the command.
-While it is always possible to write a pair of curly braces after or around the command to allow trailing whitespace, we decided to offer the starred versions of commands, which include one trailing space.
+The side-effect is that \LaTeX{} will ignore any whitespace after the command.
+While it is always possible to write a pair of curly braces after or around the command to allow trailing whitespace, we decided to offer the starred and unstarred versions of commands.
+The unstarred versions provide a trailing space and are therefore intended for general use in continuous text. 
+The starred versions don't have this space and are intended for use before punctuation marks, in words or in combinations with other glyphs.
 For these we need the \cmd{WithSuffix} construct that is shown in the example.
-We name the command identical to the original command except for the trailing *.
-We give the same set of one optional argument, and in the command itself we just call the original one, passing the \texttt{\#1} argument along and add a trailing space.
+We name the commands identical to the original command except for the trailing *.
+We give the same set of one optional argument, and in the command itself we just call the baseone, passing the \texttt{\#1} argument along and add a trailing space.
 
 \medskip
 If you know the Unicode number of the desired glyph you can call \cmd{lilyGetGlyphByNumber} instead of \cmd{lilyGetGlyph}, but you can't be sure this number will stay the same forever.
@@ -406,6 +410,11 @@ In the given example of \cmd{lilyRFZ} we need to apply a little bit of extra spa
 We see that we can insert a \cmd{hspace} command between the letters without any problems.
 But as it turns out \LaTeX{} may want to insert a line break now, so we have to additionally enclose this call to \cmd{lilyDynamics} in a \cmd{mbox}.
 The behaviour with the optional argument and with an additional starred version of the command is the same as for the first example.
+
+You will note that we didn't write a starred version of the command.
+This is because \cmd{lilyDynamics} internally calls \cmd{lilyText}, and this behaves differently. 
+Commands that pass their content argument as 'plain text' don't print a trailing space on their own, but respect any whitespace you write after the command.
+So -- as a rule of thumb -- you can assume that you need to write the starred and unstarred versions of commands when you pass the content as a glyph or by number, but you don't when you pass an ordinary string.
 
 
 \end{document}
