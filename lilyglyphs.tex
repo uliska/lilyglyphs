@@ -224,13 +224,22 @@ See table~\ref{table:clefs} on page~\pageref{table:clefs}
 \emmentaler provides two 'real' glyphs for time signatures, the \lilyTimeC* and the \lilyTimeCHalf.
 The commands \cmd{lilyTimeC} and \cmd{lilyTimeCHalf} have starred and unstarred versions. 
 
-More time signatures have to be constructed from numbers, which will soon be added to the package.
+Numerical (single and compound) time signatures can be printed using \cmd{lilyTimeSignature}: \lilyTimeSignature{4}{4}.
+This command expects two mandatory arguments: numerator and denominator.
+They are treated as \cmd{lilyText}, so you can easily write compound time signatures like \cmd{lilyTimeSignature\{4 + 7\}\{8\}} \lilyTimeSignature{4 + 7}{8}.
 
 \begin{reftable}{Time Signatures}{timesignatures}
 \lilyTimeC & \cmd{lilyTimeC} & "timesig.C44"\\
 \lilyTimeCHalf & \cmd{lilyTimeCHalf} & "timesig.C22"\\
+\lilyTimeSignature{7}{8} & \cmd{lilyTimeSignature\{7\}\{8\}}\\
+\lilyTimeSignature{3 + 4}{4 + 8} & \cmd{lilyTimeSignature\{3 + 4\}\{4 + 8\}}\\
 \end{reftable}
 
+\paragraph*{Known issues and warnings:} \cmd{lilyTimeSignature} also expects the optional argument as the other commands, but they don't always work smoothly yet:\\
+\texttt{scale} is applied to the individual parts of the fraction, but not to the delimiter line.
+So scaling a time signature may result in an imbalance between the size of the numbers and the line thickness.
+Even more importantly, scaling factors smaller than 1 don't work well because the reference point is the bottom line of the number, so the denominator is placed too low.\\
+\texttt{raise} can so far only be applied to the individual parts of the fraction, so it will generally make no sense at all to use it.
 
 \subsubsection{Numbers}
 Numbers can be entered with the already known \cmd{lilyText} command. 
