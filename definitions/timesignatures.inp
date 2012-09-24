@@ -28,12 +28,12 @@
 % general \time n/m command (prints time signature as a fraction in emmentaler font)
 % doesn't need a starred version
 \newcommand*{\lilyTimeSignature}[3][]{%
-	\makeatletter
+	\makeatletter%
 %	\setkeys{lilyCmdOptions}{scale=1,raise=0}
 %	\setkeys{lilyCmdOptions}{#1}%
 %	\def\fracRaise{\lilyCmdOptions@raise}
 %	\def\numberScale{\lilyCmdOptions@scale}
-	\def\fracRaise{0}
+	\def\fracRaise{0}%
 %	\raisebox{{\fracRaise}ex}%
 	{%
 		$\genfrac{}{}{0.15ex}{}%
