@@ -15,6 +15,7 @@
 \renewcommand*{\natural}[1][]{\naturalBase[#1] }
 \WithSuffix\newcommand\natural*[1][]{\naturalBase[#1]}
 
+
 % "accidentals.flat"
 \newcommand*{\flatBase}[1][]{%
 	\setkeys{lilyDesignOptions}{scale=1.5,raise=0.2}%
@@ -22,6 +23,7 @@
 }
 \renewcommand*{\flat}[1][]{\flatBase[#1] }
 \WithSuffix\newcommand\flat*[1][]{\flatBase[#1]}
+
 
 % "accidentals.flatflat"
 \newcommand*{\flatflatBase}[1][]{%
@@ -31,6 +33,10 @@
 \newcommand*{\flatflat}[1][]{\flatflatBase[#1] }
 \WithSuffix\newcommand\flatflat*[1][]{\flatflatBase[#1]}
 
+%%%%%%%%
+% sharps
+%%%%%%%%
+
 % "accidentals.sharp"
 \newcommand*{\sharpBase}[1][]{%
 	\setkeys{lilyDesignOptions}{scale=1.5,raise=0.5}%
@@ -38,6 +44,70 @@
 }
 \renewcommand*{\sharp}[1][]{\sharpBase[#1] }
 \WithSuffix\newcommand\sharp*[1][]{\sharpBase[#1]}
+
+
+% "accidentals.sharp.arrowup"
+\newcommand*{\sharpArrowupBase}[1][]{%
+	\setkeys{lilyDesignOptions}{scale=1.5,raise=0.5}%
+	\lilyPrint[#1]{\lilyGetGlyph{accidentals.sharp.arrowup}}%
+}
+\newcommand*{\sharpArrowup}[1][]{\sharpArrowupBase[#1] }
+\WithSuffix\newcommand\sharpArrowup*[1][]{\sharpArrowupBase[#1]}
+
+
+% "accidentals.sharp.arrowdown"
+\newcommand*{\sharpArrowdownBase}[1][]{%
+	\setkeys{lilyDesignOptions}{scale=1.5,raise=0.5}%
+	\lilyPrint[#1]{\lilyGetGlyph{accidentals.sharp.arrowdown}}%
+}
+\newcommand*{\sharpArrowdown}[1][]{\sharpArrowdownBase[#1] }
+\WithSuffix\newcommand\sharpArrowdown*[1][]{\sharpArrowdownBase[#1]}
+
+
+% "accidentals.sharp.arrowboth"
+\newcommand*{\sharpArrowbothBase}[1][]{%
+	\setkeys{lilyDesignOptions}{scale=1.5,raise=0.5}%
+	\lilyPrint[#1]{\lilyGetGlyph{accidentals.sharp.arrowboth}}%
+}
+\newcommand*{\sharpArrowboth}[1][]{\sharpArrowbothBase[#1] }
+\WithSuffix\newcommand\sharpArrowboth*[1][]{\sharpArrowbothBase[#1]}
+
+
+% "accidentals.sharp.slashslash.stem"
+\newcommand*{\sharpSlashslashStemBase}[1][]{%
+	\setkeys{lilyDesignOptions}{scale=1.5,raise=0.5}%
+	\lilyPrint[#1]{\lilyGetGlyph{accidentals.sharp.slashslash.stem}}%
+}
+\newcommand*{\sharpSlashslashStem}[1][]{\sharpSlashslashStemBase[#1] }
+\WithSuffix\newcommand\sharpSlashslashStem*[1][]{\sharpSlashslashStemBase[#1]\hspace{0.1ex}}
+
+
+% "accidentals.sharp.slashslashslash.stemstem"
+\newcommand*{\sharpSlashslashslashStemstemBase}[1][]{%
+	\setkeys{lilyDesignOptions}{scale=1.5,raise=0.5}%
+	\lilyPrint[#1]{\lilyGetGlyph{accidentals.sharp.slashslashslash.stemstem}}%
+}
+\newcommand*{\sharpSlashslashslashStemstem}[1][]{\sharpSlashslashslashStemstemBase[#1] }
+\WithSuffix\newcommand\sharpSlashslashslashStemstem*[1][]{\sharpSlashslashslashStemstemBase[#1]}
+
+
+% "accidentals.sharp.slashslashslash.stem"
+\newcommand*{\sharpSlashslashslashStemBase}[1][]{%
+	\setkeys{lilyDesignOptions}{scale=1.5,raise=0.5}%
+	\lilyPrint[#1]{\lilyGetGlyph{accidentals.sharp.slashslashslash.stem}}%
+}
+\newcommand*{\sharpSlashslashslashStem}[1][]{\sharpSlashslashslashStemBase[#1] }
+\WithSuffix\newcommand\sharpSlashslashslashStem*[1][]{\sharpSlashslashslashStemBase[#1]}
+
+
+% "accidentals.sharp.slashslash.stemstemstem"
+\newcommand*{\sharpSlashslashStemstemstemBase}[1][]{%
+	\setkeys{lilyDesignOptions}{scale=1.5,raise=0.5}%
+	\lilyPrint[#1]{\lilyGetGlyph{accidentals.sharp.slashslash.stemstemstem}}%
+}
+\newcommand*{\sharpSlashslashStemstemstem}[1][]{\sharpSlashslashStemstemstemBase[#1] }
+\WithSuffix\newcommand\sharpSlashslashStemstemstem*[1][]{\sharpSlashslashStemstemstemBase[#1]\hspace{0.1ex}}
+
 
 % "accidentals.doublesharp"
 \newcommand*{\doublesharpBase}[1][]{%

@@ -2,13 +2,20 @@
 ============================
 This document lists all changes in the development of *lilyglyphs*.  
 All changes should be present in the manual, but only the finished versions printed bold are available as pdf downloads. (latest changes are only found in the LaTeX file in the git repository.  
-So the lines above the topmost bold version line represent the changes not available in the pdf documentation.
+So the lines above the topmost bold version line represent the changes not available in the downloadable pdf documentation.
+
+- Add all 'sharp' accidentals
+
+0.0.5
+-----
+(2012-09-25)
 
 - Exchange meaning of starred and unstarred command versions:  
 Unstarred now means: with trailing space (continuous text),  
 starred means: without trailing space
 - Implement numerical time signatures  
 (scaling and vertical placement don't work properly yet)
+- Plus: Major rewrite of the manual
 
 0.0.2 
 -----
