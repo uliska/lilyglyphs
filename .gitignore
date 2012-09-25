@@ -21,3 +21,6 @@
 deploy/*
 # and the font dir
 otf/*
+/lilyglyphs.bbl
+/lilyglyphs.blg
+/lilyglyphs.dvi
