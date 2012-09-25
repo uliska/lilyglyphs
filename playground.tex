@@ -23,6 +23,38 @@
 	As the plus sign is also directly accessible you can even
 	write \lilyTimeSignature{3\,+\,7}{8+4} easily :-)
 
+	
+\section*{PGF/tikz}
+
+Absatz, zusammen mit einem Notenkopf: 
+\begin{tikzpicture}
+	\draw (0,0) node {\lilyGlyph{"noteheads.s2"}};
+	\draw[semithick] (0.3ex,0) -- (0.3ex,0.8em);
+	\draw (0.7ex,1ex) node {\lilyGlyph{"flags.u3"}};
+\end{tikzpicture}
+
+\Large
+Neuer Absatz, zusammen mit einem Notenkopf: 
+\begin{tikzpicture}
+	\draw (0,0) node {\lilyGlyph{"noteheads.s2"}};
+	\draw[semithick] (0.3ex,0) -- (0.3ex,0.8em);
+	\draw (0.7ex,1ex) node {\lilyGlyph{"flags.u3"}};
+\end{tikzpicture}
+
+\normalsize
+Neuer Absatz, zusammen mit einem Notenkopf: 
+\begin{tikzpicture}[scale=2]
+	\draw (0,0) node {\lilyGlyph{"noteheads.s2"}};
+	\draw[semithick] (0.3ex,0) -- (0.3ex,0.8em);
+	\draw (0.7ex,1ex) node {\lilyGlyph{"flags.u3"}};
+\end{tikzpicture}
+
+One sees: It is principally possible to combine graphical and textual elements with pgf/tikz,
+but we definitely have to work on it some more: Especially it isn't scalable so far (explicitely or implicitely following text size)
+	write \lilyTimeSignature{3+7}{8+4} easily :-)
+	
+	One more option: \lilyTimeSignature{3}{8} \lilyText{+} \lilyTimeSignature{7}{4}. (note the space that the formula environment makes around it. Maybe this isn't the best approach?
+
 	%\lilyNumber
 	
 \section*{PGF/tikz}
@@ -66,4 +98,5 @@ General Dynamics \lilyDynamics{ff} aren't a problem \lilyDynamics{ff}.
 
 
 	
+>>>>>>> master
 \end{document}
