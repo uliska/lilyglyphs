@@ -3,6 +3,53 @@
 \usepackage{lilyglyphs}
 \usepackage{color}
 \usepackage{csquotes}
+\usepackage{fancyref}
+\usepackage[%
+	colorlinks,
+	bookmarks=true]{hyperref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Add fancyref categories:
+
+% subsection - subsec:
+
+\newcommand*{\fancyrefsubseclabelprefix}{subsec}
+
+\fancyrefaddcaptions{english}{%
+  \providecommand*{\frefsubsecname}{subsection}%
+  \providecommand*{\Frefsubsecname}{Subsection}%
+}
+
+\frefformat{plain}{\fancyrefsubseclabelprefix}{\frefsubsecname\fancyrefdefaultspacing#1}
+\Frefformat{plain}{\fancyrefsubseclabelprefix}{\Frefsubsecname\fancyrefdefaultspacing#1}
+
+\frefformat{vario}{\fancyrefsubseclabelprefix}{%
+  \frefsubsecname\fancyrefdefaultspacing#1#3%
+}
+\Frefformat{vario}{\fancyrefsubseclabelprefix}{%
+  \Frefsubsecname\fancyrefdefaultspacing#1#3%
+}
+
+% subsubsection - subsubsec:
+
+\newcommand*{\fancyrefsubsubseclabelprefix}{subsubsec}
+
+\fancyrefaddcaptions{english}{%
+  \providecommand*{\frefsubsubsecname}{subsection}% the same as for subsection
+  \providecommand*{\Frefsubsubsecname}{Subsection}%
+}
+
+\frefformat{plain}{\fancyrefsubsubseclabelprefix}{\frefsubsubsecname\fancyrefdefaultspacing#1}
+\Frefformat{plain}{\fancyrefsubsubseclabelprefix}{\Frefsubsubsecname\fancyrefdefaultspacing#1}
+
+\frefformat{vario}{\fancyrefsubsubseclabelprefix}{%
+  \frefsubsubsecname\fancyrefdefaultspacing#1#3%
+}
+\Frefformat{vario}{\fancyrefsubsubseclabelprefix}{%
+  \Frefsubsubsecname\fancyrefdefaultspacing#1#3%
+}
+
+
 % TODO make this prettier, preferrably using musical glyphs 
 % like e.g. quarter notes for the 'l's and maybe a
 % flipped \flat for the 'p'
@@ -14,26 +61,21 @@
 \newcommand*{\cmd}[1]{\texttt{\textbackslash #1}}
 
 % Common table format for reference tables
-% TODO make this prettier
-\newcommand{\tmpCaption}{} % Necessary to pass caption to the end definition
-\newcommand{\tmpLabel}{}
 \newenvironment{reftable}[2]
 	{%
-		\renewcommand{\tmpCaption}{#1}
-		\renewcommand{\tmpLabel}{#2}
 		\begin{table}[ht]
-		\begin{center}
-		\begin{tabular}[t]{lll}
-		\hline
-		&\\
+			\begin{center}
+				\caption{#1}
+				\label{tab:#2}
+				\begin{tabular}[t]{lll}
+					\hline
+					&\\
 	}
 	{%
-		&\\
-		\hline
-		\end{tabular}
-		\caption{\tmpCaption}
-		\label{table:\tmpLabel}
-		\end{center}
+					&\\
+					\hline
+				\end{tabular}
+			\end{center}
 		\end{table}
 	}
 
@@ -49,10 +91,11 @@
 
 \pagebreak
 \section{Introduction}
+\label{sec:introduction}
 {\color{red} \textbf{TODO:} Rearrange the documentation as described in Github issue \#23}
 
 The package \lilyglyphs is made for authors who want to include single musical elements in their \LaTeX{} texts. 
-This is not meant to be used for musical examples, for which one would use packages like \texttt{musixtex} or the LilyPond software together with lilypond-book\footnote{http://www.lilypond.org}. 
+This is not meant to be used for musical examples, for which one would use packages like \texttt{musixtex} or the LilyPond software together with lilypond-book\footnote{\url{http://www.lilypond.org}s}. 
 Here we are talking about inserting items like \lilyRFZ* into continuous text, within the paragraphs.
 
 For this purpose the package provides commands to include glyphs from LilyPond's \emmentaler OpenType font. 
@@ -61,9 +104,10 @@ In the current early development stage you can only use glyphs from the font, bu
 For example there are no glyphs for noteheads with stems and flags or beams in \emmentaler, as LilyPond creates these objects itself. 
 But \lilyglyphs will of course have such objects in the future -- the first tests are already being done.
 
-The \lilyglyphs package was initiated and is maintained by Urs Liska, and is hosted as a git repository on GitHub\footnote{http://www.github.com/uliska/lilyglyphs -- Contact: git@ursliska.de}
+The \lilyglyphs package was initiated and is maintained by Urs Liska, and is hosted as a git repository on GitHub\footnote{\url{http://www.github.com/uliska/lilyglyphs} -- Contact: \url{mailto:git@ursliska.de}}
 
 \section{Requirements}
+\label{sec:requirements}
 \lilyglyphs achieves its goal through accessing OpenType fonts provided by the LilyPond notation software. 
 These fonts are accessed through the \texttt{fontspec} package, and \lilyglyphs relies on a \LaTeX{} distribution supporting \texttt{fontspec}. 
 It was written using \XeLaTeX, but should also work with LuaLaTeX -- but this hasn't been tested.
@@ -78,7 +122,9 @@ Eight .otf files (representing different optical sizes, see below) are included 
 
 
 \section{Usage}
+\label{sec:usage}
 \subsection{General usage}
+\label{subsec:general_usage}
 For activating the capabilities of \lilyglyphs just write \cmd{usepackage\{lilyglyphs\}} in the preamble of your document. 
 Then you can use the commands defined by the package or access glyphs directly through one of the generic access commands.
 Both are described in detail later, in this section you'll only find a general overview of the possibilities.
@@ -100,7 +146,9 @@ If you feel you have specific commands that would be a valuable addition to the 
 
 
 \subsection{Accessing glyphs from \emmentaler}
+\label{subsec:acc_glyphs_emmentaler}
 \subsubsection{Generic access commands}
+\label{subsubsec:generic_access_commands}
 \lilyglyphs offers three generic commands to access the glyphs that aren't covered by the predefined commands so far: \\
 \cmd{lilyGlyph}, \cmd{lilyText} and \cmd{lilyGlyphByNumber}. 
 
@@ -110,7 +158,7 @@ The second argument is the glyph to be selected, which has to be given in a form
 In the next subsection you'll find concrete examples on how to invoke the commands.
 
 \cmd{lilyGlyph} expects the OpenType glyph name. 
-You can look up the glyph names in the Appendix of LilyPond's \emph{Notation Reference}\footnote{http://www.lilypond.org/doc/v2.15/Documentation/notation/the-feta-font.html} or the somewhat reduced html page provided in the package download.
+You can look up the glyph names in the Appendix of LilyPond's \emph{Notation Reference}\footnote{\url{http://www.lilypond.org/doc/v2.15/Documentation/notation/the-feta-font.html}} or the somewhat reduced html page provided in the package download.
 
 \cmd{lilyText} expects ordinary text as its argument. 
 In fact it just switches the font to \emmentaler and then writes the string given as the argument. 
@@ -130,7 +178,7 @@ By itself it doesn't add a traling space, but if you enter a space after the clo
 You will generally not want to use this as the code positions aren't guaranteed to stay the same with new versions of the fonts. 
 There may be some uses for numerical access however.
 
-\subsubsection{The optional argument: Scaling and placement}
+\subsubsection{The optional argument: Scaling and placement}\label{subsubsec:optional_arguemnt}
 The generic access commands as well as the predefined commands allow an optional argument to be passed.
 This can contain a list of comma-separated options in \texttt{<key=value>} form that influence the appearance of the glyphs. Currently there are the \texttt{scale} and \texttt{raise} options.
 
@@ -180,7 +228,7 @@ As you can see the glyph is -- as most \emmentaler glyphs are -- placed too low,
 \bigskip
 If
 
-\subsubsection{Optical size}
+\subsubsection{Optical size}\label{subsubsec:optical_size}
 The \emmentaler fonts come in a set of eight \enquote{optical sizes}.
 These are originally variations of the font designed to be used at different point sizes.
 Generally you can assume that fonts for larger sizes are somewhat lighter, while fonts for smaller point sizes give more weight on the paper.
@@ -195,6 +243,7 @@ For now you would have to switch twice, before and after the glyph.
 The optical size used by \lilyglyphs defaults to 16.
 
 \subsection{Symbols that aren't \emmentaler glyphs}
+\label{subsec:non-emmentaler_symbols}
 Currently \lilyglyphs can only print glyphs that are part of LilyPond's \emmentaler font. 
 This is a major restriction as LilyPond creates quite numerous graphical objects itself by combining several glyphs, possibly connecting them through drawing commands.
 Amongst the elements not yet available are any kinds of complete notes.
@@ -204,15 +253,17 @@ Of course it is one of the most urgent issues to achieve this, and we are alread
 Currently we are experimenting with the \texttt{tikz/pgf} library, but we could really use some assistance in this field.
 
 \subsection{Predefined commands}
+\label{subsec:predefined_commands}
 {\color{red}TODO: General explanation on how to invoke them. \\
 But at a different place, see issue \#23}
 
 \subsubsection{Clefs}
+\label{subsubsec:clefs}
 Some of the clef glyphs are among the few that are too large by default. 
 You couldn't use a G clef within continuous text without severely \clefG* damaging line spacing. 
 But if you scale them to a size that doesn't disturb line spacing, they look quite disproportionate, especially when combined with other elements: \mbox{ \clefCInline* \natural.}
 Therefore we provide the clefs in two forms, a standard form which can be problematic in continuous text, and an -Inline version which looks funny but can be used within the line.
-See table~\ref{table:clefs} on page~\pageref{table:clefs}
+See \fref{tab:clefs} 
 
 \begin{reftable}{Clefs}{clefs}
 \clefGInline & \cmd{clefG}, \cmd{clefGInline} & "clefs.G"\\
@@ -221,6 +272,7 @@ See table~\ref{table:clefs} on page~\pageref{table:clefs}
 \end{reftable}
 
 \subsubsection{Time Signatures}
+\label{subsubsec:timesignatures}
 \emmentaler provides two 'real' glyphs for time signatures, the \lilyTimeC* and the \lilyTimeCHalf.
 The commands \cmd{lilyTimeC} and \cmd{lilyTimeCHalf} have starred and unstarred versions. 
 
@@ -233,6 +285,7 @@ More time signatures have to be constructed from numbers, which will soon be add
 
 
 \subsubsection{Numbers}
+\label{subsubsec:numbers}
 Numbers can be entered with the already known \cmd{lilyText} command. 
 There are all ten numbers available. 
 With the default scaling of 1.0 they generally fit as lowercase letters like \lilyText{0 1 2 3 4 5 6 7 8 9} \cmd{lilyText\{0 1 2 3 4 5 6 7 8 9\}}. 
@@ -243,10 +296,11 @@ A special case are four glyphs that are grouped among the numbers:\\
 These are also accessible through \cmd{lilyText}, the example in the previous sentence being written as \cmd{lilyText[scale=1.5]\{+~-~.~,\}}.
 
 \subsubsection{Accidentals}
+\label{subsubsec:numbers}
 The package starts up with only a few of the standard accidentals of traditional Western music. 
 More should be added soon. 
 We have the \cmd{natural} \natural, the \cmd{flat} \flat* and the \cmd{sharp} \sharp* -- which replace the respective commands from standard \LaTeX. 
-Additionally there are the double versions, \cmd{flatflat} \flatflat* and \cmd{doublesharp} \doublesharp. See table~\ref{table:accidentals} on page~\pageref{table:accidentals}. 
+Additionally there are the double versions, \cmd{flatflat} \flatflat* and \cmd{doublesharp} \doublesharp. See \fref{tab:accidentals}. 
 There you will also find the glyphnames.
 
 Accidentals are available in starred and unstarred versions.
@@ -264,7 +318,7 @@ Accidentals are available in starred and unstarred versions.
 \subsubsection{Dynamic Text}
 \label{subsubsec:dynamic_text}
 As explained earlier the Dynamic Letters can be accessed through \cmd{lilyText} without providing glyph names or numbers as argument. 
-For the available letters see table~\ref{table:singleDynLetters} on page~\pageref{table:singleDynLetters}. 
+For the available letters see \ref{tab:singleDynLetters}. 
 As a convenience there is a predefined command \cmd{lilyDynamics}, which is just a wrapper around \cmd{lilyText} that sets the \texttt{Scale} argument to a default value of 1.5.
 
 \begin{reftable}{Single Dynamics Letters}{singleDynLetters}
@@ -279,7 +333,7 @@ As a convenience there is a predefined command \cmd{lilyDynamics}, which is just
 These Letters can be combined to make complex Dynamics. 
 \lilyglyphs doesn't provide a full set of predefined commands as they can easily be entered as single strings to \cmd{lilyDynamics}, like \cmd{lilyDynamics\{sffzrmp\}}, resulting in \lilyDynamics{sffzrmp}. 
 In this specific situation you could enter a small horizontal space between the \lilyDynamics{z} and the \lilyDynamics{r} -- but as this combination wouldn't occur in real life, we don't need to demonstrate it here.
-There are a few predefinied commands (see table~\ref{table:combinedDynLetters} on page~\pageref{table:combinedDynLetters}) that are only used for the combination of letters that need some special \enquote{kerning} attention. These commnds internally use \cmd{lilyDynamics} with its default scaling. These predefined commands need starred and unstarred versions again, as \LaTeX would ignore spaces after the unstarred command.
+There are a few predefinied commands (see \ref{tab:combinedDynLetters}) that are only used for the combination of letters that need some special \enquote{kerning} attention. These commnds internally use \cmd{lilyDynamics} with its default scaling. These predefined commands need starred and unstarred versions again, as \LaTeX would ignore spaces after the unstarred command.
 
 \begin{reftable}{Combined Dynamics Expressions}{combinedDynLetters}
 \lilyRF* & \cmd{lilyRF}, \cmd{lilyRF*} & rinforzando\\
@@ -288,8 +342,10 @@ There are a few predefinied commands (see table~\ref{table:combinedDynLetters} o
 \end{reftable}
 
 \section{Internals}
+\label{sec:internatls}
 
 \subsection{Documentation of the generic access commands}
+\label{subsec:internals_generic_access}
 This section is essential for readers who want to understand how this package works internally, for example if they want to actively participate in its development.
 And it is recommended (but not exactly mandatory) for readers who want to write their own predefined commands or to contribute to the package by adding commands to it. 
 The latter target group might be satisfied reading the next subsection about writing predefined commands, but understanding will be easier and deeper with this subsection.
@@ -336,10 +392,12 @@ But be aware that the Unicode index may change at any time with new versions of 
 There may be some uses for numerical access, however, e.\,g.\ to iterate through a range of glyphs.
 
 \subsection{How to write predefined commands}
+\label{subsec:howto_predefined_commands}
 Writing your own predefined commands is actually quite straightforward, at least for the selection of real \emmentaler glyphs -- and identical if you want to write a command for your document or for inclusion in the package.
 So if you find yourself creating predefined commands that you think are useful for general use, don't hesitate to submit them to us. 
 
 \subsubsection{Commands that print \emmentaler glyphs}
+\label{subsubsec:commands_emmentaler-glyphs}
 Let's review an example of a predefined command, the \cmd{doublesharp}.
 
 \begin{verbatim}
@@ -390,7 +448,7 @@ As a last example we will look at the definition of \lilyRFZ \cmd{lilyRFZ}.
 	}%
 }
 \end{verbatim}
-As mentioned in section \ref{subsubsec:dynamic_text} on page \pageref{subsubsec:dynamic_text}, \cmd{lilyDynamics} is just a wrapper around \cmd{lilyText}, setting the \texttt{scale} factor to 1.5.
+As mentioned in \fref{subsubsec:dynamic_text}, \cmd{lilyDynamics} is just a wrapper around \cmd{lilyText}, setting the \texttt{scale} factor to 1.5.
 While the other generic commands only print single glyphs, \cmd{lilyText} can print 'plain text', so usually there is no need to write predefined commands only to combine letters to a single command.
 In some cases this may however be necessary.
 In the given example of \cmd{lilyRFZ} we need to apply a little bit of extra space between the \lilyDynamics{r} and the \lilyDynamics{z}.
