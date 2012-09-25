@@ -82,6 +82,20 @@
 
 \begin{document}
 
+% Insert a picture with a glyph list from LilyPond's glyph list
+% #1 is the caption of the figure
+% #2 the label name
+% #5 the file name of the image
+\newcommand{\glyphlist}[3]{%
+	\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=.75\textwidth]{glyphlist/resources/#3}
+		\caption{#1}
+		\label{fig:#2}
+	\end{figure}
+}
+
+
 \title{The \lilyglyphs Package\\~\\
 	\normalsize Version 0.0.2}
 \author{Urs Liska}
@@ -248,13 +262,19 @@ We can provide note heads and flags -- which are glyphs -- but not stems or beam
 Of course it is one of the most urgent issues to achieve this, and we are already trying to find a solution. 
 Currently we are experimenting with the \texttt{tikz/pgf} library, but we could really use some assistance in this field.
 
-\subsection{Predefined commands}
-\label{subsec:predefined_commands}
+\subsection{List of Predefined Commands}
+\label{subsec:list_predefined_commands}
 {\color{red}TODO: General explanation on how to invoke them. \\
 But at a different place, see issue \#23}
 
+The following subsections document the predefined commands that already have been implemented.
+They generally contain a list of all glyphs from the \emmentaler documentation, explanations on the use of the commands (if necessary) and a table listing the implemented commands.
+Be aware that the lists and tables may be on different pages than the section header.
+Sections whose implementation hasn't started yet may be present or not, so if you are missing glyphs please refer to LilyPond's documentation.
+
 \subsubsection{Clefs}
 \label{subsubsec:clefs}
+\glyphlist{\emmentaler Clef glyphs}{clefs}{lily-76dbcd67}
 Some of the clef glyphs are among the few that are too large by default. 
 You couldn't use a G clef within continuous text without severely \clefG* damaging line spacing. 
 But if you scale them to a size that doesn't disturb line spacing, they look quite disproportionate, especially when combined with other elements: \mbox{ \clefCInline* \natural.}
@@ -270,6 +290,8 @@ See \fref{tab:clefs}.
 
 \subsubsection{Time Signatures}
 \label{subsubsec:timesignatures}
+\glyphlist{\emmentaler Number glyphs}{timesignatures}{lily-8b332c94}
+
 \emmentaler provides two 'real' glyphs for time signatures, the \lilyTimeC and the \lilyTimeCHalf*.
 The commands \cmd{lilyTimeC} and \cmd{lilyTimeCHalf} have starred and unstarred versions. 
 
@@ -294,7 +316,10 @@ Even more importantly, scaling factors smaller than 1 don't work well because th
 
 \subsubsection{Numbers}
 \label{subsubsec:numbers}
+\glyphlist{\emmentaler Number glyphs}{numbers}{lily-8d8bb8a3}
 Numbers can be entered with the already known \cmd{lilyText} command. 
+Access through the glyph names as shown in \fref{fig:numbers} is possible but not necessary.
+Therefore we don't provide predefined commands for them.
 There are all ten numbers available. 
 With the default scaling of 1.0 they generally fit as lowercase letters like \lilyText{0 1 2 3 4 5 6 7 8 9} \cmd{lilyText\{0 1 2 3 4 5 6 7 8 9\}}. 
 For Uppercase letters you can start trying a scaling of 1.3. A future version of the package will provide convenience functions with default scalings for upper/lowercase letters, fingerings, figured bass numbers, time signature numbers etc.
@@ -304,7 +329,10 @@ A special case are four glyphs that are grouped among the numbers:\\
 These are also accessible through \cmd{lilyText}, the example in the previous sentence being written as \cmd{lilyText[scale=1.5]\{+~-~.~,\}}.
 
 \subsubsection{Accidentals}
-\label{subsubsec:numbers}
+\label{subsubsec:accidentals}
+\glyphlist{\emmentaler Accidental glyphs}{accidentals}{lily-5b13ce04}
+For the complete list of glyphs see \fref{fig:accidentals}.
+
 The package starts up with only a few of the standard accidentals of traditional Western music. 
 More should be added soon. 
 We have the \cmd{natural} \natural*, the \cmd{flat} \flat and the \cmd{sharp} \sharp -- which replace the respective commands from standard \LaTeX. 
@@ -321,7 +349,17 @@ Accidentals are available in starred and unstarred versions.
 \flatflat & \cmd{flatflat} & "accidentals.flatflat"\\
 \end{reftable}
 
+\subsubsection{Default Noteheads}
+\label{subsubsec:def_noteheads}
+\glyphlist{\emmentaler Default Notehead glyphs}{def_noteheads}{lily-f4d0afc9}
+The implementation of Default Noteheads hasn't started yet.
+See \fref{fig:def_noteheads}.
 
+\subsubsection{Special Noteheads}
+\label{subsubsec:special_noteheads}
+\glyphlist{\emmentaler Special Notehead glyphs}{spc_noteheads}{lily-088c978c}
+The implementation of Special Noteheads hasn't started yet.
+See \fref{fig:spc_noteheads}.
 
 \subsubsection{Dynamic Text}
 \label{subsubsec:dynamic_text}
@@ -411,8 +449,8 @@ Let's review an example of a predefined command, the \cmd{doublesharp}.
 \begin{verbatim}
 % "accidentals.doublesharp"
 \newcommand*{\doublesharpBase}[1][]{%
-	\setkeys{lilyDesignOptions}{scale=1.5,raise=0.35}%
-	\lilyPrint[#1]{\lilyGetGlyph{accidentals.doublesharp}}%
+    \setkeys{lilyDesignOptions}{scale=1.5,raise=0.35}%
+    \lilyPrint[#1]{\lilyGetGlyph{accidentals.doublesharp}}%
 }
 
 \newcommand*{\doublesharp}[1][]{\doublesharpBase[#1] }
@@ -455,9 +493,9 @@ As a last example we will look at the definition of \lilyRFZ \cmd{lilyRFZ}.
 
 \begin{verbatim}
 \newcommand{\lilyRFZ}[1][]{%
-	\mbox{%
-		\lilyDynamics[#1]{r\hspace{0.035ex}fz}%
-	}%
+    \mbox{%
+        \lilyDynamics[#1]{r\hspace{0.035ex}fz}%
+    }%
 }
 \end{verbatim}
 As mentioned in \fref{subsubsec:dynamic_text}, \cmd{lilyDynamics} is just a wrapper around \cmd{lilyText}, setting the \texttt{scale} factor to 1.5.
