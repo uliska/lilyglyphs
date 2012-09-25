@@ -2,6 +2,7 @@
 \usepackage{xltxtra}
 \usepackage{lilyglyphs}
 \usepackage{color}
+\usepackage{booktabs}
 \usepackage{csquotes}
 \usepackage{fancyref}
 \usepackage[%
@@ -69,12 +70,12 @@
 				\caption{#1}
 				\label{tab:#2}
 				\begin{tabular}[t]{lll}
-					\hline
+					\toprule
 					&\\
 	}
 	{%
 					&\\
-					\hline
+					\bottomrule
 				\end{tabular}
 			\end{center}
 		\end{table}
@@ -343,18 +344,26 @@ These are also accessible through \cmd{lilyText}, the example in the previous se
 \glyphlist{\emmentaler Accidental glyphs}{accidentals}{lily-5b13ce04}
 For the complete list of glyphs see \fref{fig:accidentals}.
 
-The package starts up with only a few of the standard accidentals of traditional Western music. 
-More should be added soon. 
-We have the \cmd{natural} \natural*, the \cmd{flat} \flat and the \cmd{sharp} \sharp -- which replace the respective commands from standard \LaTeX. 
-Additionally there are the double versions, \cmd{flatflat} \flatflat and \cmd{doublesharp} \doublesharp*. See \fref{tab:accidentals}. 
-There you will also find the glyphnames.
+The \cmd{natural} \natural*, the \cmd{flat} \flat and the \cmd{sharp} \sharp replace the respective commands from standard \LaTeX. 
+Please note that all the accidentals are designed at the same scaling in order to allow a uniform appearance. You will however have to check if they don't affect an even line spacing.
 
 Accidentals are available in starred and unstarred versions.
 
+See \fref{tab:accidentals} for the list of implemented commands. 
+
 \begin{reftable}{Accidentals}{accidentals}
 \natural & \cmd{natural} & accidentals.natural\\
+\midrule
 \sharp & \cmd{sharp} & accidentals.sharp\\
+\sharpArrowup & \cmd{sharpArrowup} & accidentals.sharp.arrowup\\
+\sharpArrowdown & \cmd{sharpArrowdown} & accidentals.sharp.arrowdown\\
+\sharpArrowboth & \cmd{sharpArrowboth} & accidentals.sharp.arrowboth\\
+\sharpSlashslashStem & \cmd{sharpSlashslashStem} & accidentals.sharp.slashslash.stem\\
+\sharpSlashslashslashStemstem & \cmd{sharpSlashslashslashStemstem} & accidentals.sharp.slashslashslash.stemstem\\
+\sharpSlashslashslashStem & \cmd{sharpSlashslashslashStem} & accidentals.sharp.slashslashslash.stem\\
+\sharpSlashslashStemstemstem & \cmd{sharpSlashslashStemstemstem} & accidentals.sharp.slashslash.stemstemstem\\
 \doublesharp & \cmd{doublesharp} & accidentals.doublesharp\\
+\midrule
 \flat & \cmd{flat} & accidentals.flat\\
 \flatflat & \cmd{flatflat} & accidentals.flatflat\\
 \end{reftable}
