@@ -381,6 +381,19 @@ See \fref{fig:def_noteheads}.
 The implementation of Special Noteheads hasn't started yet.
 See \fref{fig:spc_noteheads}.
 
+\subsection{Rests}
+\label{subsec:rests}
+
+Implementation of rest glyphs has only begun.
+Rests are usually available in starred and unstarred versions.
+Please note that the dotted versions don't have the optional argument implemented yet -- this means you can only use them \enquote{as-is}.
+
+\begin{reftable}{Rests}{rests}
+\halfNoteRestUp & \cmd{halfNoteRestUp} & Half note Rest\\
+\halfNoteRestUpDotted & \cmd{halfNoteRestUpDotted} & Dotted half note Rest\\
+\crotchetRest & \cmd{crotchetRest} & Crotchet Rest\\
+\end{reftable}
+
 \subsection{Dynamic Text}
 \label{subsec:dynamic_text}
 As explained earlier the Dynamic Letters can be accessed through \cmd{lilyText} without providing glyph names or numbers as argument. 
@@ -407,8 +420,15 @@ There are a few predefinied commands (see \fref{tab:combinedDynLetters}) that ar
 
 \end{reftable}
 
+\subsection{Scripts}
+\label{subsec:scripts}
+
+\begin{reftable}{Scripts}{scripts}
+\fermata & \cmd{fermata} & Fermata\\
+\end{reftable}
+
 \section{Internals}
-\label{sec:internatls}
+\label{sec:internals}
 
 \subsection{Documentation of the generic access commands}
 \label{subsec:internals_generic_access}

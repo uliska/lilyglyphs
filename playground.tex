@@ -12,15 +12,28 @@
 %\newcommand{\lilyNumber}[2][1.35]{\lilyText[#1]{#2}}
 
 
-
-
 \begin{document}
+
+\section*{Rests}
+
+This is normal text \lilyGlyph{rests.1o} \lilyDot around the dotted rest.
+
+This is normal text\halfNoteRestUp* TArount around the dotted rest.
+
+This is normal text \halfNoteRestUpDotted . TArount around the dotted rest.
+
+
+this is a \crotchetRest in plain text and before a period \crotchetRest* !
 
 \lilyGlyphByNumber{33} and space?
 
 \lilyRFZ and space
 
 \lilyDynamics{rfz} and space
+
+\section*{Scripts}
+
+This is a fermata \fermata* and text
 
 \section*{Accidentals}
 New \sharp accidental \sharpArrowdown and \sharpArrowdown*.\\
