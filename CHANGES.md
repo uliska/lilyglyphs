@@ -1,9 +1,11 @@
 *lilyglyphs* - Release Notes
 ============================
 This document lists all changes in the development of *lilyglyphs*.  
-All changes should be present in the manual, but only the finished versions printed bold are available as pdf downloads. (latest changes are only found in the LaTeX file in the git repository.  
+All changes should be present in the manual, but only the finished versions printed bold are available as pdf downloads. (Latest changes are only found in the master branch of the git repository. They should be documentd in the lilyglyphs.tex file there too.)
 So the lines above the topmost bold version line represent the changes not available in the downloadable pdf documentation.
 
+- Add some dotted symbols and the logic behind it
+- Add some rest glyphs
 - Add all 'sharp' accidentals
 
 0.0.5
