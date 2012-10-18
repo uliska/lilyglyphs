@@ -7,6 +7,9 @@
 % Rests %
 %%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%
+% Half note rests
+
 % "rests.1o - half note rest upwards"
 \newcommand*{\halfNoteRestBase}[1][]{%
 	\setkeys{lilyDesignOptions}{scale=1.3,raise=0.4}%
@@ -17,18 +20,16 @@
 
 
 % Dotted half note rest
-\newcommand*{\halfNoteRestDotted}[1][]{%
+\newcommand*{\halfNoteRestDottedBase}[1][]{%
 	% define the optional arguments for the dot
 	\setkeys{lilyDesignOptions}{scale=0.8,raise=0.2}%
 	% Calculate effective scale/raise and the hspace for the dot
 	\lilySetDotOptions[#1]{0.05}{0.5}{0}%
 	% Print the rest and then the dot
-	\halfNoteRest[#1]\lilyDotSpace\lilyPrintDot%
+	\halfNoteRest[#1]\lilyDotSpace\lilyPrintDot
 }
-
-\newcommand{\halfNoteRestDoubleDotted}[1][]{%
-	\halfNoteRestDotted\hspace*{0.25ex}\lilyPrintDot%
-}	
+\newcommand*{\halfNoteRestDotted}[1][]{\halfNoteRestDottedBase[#1] }
+\WithSuffix\newcommand\halfNoteRestDotted*[1][]{\halfNoteRestDottedBase[#1]}
 
 % Crotchet Rest
 \newcommand*{\crotchetRestBase}[1][]{%
@@ -45,6 +46,6 @@
 	% Calculate effective scale/raise and the hspace for the dot
 	\lilySetDotOptions[#1]{0}{0}{-0.5}%
 	% Print the rest and then the dot
-	\crotchetRest[#1]\lilyPrintDot%
+	\crotchetRest*[#1]\lilyPrintDot%
 }
 
