@@ -251,6 +251,23 @@ If you want you can now simply enclose this definition in a \cmd{newcommand}  to
 However you are encouraged to follow our guidelines on how to create predefined commands as explained in \fref{subsec:howto_predefined_commands}.
 If you manage to write a command that you find useful for others also please submit it to us -- or even better: if you figured out how to create commands in general, please join us.
 
+\subsection{Dotted symbols}
+\label{subsec:dotted_symbols}
+With notes and rests you will find \cmd{...Dotted} versions of commands.
+If you use significant scaling factors for the commands you have to take care about the gap between the glyph and the dot, because this sometimes doesn't scale too well.
+Unfortunately one can influence neither the gap nor the scaling and raise factors of the dot independently.
+We have worked hard to enable the designer of a command to create rules how to scale the gap, but you still may run into problems here. 
+In such a case you will have to either change the predefined command in the library or just create the dotted symbol from scratch.
+
+\cmd{...Dotted} commands have starred and unstarred versions.
+
+You can write arbitrarily dotted symbols by adding \cmd{lilyPrintMoreDots} after the dotted symbol. 
+This command uses the existing dot settings (scale and raise) and prints another dot. 
+By default it has a gap of 0.25ex, but you can override this by passing a number as an optional argument, which is interpreted as \emph{ex}.
+For example if you take the command \cmd{halfNoteRestDotted}, which prints a dotted half note rest: \halfNoteRestDotted  you can easily add more dots through \cmd{halfNoteRestDotted*\textbackslash lilyPrintMoreDots}: \halfNoteRestDotted*\lilyPrintMoreDots (note the use of the starred and unstarred versions).
+
+Please note that you should only call \cmd{lilyPrintMoreDots} immediately after calling a \cmd{...Dotted} command. Otherwise you may get surprising results or even errors because the underlying key-value variables are inititialized wrongly or not at all.
+
 \subsection{Optical size}
 \label{subsec:optical_size}
 The \emmentaler fonts come in a set of eight \enquote{optical sizes}.
@@ -379,19 +396,21 @@ See \fref{fig:def_noteheads}.
 \label{subsec:special_noteheads}
 \glyphlist{\emmentaler Special Notehead glyphs}{spc_noteheads}{lily-088c978c}
 The implementation of Special Noteheads hasn't started yet.
-See \fref{fig:spc_noteheads}.
+See \fref{fig:spc_noteheads} for all available glyphs.
 
 \subsection{Rests}
 \label{subsec:rests}
+\glyphlist{\emmentaler Rest glyphs}{rests}{lily-40869867}
 
-Implementation of rest glyphs has only begun.
 Rests are usually available in starred and unstarred versions.
-Please note that the dotted versions don't have the optional argument implemented yet -- this means you can only use them \enquote{as-is}.
+See \fref{tab:rests} for the implemented commands and \fref{fig:rests} for all available glyphs along with their glyph names.
+
+For more information on how to use \cmd{lilyPrintMoreDots} to produce multiply dotted rests please see \fref{subsec:dotted_symbols}.
 
 \begin{reftable}{Rests}{rests}
 \halfNoteRest & \cmd{halfNoteRest} & Half note Rest\\
 \halfNoteRestDotted & \cmd{halfNoteRestDotted} & Dotted half note Rest\\
-\halfNoteRestDotted\lilyPrintMoreDots & \cmd{halfNoteRestDotted}\cmd{lilyPrintMoreDots}\\
+\halfNoteRestDotted*\lilyPrintMoreDots & \cmd{halfNoteRestDotted*}\cmd{lilyPrintMoreDots}\\
 \crotchetRest & \cmd{crotchetRest} & Crotchet Rest\\
 \crotchetRestDotted & \cmd{crotchetRestDotted} & Dotted Crotchet Rest\\
 \end{reftable}
@@ -424,6 +443,15 @@ There are a few predefinied commands (see \fref{tab:combinedDynLetters}) that ar
 
 \subsection{Scripts}
 \label{subsec:scripts}
+\glyphlist{\emmentaler Script glyphs (part 1)}{scriptsI}{lily-20e8632d-1}
+\glyphlist{\emmentaler Script glyphs (part 2)}{scriptsII}{lily-20e8632d-2}
+
+Script implementation has just begun. For all available glyphs see \fref{fig:scriptsI} and \fref{fig:scriptsII}, for the implemented glyphs \fref{tab:scripts} and .
+
+You may find it strange that script glyphs sometimes seem to print too far to the left, clashing with the preceding text.
+This is due to the fact that in musical engraving scripts are centered relative to the note they belong to.
+Therefore you often have to add extra space before the glyph if you access them directly.
+The predefined commands should of course have this already built in.
 
 \begin{reftable}{Scripts}{scripts}
 \fermata & \cmd{fermata} & Fermata\\
