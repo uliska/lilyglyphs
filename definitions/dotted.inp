@@ -1,0 +1,71 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This file is part of the lilyglyphs package %
+% and defines one subset of glyphs            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% logic for dotted glyphs %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Dot, e.g. necessary to create dotted notes
+\newcommand*{\lilyDot}[1][]{%
+	\setkeys{lilyDesignOptions}{scale=1.5,raise=0}%
+	\lilyPrint[#1]{\lilyGetGlyph{dots.dot}}%
+}
+
+\makeatletter
+
+% Calculate the space between a glyph and a dot
+% based on the 2nd order function
+% f(x) = (1/n * x^2) - 1/n + (m * x) - m + o
+% where
+% #1: scaling factor x
+% #2: curve factor n
+% #4 line steepness m
+% #3 offset o (offset of 0 results in a dotSpace of 0 at scale=1).
+% The result is supposed to be taken as ex and stored in \lilyDotSpaceF
+% which is used by \lilyDotSpace
+\newcommand*{\lilyCalcDotSpace}[4]{%
+	\pgfmathsetmacro{\lilyDotSpaceF}{%
+		#1 * #1% x^2
+		* #2 - #2%
+		+ #1 * #3 - #3 + #4}%
+}
+
+% Interpret the different options to be used for printing a dot
+% The optional arguments (passed as #1)given by the user are taken into account,
+% then the scaling and raise are calculated using the design options 
+% from the calling predefined command.
+% Finally the space between the glyph and the dot is calculated using the
+% 2nd order function \lilyCalcDotSpace:
+% (1/n * scale^2) - 1/n + (1/m * scale) - 1/m + o
+% #2: curve factor n
+% #4 line steepness m
+% #3 offset o (offset of 0 results in a dotSpace of 0 at scale=1).
+
+\newcommand*{\lilySetDotOptions}[4][]{%
+	% Initialize the user's command option in case he didn't provide them
+	\setkeys{lilyCmdOptions}{scale=1,raise=0}%
+	% process the optional argument to access the values
+	\setkeys{lilyCmdOptions}{#1}%
+	% calculate optional arguments for the dot,
+	% based on "design options" and the given arguments
+	\pgfmathsetmacro{\lilyDotScale}{\lilyCmdOptions@scale * \lilyDesignOptions@scale}%
+	\pgfmathsetmacro{\lilyDotRaise}{\lilyCmdOptions@raise + \lilyDesignOptions@raise}%
+	% calculate the space between the rest and the dot
+	\lilyCalcDotSpace{\lilyCmdOptions@scale}{#2}{#3}{#4}%
+}
+\makeatother
+
+% Insert a space between a glyph and a dot
+% \lilyCalcDotSpace or better \lilySetDotOptions should have been called 
+% immediately before \lilyDotSpace,
+% otherwise the result could be undefined
+\newcommand*{\lilyDotSpace}{\hspace*{\lilyDotSpaceF ex}}
+
+% Print the actual dot, 
+% use the settings defined in \lilySetDotOptions
+\newcommand*{\lilyPrintDot}{\lilyDotSpace\lilyDot[raise=\lilyDotRaise,scale=\lilyDotScale]}
+
+
+

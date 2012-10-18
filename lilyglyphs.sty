@@ -34,14 +34,9 @@
 % include the basic functionality to select and print glyphs
 \input{definitions/genericAccess.inp}
 
-%%%%%%%%%%%%%%%
-% Misc. tools %
-
-% Dot, e.g. necessary to create dotted notes
-\newcommand*{\lilyDot}[1][]{%
-	\setkeys{lilyDesignOptions}{scale=1.5,raise=0}%
-	\lilyPrint[#1]{\lilyGetGlyph{dots.dot}}%
-}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% include logic and functionality to create dotted symbols
+\input{definitions/dotted.inp}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

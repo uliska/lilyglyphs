@@ -20,8 +20,16 @@ This is normal text \lilyGlyph{rests.1o} \lilyDot around the dotted rest.
 
 This is normal text\halfNoteRestUp* TArount around the dotted rest.
 
-This is normal text \halfNoteRestUpDotted . TArount around the dotted rest.
 
+This is normal text \halfNoteRestUpDotted[scale=3,raise=-2] . TArount around the dotted rest.
+
+This is a dotted crotchet rest: 
+\crotchetRestDotted[scale=0.5] 
+\crotchetRestDotted[scale=1]
+\crotchetRestDotted[scale=1.5]
+\crotchetRestDotted[scale=2]
+\crotchetRestDotted[scale=3.5]
+\crotchetRestDotted[scale=5]
 
 this is a \crotchetRest in plain text and before a period \crotchetRest* !
 
@@ -48,9 +56,9 @@ New accidental \sharpSlashslashStemstemstem and \sharpSlashslashStemstemstem*,.\
 	This is a normal Time signature: \lilyTimeSignature{3}{4}.
 	
 	As the plus sign is also directly accessible you can even
-	write \lilyTimeSignature{3\,+\,7}{8+4} easily :-)
-
-
+	write \lilyTimeSignature{3+7}{8+4} easily :-)
+	
+	One more option: \lilyTimeSignature{3}{8}\lilyText{+}\lilyTimeSignature{7}{4}. 
 	
 \section*{PGF/tikz}
 
@@ -79,9 +87,6 @@ Neuer Absatz, zusammen mit einem Notenkopf:
 
 One sees: It is principally possible to combine graphical and textual elements with pgf/tikz,
 but we definitely have to work on it some more: Especially it isn't scalable so far (explicitely or implicitely following text size)
-	write \lilyTimeSignature{3+7}{8+4} easily :-)
-	
-	One more option: \lilyTimeSignature{3}{8} \lilyText{+} \lilyTimeSignature{7}{4}. (note the space that the formula environment makes around it. Maybe this isn't the best approach?
 
 	%\lilyNumber
 	

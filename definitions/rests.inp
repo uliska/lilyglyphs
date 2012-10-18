@@ -15,10 +15,15 @@
 \newcommand*{\halfNoteRestUp}[1][]{\halfNoteRestUpBase[#1] }
 \WithSuffix\newcommand\halfNoteRestUp*[1][]{\halfNoteRestUpBase[#1]\hspace{0.35ex}}
 
+
 % Dotted half note rest
-% TODO: this can't be scaled yet
-\newcommand{\halfNoteRestUpDotted}{%
-	\halfNoteRestUp \lilyDot[raise=0.2,scale=0.9]
+\newcommand*{\halfNoteRestUpDotted}[1][]{%
+	% define the optional arguments for the dot
+	\setkeys{lilyDesignOptions}{scale=0.8,raise=0.2}%
+	% Calculate effective scale/raise and the hspace for the dot
+	\lilySetDotOptions[#1]{0.05}{0.5}{0}%
+	% Print the rest and then the dot
+	\halfNoteRestUp[#1]\lilyPrintDot%
 }
 
 % Crotchet Rest
@@ -29,4 +34,13 @@
 \newcommand*{\crotchetRest}[1][]{\crotchetRestBase[#1] }
 \WithSuffix\newcommand\crotchetRest*[1][]{\crotchetRestBase[#1]\hspace{0.1ex}}
 
+% Dotted crotched rest
+\newcommand*{\crotchetRestDotted}[1][]{%
+	% define the optional arguments for the dot
+	\setkeys{lilyDesignOptions}{scale=0.8,raise=0.2}%
+	% Calculate effective scale/raise and the hspace for the dot
+	\lilySetDotOptions[#1]{0}{0}{-0.5}%
+	% Print the rest and then the dot
+	\crotchetRest[#1]\lilyPrintDot%
+}
 
