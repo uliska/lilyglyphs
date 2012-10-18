@@ -65,7 +65,21 @@
 
 % Print the actual dot, 
 % use the settings defined in \lilySetDotOptions
-\newcommand*{\lilyPrintDot}{\lilyDotSpace\lilyDot[raise=\lilyDotRaise,scale=\lilyDotScale]}
+\newcommand*{\lilyPrintDot}{\lilyDot[raise=\lilyDotRaise,scale=\lilyDotScale]}
+
+% Print another dot, for multiply dotted symbols.
+% It uses the dot settings from the previous command.
+% So if you encounter strange settings, make sure you have called
+% a predefined command of a dotted symbol immediately before.
+% If no predefined command has been called at all
+% you will see an error message because the key-value pairs 
+% haven't been initialized yet.
+% It uses a different way to determine the space between dots.
+% It defaults to 0.25 ex, but you can optionally pass it
+% a number that is interpreted as ex.
+\newcommand*{\lilyPrintMoreDots}[1][0.25]{%
+	\hspace*{#1 ex}\lilyPrintDot
+}
 
 
 
