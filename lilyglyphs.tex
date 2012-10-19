@@ -655,13 +655,11 @@ The command just passes the optional argument to \cmd{lilyDynamics}, so you can 
 This example is meant to encourage you to experiment with the definition of predefined commands. This is pretty much the same as usual when inventing new commands. You just have to deal with the design time options, the optional argument and getting the correct input as the second argument.
 
 If you had created this command you would have noticed that you can't get any whitespace after it -- it is silently ignored.
-So you would want to create starred and unstarred versions of the command, which works as in the first example.
+So you would want to create starred and unstarred versions of the command, which works as in the first example. 
+In \lilyglyphs{} this is in fact implemented this way.
 
-You will note that we didn't write a starred version of the command.
-This is because \cmd{lilyDynamics} internally calls \cmd{lilyText}, and this behaves differently. 
-Commands that pass their content argument as 'plain text' don't print a trailing space on their own, but respect any whitespace you write after the command.
-So -- as a rule of thumb -- you can assume that you need to write the starred and unstarred versions of commands when you pass the content as a glyph or by number, but you don't when you pass an ordinary string.
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+% Appendix: Licenses
 
 \appendix
 \small
