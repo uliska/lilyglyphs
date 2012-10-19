@@ -465,11 +465,23 @@ See \fref{tab:rests} for the implemented commands and \fref{fig:rests} for all a
 For more information on how to use \cmd{lilyPrintMoreDots} to produce multiply dotted rests please see \fref{subsec:dotted_symbols}.
 
 \begin{reftable}{Rests}{rests}
-\halfNoteRest & \cmd{halfNoteRest} & Half note Rest\\
-\halfNoteRestDotted & \cmd{halfNoteRestDotted} & Dotted half note Rest\\
-\halfNoteRestDotted*\lilyPrintMoreDots & \cmd{halfNoteRestDotted*}\cmd{lilyPrintMoreDots}\\
+\wholeNoteRest & \cmd{wholeNoteRest} & Whole Note Rest\\
+\wholeNoteRestDotted & \cmd{wholeNoteRestDotted} & DottedWhole Note Rest\\
+\midrule
+\halfNoteRest & \cmd{halfNoteRest} & Half Note Rest\\
+\halfNoteRestDotted & \cmd{halfNoteRestDotted} & Dotted Half Note Rest\\
+	\halfNoteRestDotted*\lilyPrintMoreDots & 
+	\cmd{halfNoteRestDotted*}\cmd{lilyPrintMoreDots} &
+	Example of Double Dotted Rest\\
+\midrule
 \crotchetRest & \cmd{crotchetRest} & Crotchet Rest\\
 \crotchetRestDotted & \cmd{crotchetRestDotted} & Dotted Crotchet Rest\\
+\midrule
+\quaverRest & \cmd{quaverRest} & Quaver Rest\\
+\quaverRestDotted & \cmd{quaverRestDotted} & Dotted Quaver Rest\\
+\midrule
+\semiquaverRest & \cmd{semiquaverRest} & Semiquaver Rest\\
+\semiquaverRestDotted & \cmd{semiquaverRestDotted} & Dotted Semiquaver Rest\\
 \end{reftable}
 
 \subsection{Dynamic Text}
