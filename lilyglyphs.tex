@@ -661,6 +661,107 @@ In \lilyglyphs{} this is in fact implemented this way.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 % Appendix: Licenses
 
+\subsubsection{Create Dotted Symbols}
+\label{subsubsec:dotted_symbols}
+
+It is not exactly trivial to  create dotted symbols as predefined commands.
+Of course you can always use \cmd{lilyDot} to print LilyPond's dot glyph, but if you want to create commands that combine a glyph and one ore more dots you encounter two difficulties:
+You can't apply the optional arguments independently on the two items, and there may be issues with the scaling and the gap between the two glyphs.
+
+There is some infrastructure in \lilyglyphs{} (defined in the file dotted.inp) to faciliate dealing with dotted symbols, but this implementation may not be completely satisfactory so far.
+Great care has been taken to hide as much complexity as possible in the mentioned file, in order to make the definition of actual commands as clean and concise as possible.
+
+Let's analyze the implementation of a dotted half note rest:
+\begin{verbatim}
+% Dotted half note rest
+\newcommand*{\halfNoteRestDottedBase}[1][]{%
+    % define the optional arguments for the dot
+    \setkeys{lilyDesignOptions}{scale=0.8,raise=0.2}%
+    % Calculate effective scale/raise and the hspace for the dot
+    \lilySetDotOptions[#1]{0.05}{0.5}{0}%
+    % Print the rest and then the dot
+    \halfNoteRest*[#1]\lilyDotSpace\lilyPrintDot
+}
+\end{verbatim}
+
+As you will note the command is a \texttt{...Base} command that will be have to be complemented by the starred and unstarred versions, but we will silently ignore this issue here (see \fref{subsubsec:commands_emmentaler-glyphs}).
+
+The command takes the usual optional argument that can contain \texttt{<key=value>} pairs.
+This applies to the dotted symbol as a whole.
+Please note that in the last line the predefined command \cmd{halfNoteRest[\#1]} is called and passed the optional argument.
+You can only use this technique of creating dotted symbols on top of correctly implemented predefined commands.
+
+The first thing you have to do is to define the DesignTimeOptions for the dot. They are relative to the original design of \cmd{lilyDot}, and you have to adjust them so the dot suits the main glyph in its size and vertical position (you can ignore the horizontal spacing for now):
+\begin{verbatim}
+    % define the optional arguments for the dot
+    \setkeys{lilyDesignOptions}{scale=0.8,raise=0.2}%
+\end{verbatim}
+You should always set these options because otherwise you might get strange results or error messages.
+
+The next step is to call a quite complex command \cmd{lilySetDotOptions} that sets several options for the dot:
+\begin{verbatim}
+    % Calculate effective scale/raise and the hspace for the dot
+    \lilySetDotOptions[#1]{0}{0.5}{0.4}%
+\end{verbatim}
+This command takes one optional and three mandatory arguments.
+The optional argument is just the one that is written in the \LaTeX{} document and that is passed into the function. The remaining three arguments control the horizontal spacing between the main glyph and the dot.
+As we now have two individual elements we have to control the gap between them explicitely as it doesn't scale relative to the \texttt{scale} argument by itself.
+The relation between the \texttt{scale} factor and the horizontal gap can be understood as a curve (mathematically spoken: a 2nd order function).
+
+The first (mandatory) argument sets the intensity of the curve.
+A value of 0 will result in a linear relation (no curve at all), that is when doubling \texttt{scale} the gap will be exactly twice as wide.
+Positive values will result in larger gaps for larger \textbf{scale}s.
+As this is a quadratic function you will want to start with very small values or 0.
+
+The second argument sets the general (linear) steepness of the curve.
+A value of 1 means that by increasing \texttt{scale} by 1 the gap will be wider by 1\emph{ex}.
+0.5 seems a good starting point for this argument.
+
+The last argument is an offset in \emph{ex} for the whole curve which is independent from the scaling.
+You can use it to accomodate specifically wide or narrow glyphs.
+
+\cmd{lilySetDotOptions} takes all these informations, calculates some settings for the dot an stores them in internal variables that can be used by subsequent commands.
+Please understand that they may be partially or totally overwritten by the next use of \emph{any} predefined command.
+So you have to call this command immediately before actually printing the dot, otherwise it may or may not provide satisfying results.
+
+The final line actually calls three commands:\\
+\cmd{halfNoteRest*[\#1]} prints the already defined main glyph.
+Note the use of the starred version, because the trailing space of the unstarred version would make it much harder to determine the parameters for the gap.\\
+\cmd{lilyDotSpace} prints a horizontal space that is determined by the previous call to \cmd{lilySetDotOptions}.\\
+\cmd{lilyPrintDot} finally prints the dot with the settings just defined.
+
+\begin{verbatim}
+    % Print the rest and then the dot
+    \halfNoteRest*[#1]\lilyDotSpace\lilyPrintDot
+\end{verbatim}
+
+This was an explanation from the perspective of designing new predefined commands.
+If you want to know how this is implemented internally, please look at the generously commented file \texttt{definitions/dotted.inp}.
+
+\subparagraph*{Known issues and warning:} 
+One issue that hasn't been addressed yet is the vertical placement of the dot when scaled.
+The dot is positioned relatively to the baseline of the text, and the main glyph may have a different center point. 
+So when scaling the main glyph may seem to behave differently from the dot.
+
+
+\subsubsection{Create Multiply Dotted Symbols}
+\label{subsubsec:multiply_dotted_symbols}
+
+There is no need to define additional versions of glyphs with more than one dot.
+For this purpose we have implemented the command \cmd{lilyPrintMoreDots}.
+This prints a dot with the same characteristics as the preceding one from a dotted command (but remember that there shouldn't be any calls to other predefined commands in betwen).
+The horizontal gap between the dots scales linearly with a default of 0.25\emph{ex} per unit of \texttt{scale}.
+But if you pass an number as an optional argument this is interpreted as a different gap in \emph{ex}.
+This command is available in a starred and an unstarred version.
+Use the unstarred version when you need a space after the symbol, the starred one when you have a punctuation or another dot after it.
+
+\noindent \cmd{halfNoteRestDotted*}\cmd{lilyPrintMoreDots*}! 
+\halfNoteRestDotted*\lilyPrintMoreDots*!\\
+\cmd{halfNoteRestDotted*[scale=1.5]}\cmd{lilyPrintMoreDots} and 
+\halfNoteRestDotted*[scale=1.5]\lilyPrintMoreDots and 
+
+
+\pagebreak
 \appendix
 \small
 
