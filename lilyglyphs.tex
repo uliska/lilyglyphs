@@ -650,8 +650,12 @@ While the other generic commands only print single glyphs, \cmd{lilyText} can pr
 In some cases this may however be necessary.
 In the given example of \cmd{lilyRFZ} we need to apply a little bit of extra space between the \lilyDynamics{r} and the \lilyDynamics{z}.
 We see that we can insert a \cmd{hspace} command between the letters without any problems.
-But as it turns out \LaTeX{} may decide to insert a line break now, so we have to additionally enclose this call to \cmd{lilyDynamics} in a \cmd{mbox}.
-The behaviour with the optional argument and with an additional starred version of the command is the same as for the first example.
+But as it turns out \LaTeX{} may now decide to insert a line break at any time, so we have to additionally enclose this call to \cmd{lilyDynamics} in a \cmd{mbox}.
+The command just passes the optional argument to \cmd{lilyDynamics}, so you can use these arguments as usual.
+This example is meant to encourage you to experiment with the definition of predefined commands. This is pretty much the same as usual when inventing new commands. You just have to deal with the design time options, the optional argument and getting the correct input as the second argument.
+
+If you had created this command you would have noticed that you can't get any whitespace after it -- it is silently ignored.
+So you would want to create starred and unstarred versions of the command, which works as in the first example.
 
 You will note that we didn't write a starred version of the command.
 This is because \cmd{lilyDynamics} internally calls \cmd{lilyText}, and this behaves differently. 
