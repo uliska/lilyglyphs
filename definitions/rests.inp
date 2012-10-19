@@ -48,9 +48,9 @@
 	% define the optional arguments for the dot
 	\setkeys{lilyDesignOptions}{scale=0.8,raise=0.2}%
 	% Calculate effective scale/raise and the hspace for the dot
-	\lilySetDotOptions[#1]{0.05}{0.5}{0}%
+	\lilySetDotOptions[#1]{0}{0.5}{0.4}%
 	% Print the rest and then the dot
-	\halfNoteRest[#1]\lilyDotSpace\lilyPrintDot
+	\halfNoteRest*[#1]\lilyDotSpace\lilyPrintDot
 }
 \newcommand*{\halfNoteRestDotted}[1][]{\halfNoteRestDottedBase[#1] }
 \WithSuffix\newcommand\halfNoteRestDotted*[1][]{\halfNoteRestDottedBase[#1]}
