@@ -39,6 +39,10 @@
 \renewcommand*{\natural}[1][]{\naturalBase[#1] }
 \WithSuffix\newcommand\natural*[1][]{\naturalBase[#1]}
 
+%%%%%%%%
+% flats
+%%%%%%%%
+
 
 % "accidentals.flat"
 \newcommand*{\flatBase}[1][]{%

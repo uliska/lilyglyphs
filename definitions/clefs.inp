@@ -31,6 +31,7 @@
 % Clef glyphs %
 %%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%
 % \treble clef
 \newcommand*{\clefGBase}[1][]{%
 	\setkeys{lilyDesignOptions}{scale=1.2,raise=0.25}%
@@ -62,6 +63,7 @@
 \newcommand*{\clefFInline}[1][]{\clefFInlineBase[#1] }
 \WithSuffix\newcommand\clefFInline*[1][]{\clefFInlineBase[#1]}
 
+%%%%%%%%%%%%
 % \alto clef
 \newcommand*{\clefCBase}[1][]{%
 	\setkeys{lilyDesignOptions}{scale=1.1,raise=0.6}%

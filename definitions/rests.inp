@@ -57,6 +57,7 @@
 
 %%%%%%%%%%%%%%%%%
 % Half note rests
+%%%%%%%%%%%%%%%%%
 
 % "rests.1o - half note rest upwards"
 \newcommand*{\halfNoteRestBase}[1][]{%
@@ -81,6 +82,7 @@
 
 %%%%%%%%%%%%%%%%%
 % Crotchet Rests
+%%%%%%%%%%%%%%%%%
 
 % Crotchet Rest
 \newcommand*{\crotchetRestBase}[1][]{%
@@ -100,8 +102,9 @@
 	\crotchetRest*[#1]\lilyPrintDot%
 }
 
-%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%
 % Quaver Rests
+%%%%%%%%%%%%%%%
 
 % Quaver Rest
 \newcommand*{\quaverRestBase}[1][]{%
@@ -124,8 +127,9 @@
 \WithSuffix\newcommand\quaverRestDotted*[1][]{\quaverRestDottedBase[#1]}
 
 
-%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%
 % Semiquaver Rests
+%%%%%%%%%%%%%%%%%%
 
 % Semiquaver Rest
 \newcommand*{\semiquaverRestBase}[1][]{%
@@ -135,7 +139,7 @@
 \newcommand*{\semiquaverRest}[1][]{\semiquaverRestBase[#1] }
 \WithSuffix\newcommand\semiquaverRest*[1][]{\semiquaverRestBase[#1]}
 
-% Dotted crotched rest
+% Dotted crotchet rest
 \newcommand*{\semiquaverRestDottedBase}[1][]{%
 	% define the optional arguments for the dot
 	\setkeys{lilyDesignOptions}{scale=0.8,raise=0.2}%
