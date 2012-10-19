@@ -174,17 +174,8 @@ This is still a major drawback but \lilyglyphs will of course have such objects 
 
 The \emmentaler fonts are accessed through the \texttt{fontspec} package, and \lilyglyphs therefore relies on a \LaTeX{} distribution supporting \texttt{fontspec}. 
 It was written using \XeLaTeX, but should also work with LuaLaTeX -- although this hasn't been tested%
-\footnote{Principally it is possible to extend the functionality so it would also work with plain \LaTeX, but as the package maintainer has neither experience nor active interest in this area this will only be implemented if there are volunteers who join us}%
+\footnote{Principally it is possible to extend the functionality so it would also work with plain \LaTeX, but as the package maintainer has neither experience nor active interest in this area this will only be implemented if there are volunteers who join us.}%
 .
-
-Of course the fonts have to be accessible to \texttt{fontspec}. 
-Please refer to the \texttt{fontspec} documentation on how to make fonts visible to it. 
-
-\textit{On a Linux system it may be enough to copy the \emmentaler font files to your home directory's .fonts directory or in a new subdirectory of it, possibly running \texttt{fc-cache} afterwards to update the fontconfig cache. 
-The font files are located in the usr/share/lilypond/current/fonts/otf subdirectory of your LilyPond installation. 
-Eight .otf files (representing different optical sizes, see below) are also included in the distribution archive of \lilyglyphs,}
-
-\medskip
 The \lilyglyphs package was initiated and is maintained by Urs Liska, and is hosted as a git repository on GitHub\footnote{\url{http://www.github.com/uliska/lilyglyphs} -- Contact: \url{mailto:git@ursliska.de}}.
 If you would like to participate in its development, don't hesitate to contact us.
 
@@ -202,6 +193,20 @@ You can always combine commands (or glyphs created through generic access as sho
 But it is better to follow the documentation for package designers to create such commands in the way suggested also for package designers in \fref{subsec:howto_predefined_commands}.
 If you feel you have specific commands that would be a valuable addition to the package please don't hesitate to contact us.
 
+\subsection{Installation}
+\label{subsec:installation}
+As the procedures necessary to make this package work for you may vary depending on your operating system and \LaTeX{} distribution, we can only give you some general hints on how to set up your system.
+
+First of all you have to make the package file (lilyglyphs.sty) available to your \LaTeX{} distribution. \textit{The usual way to achieve this is to extract the archive to a place in the \LaTeX{} search path. This might for example be a subfolder of \texttt{texmf/tex/latex} in your home directory. On Linux you'd have to run \texttt{texhash ~/texmf} afterwards to update \LaTeX's cache.}
+
+Of course the fonts have to be accessible to \texttt{fontspec}. 
+Please refer to the \texttt{fontspec} documentation on how to make fonts visible to it. 
+
+\textit{On a Linux system it may be enough to copy the \emmentaler font files to your home directory's .fonts directory or in a new subdirectory of it, possibly running \texttt{fc-cache} afterwards to update the fontconfig cache. 
+The font files are located in the usr/share/lilypond/current/fonts/otf subdirectory of your LilyPond installation. 
+Eight .otf files (representing different optical sizes, see \fref{subsec:optical_size}) are also included in the distribution archive of \lilyglyphs}.
+
+If you experience any issues during installation that would call for diferrent instructions then please provide us with feedback.
 
 \section{Usage}
 \label{sec:usage}
