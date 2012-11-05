@@ -1,21 +1,34 @@
 \documentclass{scrartcl}
 \usepackage{lilyglyphs}
 
-\newcommand{\quaver}{\includegraphics[scale=1]{quaver-preview}\hspace*{-0.5ex}}
 \begin{document}
-This is a text with a \quaver.
 
-\the\fontdimen6\font\\
+
+Normal font size: \quaver
+
+\large
+large font size: \quaver
+
 \Large
-\the\fontdimen6\font
+Large font size: \quaver
 
+\LARGE
+LARGE  font size: \quaver
 
-	\normalsize 
-	\def\normalpointsize{\the\fontdimen6\font}
-
-
-\normalpointsize
+\Huge
+Huge font size: \quaver
 
 Test
 
+\bigskip
+
+Paragraph with \quaver*.
+
+\Large
+Large paragraph with \quaver and space.
+
+\scriptsize
+Scriptsize paragraph with \quaver and space.
+
+%Next paragraph with \quavertest and space.
 \end{document}
