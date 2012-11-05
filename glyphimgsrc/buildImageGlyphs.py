@@ -138,7 +138,7 @@ def read_entries():
     """Parses the input source file and extracts glyph entries"""
     for i in range(len(definitions_file)):
         if '% lilyglyphs entry' in definitions_file[i]:
-            read_entry(i)
+            i = read_entry(i)
 
 
 def read_entry(i):
@@ -150,6 +150,13 @@ def read_entry(i):
     while True:
         i += 1
         cur_line = definitions_file[i].strip()
+        # check for 'protected' entries that shouldn't be processed newly
+        if '%%protected' in cur_line:
+            is_protected = True
+            i += 1
+            cur_line = definitions_file[i].strip()
+        else:
+            is_protected = False
         first_line = cur_line.find('%{')
         if first_line >= 0:
             cur_line = cur_line[first_line + 3 :]
@@ -163,6 +170,9 @@ def read_entry(i):
     # read command name
     cur_line = definitions_file[i].strip()
     command_name = cur_line[: cur_line.find('=') - 1]
+    if is_protected:
+        print '| protected and skipped: ' + command_name
+        return i
     print '- ' + command_name
     # read actual command until we find a line the begins with a closing curly bracket
     i += 1
@@ -171,6 +181,7 @@ def read_entry(i):
         lilySrc.append(definitions_file[i])
         i += 1
     lily_cmds[command_name] = [comment,  lilySrc]
+    return i
 
 
 def read_input_file():
