@@ -43,6 +43,56 @@
 	}%
 }
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Helper functions for \lilyPrintImage below
+
+% Calculate the (point) ratio between the current font size
+% and the size of \normalsize fonts.
+% This is used to scale the output of \lilyPrintImage
+% as images aren't scaled automatically with font size commands.
+\makeatletter
+\newcommand*{\currentFontRatio}{%
+	% store point size of current font
+	\xdef\currentFontSize{\f@size}%
+	{%
+		% Temporarily switch to normal size
+		\normalsize%
+		% and store normal point size
+		\xdef\normalFontSize{\f@size}%
+	}%
+	% Calculate ratio and store the value
+	\pgfmathsetmacro{\getCurrentFontRatio}{%
+		\currentFontSize / \normalFontSize}%
+}
+\makeatother
+
+% Apply the scaling factor that is necessary to
+% accomodate the current font size.
+% The accumulated scaling factor of the other sources
+% is taken into account through \lilyEffectiveScale.
+\newcommand*{\lilyScaleImage}{%
+	\currentFontRatio%
+	\pgfmathsetmacro{\lilyImageEffectiveScale}{%
+		\lilyEffectiveScale * \getCurrentFontRatio}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Load 'glyph' from an image (preferrably PDF).                 %
+% Used for items that are created using LilyPond itself         %
+% Users aren't intended to use it directly                      %
+% #1 are key-value options
+% #2 the content to be printed
+\newcommand*{\lilyPrintImage}[2][]{%
+	% interpret optional argument
+	\interpretLilyOptions{#1}%
+	% determine scaling factor to accomodate the current font size 
+	% (as images don't scale automatically with the font)
+	\lilyScaleImage%
+	% Print the image in a raisebox
+	\raisebox{{\lilyEffectiveRaise}ex}{%
+		\includegraphics[scale=\lilyImageEffectiveScale]{#2}%
+	}%
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Generic command(s) to select a LilyPond Glyph %
@@ -92,3 +142,14 @@
 	\lilyPrint[#1]{#2}%
 }
 
+% Load 'glyph' from an image (preferrably PDF).
+% Used for items that are created using LilyPond itself.
+\newcommand*{\lilyImage}[2][]{%
+	% set defaults
+	\setkeys{lilyDesignOptions}{scale=1, raise=0}%
+	% interpret optional argument
+	\interpretLilyOptions{#1}%
+	\raisebox{{\lilyEffectiveRaise}ex}{%
+		\includegraphics[scale=\lilyEffectiveScale]{#2}%
+	}%
+}
