@@ -135,10 +135,11 @@ def main(argv):
     print ''
     print 'Clean up unused files'
     cleanup_lily_files()
+    
+    print ''
+    print 'Writing LaTeX templates'
+    write_latex_templates()
 
-    # move lily-files
-    # cleanup unused files
-    # write LaTeX templates
 
 def cleanup_lily_files():
     """Removes unneccessary files from LilyPond compilation,
@@ -263,6 +264,22 @@ def write_file_info(name, fout):
     fout.write('% on ' + str(datetime.date.today()))
     fout.write('\n\n')
 
+def write_latex_templates():
+    """Writes templates for the commands in a new LaTeX file.
+    These should manually be moved to the appropriate .inp files
+    in lilyglyphs"""
+    
+    """    % Quaver with stem up
+\newcommand*{\quaverBase}[1][]{%
+	\setkeys{lilyDesignOptions}{scale=0.9,raise=-0.2}%
+	\lilyPrintImage[#1]{quaver}%
+	\hspace*{-0.5ex}%
+}
+\newcommand*{\quaver}[1][]{\quaverBase[#1] }
+\WithSuffix\newcommand\quaver*[1][]{\quaverBase[#1]}
+"""
+
+    
 def write_lily_src_files():
     for command_name in lily_cmds:
         print '- ' + command_name
