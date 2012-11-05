@@ -1,0 +1,21 @@
+\documentclass{scrartcl}
+\usepackage{lilyglyphs}
+
+\newcommand{\quaver}{\includegraphics[scale=1]{quaver-preview}\hspace*{-0.5ex}}
+\begin{document}
+This is a text with a \quaver.
+
+\the\fontdimen6\font\\
+\Large
+\the\fontdimen6\font
+
+
+	\normalsize 
+	\def\normalpointsize{\the\fontdimen6\font}
+
+
+\normalpointsize
+
+Test
+
+\end{document}
