@@ -36,7 +36,6 @@ halfNote = {
 }
   
 % lilyglyphs entry
-%%protected
 %{ crotchet with upward stem %}
 crotchet = {
   g'4
