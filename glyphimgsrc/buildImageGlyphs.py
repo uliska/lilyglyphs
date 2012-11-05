@@ -24,7 +24,7 @@
 #                                                                        #
 # ########################################################################
 
-import os,  sys,  getopt,  datetime
+import os, sys,  getopt,  datetime,  subprocess
 
 # ################
 # Global variables
@@ -127,12 +127,53 @@ def main(argv):
     print ''
     print 'Write .ly files for each entry:'
     write_lily_src_files()
+    
+    print ''
+    print 'Compile .ly files for each entry:'
+    compile_lily_files()
+    
+    print ''
+    print 'Clean up unused files'
+    cleanup_lily_files()
 
-    # compile lily-files
     # move lily-files
     # cleanup unused files
     # write LaTeX templates
 
+def cleanup_lily_files():
+    """Removes unneccessary files from LilyPond compilation,
+    rename and remove the preview PDF files to the right directory."""
+    dir_in = 'processed/'
+    dir_out = '../glyphimages/'
+    file_list = os.listdir(dir_in)
+    
+    print 'Remove intermediate files'
+    for file in file_list:
+        dummy, extension = os.path.splitext(file)
+        if not extension in ['.pdf', '.ly']:
+            os.remove(dir_in + file)
+    
+    print 'Clean up:'
+    for command_name in lily_cmds:
+        print '- ' + command_name
+        # remove full-page pdf
+        os.remove(dir_in + command_name + '.pdf')
+        # rename/move small 'preview' pdf
+        os.rename(dir_in + command_name + '.preview.pdf',  dir_out + command_name + '.pdf')
+    
+    
+def compile_lily_files():
+    """Compiles all newly written .ly files"""
+    for command_name in lily_cmds:
+        args = []
+        args.append("lilypond")
+        args.append("-o")
+        args.append("processed")
+        args.append("-dpreview")
+        args.append("-dno-point-and-click")
+        args.append("processed/" + command_name + ".ly")
+        subprocess.call(args)
+        print ''
 
 def read_entries():
     """Parses the input source file and extracts glyph entries"""
