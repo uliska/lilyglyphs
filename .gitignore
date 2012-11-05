@@ -16,13 +16,14 @@
 *.toc
 *.bbl
 *.blg
+*.dvi
 
 *.tif
+*.png
+*.jpg
+
 
 # exclude the whole deploy dir
 deploy/*
 # and the font dir
 otf/*
-/lilyglyphs.bbl
-/lilyglyphs.blg
-/lilyglyphs.dvi
