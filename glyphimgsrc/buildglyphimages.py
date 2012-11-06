@@ -284,7 +284,7 @@ def read_input_file():
     """Reads the input source file and stores it"""
     global definitions_file
     definitions_file = []
-    fin = open('definitions/' + definitions_file_name,  'r')
+    fin = open(definitions_file_name,  'r')
     for line in fin:
         definitions_file.append(line.rstrip(' \n'))
     fin.close()
