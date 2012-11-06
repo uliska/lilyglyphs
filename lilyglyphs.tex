@@ -83,18 +83,19 @@ Contact information: \href{mailto:git@ursliska.de}{git@ursliska.de}
 \label{sec:introduction}
 The package \lilyglyphs is made for authors who want to include single musical elements in their \LaTeX{} texts. 
 This is not meant to be used for full-fledged musical examples with staves, for which one would use packages like \texttt{musixtex} or the LilyPond software together with lilypond-book\footnote{\url{http://www.lilypond.org}}. 
-Instead we are talking about inserting items like \lilyRFZ within the paragraphs of continuous text.
+Instead we are talking about inserting items like \quaver or \lilyRFZ within the paragraphs of continuous text.
 
 To achieve this \lilyglyphs aims at making the notation font and notational elements of the LilyPond notation software available to \LaTeX{} documents.
 LilyPond is a notation software package that is a competitor in producing the most beautiful musical engraving on the market, and one of the foundations of this beauty is its \emmentaler font.
-In the current early development stage you can only use glyphs from LilyPond's font set, but no symbols that have to be constructed from more than one object and/or completed by drawing operations. 
-For example there are no glyphs for noteheads with stems and flags or beams in \emmentaler, as LilyPond creates these objects itself. 
-This is still a major drawback but \lilyglyphs will of course have such objects in the future -- the first tests are already being done.
-
 The \emmentaler fonts are accessed through the \texttt{fontspec} package, and \lilyglyphs therefore relies on a \LaTeX{} distribution supporting \texttt{fontspec}. 
 It was written using \XeLaTeX, but should also work with LuaLaTeX -- although this hasn't been tested%
 \footnote{Principally it is possible to extend the functionality so it would also work with plain \LaTeX, but as the package maintainer has neither experience nor active interest in this area this will only be implemented if there are volunteers who join us.}%
 .
+
+The \emmentaler font only provides a subset of LilyPond's notational capabilities, as LilyPond creates many symbols by combining glyphs and drawing explicitely.
+To also access this kind of symbols we have chosen an approach that uses small pdf images to print glyphs not present in \emmentaler.
+There is an accompanying Python script to make the creation of new arbitrary symbols as easy as possible.
+
 The \lilyglyphs package was initiated and is maintained by Urs Liska, and is hosted as a git repository on GitHub\footnote{\url{http://www.github.com/uliska/lilyglyphs} -- Contact: \url{mailto:git@ursliska.de}}.
 If you would like to participate in its development, don't hesitate to contact us.
 
@@ -143,8 +144,8 @@ The documentation of the predefined commands always tells you whether there are 
 
 \subsection{Generic access commands}
 \label{subsec:generic_access_commands}
-To print \emmentaler glyphs that aren't covered by the predefined commands yet, \lilyglyphs offers three generic access commands:\\
-\cmd{lilyGlyph}, \cmd{lilyText} and \cmd{lilyGlyphByNumber}. 
+To print \emmentaler glyphs that aren't covered by the predefined commands yet, \lilyglyphs offers four generic access commands:\\
+\cmd{lilyGlyph}, \cmd{lilyText} \cmd{lilyGlyphByNumber} and \cmd{lilyImage}. 
 
 Their mandatory argument is the content to be printed, which has to be given in a form specific to the respective command.
 
@@ -166,6 +167,11 @@ But you can also enter any spacing commands (like \cmd{hspace} or plain spaces).
 Keep in mind that this may result in line breaking inside your expression. 
 If you need to prevent this you can surround your expression by a \cmd{mbox}.
 
+\medskip
+\cmd{lilyImage} expects the basename of a usable image file.
+It then includes this file using the same optional argument mechanism as the other commands.
+What is somewhat special about this command is that it automatically scales the image relative to the current text font size, with being printed at its original size with \cmd{normalsize}.
+You have to take care yourself that \LaTeX{} finds and can handle the image file.
 
 
 \subsection{The optional argument: Scaling and placement}
@@ -174,12 +180,17 @@ The generic access commands as well as the predefined commands allow an optional
 This can contain a list of comma-separated options in \texttt{<key=value>} form that influence the appearance of the glyphs. Currently there are the \texttt{scale} and \texttt{raise} options.
 
 \medskip
-\texttt{scale} changes the size of the glyph. 
+\texttt{\textbf{scale}} changes the size of the glyph. 
 As the \emmentaler glyphs are designed for a totally different purpose they often don't fit very well in the context of continuous text.
 \texttt{scale} is given as a factor by which the default size is multiplied.
+With \emmentaler glyphs this has to be a positive number, otherwise you will get an error.
+But glyphs printed by \cmd{lilyImage} (or predefined commands based on it) can also be scaled negatively.
+This results in an image flipped at the bottom line of the original, so you will have to add an appropriate \texttt{raise} value.
+But it is a valid and practical way to create two symbols from one image file.
+
 
 \medskip
-\texttt{raise} changes the vertical placement of the glyph.
+\texttt{\textbf{raise}} changes the vertical placement of the glyph.
 The majority of glyphs is placed too low, so they need a positive \texttt{raise} value.
 \texttt{raise} is given as a decimal value without units, which is interpreted as \emph{ex}, or x-height. 
 As there is no \emph{x} in a musical font, this is somewhat arbitrary, but it is a natural unit to scale with the font size.
@@ -202,6 +213,9 @@ So if you pass an option during the command invocation, you don't set an absolut
 An option \texttt{scale=1.2} in a command doesn't mean that you apply 1.2 as the scaling factor to the original glyph, but that the glyph is printed 1.2 times the size it would have been printed without this option.
 So if you want to slightly increase the size of a single glyph you may pass 1.1 as the value to \texttt{scale}, even if you have earlier set the global scaling to 1.8 -- the effective scaling will be \mbox{1.1 * 1.8.}
 
+\textit{Technically speaking \lilyglyphs{} applies a fourth layer of scaling with image files.
+It calculates a last scaling factor by multiplying the result of the above considerations with the ratio of the current font size versus the size of the \cmd{normalsize} font.}
+
 
 \subsection{Examples}
 \label{subsec:examples}
@@ -210,7 +224,7 @@ Now it's time to see how you actually print \emmentaler glyphs using the generic
 The \emph{fermata} sign isn't implemented yet as a predefined command, so you can print it with \cmd{lilyGlyph\{scripts.ufermata\}}: \lilyGlyph{scripts.ufermata} -- we have looked up the name of the glyph in the documentation.
  
 As this doesn't well fit in the line of text you will want to adjust its size and placement.
-This is done with the optional command described in the previous subsection.
+This is done with the optional argument described in the previous subsection.
 
 First we increase the size of the glyph with the \texttt{scale} argument. We find that a scaling factor of 1.4 seems suitable:\\
 \cmd{lilyGlyph[scale=1.4]\{scripts.ufermata\}} -- \lilyGlyph[scale=1.4]{"scripts.ufermata"}
@@ -260,27 +274,25 @@ For now you would have to switch twice, before and after the glyph.
 
 The optical size used by \lilyglyphs defaults to 16.
 
-\subsection{Symbols that aren't \emmentaler glyphs}
-\label{subsec:non-emmentaler_symbols}
-Currently \lilyglyphs can only print glyphs that are part of LilyPond's \emmentaler font. 
-This is a major restriction as LilyPond creates quite numerous graphical objects itself by combining several glyphs, possibly connecting them through drawing commands.
-Amongst the elements not yet available are any kinds of complete notes.
-We can provide note heads and flags -- which are glyphs -- but not stems or beams -- which are drawn.
-
-Of course it is one of the most urgent issues to achieve this, and we are already trying to find a solution. 
-Currently we are experimenting with the \texttt{tikz/pgf} library, but we could really use some assistance in this field.
+\paragraph*{Known issues and warnings:}
+Optical sizes don't work with glyphs printed as images.
+If you \emph{have} to use these glyphs in different weights, you will have to take care for it yourself.
+The general plan would be to create different versions of the glyph by creating different glyphs in LilyPond (presumably by using different staff sizes).
 
 \section{List of Predefined Commands}
 \label{sec:list_predefined_commands}
 The following sections document the predefined commands that already have been implemented.
 They generally contain a list of all glyphs from the \emmentaler documentation, explanations on the use of the commands (if necessary) and a table listing the implemented commands.
 Be aware that the lists and tables may be on different pages than the section header.
-Sections whose implementation hasn't started yet may be present or not, so if you are missing glyphs please refer to LilyPond's documentation.
+Sections whose implementations haven't started yet may be present or not, so if you are missing glyphs please refer to LilyPond's documentation.
+
+The documentation contains information if the commands are available in starred and unstarred commands, and if they are based on image files or \emmentaler glyphs -- image commands are mentioned explicitely.
 
 \subsection{Single Notes}
 \label{subsec:singlenotes}
 Single notes may be one of the most frequently used glyphs.
 They aren't present in \emmentaler, so they all are realized using included pdf image files.
+They have starred and unstarred versions.
 See \fref{tab:singlenotes} for the available predefined commands.
 
 \begin{reftable}{Single Notes}{singlenotes}
@@ -327,7 +339,7 @@ They are treated as \cmd{lilyText}, so you can easily write compound time signat
 \lilyTimeSignature{3 + 4}{4 + 8} & \cmd{lilyTimeSignature\{3 + 4\}\{4 + 8\}}\\
 \end{reftable}
 
-\paragraph*{Known issues and warnings:} \cmd{lilyTimeSignature} also expects the optional argument as the other commands, but they don't always work smoothly yet:\\
+\paragraph*{Known issues and warnings:} \cmd{lilyTimeSignature} also expects the optional argument as the other commands, but it doesn't always work smoothly yet:\\
 \texttt{scale} is applied to the individual parts of the fraction, but not to the horizontal line.
 So scaling a time signature may result in an imbalance between the size of the numbers and the line thickness.
 Even more importantly, scaling factors smaller than 1 don't work well because the reference point is the bottom line of the number, so the denominator is placed too low.\\
@@ -472,7 +484,8 @@ The latter target group might be satisfied reading the next section about writin
 In order to make the package .sty file easier to understand, its contents are split into multiple input files in the 'definitions' subfolder. 
 The most fundamental definitions are in the \texttt{keyval.inp} and \texttt{genericAccess.inp} files.
 
-\medskip
+\subsubsection{Accessing \emmentaler Glyphs}
+\label{subsubsec:accessing_emmentaler_glyphs}
 The command that actually prints glyphs from the \emmentaler fonts is \cmd{lilyPrint}, defined in \texttt{genericAccess.inp}.
 It isn't intended to be called directly within a document, but only from the predefined commands.
 It takes two arguments, the first -- optional -- being the comma-separated list of \texttt{<key=value>} pairs, the second the actual content to be printed.
@@ -529,13 +542,41 @@ These helper functions are important because most predefined commands call one o
 But be aware that the Unicode index may change at any time with new versions of the \emmentaler font, so it usually isn't a good idea to access glyphs through their index.
 There may be some uses for numerical access, however, e.\,g.\ to iterate through a range of glyphs.
 
+\subsubsection{Printing image files}
+\label{subsubsec:printing_image_files}
+\cmd{lilyPrintImage}, defined in \texttt{genericAccess.inp}, is the command that prints glyphs from a supplied image file.
+It actually is quite similar to \cmd{lilyPrint}, with only the extra consideration of scaling the image to the text font size.
+
+\begin{verbatim}
+\newcommand*{\lilyPrintImage}[2][]{%
+    % interpret optional argument
+    \interpretLilyOptions{#1}%
+    % determine scaling factor to accomodate the current font size 
+    % (as images don't scale automatically with the font)
+    \lilyScaleImage%
+    % Print the image in a raisebox
+    \raisebox{{\lilyEffectiveRaise}ex}{%
+        \includegraphics[scale=\lilyImageEffectiveScale]{#2}%
+    }%
+}
+\end{verbatim}
+First the command calls \cmd{interpretLilyOptions}, which is the same as with \cmd{lilyPrint}.
+But as an additional step \cmd{lilyScaleImage} is called, and finally it uses \cmd{lilyImageEffectiveScale} as the scaling factor instead of \cmd{lilyEffectiveScale}.
+I won't explain this in detail, but in effect it multiplies the \cmd{lilyEffectiveScale} calculated before with the ratio of the current font size to the \cmd{normalsize} size.
+
+What is finally given as the content to be printed is the basename of an image file.
+With \XeLaTeX this can be a file in .pdf, .png or .jpg format, but we highly recommend using .pdf files for sake of printing quality.
+
+As with printing \emmentaler glyphs there is no handling of design time options here, and for that reason you should never call this command directly from a document.
+Please use \cmd{lilyImage} instead which does the same as \cmd{lilyPrintImage} but additionally defaults the design time options to neutral values.
+
 \subsection{How to write predefined commands}
 \label{subsec:howto_predefined_commands}
-Writing your own predefined commands is actually quite straightforward, at least for the selection of real \emmentaler glyphs -- and identical if you want to write a command for your document or for inclusion in the package.
+Writing your own predefined commands is actually quite straightforward -- and identical if you want to write a command for your document or for inclusion in the package.
 So if you find yourself creating predefined commands that you think are useful for general use, don't hesitate to submit them to us. 
 
-\subsubsection{Commands that print \emmentaler glyphs}
-\label{subsubsec:commands_emmentaler-glyphs}
+\subsubsection{Commands that print single glyphs}
+\label{subsubsec:commands_single-glyphs}
 Let's review an example of a predefined command, the \cmd{doublesharp}.
 
 \begin{verbatim}
@@ -581,6 +622,20 @@ We give the same set of one optional argument, and in the command itself we just
 If you know the Unicode number of the desired glyph you can call \cmd{lilyGetGlyphByNumber} instead of \cmd{lilyGetGlyph}, but you can't be sure this number will stay the same forever.
 
 \medskip
+Creating commands using image files is practically the sameand even simpler.
+If you look at the definition of a \cmd{crotchet}, 
+\begin{verbatim}
+\newcommand*{\crotchetBase}[1][]{%
+    \setkeys{lilyDesignOptions}{scale=0.9,raise=-0.2}%
+    \lilyPrintImage[#1]{crotchet}%
+}
+\newcommand*{\crotchet}[1][]{\crotchetBase[#1] }
+\WithSuffix\newcommand\crotchet*[1][]{\crotchetBase[#1]}
+\end{verbatim}
+you will notice that the only differences are that the actual printing is done with \cmd{lilyPrintImage} instead of \cmd{lilyPrint} and that therefore the basename of the image file can be passed directly.
+In \fref{subsubsec:buildglyphimages} you will see a tool that allows to create numerous image commands quite easily.
+
+\bigskip
 As a last example we will look at the definition of \lilyRFZ \cmd{lilyRFZ}.
 
 \begin{verbatim}
@@ -602,6 +657,7 @@ This example is meant to encourage you to experiment with the definition of pred
 If you had created this command you would have noticed that you can't get any whitespace after it -- it is silently ignored.
 So you would want to create starred and unstarred versions of the command, which works as in the first example. 
 In \lilyglyphs{} this is in fact implemented this way.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 % Appendix: Licenses
@@ -683,10 +739,11 @@ Note the use of the starred version, because the trailing space of the unstarred
 This was an explanation from the perspective of designing new predefined commands.
 If you want to know how this is implemented internally, please look at the generously commented file \texttt{definitions/dotted.inp}.
 
-\subparagraph*{Known issues and warning:} 
+\paragraph*{Known issues and warning:} 
 One issue that hasn't been addressed yet is the vertical placement of the dot when scaled.
 The dot is positioned relatively to the baseline of the text, and the main glyph may have a different center point. 
-So when scaling the main glyph may seem to behave differently from the dot.
+So when scaling the main glyph may seem to behave differently from the dot.\\~\\
+If you want to create a dotted version of a glyph that is printed from an image file it will generally be easier and more reliable to create a command using a new image file.
 
 
 \subsubsection{Create Multiply Dotted Symbols}
@@ -705,6 +762,9 @@ Use the unstarred version when you need a space after the symbol, the starred on
 \cmd{halfNoteRestDotted*[scale=1.5]}\cmd{lilyPrintMoreDots} and 
 \halfNoteRestDotted*[scale=1.5]\lilyPrintMoreDots and 
 
+
+\subsection{buildglyphimages.py -- \\The easy way to create commands}
+\label{subsubsec:buildglyphimages}
 
 \pagebreak
 \appendix
