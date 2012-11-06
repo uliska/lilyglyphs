@@ -1,0 +1,111 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                        %
+%      This file is part of the 'lilyglyphs' LaTeX package.              %
+%                                ==========                              %
+%                                                                        %
+%              https://github.com/uliska/lilyglyphs                      %
+%                                                                        %
+%  Copyright 2012 by Urs Liska, git@ursliska.de                          %
+%                                                                        %
+%  'lilyglyphs' is free software: you can redistribute it and/or modify  %
+%  it under the terms of the GNU General Public License as published by  %
+%  the Free Software Foundation, either version 3 of the License, or     %
+%  (at your option) any later version.                                   %
+%                                                                        %
+%  This program is distributed in the hope that it will be useful,       %
+%  but WITHOUT ANY WARRANTY; without even the implied warranty of        %
+%  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the          %
+%  GNU General Public License for more details.                          %
+%                                                                        %
+%  You should have received a copy of the GNU General Public License     %
+%  along with this program.  If not, see <http://www.gnu.org/licenses/>. %
+%                                                                        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\NeedsTeXFormat{LaTeX2e} 
+\ProvidesPackage{lilyglyphsStyle}
+
+\RequirePackage{xltxtra}
+\RequirePackage{lilyglyphs}
+\RequirePackage{color}
+\RequirePackage{booktabs}
+\RequirePackage{csquotes}
+\RequirePackage{fancyref}
+\RequirePackage[%
+	colorlinks,
+	bookmarks=true,
+	bookmarksnumbered=true]{hyperref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Add fancyref categories:
+
+% subsection - subsec:
+
+\newcommand*{\fancyrefsubseclabelprefix}{subsec}
+
+\fancyrefaddcaptions{english}{%
+  \providecommand*{\frefsubsecname}{section}%
+  \providecommand*{\Frefsubsecname}{Section}%
+}
+
+\frefformat{plain}{\fancyrefsubseclabelprefix}{\frefsubsecname\fancyrefdefaultspacing#1}
+\Frefformat{plain}{\fancyrefsubseclabelprefix}{\Frefsubsecname\fancyrefdefaultspacing#1}
+
+\frefformat{vario}{\fancyrefsubseclabelprefix}{%
+  \frefsubsecname\fancyrefdefaultspacing#1#3%
+}
+\Frefformat{vario}{\fancyrefsubseclabelprefix}{%
+  \Frefsubsecname\fancyrefdefaultspacing#1#3%
+}
+
+% subsubsection - subsubsec:
+
+\newcommand*{\fancyrefsubsubseclabelprefix}{subsubsec}
+
+\fancyrefaddcaptions{english}{%
+  \providecommand*{\frefsubsubsecname}{section}% the same as for subsection
+  \providecommand*{\Frefsubsubsecname}{Section}%
+}
+
+\frefformat{plain}{\fancyrefsubsubseclabelprefix}{\frefsubsubsecname\fancyrefdefaultspacing#1}
+\Frefformat{plain}{\fancyrefsubsubseclabelprefix}{\Frefsubsubsecname\fancyrefdefaultspacing#1}
+
+\frefformat{vario}{\fancyrefsubsubseclabelprefix}{%
+  \frefsubsubsecname\fancyrefdefaultspacing#1#3%
+}
+\Frefformat{vario}{\fancyrefsubsubseclabelprefix}{%
+  \Frefsubsubsecname\fancyrefdefaultspacing#1#3%
+}
+
+
+% TODO make this prettier, preferrably using musical glyphs 
+% like e.g. quarter notes for the 'l's and maybe a
+% flipped \flat for the 'p'
+\newcommand*{\lilyglyphs}{\texttt{\textbf{lilyglyphs\,}}}
+
+\newcommand*{\emmentaler}{\texttt{\textit{Emmentaler }}}
+\WithSuffix\newcommand\emmentaler*{\texttt{\textit{Emmentaler}}}
+
+% Format lilyglyphs commands and save typing of the backslash
+\newcommand*{\cmd}[1]{\texttt{\textbackslash #1}}
+
+% Common table format for reference tables
+\newenvironment{reftable}[2]
+	{%
+		\begin{table}[ht]
+			\begin{center}
+				\caption{#1}
+				\label{tab:#2}
+				\begin{tabular}[t]{lll}
+					\toprule
+					&\\
+	}
+	{%
+					&\\
+					\bottomrule
+				\end{tabular}
+			\end{center}
+		\end{table}
+	}
+
+
