@@ -52,7 +52,7 @@
 % quaver with upward stem
 % created by buildglyphimages.py on 2012-11-06
 \newcommand*{\quaverBase}[1][]{%
-    \setkeys{lilyDesignOptions}{scale=0.9,raise=-0.15}%
+    \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.25}%
     \lilyPrintImage[#1]{quaver}%
 	\hspace*{-0.5ex}%
 }
