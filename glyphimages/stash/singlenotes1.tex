@@ -21,49 +21,6 @@
 
 \begin{document}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%
-% new command definitions
-
-% crotchet with upward stem
-% created by buildglyphimages.py on 2012-11-06
-\newcommand*{\crotchetBase}[1][]{%
-    \setkeys{lilyDesignOptions}{scale=0.9,raise=-0.2}%
-    \lilyPrintImage[#1]{crotchet}%
-}
-\newcommand*{\crotchet}[1][]{\crotchetBase[#1] }
-\WithSuffix\newcommand\crotchet*[1][]{\crotchetBase[#1]}
-
-% half note with upward stem
-% created by buildglyphimages.py on 2012-11-06
-\newcommand*{\halfNoteBase}[1][]{%
-    \setkeys{lilyDesignOptions}{scale=0.9,raise=-0.2}%
-    \lilyPrintImage[#1]{halfNote}%
-}
-\newcommand*{\halfNote}[1][]{\halfNoteBase[#1] }
-\WithSuffix\newcommand\halfNote*[1][]{\halfNoteBase[#1]}
-
-% quaver with upward stem
-% created by buildglyphimages.py on 2012-11-06
-\newcommand*{\quaverBase}[1][]{%
-    \setkeys{lilyDesignOptions}{scale=0.9,raise=-0.15}%
-    \lilyPrintImage[#1]{quaver}%
-	\hspace*{-0.5ex}%
-}
-\newcommand*{\quaver}[1][]{\quaverBase[#1] }
-\WithSuffix\newcommand\quaver*[1][]{\quaverBase[#1]}
-
-% semiquaver with upward stem
-% created by buildglyphimages.py on 2012-11-06
-\newcommand*{\semiquaverBase}[1][]{%
-    \setkeys{lilyDesignOptions}{scale=0.9,raise=-0.1}%
-    \lilyPrintImage[#1]{semiquaver}%
-	\hspace*{-0.4ex}%
-}
-\newcommand*{\semiquaver}[1][]{\semiquaverBase[#1] }
-\WithSuffix\newcommand\semiquaver*[1][]{\semiquaverBase[#1]}
-
-
-
 %%%%%%%%%%%%%
 % Text output
 
