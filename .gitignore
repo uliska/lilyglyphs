@@ -27,4 +27,5 @@
 deploy/*
 # and the font dir
 otf/*
-/glyphimgsrc/newImageGlyphs.tex
+# exclude generated LaTeX file for new image-glyphs
+/glyphimages/stash/01_newImageGlyphs.tex
