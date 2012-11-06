@@ -447,7 +447,7 @@ As a convenience there is a predefined command \cmd{lilyDynamics}, which is just
 These Letters can be combined to make complex Dynamics. 
 \lilyglyphs doesn't provide a full set of predefined commands as they can easily be entered as single strings to \cmd{lilyDynamics}, like \cmd{lilyDynamics\{sffzrmp\}}, resulting in \lilyDynamics{sffzrmp}. 
 In this specific situation you could enter a small horizontal space between the \lilyDynamics{z} and the \lilyDynamics{r} -- but as this combination wouldn't occur in real life, we don't need to demonstrate it here.
-There are a few predefinied commands (see \fref{tab:combinedDynLetters}) that are only used for the combination of letters that need some special \enquote{kerning} attention. These commnds internally use \cmd{lilyDynamics} with its default scaling. These predefined commands need starred and unstarred versions again, as \LaTeX would ignore spaces after the unstarred command.
+There are a few predefinied commands (see \fref{tab:combinedDynLetters}) that are only used for the combination of letters that need some special \enquote{kerning} attention. These commands internally use \cmd{lilyDynamics} with its default scaling. These predefined commands need starred and unstarred versions again, as \LaTeX would ignore spaces after the unstarred command.
 
 \begin{reftable}{Combined Dynamics Expressions}{combinedDynLetters}
 \lilyRF* & \cmd{lilyRF}, \cmd{lilyRF*} & rinforzando\\
@@ -833,8 +833,21 @@ If you leave errors in the input file, the script will probably produce erroneou
 Probably it won't do any harm, but we can't make any promises on that.
 Please consider the script as being in a \textbf{very experimental} state.
 
-Command line options\\
-Don't explain the internals
+\medskip
+If you start the script from the command line you have to pass it the name of a file along with the option \verb|-i| (or \verb|--input|). Remember that input files should be stored in the \texttt{definitions} subdirectory.
+
+In a first step the program parses this file and extracts information about the command definitions. Then it generates one compilable LilyPond source file for each command and saves it to the \texttt{generated\_src} subdirectory. 
+Each file is named according to the name of the command you specified in the input definition file.
+Compiling these files results in a PDF containing only the glyph but no staff symbol, time or key signature or clef.\\
+Please remember that these proceedings are by no means mandatory for creating working image files.
+They are intended for easing your work-flow, but you can always write source files manually.
+
+Now the generated source files are compiled using LilyPond. 
+The command line option \verb|-dpreview| takes care of producing a pdf file with the smallest possible bounding box around its content.
+The directory is cleaned up, and the resulting small PDF files are moved to the subdirectory 
+
+
+
 
 \subsubsection{Utilizing the results}
 \label{subsubsec:BGI_utilizing_results}
