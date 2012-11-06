@@ -38,7 +38,8 @@ definitions_file = []
 
 # LilyPond commands
 lily_cmds = {}
-
+# LaTeX commands
+latex_cmds = {}
 
 # ###############
 # Used constants
@@ -137,8 +138,12 @@ def main(argv):
     cleanup_lily_files()
     
     print ''
-    print 'Writing LaTeX templates'
-    write_latex_templates()
+    print 'Create LaTeX commands'
+    process_latex_templates()
+    
+    print ''
+    print 'Write LaTeX file'
+    write_latex_file()
 
 
 def cleanup_lily_files():
@@ -176,6 +181,55 @@ def compile_lily_files():
         subprocess.call(args)
         print ''
 
+def process_latex_templates():
+    """Writes templates for the commands in a new LaTeX file.
+    These should manually be moved to the appropriate .inp files
+    in lilyglyphs"""
+    
+    # template string to build the command from
+    # 'CMD' will be replaced by the actual command_name
+    cmd_template = """\\newcommand*{\\CMDBase}[1][]{%
+    \\setkeys{lilyDesignOptions}{scale=0.9,raise=-0.2}%
+    \\lilyPrintImage[#1]{CMD}%
+}
+\\newcommand*{\\CMD}[1][]{\\CMDBase[#1] }
+\\WithSuffix\\newcommand\\CMD*[1][]{\\CMDBase[#1]}
+
+"""
+
+    # template string to build the test code for the commands
+    # 'CMD' will be replaced by the actual command_name
+    testcode_template = """
+
+\\noindent\\textbf{\\textsf{Continuous text for} \\cmd{CMD}:}\\\\
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
+sed \\CMD do eiusmod tempor incididunt ut labore et dolore magna aliqua \\CMD*.\\\\
+\\CMD Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip 
+ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse 
+cillum dolore eu fugiat nulla pariatur\\CMD. 
+\\CMD Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\\bigskip
+"""
+    
+    for command_name in lily_cmds:
+        latex_cmds[command_name] = []
+        
+        # create LaTeX command
+        cmd = []
+        cmd.append('% ' + str(lily_cmds[command_name][0])[2:-2] + '\n')
+        cmd.append(signature() + '\n')
+        cmd.append(cmd_template.replace('CMD', command_name))
+        latex_cmds[command_name].append(cmd)
+        
+        # create documentation table
+        
+        # create LaTeX test code
+        tc = []
+        tc.append(testcode_template.replace('CMD', command_name))
+        latex_cmds[command_name].append(tc)
+        
+    
 def read_entries():
     """Parses the input source file and extracts glyph entries"""
     for i in range(len(definitions_file)):
@@ -267,22 +321,70 @@ def write_file_info(name, fout):
     fout.write(signature())
     fout.write('\n\n')
 
-def write_latex_templates():
-    """Writes templates for the commands in a new LaTeX file.
-    These should manually be moved to the appropriate .inp files
-    in lilyglyphs"""
-    
-    """    % Quaver with stem up
-\newcommand*{\quaverBase}[1][]{%
-	\setkeys{lilyDesignOptions}{scale=0.9,raise=-0.2}%
-	\lilyPrintImage[#1]{quaver}%
-	\hspace*{-0.5ex}%
-}
-\newcommand*{\quaver}[1][]{\quaverBase[#1] }
-\WithSuffix\newcommand\quaver*[1][]{\quaverBase[#1]}
-"""
+def write_latex_file():
+    fout = open('newImageGlyphs.tex', 'w')
+    fout.write('% New Image Glyphs for the lilyglyphs package\n')
+    fout.write(signature() + '\n')
+    fout.write("""
+% This file contains definitions for the new commands
+% along with test code for them.
+% You can test the commands in the context of continuous text
+% and adjust their design time options.
+% Afterwards you should manually move the commands to 
+% the appropriate .inp files,
+% because this file will be overwritten by the next run
+% of buildglyphimages.py!
+% If you want to keep this file for reference
+% you should save it with a new name.
+%
+% There also is a table containing entries for use in the lilyglyph manual.
+% You can either copy the whole table to the appropriate
+% place in lilyglyphs.tex or just copy individual table rows.
 
+\\documentclass{scrartcl}
+\\usepackage{lilyglyphsStyle}
+
+\\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% new command definitions
+
+""")
+    for command_name in latex_cmds:
+        for line in latex_cmds[command_name][0]:
+            fout.write(line)
+
+    fout.write("""
+
+%%%%%%%%%%%%%
+% Text output
+
+\\section*{New \\lilyglyphs{} commands}
+""")
+    fout.write(signature()[2:]+ '\n')
+    fout.write("""
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Reference table to be used in the manual
+% (use complete or single lines)
+
+\\begin{reftable}{New commands}{newcommands}
+""")
+    row_template = '\\CMD & \\cmd{CMD} & description\\\\'
+    for command_name in latex_cmds:
+        fout.write(row_template.replace('CMD', command_name) + '\n')
+    fout.write("""\\end{reftable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Test code for fine-tuning the new commands
+""")
+   
+    for command_name in latex_cmds:
+        for line in latex_cmds[command_name][1]:
+            fout.write(line)
     
+    fout.write('\\end{document}\n')
+    fout.close()
+
 def write_lily_src_files():
     for command_name in lily_cmds:
         print '- ' + command_name
