@@ -113,7 +113,7 @@ def main(argv):
 
     # Do the actual work of the script
     print ''
-    print 'buildImageGlyphs.py,'
+    print 'buildglyphimages.py,'
     print 'Part of lilyglyphs.'
 
     print ''
@@ -235,8 +235,12 @@ def read_input_file():
         definitions_file.append(line.rstrip(' \n'))
     fin.close()
 
+def signature():
+    """Returns a signature to be inserted in an output file"""
+    return '% created by buildglyphimages.py on ' + str(datetime.date.today())
+    
 def usage():
-    print """buildImageGlyphs. Part of the lilyglyphs package.
+    print """buildglyphimages. Part of the lilyglyphs package.
     Parses a .lysrc (lilyglyphs source) file, creates
     single .ly files from it, uses LilyPond to create single glyph
     pdf files and set up template files to be used in LaTeX.
@@ -260,8 +264,7 @@ def write_file_info(name, fout):
     fout.write('%   ' + name + '.ly' + ' ' * padding + '%\n')
     fout.write(spacer)
     fout.write(header)
-    fout.write('% created by buildImageGlyphs.py\n')
-    fout.write('% on ' + str(datetime.date.today()))
+    fout.write(signature())
     fout.write('\n\n')
 
 def write_latex_templates():
