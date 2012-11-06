@@ -44,6 +44,10 @@ latex_cmds = {}
 # ###############
 # Used constants
 
+# Directories
+out_lysrc = 'generated_src'
+out_images = 'pdfs'
+
 # Strings
 
 lilyglyphs_copyright_string = """
@@ -128,19 +132,19 @@ def main(argv):
     print ''
     print 'Write .ly files for each entry:'
     write_lily_src_files()
-    
+
     print ''
     print 'Compile .ly files for each entry:'
     compile_lily_files()
-    
+
     print ''
     print 'Clean up unused files'
     cleanup_lily_files()
-    
+
     print ''
     print 'Create LaTeX commands'
     process_latex_templates()
-    
+
     print ''
     print 'Write LaTeX file'
     write_latex_file()
@@ -149,16 +153,16 @@ def main(argv):
 def cleanup_lily_files():
     """Removes unneccessary files from LilyPond compilation,
     rename and remove the preview PDF files to the right directory."""
-    dir_in = 'processed/'
-    dir_out = '../glyphimages/'
+    dir_in = out_lysrc + '/'
+    dir_out = out_images + '/'
     file_list = os.listdir(dir_in)
-    
+
     print 'Remove intermediate files'
     for file in file_list:
         dummy, extension = os.path.splitext(file)
         if not extension in ['.pdf', '.ly']:
             os.remove(dir_in + file)
-    
+
     print 'Clean up:'
     for command_name in lily_cmds:
         print '- ' + command_name
@@ -166,18 +170,18 @@ def cleanup_lily_files():
         os.remove(dir_in + command_name + '.pdf')
         # rename/move small 'preview' pdf
         os.rename(dir_in + command_name + '.preview.pdf',  dir_out + command_name + '.pdf')
-    
-    
+
+
 def compile_lily_files():
     """Compiles all newly written .ly files"""
     for command_name in lily_cmds:
         args = []
         args.append("lilypond")
         args.append("-o")
-        args.append("processed")
+        args.append("generated_src")
         args.append("-dpreview")
         args.append("-dno-point-and-click")
-        args.append("processed/" + command_name + ".ly")
+        args.append("generated_src/" + command_name + ".ly")
         subprocess.call(args)
         print ''
 
@@ -185,7 +189,7 @@ def process_latex_templates():
     """Writes templates for the commands in a new LaTeX file.
     These should manually be moved to the appropriate .inp files
     in lilyglyphs"""
-    
+
     # template string to build the command from
     # 'CMD' will be replaced by the actual command_name
     cmd_template = """\\newcommand*{\\CMDBase}[1][]{%
@@ -202,34 +206,34 @@ def process_latex_templates():
     testcode_template = """
 
 \\noindent\\textbf{\\textsf{Continuous text for} \\cmd{CMD}:}\\\\
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
+Lorem ipsum dolor sit amet, consectetur adipisicing elit,
 sed \\CMD do eiusmod tempor incididunt ut labore et dolore magna aliqua \\CMD*.\\\\
-\\CMD Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip 
-ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse 
-cillum dolore eu fugiat nulla pariatur\\CMD. 
+\\CMD Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur\\CMD.
 \\CMD Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 \\bigskip
 """
-    
+
     for command_name in lily_cmds:
         latex_cmds[command_name] = []
-        
+
         # create LaTeX command
         cmd = []
         cmd.append('% ' + str(lily_cmds[command_name][0])[2:-2] + '\n')
         cmd.append(signature() + '\n')
         cmd.append(cmd_template.replace('CMD', command_name))
         latex_cmds[command_name].append(cmd)
-        
+
         # create documentation table
-        
+
         # create LaTeX test code
         tc = []
         tc.append(testcode_template.replace('CMD', command_name))
         latex_cmds[command_name].append(tc)
-        
-    
+
+
 def read_entries():
     """Parses the input source file and extracts glyph entries"""
     for i in range(len(definitions_file)):
@@ -292,7 +296,7 @@ def read_input_file():
 def signature():
     """Returns a signature to be inserted in an output file"""
     return '% created by buildglyphimages.py on ' + str(datetime.date.today())
-    
+
 def usage():
     print """buildglyphimages. Part of the lilyglyphs package.
     Parses a .lysrc (lilyglyphs source) file, creates
@@ -322,7 +326,7 @@ def write_file_info(name, fout):
     fout.write('\n\n')
 
 def write_latex_file():
-    fout = open('newImageGlyphs.tex', 'w')
+    fout = open('stash/01_newImageGlyphs.tex', 'w')
     fout.write('% New Image Glyphs for the lilyglyphs package\n')
     fout.write(signature() + '\n')
     fout.write("""
@@ -330,7 +334,7 @@ def write_latex_file():
 % along with test code for them.
 % You can test the commands in the context of continuous text
 % and adjust their design time options.
-% Afterwards you should manually move the commands to 
+% Afterwards you should manually move the commands to
 % the appropriate .inp files,
 % because this file will be overwritten by the next run
 % of buildglyphimages.py!
@@ -377,11 +381,11 @@ def write_latex_file():
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Test code for fine-tuning the new commands
 """)
-   
+
     for command_name in latex_cmds:
         for line in latex_cmds[command_name][1]:
             fout.write(line)
-    
+
     fout.write('\\end{document}\n')
     fout.close()
 
@@ -389,7 +393,7 @@ def write_lily_src_files():
     for command_name in lily_cmds:
         print '- ' + command_name
         # open a single lily src file for write access
-        fout = open('processed/' + command_name + '.ly',  'w')
+        fout = open('generated_src/' + command_name + '.ly',  'w')
 
         #output the license information
         fout.write(lilyglyphs_copyright_string)
