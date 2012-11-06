@@ -29,26 +29,66 @@
 %                                                              %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\version "2.17.5"
+
+%{ template for a single entry
+   replace 'EXAMPLE_...' by actual content %}
+% lilyglyphs entry
+%%protected (use this line if you don't want the command to be generated)
+%{ EXAMPLE_comment %}
+EXAMPLE_command_name = {
+  g'4
+}
+
+\markup { EXAMPLE_command_name }
+symbol = \EXAMPLE_command_name
+\include "score.ily"
+
+% Example ends here
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % lilyglyphs entry
 %{ half note with upward stem %}
 halfNote = {
+  \override Stem#'length = 5
   g'2
 }
-  
+
+\markup { halfNote }
+symbol = \halfNote
+\include "score.ily"
+
 % lilyglyphs entry
 %{ crotchet with upward stem %}
 crotchet = {
+  \override Stem#'length = 5
   g'4
 }
+
+\markup { crotchet }
+symbol = \crotchet
+\include "score.ily"
+
 
 % lilyglyphs entry
 %{ quaver with upward stem %}
 quaver = {
+  \override Stem#'length = 6
   g'8
 }
+
+\markup { quaver }
+symbol = \quaver
+\include "score.ily"
 
 % lilyglyphs entry
 %{ semiquaver with upward stem %}
 semiquaver = {
+  \override Stem#'length = #6.5
   g'16
 }
+
+\markup { semiquaver }
+symbol = \semiquaver
+\include "score.ily"
+
