@@ -48,6 +48,7 @@ symbol = \EXAMPLE_command_name
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % lilyglyphs entry
+%%protected 
 %{ half note with upward stem %}
 halfNote = {
   \override Stem#'length = 5
@@ -59,6 +60,7 @@ symbol = \halfNote
 \include "score.ily"
 
 % lilyglyphs entry
+%%protected 
 %{ crotchet with upward stem %}
 crotchet = {
   \override Stem#'length = 5
@@ -71,6 +73,7 @@ symbol = \crotchet
 
 
 % lilyglyphs entry
+%%protected 
 %{ quaver with upward stem %}
 quaver = {
   \override Stem#'length = 6
@@ -82,6 +85,7 @@ symbol = \quaver
 \include "score.ily"
 
 % lilyglyphs entry
+%%protected 
 %{ semiquaver with upward stem %}
 semiquaver = {
   \override Stem#'length = #6.5

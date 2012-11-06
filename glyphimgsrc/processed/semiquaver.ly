@@ -1,3 +1,4 @@
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                        %
 %      This file is part of the 'lilyglyphs' LaTeX package.              %
@@ -29,8 +30,7 @@
 %   semiquaver.ly                                               %
 %                                                               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% created by buildImageGlyphs.py
-% on 2012-11-05
+% created by buildglyphimages.py on 2012-11-06
 
 \version "2.17.4"
 
@@ -48,6 +48,7 @@ semiquaver with upward stem
 %}
 
 semiquaver = {
+  \override Stem#'length = #6.5
   g'16
 }
 
