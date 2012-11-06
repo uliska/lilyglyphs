@@ -27,3 +27,4 @@
 deploy/*
 # and the font dir
 otf/*
+/glyphimgsrc/newImageGlyphs.tex
