@@ -60,6 +60,17 @@ symbol = \halfNote
 \include "score.ily"
 
 % lilyglyphs entry
+%{ dotted half note with upward stem %}
+halfNoteDotted = {
+  \override Stem#'length = 5
+  g'2.
+}
+
+\markup { halfNoteDotted }
+symbol = \halfNoteDotted
+\include "score.ily"
+
+% lilyglyphs entry
 %%protected 
 %{ crotchet with upward stem %}
 crotchet = {
@@ -69,6 +80,17 @@ crotchet = {
 
 \markup { crotchet }
 symbol = \crotchet
+\include "score.ily"
+
+% lilyglyphs entry
+%{ dotted crotchet with upward stem %}
+crotchetDotted = {
+  \override Stem#'length = 5
+  g'4.
+}
+
+\markup { crotchetDotted }
+symbol = \crotchetDotted
 \include "score.ily"
 
 
@@ -85,6 +107,18 @@ symbol = \quaver
 \include "score.ily"
 
 % lilyglyphs entry
+%{ dotted quaver with upward stem %}
+quaverDotted = {
+  \override Stem#'length = 6
+  g'8.
+}
+
+\markup { quaverDotted }
+symbol = \quaverDotted
+\include "score.ily"
+
+
+% lilyglyphs entry
 %%protected 
 %{ semiquaver with upward stem %}
 semiquaver = {
@@ -94,5 +128,16 @@ semiquaver = {
 
 \markup { semiquaver }
 symbol = \semiquaver
+\include "score.ily"
+
+% lilyglyphs entry
+%{ dotted semiquaver with upward stem %}
+semiquaverDotted = {
+  \override Stem#'length = #6.5
+  g'16.
+}
+
+\markup { semiquaverDotted }
+symbol = \semiquaverDotted
 \include "score.ily"
 

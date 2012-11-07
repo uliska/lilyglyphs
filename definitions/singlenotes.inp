@@ -31,6 +31,9 @@
 % Single notes %
 %%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%
+% crotchets
+
 % crotchet with upward stem
 % created by buildglyphimages.py on 2012-11-06
 \newcommand*{\crotchetBase}[1][]{%
@@ -40,6 +43,18 @@
 \newcommand*{\crotchet}[1][]{\crotchetBase[#1] }
 \WithSuffix\newcommand\crotchet*[1][]{\crotchetBase[#1]}
 
+% dotted crotchet with upward stem
+% created by buildglyphimages.py on 2012-11-07
+\newcommand*{\crotchetDottedBase}[1][]{%
+    \setkeys{lilyDesignOptions}{scale=0.9,raise=-0.2}%
+    \lilyPrintImage[#1]{crotchetDotted}%
+}
+\newcommand*{\crotchetDotted}[1][]{\crotchetDottedBase[#1] }
+\WithSuffix\newcommand\crotchetDotted*[1][]{\crotchetDottedBase[#1]}
+
+%%%%%%%%%%%%
+% half notes
+
 % half note with upward stem
 % created by buildglyphimages.py on 2012-11-06
 \newcommand*{\halfNoteBase}[1][]{%
@@ -48,6 +63,18 @@
 }
 \newcommand*{\halfNote}[1][]{\halfNoteBase[#1] }
 \WithSuffix\newcommand\halfNote*[1][]{\halfNoteBase[#1]}
+
+% dotted half note with upward stem
+% created by buildglyphimages.py on 2012-11-07
+\newcommand*{\halfNoteDottedBase}[1][]{%
+    \setkeys{lilyDesignOptions}{scale=0.9,raise=-0.2}%
+    \lilyPrintImage[#1]{halfNoteDotted}%
+}
+\newcommand*{\halfNoteDotted}[1][]{\halfNoteDottedBase[#1] }
+\WithSuffix\newcommand\halfNoteDotted*[1][]{\halfNoteDottedBase[#1]}
+
+%%%%%%%%%
+% quavers
 
 % quaver with upward stem
 % created by buildglyphimages.py on 2012-11-06
@@ -59,6 +86,19 @@
 \newcommand*{\quaver}[1][]{\quaverBase[#1] }
 \WithSuffix\newcommand\quaver*[1][]{\quaverBase[#1]}
 
+% dotted quaver with upward stem
+% created by buildglyphimages.py on 2012-11-07
+\newcommand*{\quaverDottedBase}[1][]{%
+    \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.25}%
+    \lilyPrintImage[#1]{quaverDotted}%
+}
+\newcommand*{\quaverDotted}[1][]{\quaverDottedBase[#1] }
+\WithSuffix\newcommand\quaverDotted*[1][]{\quaverDottedBase[#1]}
+
+
+%%%%%%%%%%%%%
+% semiquavers
+
 % semiquaver with upward stem
 % created by buildglyphimages.py on 2012-11-06
 \newcommand*{\semiquaverBase}[1][]{%
@@ -68,5 +108,14 @@
 }
 \newcommand*{\semiquaver}[1][]{\semiquaverBase[#1] }
 \WithSuffix\newcommand\semiquaver*[1][]{\semiquaverBase[#1]}
+
+% dotted semiquaver with upward stem
+% created by buildglyphimages.py on 2012-11-07
+\newcommand*{\semiquaverDottedBase}[1][]{%
+    \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.1}%
+    \lilyPrintImage[#1]{semiquaverDotted}%
+}
+\newcommand*{\semiquaverDotted}[1][]{\semiquaverDottedBase[#1] }
+\WithSuffix\newcommand\semiquaverDotted*[1][]{\semiquaverDottedBase[#1]}
 
 
