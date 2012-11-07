@@ -29,6 +29,9 @@ import os, sys,  getopt,  datetime,  subprocess
 # ################
 # Global variables
 
+# base dir of the lilyglyphs package
+lilyglyphs_root = ''
+
 # flags
 flag_force = False
 
@@ -109,13 +112,7 @@ def main(argv):
         opts, args = getopt.getopt(argv, short_options, long_options)
         for opt, arg in opts:
             if opt in ("-i",  "--input"):
-                if not os.path.exists(arg):
-                    print 'File ' + arg + ' not found.'
-                    print 'Please specify an input file'
-                    usage()
-                    sys.exit(2)
-                else:
-                    input_files.append(arg)
+                input_files.append(arg)
             else:
                 usage()
                 sys.exit(2)
@@ -135,7 +132,7 @@ def main(argv):
     for input_file_name in input_files:
         print ''
         print 'Read input file ' + input_file_name
-        read_input_file(input_file_name)
+        read_input_file('definitions/' + input_file_name)
 
     print ''
     print 'Read entries of LilyPond commands:'
@@ -147,11 +144,11 @@ def main(argv):
 
     print ''
     print 'Compile .ly files for each entry:'
-    #compile_lily_files()
+    compile_lily_files()
 
     print ''
     print 'Clean up unused files'
-    #cleanup_lily_files()
+    cleanup_lily_files()
 
     print ''
     print 'Create LaTeX commands'
@@ -163,14 +160,20 @@ def main(argv):
 
 
 def check_paths():
+    global lilyglyphs_root
+
     # check current working dir
     cwd = os.getcwd()
-    path_to,  cwd = os.path.split(os.getcwd())
-    print path_to,  cwd
-    if not ('lilyglyphs' in path_to and cwd == 'glyphimages'):
+    if not 'lilyglyphs' in cwd:
         print 'Your current working directory seems to be wrong.'
-        print "Please cd to the 'glyphimages' subfolder of the package root."
+        print 'Please cd to a location in the lilyglyphs directory.'
         sys.exit(2)
+
+    lilyglyphs_root = cwd[:cwd.find('lilyglyphs') + 11]
+    os.chdir(lilyglyphs_root + 'glyphimages')
+
+
+
 
     # check the presence of the necessary subdirectories
     # and create them if necessary
@@ -321,6 +324,14 @@ def read_entry(i):
 
 def read_input_file(in_file):
     """Reads the input source file and stores it"""
+
+    # check for existence of input file
+    if not os.path.exists(in_file):
+                    print 'File ' + in_file + ' not found.'
+                    print 'Please specify an input file'
+                    usage()
+                    sys.exit(2)
+
     global definitions_file
     fin = open(in_file,  'r')
     for line in fin:
