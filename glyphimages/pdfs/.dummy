@@ -1,0 +1,3 @@
+This is a dummy file
+which should take care that the directory is created by Git
+even if it doesn't contain any PDF files (which are untracked)
