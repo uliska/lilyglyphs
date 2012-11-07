@@ -126,6 +126,12 @@ Please refer to the \texttt{fontspec} documentation on how to make fonts visible
 The font files are located in the usr/share/lilypond/current/fonts/otf subdirectory of your LilyPond installation. 
 Eight .otf files (representing different optical sizes, see \fref{subsec:optical_size}) are also included in the distribution archive of \lilyglyphs}.
 
+Many commands work by including pdf files as glyph images. 
+If you have obtained the package through its Git repository or have updated it by pulling changes from there, you will not have (all) pdf files present on your computer.
+You will have to build them through the Python script located in \texttt{glyphimages/rebuild-pdfs.py} (See \fref{sec:python_scripts} for more information about the Python scripts).
+This will require working installations of Python 2 and LilyPond.
+If you don't have one of these on your system and don't want to install it either you can get the pdf files through the archived version of the package that is also available for download.
+
 If you experience any issues during installation that would call for diferrent instructions then please provide us with feedback.
 
 \section{Usage}
