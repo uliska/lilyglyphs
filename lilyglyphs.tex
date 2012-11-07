@@ -897,7 +897,7 @@ Keep in mind that you may as well use negative \cmd{hspace}.
 
 Sometimes you will find that a rather tall glyph is difficult to accomodate because you have to scale it down so much in order not to affect the line spacing that it looks unnaturally small.
 In such a case you might consider going back to the LilyPond side to review the design of your glyph (for example the glyphs for the single note commands have shortened stems).
-Please make sure that you understand the implications of the following section.
+Please make sure that you understand the implications of the following section about partial processing.
 
 \medskip
 If you are satisfied with the new commands you will have to move them to a useful place.
@@ -930,7 +930,7 @@ It would be nice if we would receive such a pull request as a single commit (use
 You are encouraged to put a coherent set of multiple command definitions in one definitions file and keep this file, as it is the source from that everything can be rebuilt at any time.
 But there will be occasions when you don't want the Python script to do all the work over and over again.
 If you add a new command to the input file (and you \emph{should} add it to an existing file if it belongs to the same category) you only want the new command to be processed.
-Or if you are working on the fine-tuning of the comands (as described in the previous section) and decide that you have to change the LilyPond definition of a single glyph you also only want to reprocess this one.
+Or if you are working on the fine-tuning of the commands (as described in the previous section) and decide that you have to change the LilyPond definition of a single glyph you also only want to reprocess this one.
 For this purpose you can mark entries in the input definitions file as “protected”, in order to prevent them to be newly processed by the script.
 To do this you enter a line starting with \verb|%%protected| in your entry definition (note the double percent sign and the missing space after them).
 You can see an example for this in the \texttt{\_template.ly} file -- because the example entry shouldn't be processed at all.
@@ -938,8 +938,18 @@ From now on the marked command won't be processed anymore.
 This means that the LilyPond source file won't be generated again, LilyPond isn't run again for the script (which would be the most annoying thing), and the \LaTeX{} commands won't be generated again.
 The output file will of course be overwritten (you have renamed it before re-running the script, isn't it?) but it won't be cluttered with commands that you have already dealt with earlier.
 
+
 \subsubsection{Recreating Image Files}
 \label{subsubsec:BGI_recreating_images}
+
+There are occasions when you have to (re)create the pdf files that serve as the glyph images without having to regenerate the \LaTeX{} commands or the LilyPond source files.
+If you clone the Git repository then the pdf files are not present because they aren't tracked by Git.
+Or if you pull updates from the remote repository that introduce new glyph images the pdf files won't be included for the same reason.
+In that case you can run the script \texttt{rebuild-pdfs.py}, which is also located in the \texttt{glyphimages} directory.
+This script essentially compares the directories with the generated LilyPond sources and with the created pdf files, and if it finds a source without a corresponding pdf it will call LilyPond to recreate it.
+Of course this script will only work with a working LilyPond installation.
+
+
 
 \subsection{Generating Commands for \emmentaler Glyphs}
 \label{subsec:generating_commands_emmentaler}
