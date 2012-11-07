@@ -32,8 +32,8 @@ import os, sys,  getopt,  datetime,  subprocess
 # flags
 flag_force = False
 
-# file with the glyph definitions
-definitions_file_name = ''
+# files with the glyph definitions
+input_files = []
 definitions_file = []
 
 # LilyPond commands
@@ -102,13 +102,20 @@ lily_src_score = """
 
 def main(argv):
     global flag_force, definitions_file_name
+    short_options = 'i:'
+    long_options = []
+    long_options.append('input=')
     try:
-        opts, args = getopt.getopt(argv, "i:f", ["input=","force"])
+        opts, args = getopt.getopt(argv, short_options, long_options)
         for opt, arg in opts:
-            if opt in ("-f",  "--force"):
-                flag_force = True
             if opt in ("-i",  "--input"):
-                definitions_file_name = arg
+                if not os.path.exists(arg):
+                    print 'File ' + arg + ' not found.'
+                    print 'Please specify an input file'
+                    usage()
+                    sys.exit(2)
+                else:
+                    input_files.append(arg)
             else:
                 usage()
                 sys.exit(2)
@@ -122,8 +129,13 @@ def main(argv):
     print 'Part of lilyglyphs.'
 
     print ''
-    print 'Read file ' + definitions_file_name
-    read_input_file()
+    print 'Checking paths'
+    check_paths()
+
+    for input_file_name in input_files:
+        print ''
+        print 'Read input file ' + input_file_name
+        read_input_file(input_file_name)
 
     print ''
     print 'Read entries of LilyPond commands:'
@@ -135,19 +147,42 @@ def main(argv):
 
     print ''
     print 'Compile .ly files for each entry:'
-    compile_lily_files()
+    #compile_lily_files()
 
     print ''
     print 'Clean up unused files'
-    cleanup_lily_files()
+    #cleanup_lily_files()
 
     print ''
     print 'Create LaTeX commands'
-    process_latex_templates()
+    generate_latex_templates()
 
     print ''
     print 'Write LaTeX file'
     write_latex_file()
+
+
+def check_paths():
+    # check current working dir
+    cwd = os.getcwd()
+    path_to,  cwd = os.path.split(os.getcwd())
+    print path_to,  cwd
+    if not ('lilyglyphs' in path_to and cwd == 'glyphimages'):
+        print 'Your current working directory seems to be wrong.'
+        print "Please cd to the 'glyphimages' subfolder of the package root."
+        sys.exit(2)
+
+    # check the presence of the necessary subdirectories
+    # and create them if necessary
+    # (otherwise we'll get errors when trying to write in them)
+    ls = os.listdir('.')
+    if not 'generated_src' in ls:
+        os.mkdir('generated_src')
+    if not 'pdfs' in ls:
+        os.mkdir('pdfs')
+    if not 'stash' in ls:
+        os.mkdir('stash')
+
 
 
 def cleanup_lily_files():
@@ -185,7 +220,7 @@ def compile_lily_files():
         subprocess.call(args)
         print ''
 
-def process_latex_templates():
+def generate_latex_templates():
     """Writes templates for the commands in a new LaTeX file.
     These should manually be moved to the appropriate .inp files
     in lilyglyphs"""
@@ -284,11 +319,10 @@ def read_entry(i):
     return i
 
 
-def read_input_file():
+def read_input_file(in_file):
     """Reads the input source file and stores it"""
     global definitions_file
-    definitions_file = []
-    fin = open(definitions_file_name,  'r')
+    fin = open(in_file,  'r')
     for line in fin:
         definitions_file.append(line.rstrip(' \n'))
     fin.close()
@@ -348,17 +382,18 @@ def write_latex_file():
 \\documentclass{scrartcl}
 \\usepackage{lilyglyphsStyle}
 
-\\begin{document}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%
 % new command definitions
 
 """)
+    rand_cmds = []
     for command_name in latex_cmds:
         for line in latex_cmds[command_name][0]:
             fout.write(line)
 
     fout.write("""
+
+\\begin{document}
 
 %%%%%%%%%%%%%
 % Text output
