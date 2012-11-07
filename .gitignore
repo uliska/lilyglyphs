@@ -18,6 +18,8 @@
 *.blg
 *.dvi
 
+*.pyc
+
 *.tif
 *.png
 *.jpg
