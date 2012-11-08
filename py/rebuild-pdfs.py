@@ -39,73 +39,54 @@
 #                                                                        #
 # ########################################################################
 
-import os,subprocess
+import lilyglyphs_common as lg, os, sys, subprocess
 
 # ################
 # Global variables
-
-in_dir = 'generated_src/'
-out_dir = 'pdfs/'
 
 def main():
 
     print 'rebuild-pdfs.py'
     print 'regenerate all pdf images that are not present (anymore)'
+    
+    print ''
+    check_paths()
 
     print ''
-    print 'Reading file lists, checking missing pdf files'
-
-    # read existing .pdf files in out_dir
-    img_files = []
-    for file in os.listdir(out_dir):
-        name,  ext = os.path.splitext(file)
-        if ext == '.pdf':
-            img_files.append(name)
-
-    # read existing .ly source files in in_dir
-    # and add them to the sources list if the image is missing
-    src_files = []
-    for file in os.listdir(in_dir):
-        name,  ext = os.path.splitext(file)
-        if ext == '.ly' and name not in img_files:
-            src_files.append(name)
-
+    src_files = lg.check_missing_pdfs()
     # is there anything to be done at all?
     if len(src_files) == 0:
         print ''
         print 'No image files missing, nothing to be done.'
         print 'If you want to re-create pdfs, then delete them first'
-        return
-
+        sys.exit(0)
+    lg.lily_files = src_files
     print ''
-    print 'Found ' + str(len(src_files)) + ' files.'
-    print 'Compile with LilyPond:'
+    print 'Found ' + str(len(src_files)) + ' missing file(s).'
+    
+    # compile all LilyPond files without matching pdf
+    lg.compile_lily_files()
+    
+    # clean up directories
+    lg.cleanup_lily_files()
 
-    # compile sources
-    for file in src_files:
-        args = []
-        args.append("lilypond")
-        args.append("-o")
-        args.append(in_dir)
-        args.append("-dpreview")
-        args.append("-dno-point-and-click")
-        args.append(in_dir + file + '.ly')
-        subprocess.call(args)
-        print ''
 
-        print 'Clean up ' + file
-        # remove full-page pdf
-        os.remove(in_dir + file + '.pdf')
-        # rename/move small 'preview' pdf
-        os.rename(in_dir + file + '.preview.pdf',  out_dir + file + '.pdf')
+def check_paths():
+    """Sets CWD to 'glyphimages' subdir
+       and makes sure that the necessary subdirectories are present"""
+    global lilyglyphs_root
+    lg.check_lilyglyphs_root()
+    os.chdir('glyphimages')
 
-    print 'Remove intermediate files'
-    file_list = os.listdir(in_dir)
-    for file in file_list:
-        dummy, extension = os.path.splitext(file)
-        if extension != '.ly':
-            os.remove(in_dir + file)
-
+    # check the presence of the necessary subdirectories
+    ls = os.listdir('.')
+    if not 'generated_src' in ls:
+        print 'No LilyPond source files directory found.'
+        print 'Sorry, there is something wrong :-('
+        sys.exit(2)
+    if not 'pdfs' in ls:
+        os.mkdir('pdfs')
+    
 
 # ####################################
 # Finally launch the program

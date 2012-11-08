@@ -36,14 +36,6 @@ flag_force = False
 input_files = []
 
 # ###############
-# Used constants
-
-# Directories
-out_lysrc = 'generated_src'
-out_images = 'pdfs'
-
-
-
 # string to be printed before the actual command
 lily_src_prefix = """\\version "2.17.4"
 
@@ -91,36 +83,28 @@ def main(argv):
     print 'Part of lilyglyphs.'
 
     print ''
-    print 'Checking paths'
     check_paths()
 
     for input_file_name in input_files:
         print ''
-        print 'Read input file ' + input_file_name
         lg.read_input_file('definitions/' + input_file_name)
 
     print ''
-    print 'Read entries of LilyPond commands:'
     read_entries()
 
     print ''
-    print 'Write .ly files for each entry:'
-    #write_lily_src_files()
+    write_lily_src_files()
 
     print ''
-    print 'Compile .ly files for each entry:'
-    #compile_lily_files()
+    compile_lily_files()
 
     print ''
-    print 'Clean up unused files'
-    #lg.cleanup_lily_files()
+    lg.cleanup_lily_files()
 
     print ''
-    print 'Create LaTeX commands'
     generate_latex_templates()
 
     print ''
-    print 'Write LaTeX file'
     write_latex_file()
 
 
@@ -157,11 +141,13 @@ def compile_lily_files():
         print ''
 
 def generate_latex_templates():
+    print 'Generate LaTeX commands'
     for cmd_name in lg.in_cmds:
         lg.generate_latex_command(cmd_name, 'image')
 
 def read_entries():
     """Parses the input source file and extracts glyph entries"""
+    print 'Read entries of LilyPond commands:'
     for i in range(len(lg.definitions_file)):
         if '% lilyglyphs entry' in lg.definitions_file[i]:
             i = read_entry(i)
@@ -206,6 +192,7 @@ def read_entry(i):
         lilySrc.append(lg.definitions_file[i])
         i += 1
     lg.in_cmds[cmd_name] = [comment,  lilySrc]
+    lg.lily_files.append(cmd_name)
     return i
 
 
@@ -238,9 +225,13 @@ def write_file_info(name, fout):
     fout.write('\n\n')
 
 def write_latex_file():
+    """Composes LaTeX file and writes it to disk"""
+    print 'Generate LaTeX file'
     lg.write_latex_file('01_newImageGlyphs.tex')
 
 def write_lily_src_files():
+    """Generates one .ly file for each found new command"""
+    print 'Write .ly files for each entry:'
     for cmd_name in lg.in_cmds:
         print '- ' + cmd_name
         # open a single lily src file for write access

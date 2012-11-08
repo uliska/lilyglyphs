@@ -32,7 +32,7 @@
 #                                                                        #
 # ########################################################################
 
-import os, sys, datetime
+import os, sys, datetime, subprocess
 
 # ################
 # Global variables
@@ -50,6 +50,8 @@ dir_stash = 'stash_new_commands/'
 
 # LilyPond commands
 in_cmds = {}
+# LilyPond source files (corresponds to in_cmds)
+lily_files = []
 # LaTeX commands
 latex_cmds = {}
 
@@ -169,6 +171,8 @@ def check_lilyglyphs_root():
        the root of the package."""
     global lilyglyphs_root, dir_stash
 
+    print 'Checking directories'
+    
     # check current working dir
     cwd = os.getcwd()
     if not 'lilyglyphs' in cwd:
@@ -182,11 +186,30 @@ def check_lilyglyphs_root():
     # set current working dir
     os.chdir(lilyglyphs_root)
 
+def check_missing_pdfs():
+    """Compares the list of LilyPond source and resulting PDF files.
+       Returns a list of LilyPond source file names (without folder)
+       which don't have a corresponding PDF file"""
+    print 'Reading file lists, counting missing pdf files'
+    # read existing .pdf files in out_dir
+    img_files = []
+    for file in os.listdir(dir_pdfs):
+        name,  ext = os.path.splitext(file)
+        if ext == '.pdf':
+            img_files.append(name)
+
+    # read existing .ly source files in in_dir
+    # and add them to the sources list if the image is missing
+    src_files = []
+    for file in os.listdir(dir_lysrc):
+        name,  ext = os.path.splitext(file)
+        if ext == '.ly' and name not in img_files:
+            src_files.append(name)
+    return src_files
+
 def cleanup_lily_files():
     """Removes unneccessary files from LilyPond compilation,
     rename and remove the preview PDF files to the right directory."""
-    #dir_in = out_lysrc + '/'
-    #dir_out = out_images + '/'
     file_list = os.listdir(dir_lysrc)
 
     print 'Remove intermediate files'
@@ -195,13 +218,27 @@ def cleanup_lily_files():
         if not extension in ['.pdf', '.ly']:
             os.remove(dir_lysrc + file)
 
-    print 'Clean up:'
-    for cmd_name in in_cmds:
-        print '- ' + cmd_name
+    print 'Remove full-page pdf and move imageglyph pdf'
+    for file in lily_files:
+        print '- ' + file
         # remove full-page pdf
-        os.remove(dir_lysrc + cmd_name + '.pdf')
+        os.remove(dir_lysrc + file + '.pdf')
         # rename/move small 'preview' pdf
-        os.rename(dir_lysrc + cmd_name + '.preview.pdf',  dir_pdfs + cmd_name + '.pdf')
+        os.rename(dir_lysrc + file + '.preview.pdf',  dir_pdfs + file + '.pdf')
+
+def compile_lily_files():
+    """Compiles LilyPond files to """
+    print 'Compile with LilyPond:'
+    for file in lily_files:
+        args = []
+        args.append("lilypond")
+        args.append("-o")
+        args.append(dir_lysrc)
+        args.append("-dpreview")
+        args.append("-dno-point-and-click")
+        args.append(dir_lysrc + file + ".ly")
+        subprocess.call(args)
+        print ''
 
 def generate_latex_command(cmd_name, cmd_type):
     """Writes templates for the commands in a new LaTeX file.
@@ -229,6 +266,8 @@ def read_input_file(in_file):
     """Reads the input source file and stores it"""
     global definitions_file
 
+    print 'Read input file ' + in_file
+    
     # check for existence of input file
     if not os.path.exists(in_file):
                     print 'File ' + in_file + ' not found.'
