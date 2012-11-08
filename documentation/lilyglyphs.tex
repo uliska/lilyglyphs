@@ -117,7 +117,36 @@ If you feel you have specific commands that would be a valuable addition to the 
 \label{subsec:installation}
 As the procedures necessary to make this package work for you may vary depending on your operating system and \LaTeX{} distribution, we can only give you some general hints on how to set up your system.
 
-First of all you have to make the package file (lilyglyphs.sty) available to your \LaTeX{} distribution. \textit{The usual way to achieve this is to extract the archive to a place in the \LaTeX{} search path. This might for example be a subfolder of \texttt{texmf/tex/latex} in your home directory. On Linux you'd have to run \texttt{texhash ~/texmf} afterwards to update \LaTeX's cache.}
+First of all you have to decide how you obtain the package.
+There are two main ways, and both have their pros and cons.
+You can either clone the GitHub repository or download one of the archived versions of the package.
+
+The recommended way to get \lilyglyphs{} is to clone the GitHub repository.
+If you consider contributing to the package it is preferable to first fork the repository, then clone into the fork and add the original repository as an additional remote.
+This way you can easily apply any changes, push them to your fork and send us a pull request.
+
+There is one important issue to consider using the original repository: You will need working installations of both LilyPond and Python on your system to set the package up.
+This is because the pdf files that are used for the graphics driven commands aren't tracked in Git.
+When you have cloned the repository for the first time or have fetched updates that include new image files, you will have to run the \texttt{rebuild-pdfs.py} script in the \texttt{/py} scripts directory of the package.
+This will run LilyPond multiple times to create the necessary image files.
+Without these files the respective commands won't compile in your \LaTeX{} documents.
+And if you think you might do without this subset of the available commands, consider that you won't even be able to compile the manual from its .tex source, which isn't included as a PDF file either -- another issue to consider.
+But since you are reading this, you will probably have already managed to download the PDF version from GitHub \dots
+
+The big advantage of directly using the repository is that it is the easiest way to get updates that might occur quite often. 
+Each time someone adds new items to the list of commands they will be instantly accessible through the repository, but regular releases will happen much less frequently.
+If updates should somehow break things in existing documents you can easily (and temporarily) check out the earlier version of the package that you used when originally writing your documents.
+Another advantage of the repository version is that you have all the tools at hand (especially the Python scripts) that make your life easier if you want to extend the package four yourself.
+
+If you know that you will only \emph{use} the \lilyglyphs{} package, then you can download one of the archived versions from the download page on the package's GitHub site.
+These versions contain all necessary binary files to use the package from your documents, but strips off any supplementary files that you might need to extend the package.
+
+An “intermediate” solution would be to download an automatically archived version of the complete repository. 
+This will contain the scripts and the supplementary files, but not the binary files.
+You should be able to download archives with the binary files for any released version from the download page.
+
+\medskip
+The initial requirement is to make the package file (lilyglyphs.sty) available to your \LaTeX{} distribution. \textit{The usual way to achieve this is to extract the archive or clone the repository to a place in the \LaTeX{} search path. This might for example be a subfolder of \texttt{texmf/tex/latex} in your home directory. On Linux you'd have to run \texttt{texhash ~/texmf} afterwards to update \LaTeX's cache.}
 
 Of course the fonts have to be accessible to \texttt{fontspec}. 
 Please refer to the \texttt{fontspec} documentation on how to make fonts visible to it. 
@@ -126,13 +155,7 @@ Please refer to the \texttt{fontspec} documentation on how to make fonts visible
 The font files are located in the usr/share/lilypond/current/fonts/otf subdirectory of your LilyPond installation. 
 Eight .otf files (representing different optical sizes, see \fref{subsec:optical_size}) are also included in the distribution archive of \lilyglyphs}.
 
-Many commands work by including pdf files as glyph images. 
-If you have obtained the package through its Git repository or have updated it by pulling changes from there, you will not have (all) pdf files present on your computer.
-You will have to build them through the Python script located in \texttt{glyphimages/rebuild-pdfs.py} (See \fref{sec:python_scripts} for more information about the Python scripts).
-This will require working installations of Python 2 and LilyPond.
-If you don't have one of these on your system and don't want to install it either you can get the pdf files through the archived version of the package that is also available for download.
-
-If you experience any issues during installation that would call for diferrent instructions then please provide us with feedback.
+If you experience any issues during installation that would call for diferrent instructions then please provide us some feedback.
 
 \section{Usage}
 \label{sec:usage}
