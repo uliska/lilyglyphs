@@ -60,6 +60,7 @@ symbol = \halfNote
 \include "score.ily"
 
 % lilyglyphs entry
+%%protected
 %{ dotted half note with upward stem %}
 halfNoteDotted = {
   \override Stem#'length = 5
@@ -68,6 +69,17 @@ halfNoteDotted = {
 
 \markup { halfNoteDotted }
 symbol = \halfNoteDotted
+\include "score.ily"
+
+% lilyglyphs entry
+%{ doubledotted half note with upward stem %}
+halfNoteDottedDouble = {
+  \override Stem#'length = 5
+  g'2..
+}
+
+\markup { halfNoteDottedDouble }
+symbol = \halfNoteDottedDouble
 \include "score.ily"
 
 % lilyglyphs entry
@@ -83,6 +95,7 @@ symbol = \crotchet
 \include "score.ily"
 
 % lilyglyphs entry
+%%protected
 %{ dotted crotchet with upward stem %}
 crotchetDotted = {
   \override Stem#'length = 5
@@ -91,6 +104,17 @@ crotchetDotted = {
 
 \markup { crotchetDotted }
 symbol = \crotchetDotted
+\include "score.ily"
+
+% lilyglyphs entry
+%{ doubledotted crotchet with upward stem %}
+crotchetDottedDouble = {
+  \override Stem#'length = 5
+  g'4..
+}
+
+\markup { crotchetDottedDouble }
+symbol = \crotchetDottedDouble
 \include "score.ily"
 
 
@@ -107,6 +131,7 @@ symbol = \quaver
 \include "score.ily"
 
 % lilyglyphs entry
+%%protected
 %{ dotted quaver with upward stem %}
 quaverDotted = {
   \override Stem#'length = 6
@@ -115,6 +140,18 @@ quaverDotted = {
 
 \markup { quaverDotted }
 symbol = \quaverDotted
+\include "score.ily"
+
+
+% lilyglyphs entry
+%{ doubledotted quaver with upward stem %}
+quaverDottedDouble = {
+  \override Stem#'length = 6
+  g'8..
+}
+
+\markup { quaverDottedDouble }
+symbol = \quaverDottedDouble
 \include "score.ily"
 
 
@@ -130,7 +167,9 @@ semiquaver = {
 symbol = \semiquaver
 \include "score.ily"
 
+
 % lilyglyphs entry
+%%protected
 %{ dotted semiquaver with upward stem %}
 semiquaverDotted = {
   \override Stem#'length = #6.5
@@ -139,5 +178,17 @@ semiquaverDotted = {
 
 \markup { semiquaverDotted }
 symbol = \semiquaverDotted
+\include "score.ily"
+
+
+% lilyglyphs entry
+%{ doubledotted semiquaver with upward stem %}
+semiquaverDottedDouble = {
+  \override Stem#'length = #6.5
+  g'16..
+}
+
+\markup { semiquaverDottedDouble }
+symbol = \semiquaverDottedDouble
 \include "score.ily"
 
