@@ -78,3 +78,25 @@
 }
 \newcommand{\lilyRFZ}[1][]{\lilyRFZBase[#1] }
 \WithSuffix\newcommand\lilyRFZ*[1][]{\lilyRFZBase[#1]}
+
+%------------------------
+% Graphical Dynamic Signs
+
+% two beamed quavers with diagonal beam
+% created by buildglyphimages.py on 2012-11-08
+\newcommand*{\decrescHairpinBase}[1][]{%
+    \setkeys{lilyDesignOptions}{scale=0.9,raise=0}%
+    \lilyPrintImage[#1]{decrescHairpin}%
+}
+\newcommand*{\decrescHairpin}[1][]{\decrescHairpinBase[#1] }
+\WithSuffix\newcommand\decrescHairpin*[1][]{\decrescHairpinBase[#1]}
+
+% two beamed quavers with diagonal beam
+% created by buildglyphimages.py on 2012-11-08
+\newcommand*{\crescHairpinBase}[1][]{%
+    \setkeys{lilyDesignOptions}{scale=0.9,raise=0}%
+    \lilyPrintImage[#1]{crescHairpin}%
+}
+\newcommand*{\crescHairpin}[1][]{\crescHairpinBase[#1] }
+\WithSuffix\newcommand\crescHairpin*[1][]{\crescHairpinBase[#1]}
+
