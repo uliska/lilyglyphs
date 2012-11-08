@@ -191,8 +191,10 @@ As the \emmentaler glyphs are designed for a totally different purpose they ofte
 \texttt{scale} is given as a factor by which the default size is multiplied.
 With \emmentaler glyphs this has to be a positive number, otherwise you will get an error.
 But glyphs printed by \cmd{lilyImage} (or predefined commands based on it) can also be scaled negatively.
-This results in an image flipped at the bottom line of the original, so you will have to add an appropriate \texttt{raise} value.
-But it is a valid and practical way to create two symbols from one image file.
+This results in an image that is rotated around the center of the bottom line of the original.
+You will therefore have to add an appropriate \texttt{raise} value (try e.\,g. 2 as a starting point).
+You will have to take some care about the horizontal spacing, as such a flipped image seems to use it with inverted direction.
+But you can safely put extra horizontal space after the image, and it is a valid and practical way to create two symbols from one image file.
 
 
 \medskip
