@@ -22,73 +22,23 @@
 %                                                                        %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\NeedsTeXFormat{LaTeX2e} 
-\ProvidesPackage{lilyglyphs}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This file defines a set of glyphs to be compiled in LilyPond %
+%                                                              %
+%   Beamed notes                                               %
+%                                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Enable the creation of starred commands
-\RequirePackage{suffix}
-
-% Access OpenTypeFonts
-\RequirePackage{fontspec}
-
-% Graphics program
-\RequirePackage{tikz}
-
-% Introduce key=value options
-\RequirePackage{keyval}
-
-% Necessary for calculations.
-% Is that really necessary or can it be achieved much cheaper?
-% OTOH I assume that we will use tikz/pgf anyway.
-\RequirePackage{pgf}
-
-% Necessary for tuning fractions (time signatures)
-\RequirePackage{amsmath}
+\version "2.17.5"
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% select from the optical sizes fonts
-\input{definitions/opticals.inp}
+% lilyglyphs entry
+%{ two beamed quavers with diagonal beam%}
+twoBeamedQuavers = {
+  \override Beam#'damping = 0
+  d'8[ e']
+}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% include the functionality for the key=value options
-\input{definitions/keyval.inp}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% include the basic functionality to select and print glyphs
-\input{definitions/genericAccess.inp}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% include logic and functionality to create dotted symbols
-\input{definitions/dotted.inp}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Definitions of the glyphs in groups
-% corresponding to the glyph list in the LilyPond docs
-
-\input{definitions/clefs.inp}
-
-\input{definitions/numbers.inp}
-
-\input{definitions/timesignatures.inp}
-
-\input{definitions/dynamics.inp}
-
-\input{definitions/accidentals.inp}
-
-%\input{definitions/noteheads.inp}
-
-\input{definitions/rests.inp}
-
-\input{definitions/scripts.inp}
-
-% Definitions of complex glyphs created with LilyPond
-% and included as image files
-
-\input{definitions/singlenotes.inp}
-
-\input{definitions/beamednotes.inp}
-
-
-
+\markup { twoBeamedQuavers }
+symbol = \twoBeamedQuavers
+\include "score.ily"

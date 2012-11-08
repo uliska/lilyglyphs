@@ -1,3 +1,4 @@
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                        %
 %      This file is part of the 'lilyglyphs' LaTeX package.              %
@@ -22,73 +23,41 @@
 %                                                                        %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\NeedsTeXFormat{LaTeX2e} 
-\ProvidesPackage{lilyglyphs}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+% This file defines a single glyph to be created with LilyPond: %
+%                                                               %
+%   twoBeamedQuavers.ly                                         %
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% created by buildglyphimages.py on 2012-11-08
 
-% Enable the creation of starred commands
-\RequirePackage{suffix}
+\version "2.17.4"
 
-% Access OpenTypeFonts
-\RequirePackage{fontspec}
+#(set-global-staff-size 14)
 
-% Graphics program
-\RequirePackage{tikz}
+\paper {
+  indent = 0
+}
+\header {
+  tagline = ""
+}
 
-% Introduce key=value options
-\RequirePackage{keyval}
+%{
+two beamed quavers with diagonal beam
+%}
 
-% Necessary for calculations.
-% Is that really necessary or can it be achieved much cheaper?
-% OTOH I assume that we will use tikz/pgf anyway.
-\RequirePackage{pgf}
+twoBeamedQuavers = {
+  \override Beam#'damping = 0
+  d'8[ e']
+}
 
-% Necessary for tuning fractions (time signatures)
-\RequirePackage{amsmath}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% select from the optical sizes fonts
-\input{definitions/opticals.inp}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% include the functionality for the key=value options
-\input{definitions/keyval.inp}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% include the basic functionality to select and print glyphs
-\input{definitions/genericAccess.inp}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% include logic and functionality to create dotted symbols
-\input{definitions/dotted.inp}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Definitions of the glyphs in groups
-% corresponding to the glyph list in the LilyPond docs
-
-\input{definitions/clefs.inp}
-
-\input{definitions/numbers.inp}
-
-\input{definitions/timesignatures.inp}
-
-\input{definitions/dynamics.inp}
-
-\input{definitions/accidentals.inp}
-
-%\input{definitions/noteheads.inp}
-
-\input{definitions/rests.inp}
-
-\input{definitions/scripts.inp}
-
-% Definitions of complex glyphs created with LilyPond
-% and included as image files
-
-\input{definitions/singlenotes.inp}
-
-\input{definitions/beamednotes.inp}
-
-
+  \score {
+  \new Staff \with {
+    \remove "Staff_symbol_engraver"
+    \remove "Clef_engraver"
+    \remove "Time_signature_engraver"
+  }
+  \twoBeamedQuavers
+}
 
