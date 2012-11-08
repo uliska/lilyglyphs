@@ -602,7 +602,7 @@ Use the unstarred version when you need a space after the symbol, the starred on
 \halfNoteRestDotted*[scale=1.5]\lilyPrintMoreDots and 
 
 
-\section{Python Scripts -- The easy way to create commands}
+\section{Easily create commands with Python scripts}
 \label{sec:python_scripts}
 As we have seen in \fref{subsubsec:commands_single-glyphs} it isn't really complicated to create predefined commands.
 But we have developed a set of tools and templates to streamline this process even further.
@@ -684,21 +684,18 @@ This way you can finish your symbol on the LilyPond side before actually going t
 \subsubsection{Running the Script}
 \label{subsubsec:BGI_running}
 
-\textbf{TODO: Document this after updating the program flow (esp. all the checks)}
+If you have prepared your input file you can run the \texttt{/pybuildglyphimages.py} script, passing the file name (without the path) along with the option \verb|-i| (or \verb|--input|). Remember that input files should be stored in the \texttt{/glyphimages/definitions} directory.
 
-\bigskip
-
-If you have prepared your input file you can run the \texttt{buildglyphimages.py} script, passing the file name along with the option \verb|-i| (or \verb|--input|). Remember that input files should be stored in the \texttt{definitions} subdirectory.
-
-In a first step the program parses this file and extracts information about the command definitions. Then it generates one compilable LilyPond source file for each command and saves it to the \texttt{generated\_src} subdirectory. 
-Each file is named according to the name of the command you specified in the input definition file.
-Compiling these files results in a PDF containing only the glyph but no staff symbol, time or key signature or clef.\\
-Please remember that these proceedings are by no means mandatory for creating working image files.
-They are intended for easing your work-flow, but you can always write source files manually.
+In a first step the program parses this file and extracts information about the command definitions. Then it generates one compilable LilyPond source file for each command and saves it to a subdirectory of \texttt{/glyphimages/generated\_src} .
+Each file is named according to the name of the command you specified in the input definition file, and the subdirectory is named according to the input file.
+So if you combined several glyphs in a file \texttt{singlenotes.ly} the results will be stored in a \texttt{singlenotes} subdirectory.
 
 Now the generated source files are compiled using LilyPond. 
 The command line option \verb|-dpreview| takes care of producing a pdf file with the smallest possible bounding box around its content.
-The directory is cleaned up, and the resulting small PDF files are moved to the subdirectory 
+The directory is cleaned up, and the resulting small PDF files are moved to the corresponding subdirectory below \texttt{glyphimages/pdfs}.
+
+The final task of the script is to generate a \LaTeX{} file that is stored as \texttt{/stash\_new\_commands/01\_newImageGlyphs.tex}.
+You will find a description of its content and intended usage in the next section.
 
 
 \subsubsection{Utilizing the results}
@@ -706,14 +703,14 @@ The directory is cleaned up, and the resulting small PDF files are moved to the 
 
 If you have successfully run the script you have the following results:
 \begin{itemize}
-\item LilyPond source files in the \texttt{generated\_src} folder (one for each command),
-\item PDF files in the \texttt{pdfs} folder and
-\item a .tex file corresponding to your input file in the \texttt{stash} folder.
+\item LilyPond source files in the \texttt{/glyphimages/generated\_src/INPUT\_FILE\_NAME} folder (one for each command),
+\item PDF files in the \texttt{/glyphimages/pdfs/INPUT\_FILE\_NAME} folder and
+\item the file \texttt{/stash\_new\_commands/01\_newImageGlyphs.tex}.
 \end{itemize}
-You shouldn't touch the first two items but go on and open the new .tex file.
+You shouldn't touch the first two items but go on and open the .tex file.
 Keep in mind that this file will be overwritten by the next run of the script, so if you want to make any changes and/or keep the generated contents, you should immediately rename the file.
 It is a good idea to name it according to the definitions input file because these two files form a natural pair.
-As explained in the previous section this file is a working \LaTeX{} document that uses the \lilyglyphs{} package.
+This file is a working \LaTeX{} document that uses the \lilyglyphs{} package.
 It contains \LaTeX{} \cmd{newcommand} definitions with starred and unstarred versions, one for each definition of the input file that hasn't been skipped in the process.
 The visible part of the document contains a documentation table (as used throughout this manual) with all generated commands and example text for each generated command.
 
