@@ -47,13 +47,19 @@ dir_defs = 'definitions/'
 dir_lysrc = 'generated_src/'
 dir_pdfs = 'pdfs/'
 dir_stash = 'stash_new_commands/'
+# subdirectory to save the lily sources and the pdf to
+cat_subdir = ''
 
 # LilyPond commands
 in_cmds = {}
 # LilyPond source files (corresponds to in_cmds)
+# list of tuples (cat_subdir, name)
 lily_files = []
 # LaTeX commands
 latex_cmds = {}
+
+# files with the glyph definitions
+input_files = []
 
 # #######
 # Strings
@@ -191,41 +197,59 @@ def check_missing_pdfs():
        Returns a list of LilyPond source file names (without folder)
        which don't have a corresponding PDF file"""
     print 'Reading file lists, counting missing pdf files'
-    # read existing .pdf files in out_dir
     img_files = []
-    for file in os.listdir(dir_pdfs):
-        name,  ext = os.path.splitext(file)
-        if ext == '.pdf':
-            img_files.append(name)
+    for entry in os.listdir(dir_pdfs):
+        out_dir = dir_pdfs + entry + '/'
+        if os.path.isdir(out_dir):
+            # read existing .pdf files in out_dir
+            for file in os.listdir(out_dir):
+                name,  ext = os.path.splitext(file)
+                if ext == '.pdf':
+                    img_files.append(name)
 
     # read existing .ly source files in in_dir
     # and add them to the sources list if the image is missing
     src_files = []
-    for file in os.listdir(dir_lysrc):
-        name,  ext = os.path.splitext(file)
-        if ext == '.ly' and name not in img_files:
-            src_files.append(name)
+    for entry in os.listdir(dir_lysrc):
+        in_dir = dir_lysrc + entry + '/'
+        if os.path.isdir(in_dir):
+            for file in os.listdir(in_dir):
+                name,  ext = os.path.splitext(file)
+                if ext == '.ly' and name not in img_files:
+                    src_files.append((entry + '/', name))
     return src_files
 
 def cleanup_lily_files():
     """Removes unneccessary files from LilyPond compilation,
     rename and remove the preview PDF files to the right directory."""
-    file_list = os.listdir(dir_lysrc)
-
-    print 'Remove intermediate files'
-    for file in file_list:
-        dummy, extension = os.path.splitext(file)
-        if not extension in ['.pdf', '.ly']:
-            os.remove(dir_lysrc + file)
-
-    print 'Remove full-page pdf and move imageglyph pdf'
-    for file in lily_files:
-        print '- ' + file
-        # remove full-page pdf
-        os.remove(dir_lysrc + file + '.pdf')
-        # rename/move small 'preview' pdf
-        os.rename(dir_lysrc + file + '.preview.pdf',  dir_pdfs + file + '.pdf')
-
+    global cat_subdir
+    
+    print 'Clean up directories'
+    
+    # iterate through the subdirectories of dir_lysrc
+    for entry in os.listdir(dir_lysrc):
+        in_dir = dir_lysrc + entry + '/'
+        if os.path.isdir(in_dir):
+            # make sure there is a corresponding dir_pdfs directory
+            out_dir = dir_pdfs + entry + '/'
+            if not os.path.exists(out_dir):
+                os.mkdir(out_dir)
+            # iterate through the subdir
+            for file in os.listdir(in_dir):
+                name, extension = os.path.splitext(file)
+                #remove unnecessary files
+                if not extension in ['.pdf', '.ly']:
+                    os.remove(in_dir + file)
+                if extension == '.pdf':
+                    # remove full-page pdf
+                    if not '.preview' in name:
+                        os.remove(in_dir + file)
+                    else:
+                        newfile = file.replace('.preview.', '.')
+                        # rename/move small 'preview' pdf
+                        os.rename(in_dir + file,  out_dir + newfile)
+                    
+        
 def compile_lily_files():
     """Compiles LilyPond files to """
     print 'Compile with LilyPond:'
@@ -233,10 +257,11 @@ def compile_lily_files():
         args = []
         args.append("lilypond")
         args.append("-o")
-        args.append(dir_lysrc)
+        args.append(dir_lysrc + file[0])
         args.append("-dpreview")
         args.append("-dno-point-and-click")
-        args.append(dir_lysrc + file + ".ly")
+        args.append(dir_lysrc + file[0] + file[1] + ".ly")
+        print args
         subprocess.call(args)
         print ''
 

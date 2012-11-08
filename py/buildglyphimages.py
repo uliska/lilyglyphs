@@ -32,9 +32,6 @@ import lilyglyphs_common as lg, os, sys,  getopt,  datetime,  subprocess
 # flags
 flag_force = False
 
-# files with the glyph definitions
-input_files = []
-
 # ###############
 # string to be printed before the actual command
 lily_src_prefix = """\\version "2.17.4"
@@ -69,7 +66,7 @@ def main(argv):
         opts, args = getopt.getopt(argv, short_options, long_options)
         for opt, arg in opts:
             if opt in ("-i",  "--input"):
-                input_files.append(arg)
+                lg.input_files.append(arg)
             else:
                 usage()
                 sys.exit(2)
@@ -85,24 +82,27 @@ def main(argv):
     print ''
     check_paths()
 
-    for input_file_name in input_files:
+    for input_file_name in lg.input_files:
         print ''
         lg.read_input_file('definitions/' + input_file_name)
+        
+        basename, dummy = os.path.splitext(input_file_name)
+        lg.cat_subdir = basename + '/'
 
-    print ''
-    read_entries()
+        print ''
+        read_entries()
 
-    print ''
-    write_lily_src_files()
+        print ''
+        write_lily_src_files()
 
-    print ''
-    compile_lily_files()
+        print ''
+        lg.compile_lily_files()
+
+        print ''
+        generate_latex_templates()
 
     print ''
     lg.cleanup_lily_files()
-
-    print ''
-    generate_latex_templates()
 
     print ''
     write_latex_file()
@@ -126,7 +126,7 @@ def check_paths():
     if not os.path.exists(lg.dir_stash):
         os.mkdir(lg.dir_stash)
 
-
+# TODO: Remove this function (uses only the lg. one?)
 def compile_lily_files():
     """Compiles all newly written .ly files"""
     for cmd_name in lg.in_cmds:
@@ -192,7 +192,7 @@ def read_entry(i):
         lilySrc.append(lg.definitions_file[i])
         i += 1
     lg.in_cmds[cmd_name] = [comment,  lilySrc]
-    lg.lily_files.append(cmd_name)
+    lg.lily_files.append((lg.cat_subdir, cmd_name))
     return i
 
 
@@ -232,10 +232,13 @@ def write_latex_file():
 def write_lily_src_files():
     """Generates one .ly file for each found new command"""
     print 'Write .ly files for each entry:'
+    src_dir = lg.dir_lysrc + lg.cat_subdir[:-1]
+    if not os.path.exists(src_dir):
+        os.mkdir(src_dir)
     for cmd_name in lg.in_cmds:
         print '- ' + cmd_name
         # open a single lily src file for write access
-        fout = open('generated_src/' + cmd_name + '.ly',  'w')
+        fout = open(src_dir + '/' + cmd_name + '.ly',  'w')
 
         #output the license information
         fout.write(lg.lilyglyphs_copyright_string)
