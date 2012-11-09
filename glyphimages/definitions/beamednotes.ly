@@ -32,8 +32,8 @@
 \version "2.17.5"
 
 
-% lilyglyphs entry
-%{ two beamed quavers with diagonal beam%}
+%%lilyglyphs
+% two beamed quavers with diagonal beam
 twoBeamedQuavers = {
   \override Beam#'damping = 0
   d'8[ e']

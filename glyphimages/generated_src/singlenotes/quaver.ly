@@ -30,7 +30,7 @@
 %   quaver.ly                                                   %
 %                                                               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% created by buildglyphimages.py on 2012-11-06
+% created by buildglyphimages.py on 2012-11-09
 
 \version "2.17.4"
 

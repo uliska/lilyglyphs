@@ -32,8 +32,8 @@
 \version "2.17.5"
 
 
-% lilyglyphs entry
-%{ two beamed quavers with diagonal beam%}
+%%lilyglyphs
+% crescendo hairpin
 crescHairpin = {
   s1\< s4\!
 }
@@ -43,8 +43,8 @@ symbol = \crescHairpin
 \include "score.ily"
 
 
-% lilyglyphs entry
-%{ two beamed quavers with diagonal beam%}
+%%lilyglyphs
+% decrescendo hairpin
 decrescHairpin = {
   s1\> s4\!
 }

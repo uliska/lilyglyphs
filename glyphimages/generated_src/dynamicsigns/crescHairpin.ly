@@ -30,7 +30,7 @@
 %   crescHairpin.ly                                             %
 %                                                               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% created by buildglyphimages.py on 2012-11-08
+% created by buildglyphimages.py on 2012-11-09
 
 \version "2.17.4"
 
@@ -44,7 +44,7 @@
 }
 
 %{
-two beamed quavers with diagonal beam
+crescendo hairpin
 %}
 
 crescHairpin = {
