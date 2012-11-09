@@ -36,8 +36,11 @@ This is **not** a replacement to lilypond-book.
 In order to use this package one has to
   - use a LaTeX flavor that can use the fontspec package and
   - make the Emmentaler OTF available to fontspec.
+  - make sure the pdf files used for image driven commands are present
 
-For more info see the (incomplete) manual on the download page.
+Please also see INSTALL.md
+
+For more info see the manual on the download page.
 
 There are discussions about also support plain LaTeX.  
 Any assistance in this field is highly appreciated.
@@ -45,4 +48,4 @@ Any assistance in this field is highly appreciated.
 Contact
 -------
 This package is maintained by *Urs Liska*.
-If you are interested in participating please write to git@ursliska.de
+If you are interested in participating please write to lilyglyphs@ursliska.de
