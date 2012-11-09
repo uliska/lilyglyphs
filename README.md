@@ -25,7 +25,7 @@
 lilyglyphs (Xe)LaTeX package
 ============================
 
-Package to make Glyphs from LilyPond's Emmentaler OpenType Font available in (Xe)LaTeX
+Package to make LilyPond's notational elements and glyphs from its Emmentaler OpenType Font available in (Xe)LaTeX
 
 Intended use
 ------------
