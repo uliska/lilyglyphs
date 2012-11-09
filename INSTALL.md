@@ -45,5 +45,5 @@ The .otf files that are located in the 'otf' subfolder of the package have to be
 Glyph images
 ------------
 Many glyphs work by including small PDF files as images.  
-If you have obtained or updated this package through its Git repository, these are not present by default and have to be recreated by running the glyphimages/rebuild-pdfs.py script.  
+If you have obtained or updated this package through its Git repository, these are not present by default and have to be recreated by running the py/rebuild-pdfs.py script.  
 This requires a working LilyPond installation on your system. If you don't have this and don't want to install LilyPond you can still get all files from the archived version of this package.
