@@ -620,8 +620,7 @@ You can't create image glyph commands at all without having LilyPond installed o
 \subsection{Generating Commands with Image Glyphs}
 \label{generating_commands_image}
 
-Everything dealing with image glyph commands happens in the \texttt{glyphimages} directory of the \lilyglyphs{} package.
-The heart of the toolset is the Python script \texttt{buildglyphimages.py}, which is located in this directory.
+The heart of the toolset is the Python script \texttt{buildglyphimages.py}, which is located in the \texttt{/py} directory.
 It reads in an input file with one or more command definitions in it, generates compilable LilyPond source files from them and uses LilyPond to create small pdf files containing the images to be included in the \LaTeX{} file.
 Then the script creates a new \LaTeX{} file with command definitions and example text, which can then be used to fine-tune the commands.
 Finally you will have to move the generated commands to some useful location.
@@ -636,26 +635,24 @@ We will later see that it makes sense to provide compilable Lilypond files, thou
 
 Input definition files are to be stored in the subdirectory \texttt{definitions} of our \texttt{glyphimages} directory.
 
-The script parses the input file line by line until it finds a line with
-\begin{verbatim}
-% lilyglyphs entry
-\end{verbatim}
-
-as its content.
+The script parses the input file line by line until it finds a line that contains the special key \verb|%%lilyglyphs|.
 Then it starts reading in an entry for a single glyph.
 
-After this opening line you have to provide a LilyPond style multiline comment (event if it takes only one line).
-This comment is later used for marking the command in the \LaTeX{} file.
+Any subsequent line that starts with the percent sign as a LilyPond comment is interpreted as a comment.
+This comment will later be used for marking the command in the \LaTeX{} file.
+If a line contains the special key \verb|%%protected|, the script skips this command.
+You should use this key whenever you consider a command finished.
+This won't only save the time of the LilyPond compilation, but will also prevent the existing command to be generated again in your output file.
 
-Immediately afterwards you provide the actual LilyPond command(s) in the form of a variable holding a musical expression.
+Afterwards you provide the actual LilyPond command in the form of a variable holding a musical expression.
 The first line should contain exactly the name, the '=' and the opening curly brace.
 The following lines are read as LilyPond code until the parser finds a line starting with the closing curly brace.
 
 Here you can see a concise example of a lilyglyphs entry section:
 
 \begin{verbatim}
-% lilyglyphs entry
-%{ crotchet with upward stem %}
+%%lilyglyphs
+% crotchet with upward stem
 crotchet = {
   g'4
 }

@@ -99,7 +99,7 @@ def main(argv):
         lg.compile_lily_files()
 
         print ''
-        generate_latex_templates()
+        lg.generate_latex_commands()
 
     print ''
     lg.cleanup_lily_files()
@@ -125,73 +125,61 @@ def check_paths():
         os.mkdir('pdfs')
     if not os.path.exists(lg.dir_stash):
         os.mkdir(lg.dir_stash)
-
-# TODO: Remove this function (uses only the lg. one?)
-def compile_lily_files():
-    """Compiles all newly written .ly files"""
-    for cmd_name in lg.in_cmds:
-        args = []
-        args.append("lilypond")
-        args.append("-o")
-        args.append("generated_src")
-        args.append("-dpreview")
-        args.append("-dno-point-and-click")
-        args.append("generated_src/" + cmd_name + ".ly")
-        subprocess.call(args)
-        print ''
-
-def generate_latex_templates():
-    print 'Generate LaTeX commands'
-    for cmd_name in lg.in_cmds:
-        lg.generate_latex_command(cmd_name, 'image')
+    if not os.path.exists(lg.dir_stash + 'images'):
+        os.mkdir(lg.dir_stash + 'images')
 
 def read_entries():
     """Parses the input source file and extracts glyph entries"""
     print 'Read entries of LilyPond commands:'
     for i in range(len(lg.definitions_file)):
-        if '% lilyglyphs entry' in lg.definitions_file[i]:
+        if '%%lilyglyphs' in lg.definitions_file[i]:
             i = read_entry(i)
-
 
 def read_entry(i):
     """Reads a single glyph entry from the input file and stores it
     in the global dictionary lg.in_cmds"""
     # read comment line(s)
-    comment = []
-    while True:
-        i += 1
-        cur_line = lg.definitions_file[i].strip()
-        # check for 'protected' entries that shouldn't be processed newly
-        if '%%protected' in cur_line:
-            is_protected = True
-            i += 1
-            cur_line = lg.definitions_file[i].strip()
-        else:
-            is_protected = False
-        first_line = cur_line.find('%{')
-        if first_line >= 0:
-            cur_line = cur_line[first_line + 3 :]
-        last_line = cur_line.find('%}')
-        if last_line >= 0:
-            comment.append(cur_line[: last_line].strip())
-            break
-        else:
-            comment.append(cur_line)
     i += 1
+    is_protected = False
+    comment = []
+    # loop over the comment line(s)
+    while i < len(lg.definitions_file):
+        line = lg.definitions_file[i].strip()
+        # check for 'protected' entries that shouldn't be processed newly
+        if not line[0] == '%':
+            break
+        elif '%%protected' in line:
+            is_protected = True
+        else:
+            line = line[1:].strip()
+            comment.append(line)
+        i += 1
+
+    # remove any empty lines
+    while len(lg.definitions_file[i].strip()) == 0:
+        i += 1
+    
     # read command name
-    cur_line = lg.definitions_file[i].strip()
-    cmd_name = cur_line[: cur_line.find('=') - 1]
+    line = lg.definitions_file[i].strip()
+    cmd_name = line[: line.find('=') - 1]
+    print '- ' + cmd_name, 
     if is_protected:
-        print '| protected and skipped: ' + cmd_name
-        return i
-    print '- ' + cmd_name
+        print '(protected and skipped)'
+    else:
+        print '' #(for line break only)
+        
     # read actual command until we find a line the begins with a closing curly bracket
     i += 1
     lilySrc = []
     while lg.definitions_file[i][0] != '}':
         lilySrc.append(lg.definitions_file[i])
         i += 1
-    lg.in_cmds[cmd_name] = [comment,  lilySrc]
+    lg.in_cmds[cmd_name] = {}
+    lg.in_cmds[cmd_name]['comment'] = comment
+    lg.in_cmds[cmd_name]['lilySrc'] = lilySrc
+    lg.in_cmds[cmd_name]['element'] = cmd_name
+    lg.in_cmds[cmd_name]['type'] = 'image'
+    
     lg.lily_files.append((lg.cat_subdir, cmd_name))
     return i
 
@@ -227,7 +215,7 @@ def write_file_info(name, fout):
 def write_latex_file():
     """Composes LaTeX file and writes it to disk"""
     print 'Generate LaTeX file'
-    lg.write_latex_file('01_newImageGlyphs.tex')
+    lg.write_latex_file('images/newImageGlyphs.tex')
 
 def write_lily_src_files():
     """Generates one .ly file for each found new command"""
@@ -236,6 +224,7 @@ def write_lily_src_files():
     if not os.path.exists(src_dir):
         os.mkdir(src_dir)
     for cmd_name in lg.in_cmds:
+        print lg.in_cmds[cmd_name]
         print '- ' + cmd_name
         # open a single lily src file for write access
         fout = open(src_dir + '/' + cmd_name + '.ly',  'w')
@@ -252,13 +241,13 @@ def write_lily_src_files():
 
         # write the comment for the command
         fout.write('%{\n')
-        for line in lg.in_cmds[cmd_name][0]:
+        for line in lg.in_cmds[cmd_name]['comment']:
             fout.write(line + '\n')
         fout.write('%}\n\n')
 
         # write the actual command
         fout.write(cmd_name + ' = {\n')
-        for line in lg.in_cmds[cmd_name][1]:
+        for line in lg.in_cmds[cmd_name]['lilySrc']:
             fout.write(line + '\n')
         fout.write('}\n')
 

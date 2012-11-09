@@ -26,53 +26,63 @@
 
 # ########################################################################
 #                                                                        #
-# lilyglyphs_common.py                                                   #
+# genGlyphCommands.py                                                    #
 #                                                                        #
-# Common functionality for the Python scripts in lilyglyphs              #
+# generate commands based on Emmentaler glyphs                           #
 #                                                                        #
 # ########################################################################
 
 import lilyglyphs_common as lg, os, sys
 
-# ################
-# Global variables
-
-input_file = ''
-
-
-def main(argv):
-    check_argument(argv)
+def main(input_file):
     lg.check_lilyglyphs_root()
     os.chdir(lg.dir_stash)
+    if not os.path.exists('emmentaler'):
+        os.mkdir('emmentaler')
+    os.chdir('emmentaler')
     lg.read_input_file(input_file)
     read_entries()
     
-    #generate_latex_commands()
+    lg.generate_latex_commands()
+    
+    lg.write_latex_file('emmentaler/newGlyphCommands.tex')
     
     
-    
-def check_argument(argv):
-    global input_file
-    try:
-        input_file = str(argv[1])
-    except:
-        print 'An error occured with the argument:'
-        print sys.exc_info()
-        usage()
-        sys.exit(1)
-
 def generate_latex_commands():
     for cmd_name in lg.in_cmds:
         lg.generate_latex_command(cmd_name, lg.in_cmds[cmd_name][1])
 
 def read_entries():
+    entry = {}
+    def reset_entry():
+        entry['cmd'] = ''
+        entry['element'] = ''
+        entry['type'] = 'glyph'
+        entry['comment'] = []
+    
+    reset_entry()
     for line in lg.definitions_file:
         line = line.strip()
-        if len(line) == 0 or line[0] in '#%':
-            continue
-        print line
-    
-    # assign lg.in_cmds[cmd_name] = [comment (string), cmd_type (string)]
+        # empty line = end of entry
+        if not len(line):
+            # skip if cmd and glyph haven't been filled both
+            if not (entry['cmd'] and entry['element']):
+                print 'Skip malformed entry \'' + entry['cmd'] + '\'. Please check input file'
+                reset_entry()
+            else:
+                print 'Read entry \'' + entry['cmd'] + '\''
+                lg.in_cmds[entry['cmd']] = {}
+                lg.in_cmds[entry['cmd']]['element'] = entry['element']
+                lg.in_cmds[entry['cmd']]['type'] = entry['type']
+                lg.in_cmds[entry['cmd']]['comment'] = entry['comment']
+                reset_entry()
+        else:
+            keyval = line.split('=')
+            if keyval[0] == 'comment':
+                entry['comment'] = [keyval[1]]
+            else:
+                entry[keyval[0].strip()] = keyval[1].strip()
+
     
 def usage():
     print 'genGlyphCommands.py'
@@ -86,4 +96,8 @@ def usage():
 # ####################################
 # Finally launch the program
 if __name__ == "__main__":
-    main(sys.argv)
+    if len(sys.argv) < 2:
+        print 'No filename argument given.\n'
+        usage()
+        sys.exit(2)
+    main(sys.argv[1])

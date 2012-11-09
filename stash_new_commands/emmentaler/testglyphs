@@ -1,0 +1,31 @@
+cmd=fermataDown
+element=scripts.dfermata
+comment=downward fermata
+
+cmd=test2
+glyph=scripts.test
+
+cmd=testFalse
+comment=Comment
+
+glyph=test
+comment=test 
+
+cmd=shortFermata
+element=scripts.ushortfermata
+comment=short (triangular) fermata
+
+cmd=rinforzando
+element=rfz
+comment=Rinforzando, to be kerned
+type=dynamics
+
+cmd=textTwo
+element=5 - 4 ff
+type=text
+
+cmd=byNumber
+element=33
+type=bynumber
+comment=Try to get by number
+

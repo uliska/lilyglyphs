@@ -159,16 +159,55 @@ cillum dolore eu fugiat nulla pariatur\\CMD.
 
 # template strings to build the command from
 # 'CMD' will be replaced by the actual command_name
+# 'ELEM' will be replaced by the actual content element to be rendered
+
 cmd_templates = {}
 cmd_templates['image'] = """\\newcommand*{\\CMDBase}[1][]{%
     \\setkeys{lilyDesignOptions}{scale=1,raise=0}%
-    \\lilyPrintImage[#1]{CMD}%
+    \\lilyPrintImage[#1]{ELEM}%
 }
 \\newcommand*{\\CMD}[1][]{\\CMDBase[#1] }
 \\WithSuffix\\newcommand\\CMD*[1][]{\\CMDBase[#1]}
 
 """
 
+cmd_templates['glyph'] = """\\newcommand*{\\CMDBase}[1][]{%
+	\\setkeys{lilyDesignOptions}{scale=1,raise=0}%
+	\\lilyPrint[#1]{\\lilyGetGlyph{ELEM}}%
+}
+\\newcommand*{\\CMD}[1][]{\\CMDBase[#1] }
+\\WithSuffix\\newcommand\\CMD*[1][]{\\CMDBase[#1]}
+
+"""
+
+cmd_templates['bynumber'] = """\\newcommand*{\\CMDBase}[1][]{%
+	\\setkeys{lilyDesignOptions}{scale=1,raise=0}%
+	\\lilyPrint[#1]{\\lilyGetGlyphByNumber{ELEM}}%
+}
+\\newcommand*{\\CMD}[1][]{\\CMDBase[#1] }
+\\WithSuffix\\newcommand\\CMD*[1][]{\\CMDBase[#1]}
+
+"""
+
+cmd_templates['dynamics'] = """\\newcommand{\\CMDBase}[1][]{%
+	\\mbox{%
+		\\lilyDynamics[#1]{ELEM}%
+	}%
+}
+\\newcommand*{\\CMD}[1][]{\\CMDBase[#1] }
+\\WithSuffix\\newcommand\\CMD*[1][]{\\CMDBase[#1]}
+
+"""
+
+cmd_templates['text'] = """\\newcommand{\\CMDBase}[1][]{%
+	\\mbox{%
+		\\lilyText[#1]{ELEM}%
+	}%
+}
+\\newcommand*{\\CMD}[1][]{\\CMDBase[#1] }
+\\WithSuffix\\newcommand\\CMD*[1][]{\\CMDBase[#1]}
+
+"""
 
 def check_lilyglyphs_root():
     """Checks if the current working directory
@@ -265,26 +304,31 @@ def compile_lily_files():
         subprocess.call(args)
         print ''
 
-def generate_latex_command(cmd_name, cmd_type):
-    """Writes templates for the commands in a new LaTeX file.
+def generate_latex_commands():
+    """Generates the templates for the commands in a new LaTeX file.
     These should manually be moved to the appropriate .inp files
     in lilyglyphs"""
 
-    latex_cmds[cmd_name] = []
+    
+    for cmd_name in in_cmds:
+        latex_cmds[cmd_name] = {}
 
-    # create LaTeX command
-    cmd = []
-    cmd.append('% ' + str(in_cmds[cmd_name][0])[2:-2] + '\n')
-    cmd.append(signature() + '\n')
-    cmd.append(cmd_templates[cmd_type].replace('CMD', cmd_name))
-    latex_cmds[cmd_name].append(cmd)
-
-    # create documentation table
-
-    # create LaTeX test code
-    tc = []
-    tc.append(testcode_template.replace('CMD', cmd_name))
-    latex_cmds[cmd_name].append(tc)
+        # create LaTeX command
+        cmd = []
+        for line in in_cmds[cmd_name]['comment']:
+            cmd.append('% ' + line + '\n')
+        cmd.append(signature() + '\n')
+        template = cmd_templates[in_cmds[cmd_name]['type']]
+        templateCMD = template.replace('CMD', cmd_name)
+        cmd.append(templateCMD.replace('ELEM', in_cmds[cmd_name]['element']))
+        latex_cmds[cmd_name]['cmd'] = cmd
+    
+        # create documentation table
+    
+        # create LaTeX test code
+        tc = []
+        tc.append(testcode_template.replace('CMD', cmd_name))
+        latex_cmds[cmd_name]['testcode'] = tc
 
 
 def read_input_file(in_file):
@@ -320,8 +364,9 @@ def write_latex_file(file_name):
     fout.write(latexfile_start_comment.replace('SCRIPT_NAME', script_name()))
 
     # write out command definitions
-    for cmd_name in latex_cmds:
-        for line in latex_cmds[cmd_name][0]:
+    sorted_cmds = sorted(latex_cmds.iterkeys())
+    for cmd_name in sorted_cmds:
+        for line in latex_cmds[cmd_name]['cmd']:
             fout.write(line)
 
     fout.write(latexfile_begin_document)
@@ -330,13 +375,13 @@ def write_latex_file(file_name):
 
     # write out the reference table
     row_template = '\\CMD & \\cmd{CMD} & description\\\\'
-    for cmd_name in latex_cmds:
+    for cmd_name in sorted_cmds:
         fout.write(row_template.replace('CMD', cmd_name) + '\n')
     fout.write(latexfile_testcode)
 
     # write out the test code
-    for cmd_name in latex_cmds:
-        for line in latex_cmds[cmd_name][1]:
+    for cmd_name in sorted_cmds:
+        for line in latex_cmds[cmd_name]['testcode']:
             fout.write(line)
 
     fout.write('\\end{document}\n')
