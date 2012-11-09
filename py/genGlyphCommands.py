@@ -32,14 +32,58 @@
 #                                                                        #
 # ########################################################################
 
-import os, sys, datetime, subprocess
+import lilyglyphs_common as lg, os, sys
 
 # ################
 # Global variables
 
-definitions_file = []
+input_file = ''
 
-# ###########
-# Directories
-lilyglyphs_root = ''
 
+def main(argv):
+    check_argument(argv)
+    lg.check_lilyglyphs_root()
+    os.chdir(lg.dir_stash)
+    lg.read_input_file(input_file)
+    read_entries()
+    
+    #generate_latex_commands()
+    
+    
+    
+def check_argument(argv):
+    global input_file
+    try:
+        input_file = str(argv[1])
+    except:
+        print 'An error occured with the argument:'
+        print sys.exc_info()
+        usage()
+        sys.exit(1)
+
+def generate_latex_commands():
+    for cmd_name in lg.in_cmds:
+        lg.generate_latex_command(cmd_name, lg.in_cmds[cmd_name][1])
+
+def read_entries():
+    for line in lg.definitions_file:
+        line = line.strip()
+        if len(line) == 0 or line[0] in '#%':
+            continue
+        print line
+    
+    # assign lg.in_cmds[cmd_name] = [comment (string), cmd_type (string)]
+    
+def usage():
+    print 'genGlyphCommands.py'
+    print 'is part of the lilyglyphs package'
+    print ''
+    print 'Usage:'
+    print 'Pass the name (without path) of an input definitions file'
+    print '(this has to be located in the /stash_new_commands directory.'
+    print 'Please refer to the manual (documentation/lilyglyphs.pdf).'
+
+# ####################################
+# Finally launch the program
+if __name__ == "__main__":
+    main(sys.argv)

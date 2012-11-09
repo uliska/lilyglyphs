@@ -288,7 +288,8 @@ def generate_latex_command(cmd_name, cmd_type):
 
 
 def read_input_file(in_file):
-    """Reads the input source file and stores it"""
+    """Reads the input source file and stores it 
+    in the global variable definitions_file"""
     global definitions_file
 
     print 'Read input file ' + in_file
@@ -314,7 +315,7 @@ def signature():
 
 def write_latex_file(file_name):
     fout = open(dir_stash + file_name, 'w')
-    fout.write('% New Image Glyphs for the lilyglyphs package\n')
+    fout.write('% New Glyphs for the lilyglyphs package\n')
     fout.write(signature() + '\n')
     fout.write(latexfile_start_comment.replace('SCRIPT_NAME', script_name()))
 
