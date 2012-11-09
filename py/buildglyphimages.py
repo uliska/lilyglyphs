@@ -174,13 +174,14 @@ def read_entry(i):
     while lg.definitions_file[i][0] != '}':
         lilySrc.append(lg.definitions_file[i])
         i += 1
-    lg.in_cmds[cmd_name] = {}
-    lg.in_cmds[cmd_name]['comment'] = comment
-    lg.in_cmds[cmd_name]['lilySrc'] = lilySrc
-    lg.in_cmds[cmd_name]['element'] = cmd_name
-    lg.in_cmds[cmd_name]['type'] = 'image'
-    
-    lg.lily_files.append((lg.cat_subdir, cmd_name))
+    if not is_protected:
+        lg.in_cmds[cmd_name] = {}
+        lg.in_cmds[cmd_name]['comment'] = comment
+        lg.in_cmds[cmd_name]['lilySrc'] = lilySrc
+        lg.in_cmds[cmd_name]['element'] = cmd_name
+        lg.in_cmds[cmd_name]['type'] = 'image'
+        
+        lg.lily_files.append((lg.cat_subdir, cmd_name))
     return i
 
 
@@ -224,7 +225,6 @@ def write_lily_src_files():
     if not os.path.exists(src_dir):
         os.mkdir(src_dir)
     for cmd_name in lg.in_cmds:
-        print lg.in_cmds[cmd_name]
         print '- ' + cmd_name
         # open a single lily src file for write access
         fout = open(src_dir + '/' + cmd_name + '.ly',  'w')

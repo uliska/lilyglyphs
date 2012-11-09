@@ -300,7 +300,6 @@ def compile_lily_files():
         args.append("-dpreview")
         args.append("-dno-point-and-click")
         args.append(dir_lysrc + file[0] + file[1] + ".ly")
-        print args
         subprocess.call(args)
         print ''
 
