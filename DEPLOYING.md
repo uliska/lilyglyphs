@@ -51,10 +51,11 @@ The archive should **include**:
     - commands
     - core
     - glyphlist
-    - otf
 - Partial subdirectories (any untracked files removed):
     - documentation (only lilyglyphs.pdf)
     - glyphimages:
         - lilyglyphs_logo (only .pdf and .png)
         - pdfs (complete)
 
+Have a separate archive with the otf folder in it.  
+Have a renamed copy of the manual besides the archive
