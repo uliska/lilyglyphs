@@ -31,7 +31,7 @@ Folder structure
 ----------------
 A folder **deploy** is located in the root directory of the working repository.  
 For any new version of the package create a subfolder, named corresponding to the version (e.g. 0.1.2).  
-We copy all relevant files to this directory and move them to archives in .tar.gz and .zip formats so that afterwards these archives are the only files in the directory.  
+We copy all relevant files to this directory and move them to archives in .tar.gz formats so that afterwards these archives are the only files in the directory.  
 The archives should be named lilyglyphs_n.m.o (plus extension).
 
 Included files
@@ -43,22 +43,18 @@ The archive should **include**:
 - From the root dir:
     - CHANGES.md
     - COPYING
-    - README.md
     - INSTALL.md
-    - lilyglyphs.pdf (the manual)
-    - lilyglyphs.tex (the source of the manual)
-- From the 'definitions' subdir:
-    - all *.inp files
-- The complete 'glyphlist' directory
-- The 'otf' directory
+    - README.md
+    - lilyglyphs.sty
+    - lilyglyphsStyle.sty
+- Complete subdirectories (any untracked files removed):
+    - commands
+    - core
+    - glyphlist
+    - otf
+- Partial subdirectories (any untracked files removed):
+    - documentation (only lilyglyphs.pdf)
+    - glyphimages:
+        - lilyglyphs_logo (only .pdf and .png)
+        - pdfs (complete)
 
-It should **not** include:
-
-- any secondary LaTeX files (like *.aux, *.log, *.out, *.toc etc.)
-- From the root dir:
-    - any files from the 'playground' series.
-    - DEPLOYING.md (this file)
-
-The files in the 'deploy' directory should never be committed to git.  
-So you should not commit to git during the process of preparing an archive to deploy.
-But if you have to just don't add these files.
