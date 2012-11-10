@@ -703,7 +703,7 @@ If you have successfully run the script you have the following results:
 \begin{itemize}
 \item LilyPond source files in the \texttt{/glyphimages/generated\_src/INPUT\_FILE\_NAME} folder (one for each command),
 \item PDF files in the \texttt{/glyphimages/pdfs/INPUT\_FILE\_NAME} folder and
-\item the file \texttt{/stash\_new\_commands/01\images/newImageGlyphs.tex}.
+\item the file \texttt{/stash\_new\_commands/images/newImageGlyphs.tex}.
 \end{itemize}
 You shouldn't touch the first two items but go on and open the .tex file.
 Keep in mind that this file will be overwritten by the next run of the script, so if you want to make any changes and/or keep the generated contents, you should immediately rename the file.
@@ -785,8 +785,86 @@ Of course this script will only work with a working LilyPond installation.
 \subsection{Generating Commands for \emmentaler Glyphs}
 \label{subsec:generating_commands_emmentaler}
 
+Generating commands that print \emmentaler glyphs is very similar to the process with images described in the previous section, and it actually is even simpler, because there are no intermediate LilyPond files and compilations involved.
+All there is to it is: create an input definitions file, run the \texttt{/py/genGlyphCommands.py} on it and fine-tune the generated \LaTeX{} file.
+So in this chapter we mainly discuss the differences to the process as was already described.
 
 
+\subsubsection{Preparing the input file}
+\label{subsubsec:GGC_preparing_input_file}
+
+The structure of the input file for the \texttt{genGlyphCommands} script is actually simpler than that for the \texttt{buildglyphimages} script.
+This is due to the fact that we wanted the latter to be valid LilyPond source file as well -- a restriction we don't need to consider here.
+As there is no creation of secondary files with LilyPond involved, the input file is much less important than with the image glyphs process.
+There you need to keep the input files in order to be able to re-create or change the image files at any given moment, but here you only need to keep them if you want to keep track of what you have done.
+
+The script will look for the input file in the \texttt{/stash\_new\_commands/emmentaler} directory, so you have to save it to that directory.
+It can have any name and any or no file extension.
+
+The input file should consist of one ore more command definitions.
+Each command definition is composed of a set of lines with \texttt{key=value} pairs and finished by an empty line.
+Please note that you shouldn't use whitespace around the equals sign.
+Python and \LaTeX{} style commands are ignored, so you can use them if you want.
+But keep in mind that empty lines have the special meaning of closing a command definition.
+Therefore it is important that your file ends with a complete empty line, otherwise the last entry will be discarded.
+
+\medskip
+A command entry consists of several mandatory or optional lines.
+The order doesn't matter, but it is surely advisable to stick to one style.
+The following items are possible/necessary:
+\begin{itemize}
+	\item \textsf{\textbf{cmd} (mandatory)}: Specifies the command name. 
+	You have to make sure that it is a valid \LaTeX{} name and that it isn't in use already.
+	\item \textsf{\textbf{comment} (optional)}: You can pass a single line comment that will be used before the command definition.
+	(If you want to have a multiline comment instead you can insert line breaks with \cmd{n}.)
+	\item \textsf{\textbf{element} (mandatory)}: The actual element to be passed to the internal printing functions.
+	The possible kind of values depends on the type of the command, as described with these types.
+	\item \textsf{\textbf{type} (mandatory, but defaulted)}: The type determines the internal printing command to be used with the command.
+	Please refer to \fref{subsec:generic_access_commands} for more information.
+	The option is mandatory but defaults to “glyphname”, so you can skip it for the most common case that the glyph is called by name.
+
+	\begin{itemize}
+		\item \textbf{“glyphname”:} The glyph is selected by its glyphname, which is what you have to specify as “element” (e.\,g. “accidentals.sharp“).
+		You can look the glyph names up in LilyPond's documentation or in the glyph list contained in the package.
+		\item \textbf{“number”:} The Unicode number is used to determine the glyph.
+		\item \textbf{“text”:} The content is passed as plain text (works only for Dynamic letters, numbers and + - , .)
+		\item \textbf{“dynamics”:} The content is also passed as plain text, but the scaling defaults to 1.5, which is quite suitable for dynamics.
+		\item \textbf{“image”:} The command prints an image file.
+		The usual way for creating such a command would seem to be using the other script, \texttt{buildglyphimages.py}, but this way you can also create commands using image files you obtained/created from any other source than LilyPond.
+		You can even use this to create non-musical commands that print images and profit from \lilyglyphs' infrastructure (like the automatic scaling with text size).
+		You can use .pdf files (preferred) or .png or .jpg images for this purpose.
+		You are encouraged to save these files to a dedicated folder different from the one where the LilyPond images are stored automatically.
+		This folder has to be in view of \LaTeX, but if you use one inside the \lilyglyphs{} directory this isn't an issue.
+		Of course such externally created image files aren't automatically tracked by Git and therefore aren't promoted to other users of the package.\\
+		The “element” for an image driven command is the plain file name without extension or path.
+	\end{itemize}
+\end{itemize}
+
+\noindent Here you can see two examples of command entries:
+\begin{verbatim}
+cmd=fermataDown
+element=scripts.dfermata
+comment=downward fermata
+# type glyphname is implicitely used
+
+cmd=rinforzando
+element=rfz
+comment=Rinforzando, to be kerned
+type=dynamics
+\end{verbatim}
+
+\subsubsection{Running the script and Utilizing the Results}
+\label{subsubsec:GGC_running_utilizing}
+
+You can run the \texttt{/py/genGlyphCommands.py} script and simply pass the prepared input file as the first (and only) parameter.
+The script will only look for the file in the \texttt{/stash\_new\_commands/emmentaler} directory.
+
+The program parses the input file and creates a new file \texttt{/stash\_new\_commands/emmentaler/newGlyphCommands.tex} that is exactly like the one created by \texttt{buildglyphimages.py} (see \fref{subsubsec:BGI_utilizing_results}).
+It doesn't create any intermediate files and doesn't invoke LilyPond, however.
+
+You finish off the process exactly like with the image driven commands, so we don't have to repeat that here.
+
+\pagebreak
 \section{Reference of Predefined Commands}
 \label{sec:list_predefined_commands}
 The following sections document the predefined commands that already have been implemented.
