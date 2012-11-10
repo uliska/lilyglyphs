@@ -635,8 +635,8 @@ We will later see that it makes sense to provide compilable Lilypond files, thou
 
 Input definition files are to be stored in the subdirectory \texttt{definitions} of our \texttt{glyphimages} directory.
 
-The script parses the input file line by line until it finds a line that contains the special key \verb|%%lilyglyphs|.
-Then it starts reading in an entry for a single glyph.
+The script parses the input file line by line until it finds a line that contains the special key \verb|%%lilyglyphs|.																																																					
+Then it starts reading in an entry for a single glyph command.
 
 Any subsequent line that starts with the percent sign as a LilyPond comment is interpreted as a comment.
 This comment will later be used for marking the command in the \LaTeX{} file.
@@ -670,29 +670,30 @@ Please consider the script as being in a \textbf{very experimental} state.\\
 You can define as many entries in one file as you like -- they will all be processed at once. 
 Of course it is recommended to combine a coherent set of commands.
 
-Everything that is outside of these structures is ignored by the script, so you can make use of these places to make a compilable LilyPond file out of it.
+Everything that is outside of the lilyglyph entries is ignored by the script, so you can make use of these places to make a usable LilyPond file out of it.
 You can start off with the file \texttt{definitions/\_template.ly}.
 After the definition of the lilyglyph entry it places a markup, then it copies the variable to a new variable named \texttt{symbol} and finally includes a score from a special include file \texttt{score.ily}.
 This will print your variable as the only element in a new score block that is prepared not to print staff, time signature and clef.
 You can repeat this several times and have LilyPond produce a sheet with all defined symbols.
-This way you can finish your symbol on the LilyPond side before actually going to the \LaTeX{} part.
+This way you can finish your design in “pure LilyPond” before actually going on to the \LaTeX{} part.
 
 
 \subsubsection{Running the Script}
 \label{subsubsec:BGI_running}
 
-If you have prepared your input file you can run the \texttt{/pybuildglyphimages.py} script, passing the file name (without the path) along with the option \verb|-i| (or \verb|--input|). Remember that input files should be stored in the \texttt{/glyphimages/definitions} directory.
+If you have prepared your input file you can run the \texttt{/py/buildglyphimages.py} script, passing the file name (without the path) along with the option \verb|-i| (or \verb|--input|). The script will look for the filein the \texttt{/glyphimages/definitions} directory.
 
-In a first step the program parses this file and extracts information about the command definitions. Then it generates one compilable LilyPond source file for each command and saves it to a subdirectory of \texttt{/glyphimages/generated\_src} .
+In a first step the program parses this file and extracts information about the command definitions that haven't been marked as protected. Then it generates one compilable LilyPond source file for each command and saves it to a subdirectory of \texttt{/glyphimages/generated\_src} .
 Each file is named according to the name of the command you specified in the input definition file, and the subdirectory is named according to the input file.
 So if you combined several glyphs in a file \texttt{singlenotes.ly} the results will be stored in a \texttt{singlenotes} subdirectory.
+And if you run the script again on a file with the same name but other definitions in it, it will add the new items to the directory.
 
-Now the generated source files are compiled using LilyPond. 
+Now these generated source files are compiled using LilyPond. 
 The command line option \verb|-dpreview| takes care of producing a pdf file with the smallest possible bounding box around its content.
-The directory is cleaned up, and the resulting small PDF files are moved to the corresponding subdirectory below \texttt{glyphimages/pdfs}.
+The directory is then cleaned up, and the resulting small PDF files are moved to the corresponding subdirectory below \texttt{glyphimages/pdfs}.
 
-The final task of the script is to generate a \LaTeX{} file that is stored as \texttt{/stash\_new\_commands/01\_newImageGlyphs.tex}.
-You will find a description of its content and intended usage in the next section.
+The final task of the script is to generate a \LaTeX{} file that is stored as \texttt{/stash\_new\_commands/imgages/newImageGlyphs.tex}.
+Any existing file (i.\,e. the result of the previous run) will be overwritten.
 
 
 \subsubsection{Utilizing the results}
@@ -702,7 +703,7 @@ If you have successfully run the script you have the following results:
 \begin{itemize}
 \item LilyPond source files in the \texttt{/glyphimages/generated\_src/INPUT\_FILE\_NAME} folder (one for each command),
 \item PDF files in the \texttt{/glyphimages/pdfs/INPUT\_FILE\_NAME} folder and
-\item the file \texttt{/stash\_new\_commands/01\_newImageGlyphs.tex}.
+\item the file \texttt{/stash\_new\_commands/01\images/newImageGlyphs.tex}.
 \end{itemize}
 You shouldn't touch the first two items but go on and open the .tex file.
 Keep in mind that this file will be overwritten by the next run of the script, so if you want to make any changes and/or keep the generated contents, you should immediately rename the file.
@@ -717,8 +718,9 @@ Well, it depends on how/where you want to eventually use it, but the first step 
 The script generates default values for the design time values of the optional argument, and it would of course be purely random if it would be perfect right away.
 The first thing the generated example text does is showing that the command actually works.
 But its more important purpose is to print the new glyph in different contexts: in continuous text, before punctuations, at the beginning of a line etc.
-You should use block of example text to adjust the arguments in the \verb|\setkeys{lilyDesignOptions}| clause.
-You should keep an eye specifically on spacing issues: Does the glyph affect line spacing, is the “kerning” of the glyph correct?
+You should use these blocks of example text to adjust the arguments in the \verb|\setkeys{lilyDesignOptions}| clause.
+You should specifically keep an eye on spacing issues: Does the glyph affect line spacing, is the “kerning” of the glyph correct?
+On the other hand you should probably try to keep corresponding glyphs at an equal scaling.
 Besides tweaking the optional argument values you can add space before or after the glyph, possibly for the starred and unstarred commands independently.
 Keep in mind that you may as well use negative \cmd{hspace}.
 
@@ -729,6 +731,7 @@ Please make sure that you understand the implications of the following section a
 \medskip
 If you are satisfied with the new commands you will have to move them to a useful place.
 In any case you should keep copies of the input files as well as the current .tex file as a reference.
+If you have put the command definitions in another file (e.\,g. in one of the .inp files of the \lilyglyphs{} package) you have to remove them from the generated file, otherwise you will get compilation errors.
 
 If you are just creating the commands for your personal use, you can either copy the command definitions to the preamble of your working \LaTeX{} document or to a style file you might maintain.
 But of course we would be happy if you decided to contribute them to the package, for which there are several possible ways:
@@ -742,6 +745,7 @@ This works by completing the following steps:
 If you find you should create a new .inp file because your commands belong to a new category please take the existing files as a model and add an appropriate \cmd{input} statement to \texttt{lilyglyphs.sty}.
 Please leave your definitions file in the \texttt{glyphimages/definitins} folder, with all commands marked as 'protected' (see next section for details).
 Please also leave the generated LilyPond files in their subdirectory (you would have a hard time finding them anyway).
+For any new files you might create please add the usual copyright comment at the beginning.
 \item \emph{Please} add documentation for your added commands in the manual (\texttt{lilyglyphs.tex}).
 Find the appropriate subsection in the “Predefined commands” section and add information to it.
 At least we need the entries in the documentation table, but if there is anything special to note about the commands please explain this too.
@@ -759,7 +763,7 @@ But there will be occasions when you don't want the Python script to do all the 
 If you add a new command to the input file (and you \emph{should} add it to an existing file if it belongs to the same category) you only want the new command to be processed.
 Or if you are working on the fine-tuning of the commands (as described in the previous section) and decide that you have to change the LilyPond definition of a single glyph you also only want to reprocess this one.
 For this purpose you can mark entries in the input definitions file as “protected”, in order to prevent them to be newly processed by the script.
-To do this you enter a line starting with \verb|%%protected| in your entry definition (note the double percent sign and the missing space after them).
+To do this you enter a line containing \verb|%%protected| in your entry definition (note the double percent sign and the missing space after them).
 You can see an example for this in the \texttt{\_template.ly} file -- because the example entry shouldn't be processed at all.
 From now on the marked command won't be processed anymore.
 This means that the LilyPond source file won't be generated again, LilyPond isn't run again for the script (which would be the most annoying thing), and the \LaTeX{} commands won't be generated again.
@@ -772,7 +776,7 @@ The output file will of course be overwritten (you have renamed it before re-run
 There are occasions when you have to (re)create the pdf files that serve as the glyph images without having to regenerate the \LaTeX{} commands or the LilyPond source files.
 If you clone the Git repository then the pdf files are not present because they aren't tracked by Git.
 Or if you pull updates from the remote repository that introduce new glyph images the pdf files won't be included for the same reason.
-In that case you can run the script \texttt{rebuild-pdfs.py}, which is also located in the \texttt{glyphimages} directory.
+In that case you can run the script \texttt{rebuild-pdfs.py}, which is also located in the \texttt{/py} directory.
 This script essentially compares the directories with the generated LilyPond sources and with the created pdf files, and if it finds a source without a corresponding pdf it will call LilyPond to recreate it.
 Of course this script will only work with a working LilyPond installation.
 
