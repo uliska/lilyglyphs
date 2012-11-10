@@ -171,7 +171,7 @@ cmd_templates['image'] = """\\newcommand*{\\CMDBase}[1][]{%
 
 """
 
-cmd_templates['glyph'] = """\\newcommand*{\\CMDBase}[1][]{%
+cmd_templates['glyphname'] = """\\newcommand*{\\CMDBase}[1][]{%
 	\\setkeys{lilyDesignOptions}{scale=1,raise=0}%
 	\\lilyPrint[#1]{\\lilyGetGlyph{ELEM}}%
 }
@@ -180,7 +180,7 @@ cmd_templates['glyph'] = """\\newcommand*{\\CMDBase}[1][]{%
 
 """
 
-cmd_templates['bynumber'] = """\\newcommand*{\\CMDBase}[1][]{%
+cmd_templates['number'] = """\\newcommand*{\\CMDBase}[1][]{%
 	\\setkeys{lilyDesignOptions}{scale=1,raise=0}%
 	\\lilyPrint[#1]{\\lilyGetGlyphByNumber{ELEM}}%
 }

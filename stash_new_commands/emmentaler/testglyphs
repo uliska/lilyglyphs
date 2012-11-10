@@ -28,6 +28,6 @@ type=text
 
 cmd=byNumber
 element=33
-type=bynumber
+type=number
 comment=Try to get by number
 

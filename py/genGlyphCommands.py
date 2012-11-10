@@ -53,7 +53,7 @@ def read_entries():
     def reset_entry():
         entry['cmd'] = ''
         entry['element'] = ''
-        entry['type'] = 'glyph'
+        entry['type'] = 'glyphname'
         entry['comment'] = []
     
     reset_entry()
