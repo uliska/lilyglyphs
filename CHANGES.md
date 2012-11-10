@@ -28,7 +28,19 @@ This document lists all changes in the development of *lilyglyphs*.
 All changes should be present in the manual, but only the finished versions printed bold are available as pdf downloads. (Latest changes are only found in the master branch of the git repository. They should be documentd in the lilyglyphs.tex file there too.)
 So the lines above the topmost bold version line represent the changes not available in the downloadable pdf documentation.
 
-- Pyhton script buildglyphimages.py  
+0.2.0
+-----
+(2012-11-10)
+
+- Add some commands with images, mainly single notes.
+- graphical \lilyglyphs command with corresponding .pdf and .png files
+- Python script rebuild-pdfs.py  
+Re-creates pdf files for use in image driven commands that are missing because they are not tracked in Git
+Python script deploy.py  
+Gathers the relevant files and puts them in an archive
+- Python script genGlyphCommands.py  
+Very easy way to create new commands with arbitrary sources.
+- Python script buildglyphimages.py  
 Very easy way to create new image glyphs and their respective commands
 at the same time. You can edit the objects in LilyPond, then
 let the script do the rest: write LilyPond source files, compile the image files,
