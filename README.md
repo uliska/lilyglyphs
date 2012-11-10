@@ -1,4 +1,4 @@
-![Logo](glyphimages/lilyglyphs_logo/lilyglyphs_logo.png)
+![](https://github.com/lilyglyphs/lilyglyphs/raw/master/glyphimages/lilyglyphs_logo/lilyglyphs_logo.png)
 
 lilyglyphs (Xe)LaTeX package
 ============================
