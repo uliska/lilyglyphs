@@ -93,7 +93,7 @@ It was written using \XeLaTeX, but should also work with LuaLaTeX -- although th
 .
 
 The \emmentaler font only provides a subset of LilyPond's notational capabilities, as LilyPond creates many symbols by combining glyphs and drawing explicitely.
-To also access this kind of symbols we have chosen an approach that uses small pdf images to print glyphs not present in \emmentaler.
+To also access this kind of symbols we have chosen an approach that uses small pdf images to print glyphs not present in \emmentaler*.
 There is an accompanying Python script to make the creation of new arbitrary symbols as easy as possible.
 
 The \lilyglyphs package was initiated and is maintained by Urs Liska, and is hosted as a git repository on GitHub\footnote{\url{http://www.github.com/lilyglyphs/lilyglyphs} -- Contact: \url{mailto:lilyglyphs@ursliska.de}}.
@@ -191,7 +191,7 @@ There may be some uses for numerical access however.
 \medskip
 \cmd{lilyText} expects ordinary text as its argument. 
 In fact it just switches the font to \emmentaler and then writes the string given as the argument. 
-This only works for Dynamics letters, numbers and the glyphs \lilyText[scale=2]{+ - , .} -- as these glyphs are located at their ordinary character position in \emmentaler. 
+This only works for Dynamics letters, numbers and the glyphs \lilyText[scale=2]{+ - , .} -- as these glyphs are located at their ordinary character position in \emmentaler*. 
 But you can also enter any spacing commands (like \cmd{hspace} or plain spaces). 
 Keep in mind that this may result in line breaking inside your expression. 
 If you need to prevent this you can surround your expression by a \cmd{mbox}.
@@ -877,7 +877,7 @@ The documentation contains information if the commands are available in starred 
 \subsection{Single Notes}
 \label{subsec:singlenotes}
 Single notes may be one of the most frequently used glyphs.
-They aren't present in \emmentaler, so they all are realized using included pdf image files.
+They aren't present in \emmentaler*, so they all are realized using included pdf image files.
 They have starred and unstarred versions.
 See \fref{tab:singlenotes} for the available predefined commands.
 
@@ -1095,10 +1095,9 @@ The predefined commands should of course have this already built in.
 \pagebreak
 \appendix
 \small
-\section{Appendix}
-\subsection{Licenses}
+\section{Appendix: Licenses}
 
-\subsubsection{GNU General Public License}
+\subsection{GNU General Public License}
 \label{subsubsec:gpl}
 
 \begin{center}
@@ -1743,7 +1742,7 @@ copy of the Program in return for a fee.
 \end{enumerate}
 
 
-\subsubsection{GNU Free Documentation License}
+\subsection{GNU Free Documentation License}
 \label{subsubsec:fdl}
 
  \begin{center}
