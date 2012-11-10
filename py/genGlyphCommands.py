@@ -48,10 +48,6 @@ def main(input_file):
     lg.write_latex_file('emmentaler/newGlyphCommands.tex')
     
     
-def generate_latex_commands():
-    for cmd_name in lg.in_cmds:
-        lg.generate_latex_command(cmd_name, lg.in_cmds[cmd_name][1])
-
 def read_entries():
     entry = {}
     def reset_entry():
