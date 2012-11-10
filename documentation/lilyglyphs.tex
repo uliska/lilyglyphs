@@ -320,7 +320,7 @@ And it is recommended (but not exactly mandatory) for readers who want to write 
 The latter target group might be satisfied reading the next section about writing predefined commands, but understanding will be easier and deeper with this subsection.
 
 \medskip
-In order to make the package .sty file easier to understand, its contents are split into multiple input files in the 'definitions' subfolder. 
+In order to make the package .sty file easier to understand, its contents are split into multiple input files which are located in the \texttt{/commands} and \texttt{/core} subfolders.
 The most fundamental definitions are in the \texttt{keyval.inp} and \texttt{genericAccess.inp} files.
 
 \subsubsection{Accessing \emmentaler Glyphs}
@@ -576,7 +576,7 @@ Note the use of the starred version, because the trailing space of the unstarred
 \end{verbatim}
 
 This was an explanation from the perspective of designing new predefined commands.
-If you want to know how this is implemented internally, please look at the generously commented file \texttt{definitions/dotted.inp}.
+If you want to know how this is implemented internally, please look at the generously commented file \texttt{core/dotted.inp}.
 
 \paragraph*{Known issues and warning:} 
 One issue that hasn't been addressed yet is the vertical placement of the dot when scaled.
@@ -633,7 +633,7 @@ But let us start with looking at the form of the input files.
 \texttt{buildglyphimages.py} doesn't expect regular LilyPond source files as its input, but rather a file with one or multiple 'snippets' in it. 
 We will later see that it makes sense to provide compilable Lilypond files, though.
 
-Input definition files are to be stored in the subdirectory \texttt{definitions} of our \texttt{glyphimages} directory.
+Input definition files are to be stored in the subdirectory \texttt{definitions} of our \texttt{/glyphimages} directory.
 
 The script parses the input file line by line until it finds a line that contains the special key \verb|%%lilyglyphs|.																																																					
 Then it starts reading in an entry for a single glyph command.
@@ -741,7 +741,7 @@ Probably the simplest way is to send the definitions file and your processed res
 If you are working on a fork of the GitHub repository (as is recommended for potential participators) you could do even better by incorporating the new commands directly and sending us a pull request.
 This works by completing the following steps:
 \begin{itemize}
-\item Move/copy the command definitions (with all comments) to appropriate .inp files in the \texttt{definitions} subdirectory of the package root.
+\item Move/copy the command definitions (with all comments) to appropriate .inp files in the \texttt{commands} subdirectory of the package root.
 If you find you should create a new .inp file because your commands belong to a new category please take the existing files as a model and add an appropriate \cmd{input} statement to \texttt{lilyglyphs.sty}.
 Please leave your definitions file in the \texttt{glyphimages/definitins} folder, with all commands marked as 'protected' (see next section for details).
 Please also leave the generated LilyPond files in their subdirectory (you would have a hard time finding them anyway).
