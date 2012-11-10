@@ -21,7 +21,7 @@
 % Title page
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\title{The \lilyglyphs Package\\~\\
+\title{The \lilyglyphs[raise=0.1]Package\\~\\
 	\normalsize Version 0.2.0}
 \author{Urs Liska}
 
@@ -52,7 +52,7 @@ A copy of the license is included in \fref{subsubsec:fdl}, entitled \enquote{GNU
 
 % GPL (for the package)
 \begin{quote}
-The \lilyglyphs{} \LaTeX{} package is free software: you can redistribute it and/or modify  
+The \lilyglyphs \LaTeX{} package is free software: you can redistribute it and/or modify  
 it under the terms of the GNU General Public License as published by  
 the Free Software Foundation, either version 3 of the License, or     
 (at your option) any later version.         
@@ -72,7 +72,7 @@ General Public License}.
 \hrule
 \bigskip
 \noindent
-\lilyglyphs{} is hosted at \url{https://github.com/lilyglyphs/lilyglyphs}\\
+\lilyglyphs is hosted at \url{https://github.com/lilyglyphs/lilyglyphs}\\
 Contact information: \href{mailto:lilyglyphs@ursliska.de}{lilyglyphs@ursliska.de}
 \pagebreak
 
@@ -107,7 +107,7 @@ Both are described in detail later, in this section you'll only find a general o
 Glyphs are scaled to fit normal text fonts, and the scaling automatically follows the scaling of the text. 
 This also means they are influenced by \LaTeX 's text size commands, so you can write something like \{\cmd{Large \textbackslash flat\}} to create a larger {\Large \flat}glyph than the normal \flat one or even something really \cmd{Huge} {\Huge \lilyDynamics{sfz}} -- which will probably spoil your line spacing if used within a paragraph. 
 You can influence the size and vertical position of the glyphs -- with the predefined commands as well as the generic ones -- individually or globally through the use of optional arguments.
-This way you can also accomodate unusual text fonts that might otherwise not go well together with \lilyglyphs.
+This way you can also accomodate unusual text fonts that might otherwise not go well together with \lilyglyphs*.
 
 You can always combine commands (or glyphs created through generic access as shown in the next section) to create new commands for later reuse. 
 But it is better to follow the documentation for package designers to create such commands in the way suggested also for package designers in \fref{subsec:howto_predefined_commands}.
@@ -121,7 +121,7 @@ First of all you have to decide how you obtain the package.
 There are two main ways, and both have their pros and cons.
 You can either clone the GitHub repository or download one of the archived versions of the package.
 
-The recommended way to get \lilyglyphs{} is to clone the GitHub repository.
+The recommended way to get \lilyglyphs is to clone the GitHub repository.
 If you consider contributing to the package it is preferable to first fork the repository, then clone into the fork and add the original repository as an additional remote.
 This way you can easily apply any changes, push them to your fork and send us a pull request.
 
@@ -138,7 +138,7 @@ Each time someone adds new items to the list of commands they will be instantly 
 If updates should somehow break things in existing documents you can easily (and temporarily) check out the earlier version of the package that you used when originally writing your documents.
 Another advantage of the repository version is that you have all the tools at hand (especially the Python scripts) that make your life easier if you want to extend the package four yourself.
 
-If you know that you will only \emph{use} the \lilyglyphs{} package, then you can download one of the archived versions from the download page on the package's GitHub site.
+If you know that you will only \emph{use} the \lilyglyphs package, then you can download one of the archived versions from the download page on the package's GitHub site.
 These versions contain all necessary binary files to use the package from your documents, but strips off any supplementary files that you might need to extend the package.
 
 An “intermediate” solution would be to download an automatically archived version of the complete repository. 
@@ -232,7 +232,7 @@ There are three levels where this influence may be effective: global setting, de
 
 At a \textbf{global level} the options are set to defaults of \texttt{scale=1} and \texttt{raise=0}, which basically means that the glyphs are unaltered.
 You can change these globally effective options at any time with \cmd{lilyGlobalOptions\{<options>\}}.
-This may for example be necessary document-wide if you use a text font which doesn't harmonize well with \lilyglyphs' default settings.
+This may for example be necessary document-wide if you use a text font which doesn't harmonize well with \lilyglyphs*' default settings.
 But you can also use it if you for example need much bigger musical glyphs for presentation purposes.
 
 At \textbf{design time} the package designers set the default options for their predefined commands, so they work right out of the box in most cases.
@@ -244,7 +244,7 @@ So if you pass an option during the command invocation, you don't set an absolut
 An option \texttt{scale=1.2} in a command doesn't mean that you apply 1.2 as the scaling factor to the original glyph, but that the glyph is printed 1.2 times the size it would have been printed without this option.
 So if you want to slightly increase the size of a single glyph you may pass 1.1 as the value to \texttt{scale}, even if you have earlier set the global scaling to 1.8 -- the effective scaling will be \mbox{1.1 * 1.8.}
 
-\textit{Technically speaking \lilyglyphs{} applies a fourth layer of scaling with image files.
+\textit{Technically speaking \lilyglyphs applies a fourth layer of scaling with image files.
 It calculates a last scaling factor by multiplying the result of the above considerations with the ratio of the current font size versus the size of the \cmd{normalsize} font.}
 
 
@@ -495,7 +495,7 @@ This example is meant to encourage you to experiment with the definition of pred
 
 If you had created this command you would have noticed that you can't get any whitespace after it -- it is silently ignored.
 So you would want to create starred and unstarred versions of the command, which works as in the first example. 
-In \lilyglyphs{} this is in fact implemented this way.
+In \lilyglyphs this is in fact implemented this way.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
@@ -508,7 +508,7 @@ It is not exactly trivial to  create dotted symbols as predefined commands.
 Of course you can always use \cmd{lilyDot} to print LilyPond's dot glyph, but if you want to create commands that combine a glyph and one ore more dots you encounter two difficulties:
 You can't apply the optional arguments independently on the two items, and there may be issues with the scaling and the gap between the two glyphs.
 
-There is some infrastructure in \lilyglyphs{} (defined in the file dotted.inp) to faciliate dealing with dotted symbols, but this implementation may not be completely satisfactory so far.
+There is some infrastructure in \lilyglyphs (defined in the file dotted.inp) to faciliate dealing with dotted symbols, but this implementation may not be completely satisfactory so far.
 Great care has been taken to hide as much complexity as possible in the mentioned file, in order to make the definition of actual commands as clean and concise as possible.
 
 Let's analyze the implementation of a dotted half note rest:
@@ -708,7 +708,7 @@ If you have successfully run the script you have the following results:
 You shouldn't touch the first two items but go on and open the .tex file.
 Keep in mind that this file will be overwritten by the next run of the script, so if you want to make any changes and/or keep the generated contents, you should immediately rename the file.
 It is a good idea to name it according to the definitions input file because these two files form a natural pair.
-This file is a working \LaTeX{} document that uses the \lilyglyphs{} package.
+This file is a working \LaTeX{} document that uses the \lilyglyphs package.
 It contains \LaTeX{} \cmd{newcommand} definitions with starred and unstarred versions, one for each definition of the input file that hasn't been skipped in the process.
 The visible part of the document contains a documentation table (as used throughout this manual) with all generated commands and example text for each generated command.
 
@@ -731,7 +731,7 @@ Please make sure that you understand the implications of the following section a
 \medskip
 If you are satisfied with the new commands you will have to move them to a useful place.
 In any case you should keep copies of the input files as well as the current .tex file as a reference.
-If you have put the command definitions in another file (e.\,g. in one of the .inp files of the \lilyglyphs{} package) you have to remove them from the generated file, otherwise you will get compilation errors.
+If you have put the command definitions in another file (e.\,g. in one of the .inp files of the \lilyglyphs package) you have to remove them from the generated file, otherwise you will get compilation errors.
 
 If you are just creating the commands for your personal use, you can either copy the command definitions to the preamble of your working \LaTeX{} document or to a style file you might maintain.
 But of course we would be happy if you decided to contribute them to the package, for which there are several possible ways:
@@ -831,10 +831,10 @@ The following items are possible/necessary:
 		\item \textbf{“dynamics”:} The content is also passed as plain text, but the scaling defaults to 1.5, which is quite suitable for dynamics.
 		\item \textbf{“image”:} The command prints an image file.
 		The usual way for creating such a command would seem to be using the other script, \texttt{buildglyphimages.py}, but this way you can also create commands using image files you obtained/created from any other source than LilyPond.
-		You can even use this to create non-musical commands that print images and profit from \lilyglyphs' infrastructure (like the automatic scaling with text size).
+		You can even use this to create non-musical commands that print images and profit from \lilyglyphs*' infrastructure (like the automatic scaling with text size).
 		You can use .pdf files (preferred) or .png or .jpg images for this purpose.
 		You are encouraged to save these files to a dedicated folder different from the one where the LilyPond images are stored automatically.
-		This folder has to be in view of \LaTeX, but if you use one inside the \lilyglyphs{} directory this isn't an issue.
+		This folder has to be in view of \LaTeX, but if you use one inside the \lilyglyphs directory this isn't an issue.
 		Of course such externally created image files aren't automatically tracked by Git and therefore aren't promoted to other users of the package.\\
 		The “element” for an image driven command is the plain file name without extension or path.
 	\end{itemize}
@@ -903,7 +903,7 @@ See \fref{tab:singlenotes} for the available predefined commands.
 
 We will only provide a few complex symbols like beamed notes for default use.
 Of course one could have the wish for indefinite variations like  notes with variable beam slope.
-But as long as it isn't possible to make this parametrical and draw them directly from within \lilyglyphs{} it is probably a good idea to stick to a few basic commands.
+But as long as it isn't possible to make this parametrical and draw them directly from within \lilyglyphs it is probably a good idea to stick to a few basic commands.
 However it would be quite simple to create “plugin modules” that provide a series of related symbols, and maybe we will think about such an extension.
 For now see \fref{tab:beamedNotes} for the implemented commands. They are available in starred and unstarred versions.
 
