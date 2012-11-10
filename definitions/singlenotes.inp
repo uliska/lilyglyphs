@@ -37,7 +37,7 @@
 % crotchet with upward stem
 % created by buildglyphimages.py on 2012-11-06
 \newcommand*{\crotchetBase}[1][]{%
-    \setkeys{lilyDesignOptions}{scale=0.9,raise=-0.2}%
+    \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.2}%
     \lilyPrintImage[#1]{crotchet}%
 }
 \newcommand*{\crotchet}[1][]{\crotchetBase[#1] }
@@ -46,7 +46,7 @@
 % dotted crotchet with upward stem
 % created by buildglyphimages.py on 2012-11-07
 \newcommand*{\crotchetDottedBase}[1][]{%
-    \setkeys{lilyDesignOptions}{scale=0.9,raise=-0.2}%
+    \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.2}%
     \lilyPrintImage[#1]{crotchetDotted}%
 }
 \newcommand*{\crotchetDotted}[1][]{\crotchetDottedBase[#1] }
@@ -55,7 +55,7 @@
 % doubledotted crotchet with upward stem
 % created by buildglyphimages.py on 2012-11-08
 \newcommand*{\crotchetDottedDoubleBase}[1][]{%
-    \setkeys{lilyDesignOptions}{scale=0.9,raise=-0.2}%
+    \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.2}%
     \lilyPrintImage[#1]{crotchetDottedDouble}%
 }
 \newcommand*{\crotchetDottedDouble}[1][]{\crotchetDottedDoubleBase[#1] }
@@ -67,7 +67,7 @@
 % half note with upward stem
 % created by buildglyphimages.py on 2012-11-06
 \newcommand*{\halfNoteBase}[1][]{%
-    \setkeys{lilyDesignOptions}{scale=0.9,raise=-0.2}%
+    \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.2}%
     \lilyPrintImage[#1]{halfNote}%
 }
 \newcommand*{\halfNote}[1][]{\halfNoteBase[#1] }
@@ -76,7 +76,7 @@
 % dotted half note with upward stem
 % created by buildglyphimages.py on 2012-11-07
 \newcommand*{\halfNoteDottedBase}[1][]{%
-    \setkeys{lilyDesignOptions}{scale=0.9,raise=-0.2}%
+    \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.2}%
     \lilyPrintImage[#1]{halfNoteDotted}%
 }
 \newcommand*{\halfNoteDotted}[1][]{\halfNoteDottedBase[#1] }
@@ -85,7 +85,7 @@
 % doubledotted half note with upward stem
 % created by buildglyphimages.py on 2012-11-08
 \newcommand*{\halfNoteDottedDoubleBase}[1][]{%
-    \setkeys{lilyDesignOptions}{scale=0.9,raise=-0.2}%
+    \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.2}%
     \lilyPrintImage[#1]{halfNoteDottedDouble}%
 }
 \newcommand*{\halfNoteDottedDouble}[1][]{\halfNoteDottedDoubleBase[#1] }
