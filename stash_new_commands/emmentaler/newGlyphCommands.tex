@@ -1,5 +1,5 @@
 % New Glyphs for the lilyglyphs package
-% created by genGlyphCommands.py on 2012-11-09
+% created by genGlyphCommands.py on 2012-11-10
 
 % This file contains definitions for the new commands
 % along with test code for them.
@@ -23,7 +23,7 @@
 % new command definitions
 
 % Try to get by number
-% created by genGlyphCommands.py on 2012-11-09
+% created by genGlyphCommands.py on 2012-11-10
 \newcommand*{\byNumberBase}[1][]{%
 	\setkeys{lilyDesignOptions}{scale=1,raise=0}%
 	\lilyPrint[#1]{\lilyGetGlyphByNumber{33}}%
@@ -32,7 +32,7 @@
 \WithSuffix\newcommand\byNumber*[1][]{\byNumberBase[#1]}
 
 % downward fermata
-% created by genGlyphCommands.py on 2012-11-09
+% created by genGlyphCommands.py on 2012-11-10
 \newcommand*{\fermataDownBase}[1][]{%
 	\setkeys{lilyDesignOptions}{scale=1,raise=0}%
 	\lilyPrint[#1]{\lilyGetGlyph{scripts.dfermata}}%
@@ -41,7 +41,7 @@
 \WithSuffix\newcommand\fermataDown*[1][]{\fermataDownBase[#1]}
 
 % Rinforzando, to be kerned
-% created by genGlyphCommands.py on 2012-11-09
+% created by genGlyphCommands.py on 2012-11-10
 \newcommand{\rinforzandoBase}[1][]{%
 	\mbox{%
 		\lilyDynamics[#1]{rfz}%
@@ -51,7 +51,7 @@
 \WithSuffix\newcommand\rinforzando*[1][]{\rinforzandoBase[#1]}
 
 % short (triangular) fermata
-% created by genGlyphCommands.py on 2012-11-09
+% created by genGlyphCommands.py on 2012-11-10
 \newcommand*{\shortFermataBase}[1][]{%
 	\setkeys{lilyDesignOptions}{scale=1,raise=0}%
 	\lilyPrint[#1]{\lilyGetGlyph{scripts.ushortfermata}}%
@@ -59,7 +59,7 @@
 \newcommand*{\shortFermata}[1][]{\shortFermataBase[#1] }
 \WithSuffix\newcommand\shortFermata*[1][]{\shortFermataBase[#1]}
 
-% created by genGlyphCommands.py on 2012-11-09
+% created by genGlyphCommands.py on 2012-11-10
 \newcommand{\textTwoBase}[1][]{%
 	\mbox{%
 		\lilyText[#1]{5 - 4 ff}%
@@ -76,7 +76,7 @@
 % Text output
 
 \section*{New \lilyglyphs{} commands}
-created by genGlyphCommands.py on 2012-11-09
+created by genGlyphCommands.py on 2012-11-10
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Reference table to be used in the manual

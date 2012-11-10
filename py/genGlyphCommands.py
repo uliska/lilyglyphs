@@ -76,6 +76,9 @@ def read_entries():
                 lg.in_cmds[entry['cmd']]['type'] = entry['type']
                 lg.in_cmds[entry['cmd']]['comment'] = entry['comment']
                 reset_entry()
+        # ignore Python or LaTeX style comments
+        elif line[0] in '#%':
+            continue
         else:
             keyval = line.split('=')
             if keyval[0] == 'comment':

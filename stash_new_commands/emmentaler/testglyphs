@@ -1,3 +1,5 @@
+# Python style comments are possible
+% LaTeX style comments too
 cmd=fermataDown
 element=scripts.dfermata
 comment=downward fermata
