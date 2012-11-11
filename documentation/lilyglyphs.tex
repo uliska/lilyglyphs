@@ -958,7 +958,7 @@ Even more importantly, scaling factors smaller than 1 don't work well because th
 \label{subsec:numbers}
 %\glyphlist{\emmentaler Number glyphs}{numbers}{lily-8d8bb8a3}
 Numbers can be entered with the already known \cmd{lilyText} command. 
-Access through the glyph names as shown in \fref{fig:numbers} is possible but not necessary.
+Access through the glyph names is possible but not necessary.
 Therefore we don't provide predefined commands for them.
 There are all ten numbers available. 
 With the default scaling of 1.0 they generally fit as lowercase letters like \lilyText{0 1 2 3 4 5 6 7 8 9} \cmd{lilyText\{0 1 2 3 4 5 6 7 8 9\}}. 
@@ -971,7 +971,7 @@ These are also accessible through \cmd{lilyText}, the example in the previous se
 \subsection{Accidentals}
 \label{subsec:accidentals}
 %\glyphlist{\emmentaler Accidental glyphs}{accidentals}{lily-5b13ce04}
-For the complete list of glyphs see \fref{fig:accidentals}.
+%For the complete list of glyphs see \fref{fig:accidentals}.
 
 The \cmd{natural} \natural*, the \cmd{flat} \flat and the \cmd{sharp} \sharp replace the respective commands from standard \LaTeX. 
 Please note that all the accidentals are designed at the same scaling in order to allow a uniform appearance. You will however have to check if they don't affect an even line spacing.
@@ -997,24 +997,12 @@ See \fref{tab:accidentals} for the list of implemented commands.
 \flatflat & \cmd{flatflat} & accidentals.flatflat\\
 \end{reftable}
 
-\subsection{Default Noteheads}
-\label{subsec:def_noteheads}
-%\glyphlist{\emmentaler Default Notehead glyphs}{def_noteheads}{lily-f4d0afc9}
-The implementation of Default Noteheads hasn't started yet.
-See \fref{fig:def_noteheads}.
-
-\subsection{Special Noteheads}
-\label{subsec:special_noteheads}
-%\glyphlist{\emmentaler Special Notehead glyphs}{spc_noteheads}{lily-088c978c}
-The implementation of Special Noteheads hasn't started yet.
-See \fref{fig:spc_noteheads} for all available glyphs.
-
 \subsection{Rests}
 \label{subsec:rests}
 %\glyphlist{\emmentaler Rest glyphs}{rests}{lily-40869867}
 
 Rests are usually available in starred and unstarred versions.
-See \fref{tab:rests} for the implemented commands and \fref{fig:rests} for all available glyphs along with their glyph names.
+See \fref{tab:rests} for the implemented commands.
 
 For more information on how to use \cmd{lilyPrintMoreDots} to produce multiply dotted rests please see \fref{subsec:dotted_symbols}.
 
@@ -1081,7 +1069,7 @@ See \fref{tab:dynamicSigns} for the implemented commands.
 %\glyphlist{\emmentaler Script glyphs (part 1)}{scriptsI}{lily-20e8632d-1}
 %\glyphlist{\emmentaler Script glyphs (part 2)}{scriptsII}{lily-20e8632d-2}
 
-Script implementation has just begun. For all available glyphs see \fref{fig:scriptsI} and \fref{fig:scriptsII}, for the implemented glyphs \fref{tab:scripts} and .
+Script implementation has just begun. For the implemented glyphs \fref{tab:scripts}.
 
 You may find it strange that script glyphs sometimes seem to print too far to the left, clashing with the preceding text.
 This is due to the fact that in musical engraving scripts are centered relative to the note they belong to.
