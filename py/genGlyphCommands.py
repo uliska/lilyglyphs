@@ -55,8 +55,12 @@ def read_entries():
         entry['element'] = ''
         entry['type'] = 'glyphname'
         entry['comment'] = []
+        entry['raise'] = ''
+        entry['scale'] = ''
     
     reset_entry()
+    scale = ''
+    rais = ''
     for line in lg.definitions_file:
         line = line.strip()
         # empty line = end of entry
@@ -71,12 +75,20 @@ def read_entries():
                 lg.in_cmds[entry['cmd']]['element'] = entry['element']
                 lg.in_cmds[entry['cmd']]['type'] = entry['type']
                 lg.in_cmds[entry['cmd']]['comment'] = entry['comment']
+                if scale:
+                    lg.in_cmds[entry['cmd']]['scale'] = scale
+                if rais:
+                    lg.in_cmds[entry['cmd']]['raise'] = rais
                 reset_entry()
         # ignore Python or LaTeX style comments
         elif line[0] in '#%':
             continue
         else:
             keyval = line.split('=')
+            if keyval[0] == 'scale':
+                scale = keyval[1]
+            elif keyval[0] == 'raise':
+                rais = keyval[1]
             if keyval[0] == 'comment':
                 entry['comment'] = [keyval[1]]
             else:

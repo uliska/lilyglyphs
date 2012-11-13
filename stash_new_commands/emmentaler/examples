@@ -1,6 +1,7 @@
 # Python style comments are possible
 % LaTeX style comments too
 cmd=fermataDown
+raise=1
 element=scripts.dfermata
 comment=downward fermata
 
@@ -13,6 +14,7 @@ comment=Comment
 glyph=test
 comment=test 
 
+scale=2
 cmd=shortFermata
 element=scripts.ushortfermata
 comment=short (triangular) fermata
@@ -26,6 +28,7 @@ cmd=textTwo
 element=5 - 4 ff
 type=text
 
+raise=-3
 cmd=byNumber
 element=33
 type=number
