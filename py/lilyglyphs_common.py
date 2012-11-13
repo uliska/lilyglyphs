@@ -240,19 +240,16 @@ def check_missing_pdfs():
        Returns a list of LilyPond source file names (without folder)
        which don't have a corresponding PDF file"""
     print 'Reading file lists, counting missing pdf files'
-    img_files = []
-    for entry in os.listdir(dir_pdfs):
-        out_dir = dir_pdfs + entry + '/'
-        if os.path.isdir(out_dir):
-            # read existing .pdf files in out_dir
-            for file in os.listdir(out_dir):
-                name,  ext = os.path.splitext(file)
-                if ext == '.pdf':
-                    img_files.append(name)
-
     # read existing .ly source files in in_dir
     # and add them to the sources list if the image is missing
-    src_files = []
+    img_files = read_img_files()
+    src_files = read_src_files()
+    
+    missing_files = []
+    for file in src_files:
+        name, ext = os.path.splitext(file)
+        if not name in img_files:
+            missing_files.append(name)
     for entry in os.listdir(dir_lysrc):
         in_dir = dir_lysrc + entry + '/'
         if os.path.isdir(in_dir):
@@ -260,7 +257,7 @@ def check_missing_pdfs():
                 name,  ext = os.path.splitext(file)
                 if ext == '.ly' and name not in img_files:
                     src_files.append((entry + '/', name))
-    return src_files
+    return missing_files
 
 def cleanup_lily_files():
     """Removes unneccessary files from LilyPond compilation,
@@ -344,6 +341,35 @@ def generate_latex_commands():
         latex_cmds[cmd_name]['testcode'] = tc
 
 
+def read_img_files():
+    """Returns the list of generated pdf image files.
+    Entries only contain the base name without path and extension"""
+    img_files = []
+    for entry in os.listdir(dir_pdfs):
+        out_dir = dir_pdfs + entry + '/'
+        if os.path.isdir(out_dir):
+            # read existing .pdf files in out_dir
+            for file in os.listdir(out_dir):
+                name,  ext = os.path.splitext(file)
+                if ext == '.pdf':
+                    img_files.append(name)
+    return img_files
+
+def read_src_files():
+    """Returns the list of generated pdf image files.
+    Entries only contain the base name without path and extensio"""
+    src_files = []
+    for entry in os.listdir(dir_lysrc):
+        out_dir = dir_lysrc + entry + '/'
+        if os.path.isdir(out_dir):
+            # read existing .pdf files in out_dir
+            for file in os.listdir(out_dir):
+                name,  ext = os.path.splitext(file)
+                if ext == '.ly':
+                    src_files.append(name)
+    return src_files
+
+    
 def read_input_file(in_file):
     """Reads the input source file and stores it 
     in the global variable definitions_file"""

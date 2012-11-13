@@ -54,6 +54,9 @@ def main():
 
     print ''
     src_files = lg.check_missing_pdfs()
+    print src_files
+    
+    
     # is there anything to be done at all?
     if len(src_files) == 0:
         print ''
