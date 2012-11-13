@@ -27,7 +27,7 @@
 %                                                               %
 % This file defines a single glyph to be created with LilyPond: %
 %                                                               %
-%   quaverDotted.ly                                             %
+%   semiquaverDottedDoubleDown.ly                               %
 %                                                               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % created by buildglyphimages.py on 2012-11-13
@@ -44,12 +44,13 @@
 }
 
 %{
-dotted quaver with upward stem
+doubledotted semiquaver with downward stem
 %}
 
-quaverDotted = {
-  \override Stem#'length = 6
-  g'8.
+semiquaverDottedDoubleDown = {
+  \stemDown
+  \override Stem#'length = #6.5
+  g'16..
 }
 
   \score {
@@ -58,6 +59,6 @@ quaverDotted = {
     \remove "Clef_engraver"
     \remove "Time_signature_engraver"
   }
-  \quaverDotted
+  \semiquaverDottedDoubleDown
 }
 

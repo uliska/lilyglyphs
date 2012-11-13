@@ -156,6 +156,9 @@ cillum dolore eu fugiat nulla pariatur\\CMD.
 \\bigskip
 """
 
+# Default values for optional argument in generated commands
+DEF_SCALE = '1'
+DEF_RAISE = '0'
 
 # template strings to build the command from
 # 'CMD' will be replaced by the actual command_name
@@ -163,7 +166,7 @@ cillum dolore eu fugiat nulla pariatur\\CMD.
 
 cmd_templates = {}
 cmd_templates['image'] = """\\newcommand*{\\CMDBase}[1][]{%
-    \\setkeys{lilyDesignOptions}{scale=1,raise=0}%
+    \\setkeys{lilyDesignOptions}{scale=SCALE,raise=RAISE}%
     \\lilyPrintImage[#1]{ELEM}%
 }
 \\newcommand*{\\CMD}[1][]{\\CMDBase[#1] }
@@ -172,7 +175,7 @@ cmd_templates['image'] = """\\newcommand*{\\CMDBase}[1][]{%
 """
 
 cmd_templates['glyphname'] = """\\newcommand*{\\CMDBase}[1][]{%
-	\\setkeys{lilyDesignOptions}{scale=1,raise=0}%
+	\\setkeys{lilyDesignOptions}{scale=SCALE,raise=RAISE}%
 	\\lilyPrint[#1]{\\lilyGetGlyph{ELEM}}%
 }
 \\newcommand*{\\CMD}[1][]{\\CMDBase[#1] }
@@ -181,7 +184,7 @@ cmd_templates['glyphname'] = """\\newcommand*{\\CMDBase}[1][]{%
 """
 
 cmd_templates['number'] = """\\newcommand*{\\CMDBase}[1][]{%
-	\\setkeys{lilyDesignOptions}{scale=1,raise=0}%
+	\\setkeys{lilyDesignOptions}{scale=SCALE,raise=RAISE}%
 	\\lilyPrint[#1]{\\lilyGetGlyphByNumber{ELEM}}%
 }
 \\newcommand*{\\CMD}[1][]{\\CMDBase[#1] }
@@ -200,6 +203,7 @@ cmd_templates['dynamics'] = """\\newcommand{\\CMDBase}[1][]{%
 """
 
 cmd_templates['text'] = """\\newcommand{\\CMDBase}[1][]{%
+	\\setkeys{lilyDesignOptions}{scale=SCALE,raise=RAISE}%
 	\\mbox{%
 		\\lilyText[#1]{ELEM}%
 	}%
@@ -318,8 +322,18 @@ def generate_latex_commands():
             cmd.append('% ' + line + '\n')
         cmd.append(signature() + '\n')
         template = cmd_templates[in_cmds[cmd_name]['type']]
-        templateCMD = template.replace('CMD', cmd_name)
-        cmd.append(templateCMD.replace('ELEM', in_cmds[cmd_name]['element']))
+        template = template.replace('CMD', cmd_name)
+        if 'scale' in in_cmds[cmd_name]:
+            scale = in_cmds[cmd_name]['scale']
+        else:
+            scale = DEF_SCALE
+        template = template.replace('SCALE', scale)
+        if 'raise' in in_cmds[cmd_name]:
+            rais = in_cmds[cmd_name]['raise']
+        else:
+            rais = DEF_RAISE
+        template = template.replace('RAISE', rais)
+        cmd.append(template.replace('ELEM', in_cmds[cmd_name]['element']))
         latex_cmds[cmd_name]['cmd'] = cmd
     
         # create documentation table

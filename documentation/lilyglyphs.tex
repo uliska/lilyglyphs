@@ -644,6 +644,16 @@ If a line contains the special key \verb|%%protected|, the script skips this com
 You should use this key whenever you consider a command finished.
 This won't only save the time of the LilyPond compilation, but will also prevent the existing command to be generated again in your output file.
 
+If a line contains one of the keys \verb|scale=| or \verb|raise=| the value after the equals sign is interpreted as a new default value that the generated command gets as its design time options.
+These values are also kept for subsequent command entries until the file is finished or the script finds a new entry -- which would replace the value.
+The idea behind this option is that it is likely that one defines a set of related commands within an input file.
+And it is likely that these related functions share common default values.
+For example all single notes were created with a default scaling of 0.75.
+Without this option you would have to adapt your result file for any single command, with it you can decide which default values you prefer for the commands at hand. 
+The setting of option defaults also works if a command is marked as “protected”.
+Generally this is an advantage since you don't have to take care to correctly update the file when you mark something as protected.
+But there may be cases where you will want to remove the defaults setting from a \texttt{\%\%protected} clause.
+
 Afterwards you provide the actual LilyPond command in the form of a variable holding a musical expression.
 The first line should contain exactly the name, the '=' and the opening curly brace.
 The following lines are read as LilyPond code until the parser finds a line starting with the closing curly brace.
@@ -838,6 +848,8 @@ The following items are possible/necessary:
 		Of course such externally created image files aren't automatically tracked by Git and therefore aren't promoted to other users of the package.\\
 		The “element” for an image driven command is the plain file name without extension or path.
 	\end{itemize}
+	\item \textsf{\textbf{scale / raise} (optional):} If one of these items is found they are set to be the new default value for the command's optional argument. 
+	As described in \fref{subsubsec:BGI_preparing_input} the value is kept until the end of the file is reached or the value is set newly.
 \end{itemize}
 
 \noindent Here you can see two examples of command entries:
@@ -883,18 +895,29 @@ See \fref{tab:singlenotes} for the available predefined commands.
 
 \begin{reftable}{Single Notes}{singlenotes}
 \crotchet & \cmd{crotchet}\\
+\crotchetDown & \cmd{crotchetDown}\\
 \crotchetDotted & \cmd{crotchetDotted}\\
+\crotchetDottedDown & \cmd{crotchetDottedDown}\\
 \crotchetDottedDouble & \cmd{crotchetDottedDouble}\\
+\crotchetDottedDoubleDown & \cmd{crotchetDottedDoubleDown}\\
 \halfNote & \cmd{halfNote}\\
+\halfNoteDown & \cmd{halfNoteDown}\\
 \halfNoteDotted & \cmd{halfNoteDotted}\\
+\halfNoteDottedDown & \cmd{halfNoteDottedDown}\\
 \halfNoteDottedDouble & \cmd{halfNoteDottedDouble}\\
+\halfNoteDottedDoubleDown & \cmd{halfNoteDottedDoubleDown}\\
 \quaver & \cmd{quaver}\\
+\quaverDown & \cmd{quaverDown}\\
 \quaverDotted & \cmd{quaverDotted}\\
+\quaverDottedDown & \cmd{quaverDottedDown}\\
 \quaverDottedDouble & \cmd{quaverDottedDouble}\\
+\quaverDottedDoubleDown & \cmd{quaverDottedDoubleDown}\\
 \semiquaver & \cmd{semiquaver}\\
+\semiquaverDown & \cmd{semiquaverDown}\\
 \semiquaverDotted & \cmd{semiquaverDotted}\\
+\semiquaverDottedDown & \cmd{semiquaverDottedDown}\\
 \semiquaverDottedDouble & \cmd{semiquaverDottedDouble}\\
-
+\semiquaverDottedDoubleDown & \cmd{semiquaverDottedDoubleDown}\\
 \end{reftable}
 
 

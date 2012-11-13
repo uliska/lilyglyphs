@@ -30,7 +30,7 @@
 %   semiquaverDotted.ly                                         %
 %                                                               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% created by buildglyphimages.py on 2012-11-09
+% created by buildglyphimages.py on 2012-11-13
 
 \version "2.17.4"
 
@@ -44,10 +44,11 @@
 }
 
 %{
-dotted semiquaver with upward stem
+dotted semiquaver with downward stem
 %}
 
 semiquaverDotted = {
+  \stemDown
   \override Stem#'length = #6.5
   g'16.
 }

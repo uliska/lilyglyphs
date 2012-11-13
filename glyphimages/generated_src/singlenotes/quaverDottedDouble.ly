@@ -30,7 +30,7 @@
 %   quaverDottedDouble.ly                                       %
 %                                                               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% created by buildglyphimages.py on 2012-11-09
+% created by buildglyphimages.py on 2012-11-13
 
 \version "2.17.4"
 

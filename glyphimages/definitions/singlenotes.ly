@@ -60,6 +60,17 @@ symbol = \halfNote
 \include "score.ily"
 
 %%lilyglyphs
+% half note with downward stem
+% scale=0.75
+% raise=-0.4
+%%protected
+halfNoteDown = {
+  \stemDown
+  \override Stem#'length = 5
+  g'2
+}
+
+%%lilyglyphs
 % dotted half note with upward stem
 %%protected
 halfNoteDotted = {
@@ -70,6 +81,15 @@ halfNoteDotted = {
 \markup { halfNoteDotted }
 symbol = \halfNoteDotted
 \include "score.ily"
+
+%%lilyglyphs
+% dotted half note with downward stem
+%%protected
+halfNoteDottedDown = {#
+  \stemDown
+  \override Stem#'length = 5
+  g'2.
+}
 
 %%lilyglyphs
 % doubledotted half note with upward stem
@@ -84,6 +104,15 @@ symbol = \halfNoteDottedDouble
 \include "score.ily"
 
 %%lilyglyphs
+% doubledotted half note with downward stem
+%%protected
+halfNoteDottedDoubleDown = {
+  \stemDown
+  \override Stem#'length = 5
+  g'2..
+}
+
+%%lilyglyphs
 % crotchet with upward stem
 %%protected
 crotchet = {
@@ -96,6 +125,15 @@ symbol = \crotchet
 \include "score.ily"
 
 %%lilyglyphs
+% crotchet with downward stem
+%%protected
+crotchetDown = {
+  \stemDown
+  \override Stem#'length = 5
+  g'4
+}
+
+%%lilyglyphs
 % dotted crotchet with upward stem
 %%protected
 crotchetDotted = {
@@ -106,6 +144,15 @@ crotchetDotted = {
 \markup { crotchetDotted }
 symbol = \crotchetDotted
 \include "score.ily"
+
+%%lilyglyphs
+% dotted crotchet with downward stem
+%%protected
+crotchetDottedDown = {
+  \stemDown
+  \override Stem#'length = 5
+  g'4.
+}
 
 %%lilyglyphs
 % doubledotted crotchet with upward stem
@@ -121,9 +168,27 @@ symbol = \crotchetDottedDouble
 
 
 %%lilyglyphs
+% doubledotted crotchet with upward stem
+%%protected
+crotchetDottedDoubleDown = {
+  \stemDown
+  \override Stem#'length = 5
+  g'4..
+}
+
+%%lilyglyphs
 % quaver with upward stem
 %%protected
 quaver = {
+  \override Stem#'length = 6
+  g'8
+}
+
+%%lilyglyphs
+% quaver with downward stem
+%%protected
+quaverDown = {
+  \stemDown
   \override Stem#'length = 6
   g'8
 }
@@ -134,7 +199,6 @@ symbol = \quaver
 
 %%lilyglyphs
 % dotted quaver with upward stem
-%%protected
 quaverDotted = {
   \override Stem#'length = 6
   g'8.
@@ -146,8 +210,16 @@ symbol = \quaverDotted
 
 
 %%lilyglyphs
-% doubledotted quaver with upward stem
+% dotted quaver with downward stem
 %%protected
+quaverDottedDown = {
+  \stemDown
+  \override Stem#'length = 6
+  g'8.
+}
+
+%%lilyglyphs
+% doubledotted quaver with upward stem
 quaverDottedDouble = {
   \override Stem#'length = 6
   g'8..
@@ -157,6 +229,14 @@ quaverDottedDouble = {
 symbol = \quaverDottedDouble
 \include "score.ily"
 
+%%lilyglyphs
+% doubledotted quaver with downward stem
+%%protected
+quaverDottedDoubleDown = {
+  \stemDown
+  \override Stem#'length = 6
+  g'8..
+}
 
 %%lilyglyphs
 % semiquaver with upward stem
@@ -172,6 +252,15 @@ symbol = \semiquaver
 
 
 %%lilyglyphs
+% semiquaver with downward stem
+%%protected
+semiquaverDown = {
+  \stemDown
+  \override Stem#'length = #6.5
+  g'16
+}
+
+%%lilyglyphs
 % dotted semiquaver with upward stem
 %%protected
 semiquaverDotted = {
@@ -183,6 +272,14 @@ semiquaverDotted = {
 symbol = \semiquaverDotted
 \include "score.ily"
 
+%%lilyglyphs
+% dotted semiquaver with downward stem
+%%protected
+semiquaverDottedDown = {
+  \stemDown
+  \override Stem#'length = #6.5
+  g'16.
+}
 
 %%lilyglyphs
 % doubledotted semiquaver with upward stem
@@ -196,3 +293,13 @@ semiquaverDottedDouble = {
 symbol = \semiquaverDottedDouble
 \include "score.ily"
 
+%%lilyglyphs
+% doubledotted semiquaver with downward stem
+%%protected
+semiquaverDottedDoubleDown = {
+  \stemDown
+  \override Stem#'length = #6.5
+  g'16..
+}
+
+    

@@ -85,7 +85,7 @@ def main(argv):
     for input_file_name in lg.input_files:
         print ''
         lg.read_input_file('definitions/' + input_file_name)
-        
+
         basename, dummy = os.path.splitext(input_file_name)
         lg.cat_subdir = basename + '/'
 
@@ -128,6 +128,10 @@ def check_paths():
     if not os.path.exists(lg.dir_stash + 'images'):
         os.mkdir(lg.dir_stash + 'images')
 
+# set default scale and raise arguments to empty
+scale = ''
+rais = ''
+
 def read_entries():
     """Parses the input source file and extracts glyph entries"""
     print 'Read entries of LilyPond commands:'
@@ -138,6 +142,7 @@ def read_entries():
 def read_entry(i):
     """Reads a single glyph entry from the input file and stores it
     in the global dictionary lg.in_cmds"""
+    global scale,  rais
     # read comment line(s)
     i += 1
     is_protected = False
@@ -150,6 +155,10 @@ def read_entry(i):
             break
         elif '%%protected' in line:
             is_protected = True
+        elif 'scale=' in line:
+            dummy, scale = line.split('=')
+        elif 'raise=' in line:
+            dummy,  rais = line.split('=')
         else:
             line = line[1:].strip()
             comment.append(line)
@@ -158,16 +167,16 @@ def read_entry(i):
     # remove any empty lines
     while len(lg.definitions_file[i].strip()) == 0:
         i += 1
-    
+
     # read command name
     line = lg.definitions_file[i].strip()
     cmd_name = line[: line.find('=') - 1]
-    print '- ' + cmd_name, 
+    print '- ' + cmd_name,
     if is_protected:
         print '(protected and skipped)'
     else:
         print '' #(for line break only)
-        
+
     # read actual command until we find a line the begins with a closing curly bracket
     i += 1
     lilySrc = []
@@ -180,7 +189,11 @@ def read_entry(i):
         lg.in_cmds[cmd_name]['lilySrc'] = lilySrc
         lg.in_cmds[cmd_name]['element'] = cmd_name
         lg.in_cmds[cmd_name]['type'] = 'image'
-        
+        if scale:
+            lg.in_cmds[cmd_name]['scale'] = scale
+        if rais:
+            lg.in_cmds[cmd_name]['raise'] = rais
+
         lg.lily_files.append((lg.cat_subdir, cmd_name))
     return i
 
