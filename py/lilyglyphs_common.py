@@ -32,10 +32,11 @@
 #                                                                        #
 # ########################################################################
 
-import os, sys, datetime, subprocess
+import os, sys, datetime, subprocess, __commands,  __strings
 
 # ################
 # Global variables
+
 
 definitions_file = []
 
@@ -43,6 +44,8 @@ definitions_file = []
 # Directories
 lilyglyphs_root = ''
 
+
+# the following are deprecated
 dir_defs = 'definitions/'
 dir_lysrc = 'generated_src/'
 dir_pdfs = 'pdfs/'
@@ -227,7 +230,7 @@ cmd_templates['text'] = """\\newcommand{\\CMDBase}[1][]{%
 
 def check_duplicates(files):
     """Checks for file entries that occur more than once.
-    Checks for the 'count' member. 
+    Checks for the 'count' member.
     If there are duplicates they are printed to the console,
     then program terminates"""
     dups_list = []
@@ -241,9 +244,9 @@ def check_duplicates(files):
         print 'please check:'
         for entry in dups_list:
             print entry + '\n'
-        sys.exit('Abort')    
-        
-    
+        sys.exit('Abort')
+
+
 def check_lilyglyphs_root():
     """Checks if the current working directory
        is within the rootline of the lilyglyphs package.
@@ -252,7 +255,7 @@ def check_lilyglyphs_root():
     global lilyglyphs_root, dir_stash
 
     print 'Checking directories'
-    
+
     # check current working dir
     cwd = os.getcwd()
     if not 'lilyglyphs' in cwd:
@@ -269,15 +272,15 @@ def check_lilyglyphs_root():
 def cleanup_lily_files():
     """Removes unneccessary files from LilyPond compilation,
     rename and remove the preview PDF files to the right directory."""
-    
+
     print 'Clean up directories'
-    
+
     # iterate through the subdirectories of dir_lysrc
-    for entry in os.listdir(dir_lysrc):
-        in_dir = dir_lysrc + entry + '/'
+    for entry in os.listdir(__commands.d_src):
+        in_dir = os.path.join(__commands.d_src, entry)
         if os.path.isdir(in_dir):
             # make sure there is a corresponding dir_pdfs directory
-            out_dir = dir_pdfs + entry + '/'
+            out_dir = os.path.join(__commands.d_img, entry)
             if not os.path.exists(out_dir):
                 os.mkdir(out_dir)
             # iterate through the subdir
@@ -285,17 +288,17 @@ def cleanup_lily_files():
                 name, extension = os.path.splitext(file)
                 #remove unnecessary files
                 if not extension in ['.pdf', '.ly']:
-                    os.remove(in_dir + file)
+                    os.remove(os.path.join(in_dir, file))
                 if extension == '.pdf':
                     # remove full-page pdf
                     if not '.preview' in name:
-                        os.remove(in_dir + file)
+                        os.remove(os.path.join(in_dir, file))
                     else:
                         newfile = file.replace('.preview.', '.')
                         # rename/move small 'preview' pdf
-                        os.rename(in_dir + file,  out_dir + newfile)
-                    
-        
+                        os.rename(os.path.join(in_dir, file),  os.path.join(out_dir, newfile))
+
+
 def compare_file_lists(list_in, list_out):
     """Compares two filelist dictionaries.
     The key for the dictionaries is the command name.
@@ -307,24 +310,27 @@ def compare_file_lists(list_in, list_out):
         if file not in list_out:
             diff.append(os.path.join(list_in[file]['dir'], file + list_in[file]['ext']))
     return diff
-    
-def compile_lily_files():
-    """Compiles LilyPond files to 
-    DEPRECATED: Should now use compile_src_files"""
+
+def compile_lily_files(commands):
+    """Compiles LilyPond files"""
     print 'Compile with LilyPond:'
-    for file in lily_files:
+    for cmd in commands.commands:
         args = []
-        args.append("lilypond -o")
-        args.append("-o")
-        args.append(dir_lysrc + file[0])
-        args.append("-dpreview")
-        args.append("-dno-point-and-click")
-        args.append(dir_lysrc + file[0] + file[1] + ".ly")
+        args.append('lilypond')
+        args.append('-o')
+        src_dir = os.path.join(__commands.d_src, commands.cat_subdir)
+        args.append(src_dir)
+        args.append('-dpreview')
+        args.append('-dno-point-and-click')
+        src_file = os.path.join(src_dir, cmd.name + '.ly')
+        args.append(src_file)
+        print args
         subprocess.call(args)
         print ''
 
 def compile_src_files(src_files):
-    """Compiles LilyPond files"""
+    """Compiles LilyPond files
+     DEPRECATED: Should now use compile_lily_files again"""
     print 'Compile with LilyPond'
     for file in src_files:
         args = []
@@ -337,20 +343,20 @@ def compile_src_files(src_files):
         args.append(file)
         subprocess.call(args)
         print ''
-    
+
 def full_name(file_list, file):
     """Returns the full filename for the given filelist entry dictionary.
     The filelist must contain a key file that holds a dictionary.
     The dictionary must contain
     'dir' and 'ext' keys"""
     return os.path.join(file_list[file]['dir'],  file + file_list[file]['ext'])
-    
+
 def generate_latex_commands():
     """Generates the templates for the commands in a new LaTeX file.
     These should manually be moved to the appropriate .inp files
     in lilyglyphs"""
 
-    
+
     for cmd_name in in_cmds:
         latex_cmds[cmd_name] = {}
 
@@ -373,9 +379,9 @@ def generate_latex_commands():
         template = template.replace('RAISE', rais)
         cmd.append(template.replace('ELEM', in_cmds[cmd_name]['element']))
         latex_cmds[cmd_name]['cmd'] = cmd
-    
+
         # create documentation table
-    
+
         # create LaTeX test code
         tc = []
         tc.append(testcode_template.replace('CMD', cmd_name))
@@ -402,16 +408,16 @@ def list_files(basedir):
             files[name]['ext'] = ext
             files[name]['count'] = 1
     return files
-    
+
 # update to only return the string-list.
 # also update genGlyphCommands.py accordingly
 def read_input_file(in_file):
-    """Reads the input source file and stores it 
+    """Reads the input source file and stores it
     in the global variable definitions_file"""
     global definitions_file
 
     print 'Read input file ' + in_file
-    
+
     # check for existence of input file
     if not os.path.exists(in_file):
                     print 'File ' + in_file + ' not found.'
