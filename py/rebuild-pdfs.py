@@ -51,10 +51,23 @@ def main():
     
     print ''
     check_paths()
+    
+    
+    files = lg.read_files(lg.dir_lysrc)
+    dupes = {}
+    for file in files:
+        if files[file][2] > 1:
+            print files[file]
+            dupes[file] = [files[file][0], files[file][1], files[file][2]]
+    if dupes:
+        print 'Duplicate entry/ies:'
+        print dupes
+    sys.exit()
 
     print ''
     src_files = lg.check_missing_pdfs()
     print src_files
+    sys.exit()
     
     
     # is there anything to be done at all?

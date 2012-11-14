@@ -245,6 +245,10 @@ def check_missing_pdfs():
     img_files = read_img_files()
     src_files = read_src_files()
     
+    print img_files
+    print src_files
+    sys.exit()
+    
     missing_files = []
     for file in src_files:
         name, ext = os.path.splitext(file)
@@ -341,10 +345,30 @@ def generate_latex_commands():
         latex_cmds[cmd_name]['testcode'] = tc
 
 
+def read_files(basedir):
+    files = {}
+    for entry in os.listdir(basedir):
+        if basedir[-1] == '/':
+            basedir = basedir[:-1]
+        if os.path.isdir(basedir + '/' + entry):
+            new_files = read_files(basedir + '/' + entry)
+            for file in new_files:
+                if file in files:
+                    files[file][2] = files[file][2] + 1
+                else:
+                    files[file] = new_files[file]
+        else:
+            name, ext = os.path.splitext(entry)
+            files[name] = [basedir, ext,  1]
+    return files
+    
+    
 def read_img_files():
-    """Returns the list of generated pdf image files.
-    Entries only contain the base name without path and extension"""
-    img_files = []
+    """Returns a dictionary of all generated pdf files
+    that are present below the dir_pdf directory.
+    Key is the basename, value the subdir.
+    This can be used to check for double filenames"""
+    img_files = {}
     for entry in os.listdir(dir_pdfs):
         out_dir = dir_pdfs + entry + '/'
         if os.path.isdir(out_dir):
