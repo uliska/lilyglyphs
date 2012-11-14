@@ -24,49 +24,16 @@
 #                                                                        #
 # ########################################################################
 
-import lilyglyphs_common as lg, os, sys,  getopt,  datetime,  subprocess
+import lilyglyphs_common as lg, os, sys, getopt
+from __commands import *
+from __strings import *
 
-# ################
 # Global variables
 
-# flags
-flag_force = False
-
-# files and dirs
-input_file_name = ''
-input_subdir = ''
-output_subdir = ''
-
-# list containing the lines of the input file
-definitions_file = []
-
-# ###############
-# string to be printed before the actual command
-lily_src_prefix = """\\version "2.17.4"
-
-#(set-global-staff-size 14)
-
-\paper {
-  indent = 0
-}
-\header {
-  tagline = ""
-}
-
-"""
-
-# string to be printed after the actual command definition
-lily_src_score = """
-  \\score {
-  \\new Staff \\with {
-    \\remove "Staff_symbol_engraver"
-    \\remove "Clef_engraver"
-    \\remove "Time_signature_engraver"
-  }
-"""
+commands = None
 
 def main(argv):
-    global flag_force, input_file_name, input_subdir,  output_subdir
+    global commands
     short_options = 'i:'
     long_options = []
     long_options.append('input=')
@@ -74,8 +41,8 @@ def main(argv):
         opts, args = getopt.getopt(argv, short_options, long_options)
         for opt, arg in opts:
             if opt in ("-i",  "--input"):
-                input_subdir, input_file_name = os.path.split(arg)
-                output_subdir,  dummy = os.path.splitext(arg)
+                # Create commands object, load file and parse entries
+                commands = ImageCommands(arg)
             else:
                 usage()
                 sys.exit(2)
@@ -83,46 +50,30 @@ def main(argv):
         usage()
         sys.exit(2)
 
-    # Do the actual work of the script
-    print ''
-    print 'buildglyphimages.py,'
-    print 'Part of lilyglyphs.'
+    # TODO: list existing src files, check for duplicates
 
-    print ''
-    check_paths()
-
-    print ''
-    load_input_file()
-    
-    basename, dummy = os.path.splitext(input_file_name)
-    lg.cat_subdir = basename + '/'
-
-    # list existing src files, check for duplicates
-    
-    print ''
-    read_entries()
-    
-    # check for definition of already existing commands
+    # TODO: check for definition of already existing commands
     # (for now ignore that, maybe add an option to refuse the re-creation)
-    
-    # update to use the new commands dict
+
     print ''
     write_lily_src_files()
-    
-    # use compile_src_files instead, use dict to generate names
+
+    print commands
+    for cmd in commands:
+        print cmd
     print ''
-    lg.compile_lily_files()
+    lg.compile_lily_files(commands)
 
     # update to use new dict
     print ''
-    lg.generate_latex_commands()
+    #lg.generate_latex_commands()
 
     # check, should still work
     print ''
     lg.cleanup_lily_files()
 
     print ''
-    write_latex_file()
+    #write_latex_file()
 
 
 def check_paths():
@@ -145,97 +96,15 @@ def check_paths():
     if not os.path.exists(lg.dir_stash + 'images'):
         os.mkdir(lg.dir_stash + 'images')
 
-def load_input_file():
-    global definitions_file
-    definitions_file = lg.read_input_file(os.path.join(lg.dir_defs, input_subdir, input_file_name))
-    
-
-# set default scale and raise arguments to empty
-scale = ''
-rais = ''
-
-def read_entries():
-    """Parses the input source file and extracts glyph entries"""
-    print 'Read entries of LilyPond commands:'
-    for i in range(len(lg.definitions_file)):
-        if '%%lilyglyphs' in lg.definitions_file[i]:
-            i = read_entry(i)
-
-def read_entry(i):
-    """Reads a single glyph entry from the input file and stores it
-    in the global dictionary lg.in_cmds"""
-    global scale,  rais
-    
-    # read comment line(s)
-    i += 1
-    is_protected = False
-    comment = []
-    # loop over the comment line(s)
-    while i < len(lg.definitions_file):
-        line = lg.definitions_file[i].strip()
-        if not line[0] == '%':
-            break
-        # check for 'protected' entries that shouldn't be processed newly
-        elif '%%protected' in line:
-            is_protected = True
-        # check for scale or raise arguments that set new default values
-        elif 'scale=' in line:
-            dummy, scale = line.split('=')
-        elif 'raise=' in line:
-            dummy,  rais = line.split('=')
-        else:
-            line = line[1:].strip()
-            comment.append(line)
-        i += 1
-
-    # skip any empty lines between comment and definition
-    while len(lg.definitions_file[i].strip()) == 0:
-        i += 1
-
-    # read command name
-    line = lg.definitions_file[i].strip()
-    name,  dummy = line.split('=')
-    name = name.strip()
-    
-#    cmd_name = line[: line.find('=') - 1]
-    print '- ' + name,
-    if is_protected:
-        print ' (protected and skipped)'
-    else:
-        print '' #(for line break only)
-    
-    # read actual command until we find a line the begins with a closing curly bracket
-    i += 1
-    lilySrc = []
-    while lg.definitions_file[i][0] != '}':
-        lilySrc.append(lg.definitions_file[i])
-        i += 1
-    if not is_protected:
-        lg.commands[name] = {}
-        lg.commands[name]['comment'] = comment
-        lg.commands[name]['lilySrc'] = lilySrc
-        lg.commands[name]['element'] = name
-        lg.commands[name]['type'] = 'image'
-        lg.commands[name]['dir'] = output_subdir
-        if scale:
-            lg.commands[name]['scale'] = scale
-        if rais:
-            lg.commands[name]['raise'] = rais
-
-        lg.lily_files.append((lg.cat_subdir, name))
-    print lg.commands
-    return i
-
-
 def usage():
-    print """buildglyphimages. Part of the lilyglyphs package.
-    Parses a .lysrc (lilyglyphs source) file, creates
+    print """build-image-commands. Part of the lilyglyphs package.
+    Parses a lilyglyphs source file, creates
     single .ly files from it, uses LilyPond to create single glyph
-    pdf files and set up template files to be used in LaTeX.
+    pdf files and set up template commands to be used in LaTeX.
     For detailed instructions refer to the manual.
     Usage:
     -i filename --input=filename (mandatory): Specifies the input file.
-    -f --force: overwrite files if they already exist
+
     """
 
 def write_file_info(name, fout):
@@ -255,21 +124,26 @@ def write_file_info(name, fout):
     fout.write(lg.signature())
     fout.write('\n\n')
 
+
 def write_latex_file():
     """Composes LaTeX file and writes it to disk"""
     print 'Generate LaTeX file'
     lg.write_latex_file('images/newImageGlyphs.tex')
 
+
 def write_lily_src_files():
     """Generates one .ly file for each found new command"""
     print 'Write .ly files for each entry:'
-    src_dir = lg.dir_lysrc + lg.cat_subdir[:-1]
+
+    src_dir = os.path.join(d_src, commands.cat_subdir)
     if not os.path.exists(src_dir):
         os.mkdir(src_dir)
-    for cmd_name in lg.in_cmds:
+
+    for cmd in commands:
+        cmd_name = cmd.name
         print '- ' + cmd_name
         # open a single lily src file for write access
-        fout = open(src_dir + '/' + cmd_name + '.ly',  'w')
+        fout = open(os.path.join(src_dir, cmd_name + '.ly'), 'w')
 
         #output the license information
         fout.write(lg.lilyglyphs_copyright_string)
@@ -283,13 +157,13 @@ def write_lily_src_files():
 
         # write the comment for the command
         fout.write('%{\n')
-        for line in lg.in_cmds[cmd_name]['comment']:
+        for line in cmd.comment:
             fout.write(line + '\n')
         fout.write('%}\n\n')
 
         # write the actual command
         fout.write(cmd_name + ' = {\n')
-        for line in lg.in_cmds[cmd_name]['lilySrc']:
+        for line in cmd.lilySrc:
             fout.write(line + '\n')
         fout.write('}\n')
 
@@ -302,7 +176,12 @@ def write_lily_src_files():
 
         fout.close()
 
+
 # ####################################
 # Finally launch the program
 if __name__ == "__main__":
+    print 'build-image-commands.py,'
+    print 'Part of lilyglyphs.'
+
+    check_paths()
     main(sys.argv[1:])
