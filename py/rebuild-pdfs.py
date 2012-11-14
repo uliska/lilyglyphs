@@ -52,38 +52,33 @@ def main():
     print ''
     check_paths()
     
-    
-    files = lg.read_files(lg.dir_lysrc)
-    dupes = {}
-    for file in files:
-        if files[file][2] > 1:
-            print files[file]
-            dupes[file] = [files[file][0], files[file][1], files[file][2]]
-    if dupes:
-        print 'Duplicate entry/ies:'
-        print dupes
-    sys.exit()
-
     print ''
-    src_files = lg.check_missing_pdfs()
-    print src_files
-    sys.exit()
+    print 'Listing generated LilyPond source files'
+    src_files = lg.list_files(lg.dir_lysrc)
+    lg.check_duplicates(src_files)
     
+    print ''
+    print 'Listing generated PDF files'
+    img_files = lg.list_files(lg.dir_pdfs)
+    lg.check_duplicates(img_files)
     
-    # is there anything to be done at all?
-    if len(src_files) == 0:
+    print ''
+    print 'Comparing lists'
+    missing_pdfs = lg.compare_file_lists(src_files, img_files)
+
+    if not missing_pdfs:
         print ''
         print 'No image files missing, nothing to be done.'
         print 'If you want to re-create pdfs, then delete them first'
         sys.exit(0)
-    lg.lily_files = src_files
+    
     print ''
-    print 'Found ' + str(len(src_files)) + ' missing file(s).'
+    print 'Found missing pdf files and will re-create them with LilyPond:'
+    for file in missing_pdfs:
+        print file
     
-    # compile all LilyPond files without matching pdf
-    lg.compile_lily_files()
+    lg.compile_src_files(missing_pdfs)
     
-    # clean up directories
     lg.cleanup_lily_files()
 
 

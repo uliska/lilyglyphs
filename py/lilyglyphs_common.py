@@ -213,6 +213,26 @@ cmd_templates['text'] = """\\newcommand{\\CMDBase}[1][]{%
 
 """
 
+def check_duplicates(files):
+    """Checks for file entries that occur more than once.
+    Checks for the 'count' member. 
+    If there are duplicates they are printed to the console,
+    then program terminates"""
+    dups_msg = ''
+    dups_list = []
+    for file in files:
+        if files[file]['count'] > 1:
+            dups_list.append(file + files[file]['ext'])
+    if dups_list:
+        print ''
+        print 'The following files exist in more than one'
+        print 'subdirectory of ' + os.getcwd() + dir_lysrc + ','
+        print 'please check:'
+        for entry in dups_list:
+            print entry + '\n'
+        sys.exit('Abort')    
+        
+    
 def check_lilyglyphs_root():
     """Checks if the current working directory
        is within the rootline of the lilyglyphs package.
@@ -294,8 +314,20 @@ def cleanup_lily_files():
                         os.rename(in_dir + file,  out_dir + newfile)
                     
         
+def compare_file_lists(list_in, list_out):
+    """Compares two filelist dictionaries.
+    Returns a list with the names of all files
+    present in list_out but not in list_in"""
+    diff = []
+    for file in list_in:
+        if file not in list_out:
+            full_name = list_in[file]['dir'] + '/' + file + list_in[file]['ext']
+            diff.append(full_name)
+    return diff
+    
 def compile_lily_files():
-    """Compiles LilyPond files to """
+    """Compiles LilyPond files to 
+    DEPRECATED: Should now use compile_src_files"""
     print 'Compile with LilyPond:'
     for file in lily_files:
         args = []
@@ -308,6 +340,28 @@ def compile_lily_files():
         subprocess.call(args)
         print ''
 
+def full_name(file_list, file):
+    """Returns the full filename for the given filelist entry dictionary.
+    The filelist must contain a key file that holds a dictionary.
+    The dictionary must contain
+    'dir' and 'ext' keys"""
+    return os.path.join(file_list[file]['dir'],  file,  file_list[file]['ext'])
+    
+def compile_src_files(src_files):
+    """Compiles LilyPond files"""
+    print 'Compile with LilyPond'
+    for file in src_files:
+        args = []
+        args.append('lilypond')
+        args.append("-o")
+        path,  dummy = os.path.split(file)
+        args.append(path)
+        args.append("-dpreview")
+        args.append("-dno-point-and-click")
+        args.append(file)
+        subprocess.call(args)
+        print ''
+    
 def generate_latex_commands():
     """Generates the templates for the commands in a new LaTeX file.
     These should manually be moved to the appropriate .inp files
@@ -345,21 +399,25 @@ def generate_latex_commands():
         latex_cmds[cmd_name]['testcode'] = tc
 
 
-def read_files(basedir):
+def list_files(basedir):
+    """Returns a dictionary of all files in basedir and its subdirectories"""
     files = {}
     for entry in os.listdir(basedir):
         if basedir[-1] == '/':
             basedir = basedir[:-1]
         if os.path.isdir(basedir + '/' + entry):
-            new_files = read_files(basedir + '/' + entry)
+            new_files = list_files(basedir + '/' + entry)
             for file in new_files:
                 if file in files:
-                    files[file][2] = files[file][2] + 1
+                    files[file]['count'] = files[file]['count'] + 1
                 else:
                     files[file] = new_files[file]
         else:
             name, ext = os.path.splitext(entry)
-            files[name] = [basedir, ext,  1]
+            files[name] = {}
+            files[name]['dir'] = basedir
+            files[name]['ext'] = ext
+            files[name]['count'] = 1
     return files
     
     
