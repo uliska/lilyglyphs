@@ -218,7 +218,6 @@ def check_duplicates(files):
     Checks for the 'count' member. 
     If there are duplicates they are printed to the console,
     then program terminates"""
-    dups_msg = ''
     dups_list = []
     for file in files:
         if files[file]['count'] > 1:
@@ -226,7 +225,7 @@ def check_duplicates(files):
     if dups_list:
         print ''
         print 'The following files exist in more than one'
-        print 'subdirectory of ' + os.getcwd() + dir_lysrc + ','
+        print 'subdirectory of ' + os.path.join(os.getcwd(), dir_lysrc) + ','
         print 'please check:'
         for entry in dups_list:
             print entry + '\n'
@@ -254,34 +253,6 @@ def check_lilyglyphs_root():
     dir_stash = lilyglyphs_root + 'stash_new_commands/'
     # set current working dir
     os.chdir(lilyglyphs_root)
-
-def check_missing_pdfs():
-    """Compares the list of LilyPond source and resulting PDF files.
-       Returns a list of LilyPond source file names (without folder)
-       which don't have a corresponding PDF file"""
-    print 'Reading file lists, counting missing pdf files'
-    # read existing .ly source files in in_dir
-    # and add them to the sources list if the image is missing
-    img_files = read_img_files()
-    src_files = read_src_files()
-    
-    print img_files
-    print src_files
-    sys.exit()
-    
-    missing_files = []
-    for file in src_files:
-        name, ext = os.path.splitext(file)
-        if not name in img_files:
-            missing_files.append(name)
-    for entry in os.listdir(dir_lysrc):
-        in_dir = dir_lysrc + entry + '/'
-        if os.path.isdir(in_dir):
-            for file in os.listdir(in_dir):
-                name,  ext = os.path.splitext(file)
-                if ext == '.ly' and name not in img_files:
-                    src_files.append((entry + '/', name))
-    return missing_files
 
 def cleanup_lily_files():
     """Removes unneccessary files from LilyPond compilation,
@@ -316,13 +287,14 @@ def cleanup_lily_files():
         
 def compare_file_lists(list_in, list_out):
     """Compares two filelist dictionaries.
-    Returns a list with the names of all files
+    The key for the dictionaries is the command name.
+    The value is another dictionary that has to contain 'dir' and 'ext' keys
+    Returns a list with the full names of all files
     present in list_out but not in list_in"""
     diff = []
     for file in list_in:
         if file not in list_out:
-            full_name = list_in[file]['dir'] + '/' + file + list_in[file]['ext']
-            diff.append(full_name)
+            diff.append(os.path.join(list_in[file]['dir'], file + list_in[file]['ext']))
     return diff
     
 def compile_lily_files():
@@ -331,7 +303,7 @@ def compile_lily_files():
     print 'Compile with LilyPond:'
     for file in lily_files:
         args = []
-        args.append("lilypond")
+        args.append("lilypond -o")
         args.append("-o")
         args.append(dir_lysrc + file[0])
         args.append("-dpreview")
@@ -340,27 +312,27 @@ def compile_lily_files():
         subprocess.call(args)
         print ''
 
-def full_name(file_list, file):
-    """Returns the full filename for the given filelist entry dictionary.
-    The filelist must contain a key file that holds a dictionary.
-    The dictionary must contain
-    'dir' and 'ext' keys"""
-    return os.path.join(file_list[file]['dir'],  file,  file_list[file]['ext'])
-    
 def compile_src_files(src_files):
     """Compiles LilyPond files"""
     print 'Compile with LilyPond'
     for file in src_files:
         args = []
         args.append('lilypond')
-        args.append("-o")
-        path,  dummy = os.path.split(file)
+        args.append('-o')
+        path, dummy = os.path.split(file)
         args.append(path)
-        args.append("-dpreview")
-        args.append("-dno-point-and-click")
+        args.append('-dpreview')
+        args.append('-dno-point-and-click')
         args.append(file)
         subprocess.call(args)
         print ''
+    
+def full_name(file_list, file):
+    """Returns the full filename for the given filelist entry dictionary.
+    The filelist must contain a key file that holds a dictionary.
+    The dictionary must contain
+    'dir' and 'ext' keys"""
+    return os.path.join(file_list[file]['dir'],  file + file_list[file]['ext'])
     
 def generate_latex_commands():
     """Generates the templates for the commands in a new LaTeX file.
@@ -420,37 +392,6 @@ def list_files(basedir):
             files[name]['count'] = 1
     return files
     
-    
-def read_img_files():
-    """Returns a dictionary of all generated pdf files
-    that are present below the dir_pdf directory.
-    Key is the basename, value the subdir.
-    This can be used to check for double filenames"""
-    img_files = {}
-    for entry in os.listdir(dir_pdfs):
-        out_dir = dir_pdfs + entry + '/'
-        if os.path.isdir(out_dir):
-            # read existing .pdf files in out_dir
-            for file in os.listdir(out_dir):
-                name,  ext = os.path.splitext(file)
-                if ext == '.pdf':
-                    img_files.append(name)
-    return img_files
-
-def read_src_files():
-    """Returns the list of generated pdf image files.
-    Entries only contain the base name without path and extensio"""
-    src_files = []
-    for entry in os.listdir(dir_lysrc):
-        out_dir = dir_lysrc + entry + '/'
-        if os.path.isdir(out_dir):
-            # read existing .pdf files in out_dir
-            for file in os.listdir(out_dir):
-                name,  ext = os.path.splitext(file)
-                if ext == '.ly':
-                    src_files.append(name)
-    return src_files
-
     
 def read_input_file(in_file):
     """Reads the input source file and stores it 
