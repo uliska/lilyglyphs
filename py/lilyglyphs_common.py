@@ -47,8 +47,20 @@ dir_defs = 'definitions/'
 dir_lysrc = 'generated_src/'
 dir_pdfs = 'pdfs/'
 dir_stash = 'stash_new_commands/'
-# subdirectory to save the lily sources and the pdf to
-cat_subdir = ''
+
+# Main dictionary
+# Keys in this dictionary are the command names as read from the input file
+# Values are dictionaries with the following keys:
+# - comment
+# - subdir (for image glyphs, relative to the current directory)
+# - lilySrc (LilyPond source code)
+# - type (type of LaTeX command, determines the used template)
+# - element (name of the element to be printed)
+# - scale (default value to be used for command)
+# - raise (default value to be used for command)
+# - ltx_cmd (LaTeX command to be written, comment is included herein)
+# - ltx_testcode (LaTeX testcode to be written)
+commands = {}
 
 # LilyPond commands
 in_cmds = {}
@@ -257,7 +269,6 @@ def check_lilyglyphs_root():
 def cleanup_lily_files():
     """Removes unneccessary files from LilyPond compilation,
     rename and remove the preview PDF files to the right directory."""
-    global cat_subdir
     
     print 'Clean up directories'
     
@@ -392,7 +403,8 @@ def list_files(basedir):
             files[name]['count'] = 1
     return files
     
-    
+# update to only return the string-list.
+# also update genGlyphCommands.py accordingly
 def read_input_file(in_file):
     """Reads the input source file and stores it 
     in the global variable definitions_file"""
@@ -410,6 +422,7 @@ def read_input_file(in_file):
     for line in fin:
         definitions_file.append(line.rstrip(' \n'))
     fin.close()
+    return definitions_file
 
 def script_name():
     dummy, result = os.path.split(sys.argv[0])

@@ -32,6 +32,14 @@ import lilyglyphs_common as lg, os, sys,  getopt,  datetime,  subprocess
 # flags
 flag_force = False
 
+# files and dirs
+input_file_name = ''
+input_subdir = ''
+output_subdir = ''
+
+# list containing the lines of the input file
+definitions_file = []
+
 # ###############
 # string to be printed before the actual command
 lily_src_prefix = """\\version "2.17.4"
@@ -58,7 +66,7 @@ lily_src_score = """
 """
 
 def main(argv):
-    global flag_force, definitions_file_name
+    global flag_force, input_file_name, input_subdir,  output_subdir
     short_options = 'i:'
     long_options = []
     long_options.append('input=')
@@ -66,7 +74,8 @@ def main(argv):
         opts, args = getopt.getopt(argv, short_options, long_options)
         for opt, arg in opts:
             if opt in ("-i",  "--input"):
-                lg.input_files.append(arg)
+                input_subdir, input_file_name = os.path.split(arg)
+                output_subdir,  dummy = os.path.splitext(arg)
             else:
                 usage()
                 sys.exit(2)
@@ -82,25 +91,33 @@ def main(argv):
     print ''
     check_paths()
 
-    for input_file_name in lg.input_files:
-        print ''
-        lg.read_input_file('definitions/' + input_file_name)
+    print ''
+    load_input_file()
+    
+    basename, dummy = os.path.splitext(input_file_name)
+    lg.cat_subdir = basename + '/'
 
-        basename, dummy = os.path.splitext(input_file_name)
-        lg.cat_subdir = basename + '/'
+    # list existing src files, check for duplicates
+    
+    print ''
+    read_entries()
+    
+    # check for definition of already existing commands
+    # (for now ignore that, maybe add an option to refuse the re-creation)
+    
+    # update to use the new commands dict
+    print ''
+    write_lily_src_files()
+    
+    # use compile_src_files instead, use dict to generate names
+    print ''
+    lg.compile_lily_files()
 
-        print ''
-        read_entries()
+    # update to use new dict
+    print ''
+    lg.generate_latex_commands()
 
-        print ''
-        write_lily_src_files()
-
-        print ''
-        lg.compile_lily_files()
-
-        print ''
-        lg.generate_latex_commands()
-
+    # check, should still work
     print ''
     lg.cleanup_lily_files()
 
@@ -119,14 +136,19 @@ def check_paths():
     # and create them if necessary
     # (otherwise we'll get errors when trying to write in them)
     ls = os.listdir('.')
-    if not 'generated_src' in ls:
-        os.mkdir('generated_src')
-    if not 'pdfs' in ls:
+    if not os.path.exists(lg.dir_lysrc):
+        os.mkdir(dir_lysrc)
+    if not os.path.exists(lg.dir_pdfs):
         os.mkdir('pdfs')
     if not os.path.exists(lg.dir_stash):
         os.mkdir(lg.dir_stash)
     if not os.path.exists(lg.dir_stash + 'images'):
         os.mkdir(lg.dir_stash + 'images')
+
+def load_input_file():
+    global definitions_file
+    definitions_file = lg.read_input_file(os.path.join(lg.dir_defs, input_subdir, input_file_name))
+    
 
 # set default scale and raise arguments to empty
 scale = ''
@@ -143,6 +165,7 @@ def read_entry(i):
     """Reads a single glyph entry from the input file and stores it
     in the global dictionary lg.in_cmds"""
     global scale,  rais
+    
     # read comment line(s)
     i += 1
     is_protected = False
@@ -150,11 +173,12 @@ def read_entry(i):
     # loop over the comment line(s)
     while i < len(lg.definitions_file):
         line = lg.definitions_file[i].strip()
-        # check for 'protected' entries that shouldn't be processed newly
         if not line[0] == '%':
             break
+        # check for 'protected' entries that shouldn't be processed newly
         elif '%%protected' in line:
             is_protected = True
+        # check for scale or raise arguments that set new default values
         elif 'scale=' in line:
             dummy, scale = line.split('=')
         elif 'raise=' in line:
@@ -164,19 +188,22 @@ def read_entry(i):
             comment.append(line)
         i += 1
 
-    # remove any empty lines
+    # skip any empty lines between comment and definition
     while len(lg.definitions_file[i].strip()) == 0:
         i += 1
 
     # read command name
     line = lg.definitions_file[i].strip()
-    cmd_name = line[: line.find('=') - 1]
-    print '- ' + cmd_name,
+    name,  dummy = line.split('=')
+    name = name.strip()
+    
+#    cmd_name = line[: line.find('=') - 1]
+    print '- ' + name,
     if is_protected:
-        print '(protected and skipped)'
+        print ' (protected and skipped)'
     else:
         print '' #(for line break only)
-
+    
     # read actual command until we find a line the begins with a closing curly bracket
     i += 1
     lilySrc = []
@@ -184,17 +211,19 @@ def read_entry(i):
         lilySrc.append(lg.definitions_file[i])
         i += 1
     if not is_protected:
-        lg.in_cmds[cmd_name] = {}
-        lg.in_cmds[cmd_name]['comment'] = comment
-        lg.in_cmds[cmd_name]['lilySrc'] = lilySrc
-        lg.in_cmds[cmd_name]['element'] = cmd_name
-        lg.in_cmds[cmd_name]['type'] = 'image'
+        lg.commands[name] = {}
+        lg.commands[name]['comment'] = comment
+        lg.commands[name]['lilySrc'] = lilySrc
+        lg.commands[name]['element'] = name
+        lg.commands[name]['type'] = 'image'
+        lg.commands[name]['dir'] = output_subdir
         if scale:
-            lg.in_cmds[cmd_name]['scale'] = scale
+            lg.commands[name]['scale'] = scale
         if rais:
-            lg.in_cmds[cmd_name]['raise'] = rais
+            lg.commands[name]['raise'] = rais
 
-        lg.lily_files.append((lg.cat_subdir, cmd_name))
+        lg.lily_files.append((lg.cat_subdir, name))
+    print lg.commands
     return i
 
 
