@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 # ########################################################################
 #                                                                        #
 #      This file is part of the 'lilyglyphs' LaTeX package.              #
@@ -32,7 +30,7 @@
 #                                                                        #
 # ########################################################################
 
-import os, sys, datetime, subprocess, __commands,  __strings
+import os, sys, datetime, subprocess, globals as gl, strings
 
 # ################
 # Global variables
@@ -42,7 +40,6 @@ definitions_file = []
 
 # ###########
 # Directories
-lilyglyphs_root = ''
 
 
 # the following are deprecated
@@ -78,32 +75,6 @@ input_files = []
 
 # #######
 # Strings
-
-lilyglyphs_copyright_string = """
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                                                                        %
-%      This file is part of the 'lilyglyphs' LaTeX package.              %
-%                                ==========                              %
-%                                                                        %
-%              https://github.com/uliska/lilyglyphs                      %
-%                                                                        %
-%  Copyright 2012 by Urs Liska, git@ursliska.de                          %
-%                                                                        %
-%  'lilyglyphs' is free software: you can redistribute it and/or modify  %
-%  it under the terms of the GNU General Public License as published by  %
-%  the Free Software Foundation, either version 3 of the License, or     %
-%  (at your option) any later version.                                   %
-%                                                                        %
-%  This program is distributed in the hope that it will be useful,       %
-%  but WITHOUT ANY WARRANTY; without even the implied warranty of        %
-%  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the          %
-%  GNU General Public License for more details.                          %
-%                                                                        %
-%  You should have received a copy of the GNU General Public License     %
-%  along with this program.  If not, see <http://www.gnu.org/licenses/>. %
-%                                                                        %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-"""
 
 latexfile_start_comment = """
 % This file contains definitions for the new commands
@@ -252,7 +223,7 @@ def check_lilyglyphs_root():
        is within the rootline of the lilyglyphs package.
        If this is the case it sets the cwd to be
        the root of the package."""
-    global lilyglyphs_root, dir_stash
+
 
     print 'Checking directories'
 
@@ -264,10 +235,10 @@ def check_lilyglyphs_root():
         sys.exit(2)
 
     # set global variable
-    lilyglyphs_root = cwd[:cwd.find('lilyglyphs') + 11]
-    dir_stash = lilyglyphs_root + 'stash_new_commands/'
+    gl.lilyglyphs_root = cwd[:cwd.find('lilyglyphs') + 10]
+    gl.d_stash = os.path.join(gl.lilyglyphs_root, 'stash_new_commands')
     # set current working dir
-    os.chdir(lilyglyphs_root)
+    os.chdir(gl.lilyglyphs_root)
 
 def cleanup_lily_files():
     """Removes unneccessary files from LilyPond compilation,
@@ -276,11 +247,11 @@ def cleanup_lily_files():
     print 'Clean up directories'
 
     # iterate through the subdirectories of dir_lysrc
-    for entry in os.listdir(__commands.d_src):
-        in_dir = os.path.join(__commands.d_src, entry)
+    for entry in os.listdir(gl.d_src):
+        in_dir = os.path.join(gl.d_src, entry)
         if os.path.isdir(in_dir):
             # make sure there is a corresponding dir_pdfs directory
-            out_dir = os.path.join(__commands.d_img, entry)
+            out_dir = os.path.join(gl.d_img, entry)
             if not os.path.exists(out_dir):
                 os.mkdir(out_dir)
             # iterate through the subdir
@@ -318,7 +289,7 @@ def compile_lily_files(commands):
         args = []
         args.append('lilypond')
         args.append('-o')
-        src_dir = os.path.join(__commands.d_src, commands.cat_subdir)
+        src_dir = os.path.join(gl.d_src, commands.cat_subdir)
         args.append(src_dir)
         args.append('-dpreview')
         args.append('-dno-point-and-click')

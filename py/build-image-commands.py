@@ -24,13 +24,14 @@
 #                                                                        #
 # ########################################################################
 
-import lilyglyphs_common as lg, os, sys, getopt
-from __commands import *
-from __strings import *
 
-# Global variables
+import lib.lilyglyphs_common as lg, lib.globals as gl, lib, os, sys, getopt
+from lib.imagecommands import ImageCommands
+from lib.latexcommand import LatexCommand
 
-commands = None
+from lib.latexfile import LatexFile
+from lib.lilyfile import LilypondFile
+
 
 def main(argv):
     global commands
@@ -55,46 +56,44 @@ def main(argv):
     # TODO: check for definition of already existing commands
     # (for now ignore that, maybe add an option to refuse the re-creation)
 
-    print ''
-    write_lily_src_files()
+    # generate new LilyPond source files
+    commands.write_lily_src_files()
 
-    print commands
-    for cmd in commands:
-        print cmd
-    print ''
-    lg.compile_lily_files(commands)
+    # Compile all new LilyPond files
+    commands.compile_lily_files()
 
-    # update to use new dict
-    print ''
-    #lg.generate_latex_commands()
 
-    # check, should still work
-    print ''
+    # create a LatexFile instance and write the result file
+    LatexFile(commands).write()
+    print 'finish latex'
+
+    # clean up the source folder and
+    # move the created image to the img folder
     lg.cleanup_lily_files()
 
-    print ''
-    #write_latex_file()
+    # End of the program
 
 
 def check_paths():
-    """Sets CWD to 'glyphimages' subdir
+    """Sets CWD to 'glyphimages' subdir of lilyglyphs root
        and makes sure that the necessary subdirectories are present"""
-    global lilyglyphs_root
     lg.check_lilyglyphs_root()
-    os.chdir('glyphimages')
 
     # check the presence of the necessary subdirectories
     # and create them if necessary
     # (otherwise we'll get errors when trying to write in them)
+    if not os.path.exists(gl.d_stash):
+        os.mkdir(gl.d_stash)
+    if not os.path.exists(os.path.join(gl.d_stash, 'images')):
+        os.mkdir(os.path.join(gl.d_stash, 'images'))
+    # now change to our working directory
+    os.chdir('glyphimages')
+
     ls = os.listdir('.')
-    if not os.path.exists(lg.dir_lysrc):
-        os.mkdir(dir_lysrc)
-    if not os.path.exists(lg.dir_pdfs):
-        os.mkdir('pdfs')
-    if not os.path.exists(lg.dir_stash):
-        os.mkdir(lg.dir_stash)
-    if not os.path.exists(lg.dir_stash + 'images'):
-        os.mkdir(lg.dir_stash + 'images')
+    if not os.path.exists(gl.d_src):
+        os.mkdir(gl.d_src)
+    if not os.path.exists(gl.d_img):
+        os.mkdir(gl.d_img)
 
 def usage():
     print """build-image-commands. Part of the lilyglyphs package.
@@ -107,74 +106,7 @@ def usage():
 
     """
 
-def write_file_info(name, fout):
-    """Formats file specific information for the lilyPond source file"""
-    long_line = '% This file defines a single glyph to be created with LilyPond: %\n'
-    width = len(long_line) - 1
-    header = '%' * width + '\n'
-    spacer = '%' + ' ' * (width - 2) + '%\n'
-    padding = width - len(name) - 8
-    fout.write(header)
-    fout.write(spacer)
-    fout.write(long_line)
-    fout.write(spacer)
-    fout.write('%   ' + name + '.ly' + ' ' * padding + '%\n')
-    fout.write(spacer)
-    fout.write(header)
-    fout.write(lg.signature())
-    fout.write('\n\n')
 
-
-def write_latex_file():
-    """Composes LaTeX file and writes it to disk"""
-    print 'Generate LaTeX file'
-    lg.write_latex_file('images/newImageGlyphs.tex')
-
-
-def write_lily_src_files():
-    """Generates one .ly file for each found new command"""
-    print 'Write .ly files for each entry:'
-
-    src_dir = os.path.join(d_src, commands.cat_subdir)
-    if not os.path.exists(src_dir):
-        os.mkdir(src_dir)
-
-    for cmd in commands:
-        cmd_name = cmd.name
-        print '- ' + cmd_name
-        # open a single lily src file for write access
-        fout = open(os.path.join(src_dir, cmd_name + '.ly'), 'w')
-
-        #output the license information
-        fout.write(lg.lilyglyphs_copyright_string)
-        fout.write('\n')
-
-        #output information on the actual file
-        write_file_info(cmd_name, fout)
-
-        #write the default LilyPond stuff
-        fout.write(lily_src_prefix)
-
-        # write the comment for the command
-        fout.write('%{\n')
-        for line in cmd.comment:
-            fout.write(line + '\n')
-        fout.write('%}\n\n')
-
-        # write the actual command
-        fout.write(cmd_name + ' = {\n')
-        for line in cmd.lilySrc:
-            fout.write(line + '\n')
-        fout.write('}\n')
-
-        # write the score definition
-        fout.write(lily_src_score)
-
-        # finish the LilyPond file
-        fout.write('  \\' + cmd_name + '\n')
-        fout.write('}\n\n')
-
-        fout.close()
 
 
 # ####################################
@@ -184,4 +116,5 @@ if __name__ == "__main__":
     print 'Part of lilyglyphs.'
 
     check_paths()
+
     main(sys.argv[1:])

@@ -22,111 +22,27 @@
 #                                                                        #
 # ########################################################################
 
-# This is an internal class, do not try to run it directly
-#
-# Defines a class representing commands.
+# ########################################################################
+#                                                                        #
+# imagecommands.py                                                       #
+#                                                                        #
+# defines the class ImageCommands(Commands)                              #
+# which extends Commands                                                 #
+# and is responsible for parsing the input file for image driven commands#
+#                                                                        #
+# ########################################################################
 
-import os,  sys
-
-
-d_defs = 'definitions'
-d_src = 'generated_src'
-d_img = 'generated_img'
-d_stash = 'stash_new_commands'
-
-scale = ''
-rais = ''
-
-
-class Command:
-    """Represents a lilyglyphs command.
-    Holds input definitions, LilyPond commands and LaTeX commands."""
-    def __init__(self, name):
-        self.name = name
-        self.comment = ''
-        self.lilySrc = ''
-        self.element = ''
-        self.type = ''
-        self.dir = ''
-        self.scale = ''
-        self.rais = ''
-        self.ltx_cmd = ''
-        self.ltx_testcode = ''
-
-
-class InputFile:
-    """Handles the input file with command definitions"""
-    def __init__(self, file_name):
-        if not os.path.exists(file_name):
-            raise ValueError('Input file ' + file_name + "doesn't exist")
-        self.__lines = []
-        self.file_name = file_name
-        self.load_from_file()
-
-    def getLines(self):
-        return self.__lines
-
-    def load_from_file(self):
-        """Loads the content of the file into the stringlist lines"""
-        fin = open(self.file_name,  'r')
-        for line in fin:
-            self.__lines.append(line.rstrip())
-        fin.close()
-
-
-class Commands:
-    def __init__(self, file_name):
-        self.commands = []
-        self.index = -1
-        self.count = 0
-        self.set_input_file(file_name)
-
-    def __iter__(self):
-        return self
-
-    def next(self):
-        if self.index == len(self.commands) - 1:
-            raise StopIteration
-        self.index = self.index + 1
-        return self.commands[self.index]
-
-    def byName(self, cmd_name):
-        """Returns the command with the given name
-        or none if it doesn't exist"""
-        result = None
-        for cmd in self.commands:
-            if cmd.Name == cmd_name:
-                result = cmd
-                break
-        return result
-
-    def newCommand(self, cmd_name):
-        self.commands.append(Command(cmd_name))
-        return self.commands[-1]
-
-    def read_entries(self):
-        pass
-    def read_entry(self):
-        pass
-
-    def set_input_file(self, file_name):
-        try:
-            inp_file_name = os.path.join(d_defs, file_name)
-            self.input_file = InputFile(inp_file_name)
-        except ValueError:
-            print 'Input file ' + file_name + ' not found.'
-            sys.exit('Abort')
-
-        # the 'category subdir' will be used for writing lilypond and pdf files
-        # basename of input file is also used for this purpose
-        self.cat_subdir, dummy = os.path.splitext(file_name)
-        self.read_entries()
-
-        # set counter for the iterator
-        self.count = len(self.commands)
-
+from commands import Commands
+from latexcommand import LatexCommand
+from lilyfile import LilypondFile
 
 class ImageCommands(Commands):
+    """Responsible for parsing the input file
+    for image driven commands"""
+
+    def compile_lily_files(self):
+        for cmd in self.commands:
+            cmd.lily_cmd.compile()
 
     def read_entries(self):
         """Parses the input source file and extracts glyph entries"""
@@ -156,9 +72,9 @@ class ImageCommands(Commands):
                 is_protected = True
             # check for scale or raise arguments that set new default values
             elif 'scale=' in line:
-                dummy, scale = line.split('=')
+                dummy, self.scale = line.split('=')
             elif 'raise=' in line:
-                dummy,  rais = line.split('=')
+                dummy, self.rais = line.split('=')
             else:
                 line = line[1:].strip()
                 comment.append(line)
@@ -185,6 +101,10 @@ class ImageCommands(Commands):
         while lines[i][0] != '}':
             lilySrc.append(lines[i])
             i += 1
+
+        # if the entry isn't marked as protected
+        # create a new Command and generate
+        # LatexCommand and LilypondFile from it.
         if not is_protected:
             cur_cmd = self.newCommand(name)
             cur_cmd.comment = comment
@@ -192,11 +112,18 @@ class ImageCommands(Commands):
             cur_cmd.element = name
             cur_cmd.type = 'image'
             cur_cmd.dir = self.cat_subdir
-            if scale:
-                cur_cmd.scale = scale
-            if rais:
-                cur_cmd.rais = rais
+            if self.scale:
+                cur_cmd.scale = self.scale
+            if self.rais:
+                cur_cmd.rais = self.rais
+            cur_cmd.ltx_cmd = LatexCommand(cur_cmd)
+            cur_cmd.lily_cmd = LilypondFile(cur_cmd)
 
         return i
 
+    def write_lily_src_files(self):
+        """Iterates over the commands
+        and lets each one write out its Lilypond source file"""
+        for cmd in self.commands:
+            cmd.lily_cmd.write()
 
