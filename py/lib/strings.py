@@ -51,28 +51,3 @@ lilyglyphs_copyright_string = """
 """
 
 
-# ###############
-# First part of the LilyPond source file
-lily_src_prefix = """\\version "2.16.0"
-
-#(set-global-staff-size 14)
-
-\paper {
-  indent = 0
-}
-\header {
-  tagline = ""
-}
-
-"""
-
-# Closing part of the LilyPond source file
-lily_src_score = """
-  \\score {
-  \\new Staff \\with {
-    \\remove "Staff_symbol_engraver"
-    \\remove "Clef_engraver"
-    \\remove "Time_signature_engraver"
-  }
-"""
-

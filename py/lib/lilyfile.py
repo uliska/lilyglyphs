@@ -32,7 +32,7 @@
 #                                                                        #
 # ########################################################################
 
-import os, subprocess, common as lg, globals as gl
+import os, subprocess, common as lg, globals as gl, textwrap
 from strings import *
 
 class LilypondFile:
@@ -45,7 +45,34 @@ class LilypondFile:
             self.dir = command.dir
             self.full_dir = os.path.join(gl.d_src, self.dir)
             self.file_name = os.path.join(self.full_dir, command.name + '.ly')
+
+            # ###############
+            # First part of the LilyPond source file
+            self.lily_src_prefix = textwrap.dedent("""\
+                \\version "2.16.0"
+
+                #(set-global-staff-size 14)
+
+                \paper {
+                  indent = 0
+                }
+                \header {
+                  tagline = ""
+                }
+
+                """)
+            # Closing part of the LilyPond source file
+            self.lily_src_score = textwrap.dedent("""\
+                \\score {
+                  \\new Staff \\with {
+                    \\remove "Staff_symbol_engraver"
+                    \\remove "Clef_engraver"
+                    \\remove "Time_signature_engraver"
+                  }
+                """)
+
             self.generate()
+
 
     def compile(self):
         """Compiles LilyPond files"""
@@ -74,7 +101,7 @@ class LilypondFile:
         self.__file_info()
 
         #write the default LilyPond stuff
-        self.lines.append(lily_src_prefix)
+        self.lines.append(self.lily_src_prefix)
 
         # write the comment for the command
         self.lines.append('%{\n')
@@ -89,7 +116,7 @@ class LilypondFile:
         self.lines.append('}\n')
 
         # write the score definition
-        self.lines.append(lily_src_score)
+        self.lines.append(self.lily_src_score)
 
         # finish the LilyPond file
         self.lines.append('  \\' + self.command.name + '\n')
