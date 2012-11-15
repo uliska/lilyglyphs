@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project lilyglyphs_scripts -->
-<!-- Saved: 2012-11-14, 18:14:02 -->
+<!-- Saved: 2012-11-15, 18:42:29 -->
 <!-- Copyright (C) 2012 Urs Liska, lilyglyphs@ursliska.de -->
 <Project version="4.6">
   <Language></Language>
@@ -14,11 +14,21 @@
   <Sources>
     <Source>rebuild-pdfs.py</Source>
     <Source>genGlyphCommands.py</Source>
-    <Source>lilyglyphs_common.py</Source>
     <Source>deploy.py</Source>
     <Source>__init__.py</Source>
-    <Source>__commands.py</Source>
-    <Source>__strings.py</Source>
+    <Source>lib/commands.py</Source>
+    <Source>build-image-commands.py</Source>
+    <Source>lib/strings.py</Source>
+    <Source>lib/__init__.py</Source>
+    <Source>lib/latexfile.py</Source>
+    <Source>lib/command.py</Source>
+    <Source>lib/globals.py</Source>
+    <Source>lib/inputfile.py</Source>
+    <Source>lib/imagecommands.py</Source>
+    <Source>lib/latexcommand.py</Source>
+    <Source>lib/lilyfile.py</Source>
+    <Source>lib/lilyglyphs_common.py</Source>
+    <Source>lib/common.py</Source>
   </Sources>
   <Forms>
   </Forms>
