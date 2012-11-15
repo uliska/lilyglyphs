@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Tasks SYSTEM "Tasks-4.2.dtd">
 <!-- eric4 tasks file for project lilyglyphs_scripts -->
-<!-- Saved: 2012-11-14, 18:14:02 -->
+<!-- Saved: 2012-11-15, 23:09:11 -->
 <Tasks version="4.2">
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: list existing src files, check for duplicates</Summary>
+    <Description></Description>
+    <Created>2012-11-15, 22:07:44</Created>
+    <Resource>
+      <Filename>build-image-commands.py</Filename>
+      <Linenumber>54</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: check for definition of already existing commands</Summary>
+    <Description></Description>
+    <Created>2012-11-15, 22:07:44</Created>
+    <Resource>
+      <Filename>build-image-commands.py</Filename>
+      <Linenumber>56</Linenumber>
+    </Resource>
+  </Task>
 </Tasks>

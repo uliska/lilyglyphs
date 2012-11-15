@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project lilyglyphs_scripts -->
-<!-- Saved: 2012-11-15, 18:42:29 -->
+<!-- Saved: 2012-11-15, 22:57:50 -->
 <!-- Copyright (C) 2012 Urs Liska, lilyglyphs@ursliska.de -->
 <Project version="4.6">
   <Language></Language>
@@ -29,6 +29,8 @@
     <Source>lib/lilyfile.py</Source>
     <Source>lib/lilyglyphs_common.py</Source>
     <Source>lib/common.py</Source>
+    <Source>gen-commands.py</Source>
+    <Source>examples</Source>
   </Sources>
   <Forms>
   </Forms>

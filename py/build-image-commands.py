@@ -65,7 +65,7 @@ def main(argv):
 
     # create a LatexFile instance and write the result file
     LatexFile(commands).write()
-    print 'finish latex'
+    
 
     # clean up the source folder and
     # move the created image to the img folder
