@@ -32,7 +32,7 @@
 #                                                                        #
 # ########################################################################
 
-import os, subprocess, lilyglyphs_common as lg, globals as gl
+import os, subprocess, common as lg, globals as gl
 from strings import *
 
 class LilypondFile:

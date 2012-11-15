@@ -31,7 +31,7 @@
 #                                                                        #
 # ########################################################################
 
-import textwrap, lilyglyphs_common as lg, globals as gl
+import textwrap, common as lg, globals as gl
 
 class LatexCommand:
     """Textual representation of a LaTeX command,

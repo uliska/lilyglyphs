@@ -25,7 +25,7 @@
 # ########################################################################
 
 
-import lib.lilyglyphs_common as lg, lib.globals as gl, lib, os, sys, getopt
+import lib.common as lg, lib.globals as gl, lib, os, sys, getopt
 from lib.imagecommands import ImageCommands
 from lib.latexcommand import LatexCommand
 

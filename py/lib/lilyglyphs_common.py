@@ -1,3 +1,5 @@
+# This file is deprecated !!!!!
+
 # ########################################################################
 #                                                                        #
 #      This file is part of the 'lilyglyphs' LaTeX package.              #
