@@ -29,6 +29,8 @@ All changes should be present in the manual, but only the finished versions prin
 So the lines above the topmost bold version line represent the changes not available in the downloadable pdf documentation.
 
 - The command generation scripts accept scale= and raise= entries that set default values for subsequent commands
+- Reimplement scripts in object-oriented manner
+- Rename buildimagegylphs.py to build-image-commands.py
 
 - Fix \lilyTimeSignature  
 Now scales correctly and doesn't have a fraction line anymore.  
