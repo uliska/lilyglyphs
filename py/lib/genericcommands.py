@@ -38,7 +38,7 @@ from lilyfile import LilypondFile
 
 class GenericCommands(Commands):
     """Responsible for parsing the input file
-    """
+    of the generic"""
 
     def read_entries(self):
         """Parses the input source file and extracts glyph entries"""
@@ -46,13 +46,7 @@ class GenericCommands(Commands):
         element = ''
         type = 'glyphname'
         comment = []
-        def reset_entry():
-            command = ''
-            element = ''
-            type = 'glyphname'
-            comment = []
         
-        reset_entry()
         print 'Read entries of LilyPond commands:'
         
         for line in self.input_file.getLines():
@@ -76,7 +70,11 @@ class GenericCommands(Commands):
                     if self.rais:
                         cur_cmd.rais = self.rais
                     cur_cmd.ltx_cmd = LatexCommand(cur_cmd)
-                    reset_entry()
+                    #reset_entry()
+                    command = ''
+                    element = ''
+                    type = 'glyphname'
+                    comment = []
             
             # ignore Python or LaTeX style comments
             elif line[0] in '#%':
@@ -84,8 +82,9 @@ class GenericCommands(Commands):
             else:
                 key, val = line.split('=')
                 key = key.strip()
+
                 if key == 'scale':
-                    self.scale = val
+                        self.scale = val
                 elif key == 'raise':
                     self.rais = val
                 elif key == 'comment':

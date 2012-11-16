@@ -51,10 +51,6 @@ def main(input_file):
     LatexFile(commands).write()
     
     
-    
-
-
-    
 def usage():
     print 'genGlyphCommands.py'
     print 'is part of the lilyglyphs package'
@@ -63,6 +59,7 @@ def usage():
     print 'Pass the name (without path) of an input definitions file'
     print '(this has to be located in the /stash_new_commands directory.'
     print 'Please refer to the manual (documentation/lilyglyphs.pdf).'
+
 
 # ####################################
 # Finally launch the program
