@@ -56,7 +56,11 @@ class GenericCommands(Commands):
                 # skip if cmd and glyph haven't been filled both
                 if not (command and element):
                     print 'Skip malformed entry \'' + command + '\'. Please check input file'
-                    reset_entry()
+                    command = ''
+                    element = ''
+                    type = 'glyphname'
+                    comment = []
+            
                 # create new Command and set its properties
                 else:
                     print 'Read entry \'' + command + '\''
@@ -70,7 +74,6 @@ class GenericCommands(Commands):
                     if self.rais:
                         cur_cmd.rais = self.rais
                     cur_cmd.ltx_cmd = LatexCommand(cur_cmd)
-                    #reset_entry()
                     command = ''
                     element = ''
                     type = 'glyphname'
