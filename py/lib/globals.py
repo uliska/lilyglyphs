@@ -30,15 +30,28 @@
 #                                                                        #
 # ########################################################################
 
+# ###############
 # Directory names
-lilyglyphs_root = ''
-# d_stash is relative to lilyglyphs_root
-d_stash = ''
-# the other ones are only for image driven glyphs and
-# relative to the glyphimages subdirectory
-d_defs = 'definitions'
-d_src = 'generated_src'
-d_img = 'generated_img'
+
+# full path to the package's root directory
+LILYGLYPHS_ROOT = ''
+# root directory of the glyphimages stuff, relative to LILYGLYPHS_ROOT
+GLYPH_IMG_ROOT = 'glyphimages'
+# base directory for the output of the LaTeX files,
+# relative to LILYGLYPHS_ROOT
+D_STASH_ROOT = 'stash_new_commands'
+# actual output directory, will be concatenated from
+# LILYGLYPHS_ROOT and D_STASH_ROOT
+# (absolute path, because it's generally outside the CWD)
+D_STASH = ''
+# The following are relative to CWD,
+# which is usually set to GLYPH_IMG_ROOT when these are used
+# base dir for the definitions input files 
+D_DEFS = 'definitions'
+# base dir for the generated LilyPond source files
+D_SRC = 'generated_src'
+# base dir for the generated (pdf) image files
+D_IMG = 'generated_img'
 
 # These constants are set at the beginning of the
 # parsing of entries

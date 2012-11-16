@@ -237,10 +237,10 @@ def check_lilyglyphs_root():
         sys.exit(2)
 
     # set global variable
-    gl.lilyglyphs_root = cwd[:cwd.find('lilyglyphs') + 10]
-    gl.d_stash = os.path.join(gl.lilyglyphs_root, 'stash_new_commands')
+    gl.LILYGLYPHS_ROOT = cwd[:cwd.find('lilyglyphs') + 10]
+    gl.D_STASH = os.path.join(gl.LILYGLYPHS_ROOT, 'stash_new_commands')
     # set current working dir
-    os.chdir(gl.lilyglyphs_root)
+    os.chdir(gl.LILYGLYPHS_ROOT)
 
 def cleanup_lily_files():
     """Removes unneccessary files from LilyPond compilation,
@@ -249,11 +249,11 @@ def cleanup_lily_files():
     print 'Clean up directories'
 
     # iterate through the subdirectories of dir_lysrc
-    for entry in os.listdir(gl.d_src):
-        in_dir = os.path.join(gl.d_src, entry)
+    for entry in os.listdir(gl.D_SRC):
+        in_dir = os.path.join(gl.D_SRC, entry)
         if os.path.isdir(in_dir):
             # make sure there is a corresponding dir_pdfs directory
-            out_dir = os.path.join(gl.d_img, entry)
+            out_dir = os.path.join(gl.D_IMG, entry)
             if not os.path.exists(out_dir):
                 os.mkdir(out_dir)
             # iterate through the subdir
@@ -291,7 +291,7 @@ def compile_lily_files(commands):
         args = []
         args.append('lilypond')
         args.append('-o')
-        src_dir = os.path.join(gl.d_src, commands.cat_subdir)
+        src_dir = os.path.join(gl.D_SRC, commands.cat_subdir)
         args.append(src_dir)
         args.append('-dpreview')
         args.append('-dno-point-and-click')

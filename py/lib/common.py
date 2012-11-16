@@ -67,10 +67,10 @@ def check_lilyglyphs_root():
         sys.exit(2)
 
     # set global variable
-    gl.lilyglyphs_root = cwd[:cwd.find('lilyglyphs') + 10]
-    gl.d_stash = os.path.join(gl.lilyglyphs_root, 'stash_new_commands')
+    gl.LILYGLYPHS_ROOT = cwd[:cwd.find('lilyglyphs') + 10]
+    gl.D_STASH = os.path.join(gl.LILYGLYPHS_ROOT, gl.D_STASH_ROOT)
     # set current working dir
-    os.chdir(gl.lilyglyphs_root)
+    os.chdir(gl.LILYGLYPHS_ROOT)
 
 
 def cleanup_lily_files():
@@ -80,11 +80,11 @@ def cleanup_lily_files():
     print 'Clean up directories'
 
     # iterate through the subdirectories of dir_lysrc
-    for entry in os.listdir(gl.d_src):
-        in_dir = os.path.join(gl.d_src, entry)
+    for entry in os.listdir(gl.D_SRC):
+        in_dir = os.path.join(gl.D_SRC, entry)
         if os.path.isdir(in_dir):
             # make sure there is a corresponding dir_pdfs directory
-            out_dir = os.path.join(gl.d_img, entry)
+            out_dir = os.path.join(gl.D_IMG, entry)
             if not os.path.exists(out_dir):
                 os.mkdir(out_dir)
             # iterate through the subdir

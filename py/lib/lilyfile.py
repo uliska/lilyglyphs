@@ -43,7 +43,7 @@ class LilypondFile:
             self.lines = []
             self.command = command
             self.dir = command.dir
-            self.full_dir = os.path.join(gl.d_src, self.dir)
+            self.full_dir = os.path.join(gl.D_SRC, self.dir)
             self.file_name = os.path.join(self.full_dir, command.name + '.ly')
 
             # ###############
@@ -80,7 +80,7 @@ class LilypondFile:
         args = []
         args.append('lilypond')
         args.append('-o')
-        args.append(os.path.join(gl.d_src, self.dir))
+        args.append(os.path.join(gl.D_SRC, self.dir))
         args.append('-dpreview')
         args.append('-dno-point-and-click')
         args.append(self.file_name)

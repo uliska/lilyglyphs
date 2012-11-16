@@ -80,7 +80,7 @@ class Commands:
         If that works it reads the entries from the file
         (and thus builds the list of Command instances)"""
         try:
-            inp_file_name = os.path.join(gl.d_defs, file_name)
+            inp_file_name = os.path.join(gl.D_DEFS, file_name)
             self.input_file = InputFile(inp_file_name)
         except ValueError:
             print 'Input file ' + file_name + ' not found.'

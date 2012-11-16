@@ -75,25 +75,25 @@ def main(argv):
 
 
 def check_paths():
-    """Sets CWD to 'glyphimages' subdir of lilyglyphs root
+    """Sets CWD to gl.GLYPH_IMG_ROOT subdir of lilyglyphs root
        and makes sure that the necessary subdirectories are present"""
     lg.check_lilyglyphs_root()
 
     # check the presence of the necessary subdirectories
     # and create them if necessary
     # (otherwise we'll get errors when trying to write in them)
-    if not os.path.exists(gl.d_stash):
-        os.mkdir(gl.d_stash)
-    if not os.path.exists(os.path.join(gl.d_stash, 'images')):
-        os.mkdir(os.path.join(gl.d_stash, 'images'))
+    if not os.path.exists(gl.D_STASH):
+        os.mkdir(gl.D_STASH)
+    if not os.path.exists(os.path.join(gl.D_STASH, 'images')):
+        os.mkdir(os.path.join(gl.D_STASH, 'images'))
     # now change to our working directory
-    os.chdir('glyphimages')
+    os.chdir(gl.GLYPH_IMG_ROOT)
 
     ls = os.listdir('.')
-    if not os.path.exists(gl.d_src):
-        os.mkdir(gl.d_src)
-    if not os.path.exists(gl.d_img):
-        os.mkdir(gl.d_img)
+    if not os.path.exists(gl.D_SRC):
+        os.mkdir(gl.D_SRC)
+    if not os.path.exists(gl.D_IMG):
+        os.mkdir(gl.D_IMG)
 
 def usage():
     print """build-image-commands. Part of the lilyglyphs package.

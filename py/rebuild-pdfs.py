@@ -86,20 +86,20 @@ def main():
 
 
 def check_paths():
-    """Sets CWD to 'glyphimages' subdir
+    """Sets CWD to gl.GLYPH_IMG_ROOT subdir
        and makes sure that the necessary subdirectories are present"""
     global lilyglyphs_root
     lg.check_lilyglyphs_root()
-    os.chdir('glyphimages')
+    os.chdir(gl.GLYPH_IMG_ROOT)
 
     # check the presence of the necessary subdirectories
     ls = os.listdir('.')
-    if not gl.d_src in ls:
+    if not gl.D_SRC in ls:
         print 'No LilyPond source files directory found.'
         print 'Sorry, there is something wrong :-('
         sys.exit(2)
-    if not gl.d_img in ls:
-        os.mkdir(gl.d_img)
+    if not gl.D_IMG in ls:
+        os.mkdir(gl.D_IMG)
     
 
 # ####################################

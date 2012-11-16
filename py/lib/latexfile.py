@@ -50,7 +50,7 @@ class LatexFile:
         """Uses a mixture of internal templates and
         the properties of the Commands objects
         to write a LaTeX file to disk."""
-        fout = open(os.path.join(gl.d_stash, self.out_file_name), 'w')
+        fout = open(os.path.join(gl.D_STASH, self.out_file_name), 'w')
         fout.write('% New Glyphs for the lilyglyphs package\n')
         fout.write(lg.signature() + '\n')
         fout.write(self.start_comment.replace('SCRIPT_NAME', lg.script_name()))

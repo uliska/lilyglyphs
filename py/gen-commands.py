@@ -39,8 +39,8 @@ from lib.latexfile import LatexFile
 
 def main(input_file):
     lg.check_lilyglyphs_root()
-    os.chdir(gl.d_stash)
-    gl.d_defs = ''
+    os.chdir(gl.D_STASH)
+    gl.D_DEFS = ''
     if not os.path.exists('emmentaler'):
         os.mkdir('emmentaler')
     os.chdir('emmentaler')

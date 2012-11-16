@@ -83,7 +83,7 @@ def add_glyphimages():
     logo_base = 'glyphimages/lilyglyphs_logo/lilyglyphs_logo.'
     f.append(logo_base + 'pdf')
     f.append(logo_base + 'png')
-    add_files(f, 'glyphimages')
+    add_files(f, gl.GLYPH_IMG_ROOT)
     
 def add_root():
     f = []
