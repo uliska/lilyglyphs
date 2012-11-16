@@ -42,6 +42,7 @@
 import lib.common as lg, lib.globals as gl
 import os, sys, subprocess
 from lib.lilyfile import LilypondFile
+from lib.lilyglyphs_file_tree import LilyglyphsFileTree
 
 
 # ################
@@ -56,8 +57,31 @@ def main():
     check_paths()
     
     print ''
-    print 'Listing generated LilyPond source files'
-    src_files = lg.list_files(lg.dir_lysrc)
+    print 'Reading generated LilyPond source file tree'
+    src_file_tree = LilyglyphsFileTree(gl.D_SRC)
+    src_file_tree.check_duplicates()
+    if src_dupes:
+        print 'There are duplicate entries in the file tree ' + 
+        print src_dupes
+    # TODO: Check for duplicates?
+    
+    src_files = src_file_tree.get_full_basenames()
+    print src_files
+    
+    img_file_tree = LilyglyphsFileTree(gl.D_IMG)
+    # TODO: Check for duplicates?
+    
+    img_files = img_file_tree.get_full_basenames()
+    print img_files
+    
+    missing_img_files = src_file_tree.get_files_not_in_tree(img_file_tree)
+    print missing_img_files
+    
+    stale_files = img_file_tree.get_files_not_in_tree(src_file_tree)
+    print stale_files
+    
+    
+    sys.exit()
     lg.check_duplicates(src_files)
     
     print ''
@@ -88,7 +112,6 @@ def main():
 def check_paths():
     """Sets CWD to gl.GLYPH_IMG_ROOT subdir
        and makes sure that the necessary subdirectories are present"""
-    global lilyglyphs_root
     lg.check_lilyglyphs_root()
     os.chdir(gl.GLYPH_IMG_ROOT)
 
