@@ -39,7 +39,10 @@
 #                                                                        #
 # ########################################################################
 
-import lilyglyphs_common as lg, os, sys, subprocess
+import lib.common as lg, lib.globals as gl
+import os, sys, subprocess
+from lib.lilyfile import LilypondFile
+
 
 # ################
 # Global variables
@@ -91,12 +94,12 @@ def check_paths():
 
     # check the presence of the necessary subdirectories
     ls = os.listdir('.')
-    if not 'generated_src' in ls:
+    if not gl.d_src in ls:
         print 'No LilyPond source files directory found.'
         print 'Sorry, there is something wrong :-('
         sys.exit(2)
-    if not 'pdfs' in ls:
-        os.mkdir('pdfs')
+    if not gl.d_img in ls:
+        os.mkdir(gl.d_img)
     
 
 # ####################################
