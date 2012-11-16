@@ -27,15 +27,6 @@
     <Created>2012-11-16, 12:19:03</Created>
     <Resource>
       <Filename>rebuild-pdfs.py</Filename>
-      <Linenumber>66</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" bugfix="False">
-    <Summary>TODO: Check for duplicates?</Summary>
-    <Description></Description>
-    <Created>2012-11-16, 12:19:03</Created>
-    <Resource>
-      <Filename>rebuild-pdfs.py</Filename>
       <Linenumber>72</Linenumber>
     </Resource>
   </Task>
