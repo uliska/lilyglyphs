@@ -42,7 +42,17 @@ class LilyglyphsFile:
         self.name, self.ext = os.path.splitext(self.file_name)
         self.full_basename = os.path.join(self.full_dir, self.name)
         self.rel_basename = os.path.join(self.rel_dir, self.name)
+        self.lines = []
         
+    def generate(self):
+        """Generates the actual file from its content info
+        (e.g. one or multiple command definitions"""
+        pass
         
+    def load(self):
+        pass
+        
+    def write(self):
+        pass
         
         
