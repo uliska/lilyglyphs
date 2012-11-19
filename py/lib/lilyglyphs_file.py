@@ -35,24 +35,63 @@ import os
 
 class LilyglyphsFile:
     def __init__(self, root_dir, rel_file):
-        self.root_dir = root_dir
-        self.full_name = os.path.join(root_dir, rel_file)
-        self.rel_dir, self.file_name = os.path.split(rel_file)
-        self.full_dir = os.path.join(root_dir, self.rel_dir)
-        self.name, self.ext = os.path.splitext(self.file_name)
-        self.full_basename = os.path.join(self.full_dir, self.name)
-        self.rel_basename = os.path.join(self.rel_dir, self.name)
+        # root dir of the file tree this file belongs to
+        # (relative to CWD)
+        self._root_dir = root_dir
+        # full name of the file, relative to CWD
+        self._full_name = os.path.join(root_dir, rel_file)
+        # file name relative to root_dir (i.e. the current file tree)
+        # (used to compare different trees
+        self._rel_name = rel_file
+        # diretory the file is in, relative to the file tree
+        self._rel_dir,
+        # plain file name (with extension)
+        self._file_name = os.path.split(rel_file)
+        # directory the file is in, relative to CWD
+        self._full_dir = os.path.join(root_dir, self.rel_dir)
+        # base name of the file (corresponding e.g. to a command name)
+        self._name,
+        # file extension,
+        # may be used to determine if the file shold be included in a collection
+        self._ext = os.path.splitext(self.file_name)
+        # full basename, without extension, with path
+        # (relative to CWD)
+        self._full_basename = os.path.join(self.full_dir, self.name)
+        # basename, without extension, with path
+        # (relative to the file tree)
+        self._rel_basename = os.path.join(self.rel_dir, self.name)
+        # string list, containing the plain contents of the file
         self.lines = []
-        
-    def generate(self):
-        """Generates the actual file from its content info
-        (e.g. one or multiple command definitions"""
-        pass
-        
-    def load(self):
-        pass
-        
-    def write(self):
-        pass
-        
-        
+
+    def get_ext(self):
+        return self._ext
+
+    def get_file_name(self):
+        return self._file_name
+
+    def get_full_basename(self):
+        return self._full_basename
+
+    def get_full_dir(self):
+        return self._full_dir
+
+    def get_full_name(self):
+        return self._full_name
+
+    def get_name(self):
+        return self._name
+
+    def get_rel_basename(self):
+        return self._rel_basename
+
+    def get_rel_name(self):
+        return self._rel_name
+
+    def get_rel_dir(self):
+        return self._rel_dir
+
+    def get_root_dir(self):
+        return self._root_dir
+
+
+

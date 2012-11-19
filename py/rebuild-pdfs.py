@@ -52,43 +52,43 @@ def main():
 
     print 'rebuild-pdfs.py'
     print 'regenerate all pdf images that are not present (anymore)'
-    
+
     print ''
     check_paths()
-    
+
     print ''
     print 'Reading generated LilyPond source file tree'
     src_file_tree = LilyglyphsFileTree(gl.D_SRC)
     src_file_tree.check_duplicates()
     if src_dupes:
-        print 'There are duplicate entries in the file tree ' + 
+        print 'There are duplicate entries in the file tree '
         print src_dupes
     # TODO: Check for duplicates?
-    
+
     src_files = src_file_tree.get_full_basenames()
     print src_files
-    
+
     img_file_tree = LilyglyphsFileTree(gl.D_IMG)
     # TODO: Check for duplicates?
-    
+
     img_files = img_file_tree.get_full_basenames()
     print img_files
-    
+
     missing_img_files = src_file_tree.get_files_not_in_tree(img_file_tree)
     print missing_img_files
-    
+
     stale_files = img_file_tree.get_files_not_in_tree(src_file_tree)
     print stale_files
-    
-    
+
+
     sys.exit()
     lg.check_duplicates(src_files)
-    
+
     print ''
     print 'Listing generated PDF files'
     img_files = lg.list_files(lg.dir_pdfs)
     lg.check_duplicates(img_files)
-    
+
     print ''
     print 'Comparing lists'
     missing_pdfs = lg.compare_file_lists(src_files, img_files)
@@ -98,14 +98,14 @@ def main():
         print 'No image files missing, nothing to be done.'
         print 'If you want to re-create pdfs, then delete them first'
         sys.exit(0)
-    
+
     print ''
     print 'Found missing pdf files and will re-create them with LilyPond:'
     for file in missing_pdfs:
         print file
-    
+
     lg.compile_src_files(missing_pdfs)
-    
+
     lg.cleanup_lily_files()
 
 
@@ -123,7 +123,7 @@ def check_paths():
         sys.exit(2)
     if not gl.D_IMG in ls:
         os.mkdir(gl.D_IMG)
-    
+
 
 # ####################################
 # Finally launch the program
