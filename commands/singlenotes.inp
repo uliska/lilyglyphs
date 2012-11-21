@@ -157,8 +157,8 @@
     \lilyPrintImage[#1]{quaver}%
 	\hspace*{-0.5ex}%
 }
-\newcommand*{\quaver}[1][]{\quaverBase[#1] }
-\WithSuffix\newcommand\quaver*[1][]{\quaverBase[#1]}
+\newcommand*{\quaver}[1][]{\quaverBase[#1]\hspace*{0.3ex} }
+\WithSuffix\newcommand\quaver*[1][]{\quaverBase[#1]\hspace*{0.3ex}}
 
 % quaver with downward stem
 % created by buildglyphimages.py on 2012-11-13
