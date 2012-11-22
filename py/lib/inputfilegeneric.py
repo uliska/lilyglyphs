@@ -32,24 +32,25 @@
 #                                                                        #
 # ########################################################################
 
+from command import Command
 from commands import Commands
+from inputfile import InputFile
 from latexcommand import LatexCommand
-from lilyfile import LilypondFile
 
-class GenericCommands(Commands):
+class InputFileGeneric(InputFile):
     """Responsible for parsing the input file
-    of the generic"""
+    of the generic commands definitions file"""
 
-    def read_entries(self):
+    def _read_entries(self):
         """Parses the input source file and extracts glyph entries"""
         command = ''
         element = ''
         type = 'glyphname'
         comment = []
-        
+
         print 'Read entries of LilyPond commands:'
-        
-        for line in self.input_file.getLines():
+
+        for line in self._lines:
             line = line.strip()
             # empty line = end of entry
             if not len(line):
@@ -60,25 +61,28 @@ class GenericCommands(Commands):
                     element = ''
                     type = 'glyphname'
                     comment = []
-            
+
                 # create new Command and set its properties
                 else:
                     print 'Read entry \'' + command + '\''
-                    cur_cmd = self.newCommand(command)
-                    cur_cmd.comment = comment
-                    cur_cmd.element = element
-                    cur_cmd.type = type
-                    cur_cmd.dir = self.cat_subdir
+                    cur_cmd = Command(command)
+                    cur_cmd.set_comment(comment)
+                    cur_cmd.set_element(element)
+                    cur_cmd.set_type(type)
                     if self.scale:
                         cur_cmd.scale = self.scale
-                    if self.rais:
-                        cur_cmd.rais = self.rais
-                    cur_cmd.ltx_cmd = LatexCommand(cur_cmd)
+                    if self._raise:
+                        cur_cmd.set_raise(self._raise)
+                    cur_cmd.set_latex_cmd(LatexCommand(cur_cmd))
+                    self._commands.add(cur_cmd)
+
+                    # reset properties
+                    cur_cmd = None
                     command = ''
                     element = ''
                     type = 'glyphname'
                     comment = []
-            
+
             # ignore Python or LaTeX style comments
             elif line[0] in '#%':
                 continue
@@ -87,9 +91,9 @@ class GenericCommands(Commands):
                 key = key.strip()
 
                 if key == 'scale':
-                        self.scale = val
+                        self._scale = val
                 elif key == 'raise':
-                    self.rais = val
+                    self._raise = val
                 elif key == 'comment':
                     comment = [val]
                 elif key == 'cmd':
@@ -98,5 +102,5 @@ class GenericCommands(Commands):
                     type = val
                 elif key == 'element':
                     element = val
-        
-        
+
+
