@@ -50,61 +50,36 @@ from lib.lilyglyphs_file_tree import LilyglyphsFileTree
 
 def main():
 
-    print 'rebuild-pdfs.py'
-    print 'regenerate all pdf images that are not present (anymore)'
-
-    print ''
-    check_paths()
-
-    print ''
     print 'Reading generated LilyPond source file tree'
-    src_file_tree = LilyglyphsFileTree(gl.D_SRC)
-    src_file_tree.check_duplicates()
-    if src_dupes:
-        print 'There are duplicate entries in the file tree '
-        print src_dupes
-    # TODO: Check for duplicates?
+    src_file_tree = LilyglyphsSrcFileTree(gl.D_SRC)
+    # consistency check for duplicate entries in the source tree
+    if src_file_tree.check_duplicates():
+        sys.exit('Operation aborted')
 
-    src_files = src_file_tree.get_full_basenames()
-    print src_files
-
+    print 'Reading generated image file tree'
     img_file_tree = LilyglyphsFileTree(gl.D_IMG)
-    # TODO: Check for duplicates?
+    # check for 'stale' files, i.e. destination files not present in the
+    # source file directory.
+    # Such stale files should only exist after source files have been
+    # (re-)moved, so they should be pruned.
+    if img_file_tree.check_stale_files():
+        print '(Operation is continued anyway)'
 
-    img_files = img_file_tree.get_full_basenames()
-    print img_files
 
+    # check for source files that don't have a corresponding pdf file
+    # in the output directory. These are the ones we want to regenerate
     missing_img_files = src_file_tree.get_files_not_in_tree(img_file_tree)
-    print missing_img_files
-
-    stale_files = img_file_tree.get_files_not_in_tree(src_file_tree)
-    print stale_files
-
-
-    sys.exit()
-    lg.check_duplicates(src_files)
-
-    print ''
-    print 'Listing generated PDF files'
-    img_files = lg.list_files(lg.dir_pdfs)
-    lg.check_duplicates(img_files)
-
-    print ''
-    print 'Comparing lists'
-    missing_pdfs = lg.compare_file_lists(src_files, img_files)
-
-    if not missing_pdfs:
-        print ''
+    if missing_img_files:
+        print 'The following pdf files are missing'
+        print 'and will be re-generated with LilyPond:'
+        print missing_img_files
+    else:
         print 'No image files missing, nothing to be done.'
         print 'If you want to re-create pdfs, then delete them first'
         sys.exit(0)
 
-    print ''
-    print 'Found missing pdf files and will re-create them with LilyPond:'
-    for file in missing_pdfs:
-        print file
-
-    lg.compile_src_files(missing_pdfs)
+    for file in missing_img_files:
+        file.compile()
 
     lg.cleanup_lily_files()
 
@@ -112,20 +87,31 @@ def main():
 def check_paths():
     """Sets CWD to gl.GLYPH_IMG_ROOT subdir
        and makes sure that the necessary subdirectories are present"""
-    lg.check_lilyglyphs_root()
-    os.chdir(gl.GLYPH_IMG_ROOT)
+    lg.check_lilyglyphs_root(gl.GLYPH_IMG_ROOT)
 
     # check the presence of the necessary subdirectories
     ls = os.listdir('.')
+    # If the source directory isn't present
+    # something has to be fundamentally wrong (can only abort)
     if not gl.D_SRC in ls:
         print 'No LilyPond source files directory found.'
         print 'Sorry, there is something wrong :-('
+        print 'Current working directory is:', os.getcwd()
+        print 'Source directory should be:', gl.D_SRC
         sys.exit(2)
+    # If the image directory isn't present,
+    # we'll create it empty
     if not gl.D_IMG in ls:
         os.mkdir(gl.D_IMG)
+    print ''
+
 
 
 # ####################################
 # Finally launch the program
 if __name__ == "__main__":
+    print 'rebuild-pdfs.py'
+    print '(Re-)generate all pdf images that are not present (anymore)'
+    print ''
+    check_paths()
     main()
