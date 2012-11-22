@@ -51,11 +51,12 @@ def check_duplicates(files):
         sys.exit('Abort')
 
 
-def check_lilyglyphs_root():
+def check_lilyglyphs_root(subdir = ''):
     """Checks if the current working directory
        is within the rootline of the lilyglyphs package.
        If this is the case it sets the cwd to be
-       the root of the package."""
+       the root of the package or the subdir
+       given as the argument."""
 
     print 'Checking directories'
 
@@ -71,6 +72,10 @@ def check_lilyglyphs_root():
     gl.D_STASH = os.path.join(gl.LILYGLYPHS_ROOT, gl.D_STASH_ROOT)
     # set current working dir
     os.chdir(gl.LILYGLYPHS_ROOT)
+    # if there is a subdir as argument,
+    # then change there (subdir must exist)
+    if subdir:
+        os.chdir(subdir)
 
 
 def cleanup_lily_files():
