@@ -34,23 +34,20 @@
 
 import os, sys
 import lib.common as lg, lib.globals as gl
-from lib.genericcommands import GenericCommands
+from lib.inputfilegeneric import InputFileGeneric
 from lib.latexfile import LatexFile
 
 def main(input_file):
-    lg.check_lilyglyphs_root()
-    os.chdir(gl.D_STASH)
-    gl.D_DEFS = ''
-    if not os.path.exists('emmentaler'):
-        os.mkdir('emmentaler')
-    os.chdir('emmentaler')
-    # Create commands object, load file and parse entries
-    commands = GenericCommands(input_file)
-    
+    lg.check_lilyglyphs_root(gl.D_STASH)
+    gl.D_DEFS = gl.D_STASH
+    # load file with command definitions,
+    # parse it and generate LaTeX commands file
+    def_file = InputFileGeneric(input_file)
+
     # create a LatexFile instance and write the result file
-    LatexFile(commands).write()
-    
-    
+#    LatexFile(commands).write()
+
+
 def usage():
     print 'genGlyphCommands.py'
     print 'is part of the lilyglyphs package'

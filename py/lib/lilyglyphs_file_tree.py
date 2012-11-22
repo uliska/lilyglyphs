@@ -42,14 +42,39 @@ class LilyglyphsFileTree:
         self.dirs = []
         self.files = []
         self.__read_tree('')
-        
+
+
     def check_duplicates(self):
-        dupes = self.get_duplicates()
-        if dupes:
-            print 'There are duplicate entries in the file tree ' + self.root_dir
-            for dupes:
-                
-        
+        """Returns True (and prints a message)
+           if there are duplicates present.
+           Returns False if no duplicates exist"""
+        if self.has_duplicates():
+            print 'There are duplicate entries in the file tree\n     ',
+            print self.root_dir
+            print 'Please check manually and remove or rename the duplicates'
+            print '(because they represent duplicate command definitions).'
+            print self.get_duplicates()
+        return self.has_duplicates()
+
+    def check_stale_files(self, other_tree):
+        """Returns True (and prints a message)
+           if there are files in the tree that
+           are not present in the given other tree.
+           Returns False if no stale files are found.
+
+           other_tree is an instance of LilyglyphsFileTree"""
+        stale_files = self.get_files_not_in_tree(other_tree)
+        if stale_files:
+            print 'There are files in the file tree\n     ',
+            print self.root_dir
+            print 'that are not present in the tree\     ',
+            print other_tree.root_dir
+            print 'You may want to check if you have to remove them manually:'
+            print stale_files
+            return True
+        else:
+            return False
+
     def get_duplicates(self):
         result = {}
         names = {}
@@ -62,21 +87,21 @@ class LilyglyphsFileTree:
             else:
                 names[file.name] = file.full_name
         return result
-        
+
     def get_files_not_in_tree(self, other_tree):
         own_files = self.get_rel_basenames()
         other_files = other_tree.get_rel_basenames()
         return [file for file in own_files if file not in other_files]
-        
+
     def get_full_basenames(self):
         return [file.full_basename for file in self.files]
-    
+
     def get_full_filenames(self):
         return [file.full_name for file in self.files]
-        
+
     def get_rel_basenames(self):
         return [file.rel_basename for file in self.files]
-    
+
     def __read_tree(self, rel_dir):
         """Returns a dictionary of all files in rel_dir and its subdirectories
         rel_dirs are relative to the filetree root,
@@ -91,4 +116,7 @@ class LilyglyphsFileTree:
             else:
                 if not entry[0] == '.':
                     self.files.append(LilyglyphsFile(self.root_dir, os.path.join(rel_dir, entry)))
-        
+
+
+class LilyglyphsSrcFileTree(LilyglyphsFileTree):
+    pass

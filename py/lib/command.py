@@ -32,29 +32,94 @@
 #                                                                        #
 # ########################################################################
 
+from latexcommand import LatexCommand
+
 class Command:
     """Represents a lilyglyphs command.
     Holds input definitions, LilyPond source code and LaTeX commands."""
     def __init__(self, name):
         # command name
-        self.name = name
+        self._name = name
         # comment used for the command
-        self.comment = ''
+        self._comment = []
         # content element to be passed to the printing command (in LaTeX)
-        self.element = ''
+        self._element = ''
         # type of command, specifies which printing command LaTeX uses
         # and which code template the script uses.
-        self.type = ''
+        self._type = ''
         # default scaling that is included in the command definition
-        self.scale = ''
+        self._scale = ''
         # default raise value for the command definition
-        self.rais = ''
+        self._raise = ''
         # LilyPond source code (only has content with image driven glyphs)
-        self.lilySrc = ''
-        # subdirectory for the command
-        # (to be used below either the src or the img dir)
-        self.dir = ''
-        # textual LaTeX representation of the command
-        self.ltx_cmd = None
-        # LilyPond file representation of the command
-        self.lily_cmd = None
+        self._lilySrc = []
+        # object that holds LaTeX representations of the command (cmd, comment and testcode)
+        self._latex_cmd = None
+        # textual LilyPond  representation of the command
+        self._lilypond_cmd = []
+
+    # properties
+
+    # comment
+    def _get_comment(self):
+        return self._comment
+    comment = property(fget = _get_comment)
+
+    # element
+    def _get_element(self):
+        return self._element
+    element = property(fget = _get_element)
+
+    # scale
+    def _get_scale(self):
+        return self._scale
+    scale = property(fget = _get_scale)
+
+    # type
+    def _get_type(self):
+        return self._type
+    type = property(fget = _get_type)
+
+       # raise
+    def _get_raise(self):
+        return self._raise
+    rais = property(fget = _get_raise)
+
+    # name
+    def _get_name(self):
+        return self._name
+    name = property(fget = _get_name)
+
+    def get_latex_cmd(self):
+        return self._latex_cmd
+    latex_cmd = property(fget = get_latex_cmd)
+
+    def set_comment(self, comment):
+        self._comment = comment
+
+    def set_element(self,  element):
+        self._element = str(element)
+
+    def set_latex_cmd(self, ltx_cmd):
+        if not isinstance(ltx_cmd, LatexCommand):
+            raise TypeError('Not a LatexCommand instance')#
+        self._latex_cmd = ltx_cmd
+
+    def set_lilypond_cmd(self, lily_cmd):
+        self._lilypond_cmd = lily_cmd
+
+    def set_lilySrc(self, lilySrc):
+        self._lilySrc = lilySrc
+
+    def set_name(self, name):
+        self._name = str(name)
+
+    def set_raise(self, rais):
+        self._raise = str(rais)
+
+    def set_scale(self, scale):
+        self._scale = str(scale)
+
+    def set_type(self, type):
+        self._type = str(type)
+

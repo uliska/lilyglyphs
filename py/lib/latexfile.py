@@ -31,59 +31,62 @@
 #                                                                        #
 # ########################################################################
 
-import os, textwrap, lilyglyphs_common as lg
-import lib.globals as gl
-from commands import *
+import os, textwrap, common as lg
+from commands import Commands
 from globals import *
+from lilyglyphs_file import LilyglyphsFile
+from latexcommand import LatexCommand
 
 
-class LatexFile:
+class LatexFile(LilyglyphsFile):
     """Writes a LaTeX file with the results of the
     command generation process
     - commands is a Commands instance"""
-    def __init__(self, commands):
-        self.commands = commands
-        self.out_file_name = 'newCommands.tex'
+    def __init__(self, commands, filename):
+
+
+        LilyglyphsFile.__init__(self, D_STASH,  filename)
+        for cmd in commands:
+            if not isinstance(cmd, LatexCommand):
+                raise TypeError('Not a LatexCommand instance')
+        self._commands = commands
+
         self.init_templates()
+        self.generate()
 
-    def write(self):
-        """Uses a mixture of internal templates and
-        the properties of the Commands objects
-        to write a LaTeX file to disk."""
-        fout = open(os.path.join(gl.D_STASH, self.out_file_name), 'w')
-        fout.write('% New Glyphs for the lilyglyphs package\n')
-        fout.write(lg.signature() + '\n')
-        fout.write(self.start_comment.replace('SCRIPT_NAME', lg.script_name()))
+    def generate(self):
+        """Generates the textual representation of the
+           LaTeX file from the commands object
+           Uses a mixture of internal templates and
+           the properties of the Commands objects"""
 
-        # retrieve a sorted list of LatexCommand instances
-        cmd_objs = []
-        for cmd in self.commands.sorted():
-            cmd_objs.append(cmd.ltx_cmd)
+        self._lines.append('% New Glyphs for the lilyglyphs package\n')
+        self._lines.append(lg.signature() + '\n')
+        self._lines.append(self.start_comment.replace('SCRIPT_NAME', lg.script_name()))
 
         # write out command definitions
-        for cmd in cmd_objs:
-            fout.write(cmd.comment)
-            fout.write(cmd.command)
+        for cmd in self._commands:
+            self._lines.append(cmd.comment)
+            self._lines.append(cmd.command)
 
         # write out \begin{document} and heading
-        fout.write(self.begin_document)
-        fout.write(lg.signature()[2:]+ '\n')
+        self._lines.append(self.begin_document)
+        self._lines.append(lg.signature()[2:]+ '\n')
 
         # write out reference table
         row_template = '\\CMD & \\cmd{CMD} & description\\\\' + '\n'
         reftable_content = ''
-        for cmd in cmd_objs:
+        for cmd in self._commands:
             reftable_content += '    ' + row_template.replace('CMD', cmd.name)
-        fout.write(self.tmpl_reftable.replace('REFTABLE', reftable_content))
+        self._lines.append(self.tmpl_reftable.replace('REFTABLE', reftable_content))
 
         # write out test code for each command
-        fout.write(self.testcode_start)
-        for cmd in cmd_objs:
-            fout.write(cmd.testcode)
+        self._lines.append(self.testcode_start)
+        for cmd in self._commands:
+            self._lines.append(cmd.testcode)
 
         # finish document
-        fout.write('\\end{document}\n')
-        fout.close()
+        self._lines.append('\\end{document}\n')
 
 
     def init_templates(self):

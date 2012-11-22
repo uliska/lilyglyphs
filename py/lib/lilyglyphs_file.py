@@ -44,24 +44,24 @@ class LilyglyphsFile:
         # (used to compare different trees
         self._rel_name = rel_file
         # diretory the file is in, relative to the file tree
-        self._rel_dir,
         # plain file name (with extension)
-        self._file_name = os.path.split(rel_file)
+        self._rel_dir, self._file_name = os.path.split(rel_file)
         # directory the file is in, relative to CWD
-        self._full_dir = os.path.join(root_dir, self.rel_dir)
+        self._full_dir = os.path.join(root_dir, self._rel_dir)
         # base name of the file (corresponding e.g. to a command name)
-        self._name,
         # file extension,
         # may be used to determine if the file shold be included in a collection
-        self._ext = os.path.splitext(self.file_name)
+        #self._name = ''
+        #self._ext = ''
+        self._name, self._ext = os.path.splitext(self._file_name)
         # full basename, without extension, with path
         # (relative to CWD)
-        self._full_basename = os.path.join(self.full_dir, self.name)
+        self._full_basename = os.path.join(self._full_dir, self._name)
         # basename, without extension, with path
         # (relative to the file tree)
-        self._rel_basename = os.path.join(self.rel_dir, self.name)
+        self._rel_basename = os.path.join(self._rel_dir, self._name)
         # string list, containing the plain contents of the file
-        self.lines = []
+        self._lines = []
 
     def get_ext(self):
         return self._ext
@@ -92,6 +92,15 @@ class LilyglyphsFile:
 
     def get_root_dir(self):
         return self._root_dir
+
+
+    def write(self):
+        """Writes out the content of the file to disk.
+           Any existing file will be overwritten!"""
+        fout = open(self._full_name, 'w')
+        for line in self._lines:
+            fout.write(line + '\n')
+        fout.close()
 
 
 

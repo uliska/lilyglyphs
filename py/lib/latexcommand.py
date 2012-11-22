@@ -37,34 +37,56 @@ class LatexCommand:
     """Textual representation of a LaTeX command,
     generated from the elements of the Command object"""
     def __init__(self, cmd_obj):
-        self.cmd_obj = cmd_obj
-        self.name = cmd_obj.name
-        self.comment = ''
-        self.command = ''
-        self.testcode = []
+        self._cmd_obj = cmd_obj
+        self._name = cmd_obj.name
+        self._comment = ''
+        self._command = ''
+        self._testcode = []
         self.init_templates()
         self.generate_comment()
         self.generate_cmd()
         self.generate_testcode()
 
+    # properties
+
+    # command
+    def _get_command(self):
+        return self._command
+    command = property(fget = _get_command)
+
+    # comment
+    def _get_comment(self):
+        return self._comment
+    comment = property(fget = _get_comment)
+
+    # name
+    def _get_name(self):
+        return self._name
+    name = property(fget = _get_name)
+
+    # testcode
+    def _get_testcode(self):
+        return self._testcode
+    testcode = property(fget = _get_testcode)
+
     def generate_cmd(self):
         """Generates the core command"""
-        tmpl = self.tmpl_cmd[self.cmd_obj.type]
-        tmpl = tmpl.replace('CMD', self.cmd_obj.name)
-        tmpl = tmpl.replace('ELEM', self.cmd_obj.element)
-        tmpl = tmpl.replace('SCALE', self.cmd_obj.scale)
-        tmpl = tmpl.replace('RAISE', self.cmd_obj.rais)
-        self.command = tmpl
+        tmpl = self.tmpl_cmd[self._cmd_obj.type]
+        tmpl = tmpl.replace('CMD', self._cmd_obj.name)
+        tmpl = tmpl.replace('ELEM', self._cmd_obj.element)
+        tmpl = tmpl.replace('SCALE', self._cmd_obj.scale)
+        tmpl = tmpl.replace('RAISE', self._cmd_obj.rais)
+        self._command = tmpl
 
     def generate_comment(self):
         """Generates the comment"""
-        for line in self.cmd_obj.comment:
-            self.comment += '% ' + line + '\n'
-        self.comment += lg.signature() + '\n'
+        for line in self._cmd_obj.comment:
+            self._comment += '% ' + line + '\n'
+        self._comment += lg.signature() + '\n'
 
     def generate_testcode(self):
         """Genrates a block of test code for the command"""
-        self.testcode = self.tmpl_testcode.replace('CMD', self.cmd_obj.name)
+        self._testcode = self.tmpl_testcode.replace('CMD', self._cmd_obj.name)
 
 
     def init_templates(self):

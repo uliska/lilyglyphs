@@ -27,35 +27,48 @@
 # Defines a class representing commands.
 
 import os,  sys,  globals as gl
-from latexcommand import LatexCommand
 from command import Command
-from inputfile import InputFile
 
 class Commands:
     """Represents the list of parsed command definitions.
     Should be iterable."""
-    def __init__(self, file_name):
-        self.commands = []
-        self.index = -1
-        self.count = 0
-        self.scale = ''
-        self.rais = ''
-        self.set_input_file(file_name)
+    def __init__(self):
+        self._commands = {}
+        self._index = -1
+        self._count = 0
+        self._scale = ''
+        self._raise = ''
+        # sorted list of names
+        self._names_alpha = []
+        # list of names in the order of creation
+        self._names_ordered = []
+
+    def add(self, command):
+        if not isinstance(command, Command):
+            raise TypeError('Not a Command object!')
+        cmd_name = command.name
+        if cmd_name in self._commands:
+            raise ValueError('Command ' + cmd_name + 'already defined')
+        else:
+            self._commands[cmd_name] = command
+            self._names_alpha.append(cmd_name)
+            self._names_alpha.sort()
+            self._names_ordered.append(cmd_name)
 
     def __iter__(self):
         return self
 
     def next(self):
-        if self.index == len(self.commands) - 1:
+        if self._index == len(self._commands) - 1:
             raise StopIteration
-        self.index = self.index + 1
-        return self.commands[self.index]
+        self._index = self._index + 1
+        return self._commands[self._names_alpha[self._index]]
 
     def byName(self, cmd_name):
         """Returns the command with the given name
         or none if it doesn't exist"""
         result = None
-        for cmd in self.commands:
+        for cmd in self._commands:
             if cmd.name == cmd_name:
                 result = cmd
                 break
@@ -67,43 +80,10 @@ class Commands:
         self.commands.append(Command(cmd_name))
         return self.commands[-1]
 
-    def read_entries(self):
-        """Has to be overridden by inheriting classes
-        This function is responsible for creating
-        individual Command instances, populating them
-        with its properties, and also to create
-        a LatexCommand instance for the Command"""
-        pass
-
-    def set_input_file(self, file_name):
-        """Tries to open the given input file.
-        If that works it reads the entries from the file
-        (and thus builds the list of Command instances)"""
-        try:
-            inp_file_name = os.path.join(gl.D_DEFS, file_name)
-            self.input_file = InputFile(inp_file_name)
-        except ValueError:
-            print 'Input file ' + file_name + ' not found.'
-            sys.exit('Abort')
-
-        # the 'category subdir' will be used for writing lilypond and pdf files
-        # basename of input file is also used for this purpose
-        self.cat_subdir, dummy = os.path.splitext(file_name)
-
-        # reset commands
-        self.commands = []
-        self.rais = gl.DEF_RAISE
-        self.scale = gl.DEF_SCALE
-
-        # read_entries() has to
-        self.read_entries()
-
-        # set counter for the iterator
-        self.count = len(self.commands)
 
     def sorted(self):
         """Returns a sorted list of Command instances"""
-        names = [cmd.name for cmd in self.commands]
+        names = [cmd.name for cmd in self._commands]
         names.sort()
         return [self.byName(name) for name in names]
 
