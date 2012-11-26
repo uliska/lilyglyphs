@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Tasks SYSTEM "Tasks-4.2.dtd">
 <!-- eric4 tasks file for project lilyglyphs_scripts -->
-<!-- Saved: 2012-11-19, 13:30:43 -->
+<!-- Saved: 2012-11-19, 21:46:54 -->
 <Tasks version="4.2">
   <Task priority="1" completed="False" bugfix="False">
     <Summary>TODO: list existing src files, check for duplicates</Summary>

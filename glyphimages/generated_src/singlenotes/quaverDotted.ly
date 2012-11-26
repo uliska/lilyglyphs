@@ -6,7 +6,7 @@
 %                                                                        %
 %              https://github.com/uliska/lilyglyphs                      %
 %                                                                        %
-%  Copyright 2012 by Urs Liska, lilyglyphs@ursliska.de                          %
+%  Copyright 2012 by Urs Liska, lilyglyphs@ursliska.de                   %
 %                                                                        %
 %  'lilyglyphs' is free software: you can redistribute it and/or modify  %
 %  it under the terms of the GNU General Public License as published by  %
@@ -22,7 +22,6 @@
 %  along with this program.  If not, see <http://www.gnu.org/licenses/>. %
 %                                                                        %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                               %
 % This file defines a single glyph to be created with LilyPond: %
@@ -30,9 +29,9 @@
 %   quaverDotted.ly                                             %
 %                                                               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% created by buildglyphimages.py on 2012-11-13
+% created by build-image-commands.py on 2012-11-16
 
-\version "2.17.4"
+\version "2.16.0"
 
 #(set-global-staff-size 14)
 
@@ -44,15 +43,14 @@
 }
 
 %{
-dotted quaver with upward stem
+  dotted quaver with upward stem
 %}
 
 quaverDotted = {
   \override Stem#'length = 6
   g'8.
 }
-
-  \score {
+\score {
   \new Staff \with {
     \remove "Staff_symbol_engraver"
     \remove "Clef_engraver"
