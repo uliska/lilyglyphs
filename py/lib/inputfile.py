@@ -64,6 +64,7 @@ class InputFile(LilyglyphsFile):
         # parse the file and generate the Commands entries
         self._read_entries()
 
+    def generate_latex_file(self):
         # generate the LaTeX file from my own content
         ltx_cmds = []
         for cmd in self._commands:
@@ -77,21 +78,29 @@ class InputFile(LilyglyphsFile):
     def get_lines(self):
         return self._lines
 
-    def _load(self):
+    def load(self):
+        """Reads the file from disk and reads it (line by line)
+        """
         fin = open(self._full_name,  'r')
         for line in fin:
             # remove trailing whitespace but not leading (to preserve indentation)
             self._lines.append(line.rstrip())
         fin.close()
 
-    def _read_entries(self):
+    def read_entries(self):
         """Has to be overridden by inheriting classes
         This function is responsible for creating
         individual Command instances, populating them
         with its properties, and also to create
         a LatexCommand instance for the Command"""
-        pass
+        # reset the default values for the optional argument
+        self.rais = globals.DEF_RAISE
+        self.scale = globals.DEF_SCALE
+
         # TODO: raise an appropriate Exception
+        # if it isn't overriden
 
-
+    def write_latex_file(self):
+        """Calls the latexFiles object to write itself out."""
+        self._latex_file.write()
 

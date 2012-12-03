@@ -44,9 +44,17 @@ def main(input_file):
     # parse it and generate LaTeX commands file
     def_file = InputFileGeneric(input_file)
 
-    # create a LatexFile instance and write the result file
-#    LatexFile(commands).write()
+    # load file from disk
+    def_file.load()
 
+    # parse the file and generate the Commands entries
+    def_file.read_entries()
+
+    # generate the contents of a LaTeX file from the Command entries.
+    def_file.generate_latex_file()
+
+    # write out the LaTeX file to disk
+    def_file.write_latex_file()
 
 def usage():
     print 'genGlyphCommands.py'

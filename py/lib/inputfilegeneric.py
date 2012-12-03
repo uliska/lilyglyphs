@@ -41,8 +41,10 @@ class InputFileGeneric(InputFile):
     """Responsible for parsing the input file
     of the generic commands definitions file"""
 
-    def _read_entries(self):
+    def read_entries(self):
         """Parses the input source file and extracts glyph entries"""
+
+        InputFile.read_entries(self)
         command = ''
         element = ''
         type = 'glyphname'
