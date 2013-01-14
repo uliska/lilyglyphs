@@ -38,7 +38,7 @@
 	% interpret optional argument
 	\interpretLilyOptions{#1}%
 	% print the glyph in a raisebox
-	\raisebox{{\lilyEffectiveRaise}ex}{%
+	\raisebox{\lilyEffectiveRaise ex}{%
 		{\fontspec[Scale=\lilyEffectiveScale]{Emmentaler-\lilyOpticalSuffix}#2}%
 	}%
 }
@@ -89,7 +89,7 @@
 	% (as images don't scale automatically with the font)
 	\lilyScaleImage%
 	% Print the image in a raisebox
-	\raisebox{{\lilyEffectiveRaise}ex}{%
+	\raisebox{\lilyEffectiveRaise ex}{%
 		\includegraphics[scale=\lilyImageEffectiveScale]{#2}%
 	}%
 }
@@ -149,7 +149,7 @@
 	\setkeys{lilyDesignOptions}{scale=1, raise=0}%
 	% interpret optional argument
 	\interpretLilyOptions{#1}%
-	\raisebox{{\lilyEffectiveRaise}ex}{%
+	\raisebox{\lilyEffectiveRaise ex}{%
 		\includegraphics[scale=\lilyEffectiveScale]{#2}%
 	}%
 }
