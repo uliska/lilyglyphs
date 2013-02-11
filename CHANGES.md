@@ -30,6 +30,10 @@ So the lines above the topmost bold version line represent the changes not avail
 
 - The command generation scripts accept scale= and raise= entries that set default values for subsequent commands
 
+- Fix \lilyTimeSignature  
+Now scales correctly and doesn't have a fraction line anymore.  
+'raise' still doesn't work.
+
 0.2.0
 -----
 (2012-11-10)
