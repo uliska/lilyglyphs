@@ -34,17 +34,18 @@
 
 import os, subprocess, common as lg, globals as gl, textwrap
 from strings import *
+from lilyglyphs_file import LilyglyphsFile
 
-class LilypondFile:
-    def __init__(self, command = None):
+class LilypondFile(LilyglyphsFile):
+    def __init__(self, input_file, command = None):
+        LilyglyphsFile.__init__(self, input_file._root_dir,  input_file._rel_name)
         self.has_command = False
         if command:
             self.has_command = True
-            self.lines = []
             self.command = command
-            self.dir = command.dir
-            self.full_dir = os.path.join(gl.D_SRC, self.dir)
-            self.file_name = os.path.join(self.full_dir, command.name + '.ly')
+            #self.dir = command.dir
+            #self.full_dir = os.path.join(gl.D_SRC, self.dir)
+            #self.file_name = os.path.join(self.full_dir, command.name + '.ly')
 
             # ###############
             # First part of the LilyPond source file
@@ -91,36 +92,36 @@ class LilypondFile:
         if not self.has_command:
             raise ValueError('Cannot call generate() on a LilypondFile without lilySrc')
 
-        self.lines = []
+        self._lines = []
 
         #output the license information
-        self.lines.append(lilyglyphs_copyright_string)
-        self.lines.append('')
+        self._lines.append(lilyglyphs_copyright_string)
+        self._lines.append('')
 
         #output information on the actual file
         self.__file_info()
 
         #write the default LilyPond stuff
-        self.lines.append(self.lily_src_prefix)
+        self._lines.append(self.lily_src_prefix)
 
         # write the comment for the command
-        self.lines.append('%{\n')
+        self._lines.append('%{\n')
         for line in self.command.comment:
-            self.lines.append('  ' + line + '\n')
-        self.lines.append('%}\n\n')
+            self._lines.append('  ' + line + '\n')
+        self._lines.append('%}\n\n')
 
         # write the actual command
-        self.lines.append(self.command.name + ' = {\n')
+        self._lines.append(self.command.name + ' = {\n')
         for line in self.command.lilySrc:
-            self.lines.append(line + '\n')
-        self.lines.append('}\n')
+            self._lines.append(line + '\n')
+        self._lines.append('}\n')
 
         # write the score definition
-        self.lines.append(self.lily_src_score)
+        self._lines.append(self.lily_src_score)
 
         # finish the LilyPond file
-        self.lines.append('  \\' + self.command.name + '\n')
-        self.lines.append('}\n\n')
+        self._lines.append('  \\' + self.command.name + '\n')
+        self._lines.append('}\n\n')
 
 
 
@@ -132,15 +133,15 @@ class LilypondFile:
         header = '%' * width + '\n'
         spacer = '%' + ' ' * (width - 2) + '%\n'
         padding = width - len(self.command.name) - 8
-        self.lines.append(header)
-        self.lines.append(spacer)
-        self.lines.append(long_line)
-        self.lines.append(spacer)
-        self.lines.append('%   ' + self.command.name + '.ly' + ' ' * padding + '%\n')
-        self.lines.append(spacer)
-        self.lines.append(header)
-        self.lines.append(lg.signature())
-        self.lines.append('\n\n')
+        self._lines.append(header)
+        self._lines.append(spacer)
+        self._lines.append(long_line)
+        self._lines.append(spacer)
+        self._lines.append('%   ' + self.command.name + '.ly' + ' ' * padding + '%\n')
+        self._lines.append(spacer)
+        self._lines.append(header)
+        self._lines.append(lg.signature())
+        self._lines.append('\n\n')
 
     def write(self):
         if not self.has_command:
@@ -150,7 +151,7 @@ class LilypondFile:
         print '- ' + self.command.name
         # open a single lily src file for write access
         fout = open(self.file_name, 'w')
-        for line in self.lines:
+        for line in self._lines:
             fout.write(line)
         fout.close()
 

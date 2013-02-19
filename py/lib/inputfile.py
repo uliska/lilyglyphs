@@ -94,8 +94,8 @@ class InputFile(LilyglyphsFile):
         with its properties, and also to create
         a LatexCommand instance for the Command"""
         # reset the default values for the optional argument
-        self.rais = globals.DEF_RAISE
-        self.scale = globals.DEF_SCALE
+        self._raise = globals.DEF_RAISE
+        self._scale = globals.DEF_SCALE
 
         # TODO: raise an appropriate Exception
         # if it isn't overriden

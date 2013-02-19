@@ -24,19 +24,20 @@
 
 # ########################################################################
 #                                                                        #
-# imagecommands.py                                                       #
+# inputfileimages.py                                                     #
 #                                                                        #
-# defines the class ImageCommands(Commands)                              #
-# which extends Commands                                                 #
+# defines the class ImputFileImages(InputFile)                           #
+# which extends InputFile                                                #
 # and is responsible for parsing the input file for image driven commands#
 #                                                                        #
 # ########################################################################
 
-from commands import Commands
+from inputfile import InputFile
 from latexcommand import LatexCommand
-from lilyfile import LilypondFile
+from lilypondfile import LilypondFile
+from command import Command
 
-class ImageCommands(Commands):
+class InputFileImages(InputFile):
     """Responsible for parsing the input file
     for image driven commands"""
 
@@ -47,24 +48,22 @@ class ImageCommands(Commands):
     def read_entries(self):
         """Parses the input source file and extracts glyph entries"""
         print 'Read entries of LilyPond commands:'
-        lines = self.input_file.getLines()
-        for i in range(len(lines)):
-            if '%%lilyglyphs' in lines[i]:
+        InputFile.read_entries(self)
+        for i in range(len(self._lines)):
+            if '%%lilyglyphs' in self._lines[i]:
                 i = self.read_entry(i)
 
     def read_entry(self, i):
         """Reads a single glyph entry from the input file and stores it
         in the global dictionary lg.in_cmds"""
-        global scale,  rais
 
-        lines = self.input_file.getLines()
         # read comment line(s)
         i += 1
         is_protected = False
         comment = []
         # loop over the comment line(s)
-        while i < len(lines):
-            line = lines[i].strip()
+        while i < len(self._lines):
+            line = self._lines[i].strip()
             if not line[0] == '%':
                 break
             # check for 'protected' entries that shouldn't be processed newly
@@ -81,11 +80,11 @@ class ImageCommands(Commands):
             i += 1
 
         # skip any empty lines between comment and definition
-        while len(lines[i].strip()) == 0:
+        while len(self._lines[i].strip()) == 0:
             i += 1
 
         # read command name
-        line = lines[i].strip()
+        line = self._lines[i].strip()
         name,  dummy = line.split('=')
         name = name.strip()
 
@@ -98,26 +97,42 @@ class ImageCommands(Commands):
         # read actual command until we find a line the begins with a closing curly bracket
         i += 1
         lilySrc = []
-        while lines[i][0] != '}':
-            lilySrc.append(lines[i])
+        while self._lines[i][0] != '}':
+            lilySrc.append(self._lines[i])
             i += 1
 
         # if the entry isn't marked as protected
         # create a new Command and generate
         # LatexCommand and LilypondFile from it.
         if not is_protected:
-            cur_cmd = self.newCommand(name)
-            cur_cmd.comment = comment
+            cur_cmd = Command(name)
+            cur_cmd.dir = self._rel_basename
+            cur_cmd.set_comment(comment)
+
             cur_cmd.lilySrc = lilySrc
-            cur_cmd.element = name
-            cur_cmd.type = 'image'
-            cur_cmd.dir = self.cat_subdir
-            if self.scale:
-                cur_cmd.scale = self.scale
-            if self.rais:
-                cur_cmd.rais = self.rais
-            cur_cmd.ltx_cmd = LatexCommand(cur_cmd)
-            cur_cmd.lily_cmd = LilypondFile(cur_cmd)
+
+            cur_cmd.set_element(name)
+
+
+            cur_cmd.set_type('image')
+
+            if self._scale:
+                cur_cmd._scale = self._scale
+            if self._raise:
+                cur_cmd._raise = self._raise
+
+            self._commands.add(cur_cmd)
+            cur_cmd.set_latex_cmd(LatexCommand(cur_cmd))
+
+            cur_cmd.lily_cmd = LilypondFile(self, cur_cmd)
+
+
+            # reset properties
+            cur_cmd = None
+            command = ''
+            element = ''
+            comment = []
+
 
         return i
 

@@ -25,8 +25,9 @@
 # ########################################################################
 
 
-import lib.common as lg, lib.globals as gl, lib, os, sys, getopt
-from lib.imagecommands import ImageCommands
+import lib.common as common, lib.globals as globals
+import lib, os, sys, getopt
+from lib.inputfileimages import InputFileImages
 from lib.latexcommand import LatexCommand
 
 from lib.latexfile import LatexFile
@@ -43,7 +44,22 @@ def main(argv):
         for opt, arg in opts:
             if opt in ("-i",  "--input"):
                 # Create commands object, load file and parse entries
-                commands = ImageCommands(arg)
+                def_file = InputFileImages(arg)
+
+                # load file from disk
+                def_file.load()
+
+                # parse the file and generate the Commands entries
+                def_file.read_entries()
+
+                # generate the contents of a LaTeX file from the Command entries.
+                def_file.generate_latex_file()
+
+                # write out the LaTeX file to disk
+                def_file.write_latex_file()
+
+
+
             else:
                 usage()
                 sys.exit(2)
@@ -65,35 +81,32 @@ def main(argv):
 
     # create a LatexFile instance and write the result file
     LatexFile(commands).write()
-    
+
 
     # clean up the source folder and
     # move the created image to the img folder
-    lg.cleanup_lily_files()
+    common.cleanup_lily_files()
 
     # End of the program
 
 
 def check_paths():
-    """Sets CWD to gl.GLYPH_IMG_ROOT subdir of lilyglyphs root
+    """Sets CWD to globals.GLYPH_IMG_ROOT subdir of lilyglyphs root
        and makes sure that the necessary subdirectories are present"""
-    lg.check_lilyglyphs_root()
+    common.check_lilyglyphs_root(globals.GLYPH_IMG_ROOT)
 
     # check the presence of the necessary subdirectories
     # and create them if necessary
     # (otherwise we'll get errors when trying to write in them)
-    if not os.path.exists(gl.D_STASH):
-        os.mkdir(gl.D_STASH)
-    if not os.path.exists(os.path.join(gl.D_STASH, 'images')):
-        os.mkdir(os.path.join(gl.D_STASH, 'images'))
-    # now change to our working directory
-    os.chdir(gl.GLYPH_IMG_ROOT)
+    if not os.path.exists(globals.D_STASH):
+        os.mkdir(globals.D_STASH)
+    if not os.path.exists(os.path.join(globals.D_STASH, 'images')):
+        os.mkdir(os.path.join(globals.D_STASH, 'images'))
 
-    ls = os.listdir('.')
-    if not os.path.exists(gl.D_SRC):
-        os.mkdir(gl.D_SRC)
-    if not os.path.exists(gl.D_IMG):
-        os.mkdir(gl.D_IMG)
+    if not os.path.exists(globals.D_SRC):
+        os.mkdir(globals.D_SRC)
+    if not os.path.exists(globals.D_IMG):
+        os.mkdir(globals.D_IMG)
 
 def usage():
     print """build-image-commands. Part of the lilyglyphs package.

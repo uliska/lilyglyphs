@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project lilyglyphs_scripts -->
-<!-- Saved: 2012-11-19, 13:30:42 -->
+<!-- Saved: 2012-12-03, 18:09:39 -->
 <!-- Copyright (C) 2012 Urs Liska, lilyglyphs@ursliska.de -->
 <Project version="4.6">
   <Language></Language>
@@ -23,7 +23,6 @@
     <Source>lib/command.py</Source>
     <Source>lib/globals.py</Source>
     <Source>lib/inputfile.py</Source>
-    <Source>lib/imagecommands.py</Source>
     <Source>lib/latexcommand.py</Source>
     <Source>lib/lilyfile.py</Source>
     <Source>lib/lilyglyphs_common.py</Source>
@@ -32,6 +31,9 @@
     <Source>lib/genericcommands.py</Source>
     <Source>lib/lilyglyphs_file_tree.py</Source>
     <Source>lib/lilyglyphs_file.py</Source>
+    <Source>lib/lilypondfile.py</Source>
+    <Source>lib/inputfilegeneric.py</Source>
+    <Source>lib/inputfileimages.py</Source>
   </Sources>
   <Forms>
   </Forms>
