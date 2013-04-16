@@ -25,18 +25,8 @@
 \NeedsTeXFormat{LaTeX2e} 
 \ProvidesPackage{lilyglyphsStyle}
 
+% for the XeLaTeX 'logo'
 \RequirePackage{xltxtra}
-
-
-% lilyglyphs logo
-% created by genGlyphCommands.py on 2012-11-10
-\newcommand*{\lilyglyphsBase}[1][]{%
-    \setkeys{lilyDesignOptions}{scale=0.9,raise=-0.8}%
-    \lilyPrintImage[#1]{lilyglyphs_logo}%
-}
-\newcommand*{\lilyglyphs}[1][]{\lilyglyphsBase[#1] }
-\WithSuffix\newcommand\lilyglyphs*[1][]{\lilyglyphsBase[#1]}
-
 
 \newcommand*{\emmentaler}{\textsf{\textit{Emmentaler}} }
 \WithSuffix\newcommand\emmentaler*{\textsf{\textit{Emmentaler}}}

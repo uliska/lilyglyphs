@@ -87,4 +87,12 @@
 \input{commands/beamednotes.inp}
 
 
+% lilyglyphs logo to be used in texts about lilyglyphs
+% created by genGlyphCommands.py on 2012-11-10
+\newcommand*{\lilyglyphsBase}[1][]{%
+    \setkeys{lilyDesignOptions}{scale=0.9,raise=-0.8}%
+    \lilyPrintImage[#1]{lilyglyphs_logo}%
+}
+\newcommand*{\lilyglyphs}[1][]{\lilyglyphsBase[#1] }
+\WithSuffix\newcommand\lilyglyphs*[1][]{\lilyglyphsBase[#1]}
 
