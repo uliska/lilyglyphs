@@ -24,6 +24,8 @@
 *.png
 *.jpg
 
+# TexStudio helper files
+*.synctex.gz
 
 # exclude the whole deploy dir
 deploy/*
