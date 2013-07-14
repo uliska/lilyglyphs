@@ -103,7 +103,33 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Determine the glyph by its OpenType glyphName
+
+\usepackage{ifluatex,ifxetex}
+
+\ifluatex
+\usepackage{luaotfload,luacode} 
+\begin{luacode}
+documentdata = documentdata or { }
+
+local stringformat = string.format
+local texsprint = tex.sprint
+local slot_of_name = luaotfload.aux.slot_of_name
+
+documentdata.fontchar = function (chr)
+local chr = slot_of_name(font.current(), chr, false)
+if chr and type(chr) == "number" then
+texsprint
+(stringformat ([[\char"%X"]], chr))
+end
+end
+\end{luacode}
+
+\def\lilyGetGlyph#1{\directlua{documentdata.fontchar "#1"}}
+\fi
+
+\ifxetex
 \newcommand*{\lilyGetGlyph}[1]{\XeTeXglyph\XeTeXglyphindex"#1" }
+\fi
 
 % Determine the glyph by its OpenType character number
 % (these may change with new versions of the fonts!)
