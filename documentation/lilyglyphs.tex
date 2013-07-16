@@ -1,7 +1,7 @@
 \documentclass{OLLbook}
-
+%\usepackage{microtype} 
 \usepackage{lilyglyphsStyle}
-
+\usepackage{hologo}  % to typeset XeLaTeX and LuaTeX logos regardless of engine used
 \begin{document}
 
 % Insert a picture with a glyph list from LilyPond's glyph list
@@ -35,7 +35,7 @@
 \pagebreak
 
 \begin{authorAbstract}{Urs Liska}
-\lilyglyphs is a package that allows to include notational elements from the exceptional LilyPond notation software as standard elements in the continuous text of \XeLaTeX{} documents.
+\lilyglyphs is a package that allows to include notational elements from the exceptional LilyPond notation software as standard elements in the continuous text of \hologo{XeLaTeX} documents.
 
 \lilyglyphs is part of the \texttt{openLilyLib} project%
 \footnote{\url{www.openlilylib.org}}, 
@@ -54,7 +54,7 @@ Instead we are talking about inserting items like \quaver or \lilyRFZ within the
 To achieve this \lilyglyphs aims at making the notation font and notational elements of the LilyPond notation software available to \LaTeX{} documents.
 LilyPond is a notation software package that is a competitor in producing the most beautiful musical engraving on the market, and one of the foundations of this beauty is its \emmentaler font.
 The \emmentaler fonts are accessed through the \texttt{fontspec} package, and \lilyglyphs therefore relies on a \LaTeX{} distribution supporting \texttt{fontspec}. 
-It was written using \XeLaTeX, but should also work with LuaLaTeX -- although this hasn't been tested%
+It was written using \hologo{XeLaTeX}, but should also work with LuaLaTeX -- although this hasn't been tested%
 \footnote{Principally it is possible to extend the functionality so it would also work with plain \LaTeX, but as the package maintainer has neither experience nor active interest in this area this will only be implemented if there are volunteers who join us.}%
 .
 
@@ -224,7 +224,7 @@ As this doesn't well fit in the line of text you will want to adjust its size an
 This is done with the optional argument described in the previous subsection.
 
 First we increase the size of the glyph with the \texttt{scale} argument. We find that a scaling factor of 1.4 seems suitable:\\
-\cmd{lilyGlyph[scale=1.4]\{scripts.ufermata\}} -- \lilyGlyph[scale=1.4]{"scripts.ufermata"}
+\cmd{lilyGlyph[scale=1.4]\{scripts.ufermata\}} -- \lilyGlyph[scale=1.4]{scripts.ufermata}
 
 As you can see the glyph is -- as most \emmentaler glyphs are -- placed too low, so you have to add the \texttt{raise} argument. A value of 0.3 seems fine -- remember, the raise argument is interpreted as \emph{ex}, but you don't write down the unit.\\
  \cmd{lilyGlyph[scale=1.4,raise=0.3]\{scripts.ufermta\}} -- \lilyGlyph[scale=1.4,raise=0.6]{scripts.ufermata}
@@ -370,7 +370,7 @@ But as an additional step \cmd{lilyScaleImage} is called, and finally it uses \c
 I won't explain this in detail, but in effect it multiplies the \cmd{lilyEffectiveScale} calculated before with the ratio of the current font size to the \cmd{normalsize} size.
 
 What is finally given as the content to be printed is the basename of an image file.
-With \XeLaTeX this can be a file in .pdf, .png or .jpg format, but we highly recommend using .pdf files for sake of printing quality.
+With \hologo{XeLaTeX} this can be a file in .pdf, .png or .jpg format, but we highly recommend using .pdf files for sake of printing quality.
 
 As with printing \emmentaler glyphs there is no handling of design time options here, and for that reason you should never call this command directly from a document.
 Please use \cmd{lilyImage} instead which does the same as \cmd{lilyPrintImage} but additionally defaults the design time options to neutral values.
