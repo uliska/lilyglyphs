@@ -25,8 +25,26 @@
 \NeedsTeXFormat{LaTeX2e} 
 \ProvidesPackage{lilyglyphsStyle}
 
-\newcommand*{\emmentaler}{\textsf{\textit{Emmentaler}} }
-\WithSuffix\newcommand\emmentaler*{\textsf{\textit{Emmentaler}}}
+% Of course we need lilyglyphs itself :-)
+\RequirePackage{lilyglyphs}
+
+% Improve typography and paragraph layout
+\RequirePackage{microtype}
+
+% Suppress superfluous ligature
+\RequirePackage[english]{selnolig}
+
+% Typeset XeLaTeX and LuaTeX logos regardless of engine used
+\RequirePackage{hologo}  
+
+% fontspec base settings
+\defaultfontfeatures{Ligatures=TeX}
+\setmainfont{Linux Libertine O}
+\setsansfont[Scale=MatchLowercase,ItalicFont=LinBiolinumOI,BoldFont=LinBiolinumOB]{LinBiolinumO}
+\setmonofont[Scale=MatchLowercase]{DejaVu Sans Mono}
+
+% Enhanced table commands
+\RequirePackage{booktabs}
 
 % Common table format for reference tables
 \newenvironment{reftable}[2]
@@ -48,3 +66,94 @@
 	}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Character styles
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Format LaTeX or LilyPond commands like \env with a prepended backslash
+\newcommand*{\cmd}[1]{\env{\textbackslash #1}}
+
+% Format directory names
+\newcommand*{\dir}[1]{\texttt{#1}}
+
+% Format environment names
+\newcommand*{\env}[1]{\texttt{#1}}
+
+% Format package names
+\newcommand*{\package}[1]{\texttt{#1}}
+
+% Add a TODO item that is easily spotted
+\newcommand{\todo}[1]{{\color{red}{\textbf{\textsf{[TODO: #1]}}}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Other commands
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Reference an Issue on openLilyLib's Github account
+\newcommand*{\ghIssue}[1]{\href{https://github.com/openlilylib/lilyglyphs/issues/#1}{(GitHub-Issue ##1)}}
+
+% print "LilyPond" (may be formatted later)
+\newcommand*{\lilypond}{\texttt{LilyPond}}
+
+\newcommand*{\emmentaler}{\textsf{\textit{Emmentaler}} }
+\WithSuffix\newcommand\emmentaler*{\textsf{\textit{Emmentaler}}}
+
+% print "openLilyLib" (may be formatted later)
+\newcommand*{\openlilylib}{\texttt{openLilyLib}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Add fancyref for smart cross-references 
+\RequirePackage{fancyref}
+
+% categories for subsection and subsubsection:
+
+% subsection - subsec:
+
+\newcommand*{\fancyrefsubseclabelprefix}{subsec}
+
+\fancyrefaddcaptions{english}{%
+  \providecommand*{\frefsubsecname}{subsection}%
+  \providecommand*{\Frefsubsecname}{Subsection}%
+}
+
+\frefformat{plain}{\fancyrefsubseclabelprefix}{\frefsubsecname\fancyrefdefaultspacing#1}
+\Frefformat{plain}{\fancyrefsubseclabelprefix}{\Frefsubsecname\fancyrefdefaultspacing#1}
+
+\frefformat{vario}{\fancyrefsubseclabelprefix}{%
+  \frefsubsecname\fancyrefdefaultspacing#1#3%
+}
+\Frefformat{vario}{\fancyrefsubseclabelprefix}{%
+  \Frefsubsecname\fancyrefdefaultspacing#1#3%
+}
+
+% subsubsection - subsubsec:
+
+\newcommand*{\fancyrefsubsubseclabelprefix}{subsubsec}
+
+\fancyrefaddcaptions{english}{%
+  \providecommand*{\frefsubsubsecname}{subsection}% the same as for subsection
+  \providecommand*{\Frefsubsubsecname}{Subsection}%
+}
+
+\frefformat{plain}{\fancyrefsubsubseclabelprefix}{\frefsubsubsecname\fancyrefdefaultspacing#1}
+\Frefformat{plain}{\fancyrefsubsubseclabelprefix}{\Frefsubsubsecname\fancyrefdefaultspacing#1}
+
+\frefformat{vario}{\fancyrefsubsubseclabelprefix}{%
+  \frefsubsubsecname\fancyrefdefaultspacing#1#3%
+}
+\Frefformat{vario}{\fancyrefsubsubseclabelprefix}{%
+  \Frefsubsubsecname\fancyrefdefaultspacing#1#3%
+}
+
+% End fancyref
+%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Options for use of hyperlinks
+% (make sure this is included last)
+\RequirePackage[%
+	colorlinks,
+	urlcolor=blue,
+	bookmarks=true,
+	bookmarksnumbered=true]{hyperref}

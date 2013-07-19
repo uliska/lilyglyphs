@@ -1,7 +1,5 @@
-\documentclass{OLLbook}
-%\usepackage{microtype} 
+\documentclass[oneside]{scrreprt}
 \usepackage{lilyglyphsStyle}
-\usepackage{hologo}  % to typeset XeLaTeX and LuaTeX logos regardless of engine used
 \begin{document}
 
 % Insert a picture with a glyph list from LilyPond's glyph list
@@ -21,7 +19,7 @@
 % Title page
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\setbookmaintitle{The \lilyglyphs[raise=0.1]Package\\~\\
+\title{The \lilyglyphs[raise=0.1]Package\\~\\
 	\normalsize Version 0.2.0}
 \author{Urs Liska}
 
@@ -34,16 +32,16 @@
 
 \pagebreak
 
-\begin{authorAbstract}{Urs Liska}
-\lilyglyphs is a package that allows to include notational elements from the exceptional LilyPond notation software as standard elements in the continuous text of \hologo{XeLaTeX} documents.
+\begin{abstract}
+\lilyglyphs is a \LaTeX{} package that allows to include notational elements from the exceptional LilyPond notation software as standard elements in the continuous text of \hologo{XeLaTeX} or  \hologo{LuaLaTeX}documents.
 
 \lilyglyphs is part of the \texttt{openLilyLib} project%
 \footnote{\url{www.openlilylib.org}}, 
 a family of resources for the LilyPond notation software and \LaTeX{} authoring about music.
-\end{authorAbstract}
+\end{abstract}
 
 \vfill
-\input{copyright-notice.inp}
+%\input{copyright-notice.inp}
 
 \chapter{Introduction}
 \label{chap:introduction}
@@ -909,6 +907,7 @@ You couldn't use a G clef within continuous text without severely \clefG damagin
 But if you scale them to a size that doesn't disturb line spacing, they look quite disproportionate, especially when combined with other elements: \mbox{ \clefCInline \natural.}
 Therefore we provide the clefs in two forms, a standard form which can be problematic in continuous text, and an -Inline version which looks somewhat funny but can be used within the line.
 The clef commands are available in the starred and in the unstarred form.
+
 See \fref{tab:clefs} for the available predefined commands.
 
 \begin{reftable}{Clefs}{clefs}
