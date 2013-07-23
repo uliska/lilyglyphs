@@ -90,7 +90,7 @@
 	\lilyScaleImage%
 	% Print the image in a raisebox
 	\raisebox{\lilyEffectiveRaise ex}{%
-		\includegraphics[scale=\lilyImageEffectiveScale]{#2}%
+		\includegraphics[scale=\lilyImageEffectiveScale]{#2.pdf}%
 	}%
 }
 
