@@ -17,6 +17,7 @@
 *.bbl
 *.blg
 *.dvi
+*.synctex.gz
 
 *.pyc
 
