@@ -14,27 +14,59 @@
 
 \pagebreak
 
+\section*{Quick Start}
+\lilyglyphs allows to include notational elements from the exceptional LilyPond notation software in the continuous text of \LaTeX{} documents.
+In contrast to full-fledged music examples this package inserts items like characters, for example \lilyRFZ or \crescHairpin.
+For inserting music examples we also provide the \package{musicexamples} package%
+\footnote{\url{http://www.openlilylib.org/musicexamples}}.
+
+\lilyglyphs uses \package{fontspec} to perform its magic, therefore you need \hologo{XeLaTeX} or \hologo{LuaLaTeX} to compile documents.
+
+If you have obtained the package as part of a \TeX{} distribution or by downloading and installing it%
+\footnote{See \fref{sec:installation}} the following Minimal Working Example should get you going in a minute:
+
+\begin{lstlisting}[language={[LaTeX]TeX}]
+% Should work with any documentclass
+\documentclass{article}
+% lilyglyphs requires fontspec, so you have to
+% compile the document with luatex or xetex.
+% Currently the package doesn't support any options
+\usepackage{lilyglyphs}
+\begin{document}
+\flatflat or \clefG % predefined commands
+\crotchetRest* % starred versions without trailing space
+\lilyGlyph{timesig.neomensural64} % access "Emmentaler" glyphs by their name
+\lilyDynamics[scale=1.1,raise=-0.3] % optional placement arguments.
+\end{document}
+\end{lstlisting}
+
+In the text you can use predefined commands like \flatflat or \clefGInline -- starred versions of commands don't insert a space afterwards and can be used in combination or before punctuations like \crotchetRest*.
+For the available predefined commands consult the reference in \fref{chap:list_predefined_commands}.
+
+Glyphs that are part of LilyPond's \emmentaler font but not available as predefined command yet can be accessed through the generic command \cmd{lilyGlyph\{GLYPHNAME\}}, the glyph names being listed in \url{http://www.lilypond.org/doc/v2.16/Documentation/notation/the-feta-font.html}.
+As an example take this neomensural time signature \lilyGlyph[scale=1.2, raise=.5]{timesig.neomensural64}.\\
+Dynamics have a special command \cmd{lilyDynamics\{mf\}} which simply takes a string of Dynamics letters as its argument.\\
+
+\LARGE \lilyglyphs[raise=.1] \hspace{-0.3ex} elements \tiny automatically \halfNoteRest \normalsize or manually \huge \halfNoteRest \normalsize scale with the \halfNoteRest text size commands.
+
+All commands accept an optional argument containing \texttt{key=value} pairs.
+Currently the keys \texttt{scale} and \texttt{raise} are supported. 
+\texttt{scale} scales the size of the glyph by the given factor while \texttt{raise} shifts it vertically by the given amount interpreted as \emph{ex}.
+Directly accessed glyphs usually need these options, the above time signature having been scaled by 1.2 and raised by 0.5.
+
+Apart from the \emmentaler glyphs \lilyglyphs can include any notational construct that can be produced with LilyPond.
+Please refer to \fref{sec:generating_commands_image} for detailed instructions how to create custom commands.
+
 \tableofcontents
 \vfill
 
 \pagebreak
-
-\begin{abstract}
-\lilyglyphs is a \LaTeX{} package that allows to include notational elements from the exceptional LilyPond notation software as standard elements in the continuous text of \hologo{XeLaTeX} or  \hologo{LuaLaTeX}documents.
-
-\lilyglyphs is part of the \texttt{openLilyLib} project%
-\footnote{\url{www.openlilylib.org}}, 
-a family of resources for the LilyPond notation software and \LaTeX{} authoring about music.
-\end{abstract}
 
 \vfill
 %\input{copyright-notice.inp}
 
 \chapter{Introduction}
 \label{chap:introduction}
-The package \lilyglyphs is made for authors who want to include single musical elements in their \LaTeX{} texts. 
-This is not meant to be used for full-fledged musical examples with staves, for which one would use packages like \texttt{musixtex} or the LilyPond software together with lilypond-book\footnote{\url{http://www.lilypond.org}}. 
-Instead we are talking about inserting items like \quaver or \lilyRFZ within the paragraphs of continuous text.
 
 To achieve this \lilyglyphs aims at making the notation font and notational elements of the LilyPond notation software available to \LaTeX{} documents.
 LilyPond is a notation software package that is a competitor in producing the most beautiful musical engraving on the market, and one of the foundations of this beauty is its \emmentaler font.
@@ -65,7 +97,7 @@ But it is better to follow the documentation for package designers to create suc
 If you feel you have specific commands that would be a valuable addition to the package please don't hesitate to contact us.
 
 \section{Installation}
-\label{section:installation}
+\label{sec:installation}
 As the procedures necessary to make this package work for you may vary depending on your operating system and \LaTeX{} distribution, we can only give you some general hints on how to set up your system.
 
 First of all you have to decide how you obtain the package.
