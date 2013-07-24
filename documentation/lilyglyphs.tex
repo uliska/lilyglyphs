@@ -68,33 +68,47 @@ Please refer to \fref{sec:generating_commands_image} for detailed instructions h
 \chapter{Introduction}
 \label{chap:introduction}
 
-To achieve this \lilyglyphs aims at making the notation font and notational elements of the LilyPond notation software available to \LaTeX{} documents.
-LilyPond is a notation software package that is a competitor in producing the most beautiful musical engraving on the market, and one of the foundations of this beauty is its \emmentaler font.
-The \emmentaler fonts are accessed through the \texttt{fontspec} package, and \lilyglyphs therefore relies on a \LaTeX{} distribution supporting \texttt{fontspec}. 
-It was written using \hologo{XeLaTeX}, but should also work with LuaLaTeX -- although this hasn't been tested%
-\footnote{Principally it is possible to extend the functionality so it would also work with plain \LaTeX, but as the package maintainer has neither experience nor active interest in this area this will only be implemented if there are volunteers who join us.}%
-.
+\lilyglyphs came into existence when Urs Liska looked for a way to include arbitrary notational elements in the continuous text of \LaTeX{} documents.
+Unfortunately all packages he could find were quite restricted in the number of available symbols and/or their flexibility in scaling with the text size.
+Moreover no solution came near the beauty of the engraving of LilyPond%
+\footnote{\url{http://www.lilypond.org}}.
+Therefore Urs decided to “roll his own” package that makes the notation font and notational elements of LilyPond available to \LaTeX{} documents.
 
-The \emmentaler font only provides a subset of LilyPond's notational capabilities, as LilyPond creates many symbols by combining glyphs and drawing explicitely.
-To also access this kind of symbols we have chosen an approach that uses small pdf images to print glyphs not present in \emmentaler*.
-There is an accompanying Python script to make the creation of new arbitrary symbols as easy as possible.
+LilyPond is a promising competitor in producing the most beautiful musical engraving on the market, and one of the foundations of this beauty is its \emmentaler font.
+The glyphs of the \emmentaler font are accessed through the \package{fontspec} package, and \lilyglyphs therefore relies on a \LaTeX{} distribution supporting \texttt{fontspec}. 
+It was written using \hologo{XeLaTeX}, but thanks to the contribution of Dave Bellows%
+\footnote{\url{http://www.davebellows.com}}
+it now also works with \hologo{LuaLaTeX}%
+\footnote{Principally it is possible to extend the functionality so it would also work with plain \LaTeX{} by accessing non-OpenType variants of the font, but as the package maintainer has neither experience nor active interest in this area this will only be implemented if there are volunteers who join us.}.
 
-The \lilyglyphs package was initiated and is maintained by Urs Liska, and is hosted as a git repository on GitHub\footnote{\url{http://www.github.com/lilyglyphs/lilyglyphs} -- Contact: \url{mailto:lilyglyphs@ursliska.de}}.
-If you would like to participate in its development, don't hesitate to contact us.
+The \emmentaler font only provides a subset of LilyPond's notational capabilities, as LilyPond draws many symbols itself.
+After some experiments with drawing such elements in \LaTeX{} it became clear that this approach isn't really maintainable -- and especially wouldn't provide a sufficient output quality.
+Therefore this kind of elements is included through small \textsc{pdf} image files that have explicitely been created with LilyPond.
+
+Great care has been taken to make the notational elements scale well with the surrounding text font size.
+Each single element can be scaled and shifted vertically, but these settings can also be done document-wide to accomodate for unusual body fonts that might not match too well with \lilyglyphs*.
 
 \bigskip
-For activating the capabilities of \lilyglyphs just write \cmd{usepackage\{lilyglyphs\}} in the preamble of your document. 
-Then you can use the commands defined by the package or access glyphs directly through one of the generic access commands.
-Both are described in detail later, in this section you'll only find a general overview of the possibilities.
+The coverage of glyphs is far from being comprehensive, but the package is already very usable for real-world documents.
+Any \emmentaler glyph that isn't covered yet by a predefined command can be accessed by its name.
+Other, image based commands (for example arbitrarily complex musical expressions) can be added through a process that has been made as simple as possible (although it involves using LilyPond and possibly Python).
+LilyPond Templates and helper functions are available to compile music input to the right form to be used as pdf images.
+And Python scripts have been provided to streamline the whole process up to generating the \LaTeX{} source for new predefined commands.
 
-Glyphs are scaled to fit normal text fonts, and the scaling automatically follows the scaling of the text. 
-This also means they are influenced by \LaTeX 's text size commands, so you can write something like \{\cmd{Large \textbackslash flat\}} to create a larger {\Large \flat}glyph than the normal \flat one or even something really \cmd{Huge} {\Huge \lilyDynamics{sfz}} -- which will probably spoil your line spacing if used within a paragraph. 
-You can influence the size and vertical position of the glyphs -- with the predefined commands as well as the generic ones -- individually or globally through the use of optional arguments.
-This way you can also accomodate unusual text fonts that might otherwise not go well together with \lilyglyphs*.
+As the number of possible commands seems endless we would be extremely happy about any contribution of new material.
+But there are also technical details with regard to \LaTeX{} programming where additional competence would be highly welcome.
 
-You can always combine commands (or glyphs created through generic access as shown in the next section) to create new commands for later reuse. 
-But it is better to follow the documentation for package designers to create such commands in the way suggested also for package designers in \fref{sec:howto_predefined_commands}.
-If you feel you have specific commands that would be a valuable addition to the package please don't hesitate to contact us.
+\bigskip
+
+Originally \lilyglyphs was a single project but by now it is part of a rather large family of projects around engraving with LilyPond and typesetting with \LaTeX: openLilyLib%
+\footnote{\url{http://www.openlilylib.org}}.
+If you have come here mainly as a \LateX{} document author you should consider checking out the \package{musicexamples} package.
+If you are also interested in LilyPond the tutorials section, lilylib and lilypond-doc might also be worth a closer look.
+
+\lilyglyphs is developed in a Git repository on GitHub%
+\footnote{\url{https://github.com/openlilylib/lilyglyphs}}.
+There you can inspect the source, clone or fork the repository, and submit issue reports.
+If you are interested in participating in the development of \lilyglyphs*, don't hesitate to contact \url{mailto:ul@openlilylib.org}.
 
 \section{Installation}
 \label{sec:installation}
