@@ -46,6 +46,14 @@
 % Enhanced table commands
 \RequirePackage{booktabs}
 
+% Typeset listings
+% (Special styles defined in OLLstyles.sty)
+\RequirePackage{listings}
+% Format listings with typewriter font by default
+\lstset{
+    frame=single,
+    basicstyle=\fontspec{Liberation Mono}\footnotesize}
+
 % Common table format for reference tables
 \newenvironment{reftable}[2]
 	{%
