@@ -282,7 +282,9 @@ In such a case you will have to either change the predefined command in the libr
 You can write arbitrarily dotted symbols by adding \cmd{lilyPrintMoreDots} after the dotted symbol. 
 This command uses the existing dot settings (scale and raise) and prints another dot. 
 By default it has a gap of 0.25ex, but you can override this by passing a number as an optional argument, which is interpreted as \emph{ex}.
-For example if you take the command \cmd{halfNoteRestDotted}, which prints a dotted half note rest: \halfNoteRestDotted  you can easily add more dots through \cmd{halfNoteRestDotted*\textbackslash lilyPrintMoreDots}: \halfNoteRestDotted*\lilyPrintMoreDots (note the use of the starred and unstarred versions).
+
+\todo{check the (commented) paragraph (for dotted issue):}
+%For example if you take the command \cmd{halfNoteRestDotted}, which prints a dotted half note rest: \halfNoteRestDotted{} you can easily add more dots through \cmd{halfNoteRestDotted\textbackslash lilyPrintMoreDots}: \halfNoteRestDotted\lilyPrintMoreDots{} (note the use of the starred and unstarred versions).
 
 Please note that you should only call \cmd{lilyPrintMoreDots} immediately after calling a \cmd{...Dotted} command. Otherwise you may get surprising results or even errors because the underlying key-value variables are inititialized wrongly or not at all.
 
@@ -593,10 +595,11 @@ But if you pass an number as an optional argument this is interpreted as a diffe
 This command is available in a starred and an unstarred version.
 Use the unstarred version when you need a space after the symbol, the starred one when you have a punctuation or another dot after it.
 
-\noindent \cmd{halfNoteRestDotted*}\cmd{lilyPrintMoreDots*}! 
-\halfNoteRestDotted*\lilyPrintMoreDots*!\\
-\cmd{halfNoteRestDotted*[scale=1.5]}\cmd{lilyPrintMoreDots} and 
-\halfNoteRestDotted*[scale=1.5]\lilyPrintMoreDots and 
+\todo{check the (commented) paragraphs (for dotted issue):}
+%\noindent \cmd{halfNoteRestDotted}\cmd{lilyPrintMoreDots}! 
+%\halfNoteRestDotted\lilyPrintMoreDots!\\
+%\cmd{halfNoteRestDotted[scale=1.5]}\cmd{lilyPrintMoreDots} and 
+%\halfNoteRestDotted[scale=1.5]\lilyPrintMoreDots and 
 
 
 \chapter{Easily create commands with Python scripts}
@@ -1024,15 +1027,16 @@ See \fref{tab:rests} for the implemented commands.
 
 For more information on how to use \cmd{lilyPrintMoreDots} to produce multiply dotted rests please see \fref{sec:dotted_symbols}.
 
+\todo{check the (commented) paragraph (for dotted issue):}
 \begin{reftable}{Rests}{rests}
 \wholeNoteRest & \cmd{wholeNoteRest} & Whole Note Rest\\
 \wholeNoteRestDotted & \cmd{wholeNoteRestDotted} & DottedWhole Note Rest\\
 \midrule
 \halfNoteRest & \cmd{halfNoteRest} & Half Note Rest\\
-\halfNoteRestDotted & \cmd{halfNoteRestDotted} & Dotted Half Note Rest\\
-	\halfNoteRestDotted\lilyPrintMoreDots & 
-	\cmd{halfNoteRestDotted}\cmd{lilyPrintMoreDots} &
-	Example of Double Dotted Rest\\
+%\halfNoteRestDotted & \cmd{halfNoteRestDotted} & Dotted Half Note Rest\\
+%	\halfNoteRestDotted\lilyPrintMoreDots & 
+%	\cmd{halfNoteRestDotted}\cmd{lilyPrintMoreDots} &
+%	Example of Double Dotted Rest\\
 \midrule
 \crotchetRest & \cmd{crotchetRest} & Crotchet Rest\\
 \crotchetRestDotted & \cmd{crotchetRestDotted} & Dotted Crotchet Rest\\
