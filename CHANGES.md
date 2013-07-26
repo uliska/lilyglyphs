@@ -28,6 +28,8 @@ This document lists all changes in the development of *lilyglyphs*.
 All changes should be present in the manual, but only the finished versions printed bold are available as pdf downloads. (Latest changes are only found in the master branch of the git repository. They should be documentd in the lilyglyphs.tex file there too.)
 So the lines above the topmost bold version line represent the changes not available in the downloadable pdf documentation.
 
+- lilyglyphs now also works with LuaLaTeX!  
+  (Thanks to Dave Bellows)
 - Drop support/necessity for starred commands  
   All commands by default now don't print a space after them.
   To achieve that effect one has to write a pair of curly braces.  
