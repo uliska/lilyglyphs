@@ -6,8 +6,8 @@
 % Title page
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\title{The \lilyglyphs[raise=0.1]Package\\~\\
-	\normalsize Version 0.2.0}
+\title{\lilyglyphs[scale=1.5]\\~\\
+	\normalsize Version 0.2.1}
 \author{Urs Liska}
 
 \maketitle
@@ -15,47 +15,50 @@
 \pagebreak
 
 \section*{Quick Start}
-\lilyglyphs allows to include notational elements from the exceptional LilyPond notation software in the continuous text of \LaTeX{} documents.
-In contrast to full-fledged music examples this package inserts items like characters, for example \lilyRFZ or \crescHairpin.
-For inserting music examples we also provide the \package{musicexamples} package%
+\lilyglyphs{} allows to include notational elements from the LilyPond%
+\footnote{\url{http://www.lilypond.org}}
+notation software like characters in the continuous text of \LaTeX{} documents.
+For inserting full-fledged music examples we also provide the \package{musicexamples} package%
 \footnote{\url{http://www.openlilylib.org/musicexamples}}.
 
-\lilyglyphs uses \package{fontspec} to perform its magic, therefore you need \hologo{XeLaTeX} or \hologo{LuaLaTeX} to compile documents.
+\lilyglyphs{} relies on \hologo{XeLaTeX} or \hologo{LuaLaTeX} to compile documents because it accesses glyphs from an OpenType font through the \package{fontspec} package.
 
 If you have obtained the package as part of a \TeX{} distribution or by downloading and installing it%
 \footnote{See \fref{sec:installation}} the following Minimal Working Example should get you going in a minute:
 
+\medskip
+
 \begin{lstlisting}[language={[LaTeX]TeX}]
-% Should work with any documentclass
-\documentclass{article}
-% lilyglyphs requires fontspec, so you have to
-% compile the document with luatex or xetex.
-% Currently the package doesn't support any options
-\usepackage{lilyglyphs}
+\documentclass{article} % Should work with any documentclass
+\usepackage{fontspec} % Is necessary to access OpenType fonts
+\usepackage{lilyglyphs} % Currently there are no package options available
 \begin{document}
-\flatflat or \clefG % predefined commands
-\crotchetRest* % starred versions without trailing space
-\lilyGlyph{timesig.neomensural64} % access "Emmentaler" glyphs by their name
-\lilyDynamics[scale=1.1,raise=-0.3] % optional placement arguments.
+\flatflat{} or \clefGInline. % Predefined commands, 
+                             % Use {} to allow traling whitespace
+\lilyGlyph{timesig.neomensural64} % Access "Emmentaler" glyphs by their name
+                              % Generic commands have one mandatory argument.
+\lilyDynamics[scale=1.1,raise=-0.3]{mf} % Optional placement arguments.
 \end{document}
 \end{lstlisting}
 
-In the text you can use predefined commands like \flatflat or \clefGInline -- starred versions of commands don't insert a space afterwards and can be used in combination or before punctuations like \crotchetRest*.
+\medskip
+In the text you can use predefined commands like \flatflat{} or \clefGInline.
+Commands without the pair of curly braces swallow any trailing whitespace -- use these before punctuations or to combine symbols.
 For the available predefined commands consult the reference in \fref{chap:list_predefined_commands}.
 
-Glyphs that are part of LilyPond's \emmentaler font but not available as predefined command yet can be accessed through the generic command \cmd{lilyGlyph\{GLYPHNAME\}}, the glyph names being listed in \url{http://www.lilypond.org/doc/v2.16/Documentation/notation/the-feta-font.html}.
+Glyphs that are part of LilyPond's \emmentaler{} font but not covered by a predefined command yet can be accessed through the generic command \cmd{lilyGlyph\{GLYPHNAME\}}, the glyph names being listed in \url{http://www.lilypond.org/doc/v2.16/Documentation/notation/the-feta-font.html}.
 As an example take this neomensural time signature \lilyGlyph[scale=1.2, raise=.5]{timesig.neomensural64}.\\
-Dynamics have a special command \cmd{lilyDynamics\{mf\}} which simply takes a string of Dynamics letters as its argument.\\
+Dynamics have a special command \cmd{lilyDynamics\{mf\}} which simply takes a string of Dynamics letters as its argument.
 
-\LARGE \lilyglyphs[raise=.1] \hspace{-0.3ex} elements \tiny automatically \halfNoteRest \normalsize or manually \huge \halfNoteRest \normalsize scale with the \halfNoteRest text size commands.
+\lilyglyphs{} elements \tiny automatically \halfNoteRest{} \normalsize or manually \huge \halfNoteRest{} \normalsize scale with the \halfNoteRest{} text size commands.
 
 All commands accept an optional argument containing \texttt{key=value} pairs.
-Currently the keys \texttt{scale} and \texttt{raise} are supported. 
-\texttt{scale} scales the size of the glyph by the given factor while \texttt{raise} shifts it vertically by the given amount interpreted as \emph{ex}.
-Directly accessed glyphs usually need these options, the above time signature having been scaled by 1.2 and raised by 0.5.
+Currently two keys are supported:
+\texttt{scale} multiplies the size of the glyph by the given factor while \texttt{raise} shifts it vertically by the given amount interpreted as \emph{ex}.
+Glyphs accessed individually need these options in general, the above neomensural time signature having actually been scaled by 1.2 and raised by 0.5.
 
-Apart from the \emmentaler glyphs \lilyglyphs can include any notational construct that can be produced with LilyPond.
-Please refer to \fref{sec:generating_commands_image} for detailed instructions how to create custom commands.
+Apart from the Emmentaler glyphs \lilyglyphs{} can include any notational construct that LilyPond can produce.
+Please refer to \fref{sec:generic_access_commands} to learn about the \emph{generic access commands} and to \fref{sec:generating_commands_image} for detailed instructions how to create custom commands.
 
 \tableofcontents
 \vfill
@@ -68,91 +71,80 @@ Please refer to \fref{sec:generating_commands_image} for detailed instructions h
 \chapter{Introduction}
 \label{chap:introduction}
 
-\lilyglyphs came into existence when Urs Liska looked for a way to include arbitrary notational elements in the continuous text of \LaTeX{} documents.
+\lilyglyphs{} came into existence when Urs Liska looked for a way to include arbitrary notational elements in the continuous text of \LaTeX{} documents.
 Unfortunately all packages he could find were quite restricted in the number of available symbols and/or their flexibility in scaling with the text size.
 Moreover no solution came near the beauty of the engraving of LilyPond%
 \footnote{\url{http://www.lilypond.org}}.
-Therefore Urs decided to “roll his own” package that makes the notation font and notational elements of LilyPond available to \LaTeX{} documents.
+Therefore Urs decided to “roll his own” package and make the notation font and notational elements of LilyPond available to \LaTeX{} documents.
 
-LilyPond is a promising competitor in producing the most beautiful musical engraving on the market, and one of the foundations of this beauty is its \emmentaler font.
-The glyphs of the \emmentaler font are accessed through the \package{fontspec} package, and \lilyglyphs therefore relies on a \LaTeX{} distribution supporting \texttt{fontspec}. 
+LilyPond is a promising competitor in producing the most beautiful musical engraving on the market, and one of the foundations of this beauty is its \emmentaler{} font.
+\lilyglyphs{} accesses the Emmentaler font through the \package{fontspec} package and inserts its glyphs in the continuous text applying sophisticated control over scaling and spacing.
+Therefore it relies on a \LaTeX{} engine supporting \package{fontspec}. 
 It was written using \hologo{XeLaTeX}, but thanks to the contribution of Dave Bellows%
 \footnote{\url{http://www.davebellows.com}}
 it now also works with \hologo{LuaLaTeX}%
 \footnote{Principally it is possible to extend the functionality so it would also work with plain \LaTeX{} by accessing non-OpenType variants of the font, but as the package maintainer has neither experience nor active interest in this area this will only be implemented if there are volunteers who join us.}.
 
-The \emmentaler font only provides a subset of LilyPond's notational capabilities, as LilyPond draws many symbols itself.
+The Emmentaler font only provides a subset of LilyPond's notational capabilities, as LilyPond draws many symbols itself.
 After some experiments with drawing such elements in \LaTeX{} it became clear that this approach isn't really maintainable -- and especially wouldn't provide a sufficient output quality.
 Therefore this kind of elements is included through small \textsc{pdf} image files that have explicitely been created with LilyPond.
 
 Great care has been taken to make the notational elements scale well with the surrounding text font size.
-Each single element can be scaled and shifted vertically, but these settings can also be done document-wide to accomodate for unusual body fonts that might not match too well with \lilyglyphs*.
+Each single element can be scaled and vertically shifted, but the settings can also be done per document to accomodate for unusual body fonts that might not match too well with \lilyglyphs.
 
-\bigskip
+\medskip 
 The coverage of glyphs is far from being comprehensive, but the package is already very usable for real-world documents.
-Any \emmentaler glyph that isn't covered yet by a predefined command can be accessed by its name.
-Other, image based commands (for example arbitrarily complex musical expressions) can be added through a process that has been made as simple as possible (although it involves using LilyPond and possibly Python).
-LilyPond Templates and helper functions are available to compile music input to the right form to be used as pdf images.
-And Python scripts have been provided to streamline the whole process up to generating the \LaTeX{} source for new predefined commands.
+Any Emmentaler glyph that isn't covered yet by a predefined command can be accessed by its name.
+Other -- image based -- commands (for example arbitrarily complex musical expressions) can be added through a process that has been made as simple as possible (although it involves using external software such as LilyPond and possibly Python).
+Details about extending \lilyglyphs{} with additional commands can be found in \fref{chap:python_scripts}.
+
 
 As the number of possible commands seems endless we would be extremely happy about any contribution of new material.
 But there are also technical details with regard to \LaTeX{} programming where additional competence would be highly welcome.
 
 \bigskip
 
-Originally \lilyglyphs was a single project but by now it is part of a rather large family of projects around engraving with LilyPond and typesetting with \LaTeX: openLilyLib%
+Originally \lilyglyphs{} was a single project but by now it is part of a rather large family of projects around engraving musical scores with LilyPond and typesetting with \LaTeX: openLilyLib%
 \footnote{\url{http://www.openlilylib.org}}.
-If you have come here mainly as a \LaTeX{} document author you should consider checking out the \package{musicexamples} package.
-If you are also interested in LilyPond the tutorials section, lilylib and lilypond-doc might also be worth a closer look.
+If you have come here mainly as a \LaTeX{} document author you should also have a look at the \package{musicexamples} package%
+\footnote{\url{http://www.openlilylib.org/musicexamples}}.
+If you are also interested in LilyPond itself you might find the tutorials section, \package{lilylib} and \package{lilypond-doc} interesting too  .
 
-\lilyglyphs is developed in a Git repository on GitHub%
+\lilyglyphs{} is developed in a Git repository on GitHub%
 \footnote{\url{https://github.com/openlilylib/lilyglyphs}}.
 There you can inspect the source, clone or fork the repository, and submit issue reports.
-If you are interested in participating in the development of \lilyglyphs*, don't hesitate to contact \url{mailto:ul@openlilylib.org}.
+If you are interested in participating in the development of \lilyglyphs, don't hesitate to contact us directly\footnote{\url{mailto:ul@openlilylib.org}}.
 
 \section{Installation}
 \label{sec:installation}
-As the procedures necessary to make this package work for you may vary depending on your operating system and \LaTeX{} distribution, we can only give you some general hints on how to set up your system.
 
-First of all you have to decide how you obtain the package.
-There are two main ways, and both have their pros and cons.
-You can either clone the GitHub repository or download one of the archived versions of the package.
+There are several ways to get \lilyglyphs{} up and running.
+If you have got it as part of your \LaTeX{} distribution you should be able to simply \emph{use} the package and start typing.
+If your distribution doesn't contain \lilyglyphs{} yet you can download the package from CTAN%
+\footnote{URL not yet known.}  
+or from openLilyLib's website%
+\footnote{\url{http://www.openlilylib.org/lilyglyphs}}.
+In this case it should be enough to simply unpack the downloaded archive to a directory within your \package{texmf} tree and possibly run \texttt{texhash} -- please refer to the documentation of your distribution for details on making packages available.
 
-The recommended way to get \lilyglyphs is to clone the GitHub repository.
-If you consider contributing to the package it is preferable to first fork the repository, then clone into the fork and add the original repository as an additional remote.
-This way you can easily apply any changes, push them to your fork and send us a pull request.
+The recommended -- although slightly more involved -- way to get \lilyglyphs{} is to clone or fork the GitHub repository at \url{https://github.com/openlilylib/lilyglyphs}.
+If you are completely sure that you'll never contribute to the package then cloning directly will be somewhat more straightforward for you.
+But if there is any chance you might someday contribute something it is a better idea to first fork the repository, clone your personal fork and then add the original repository as an additional remote.
+Please note that in our opinion intense use of the package quite naturally leads to contributing.
 
-There is one important issue to consider using the original repository: You will need working installations of both LilyPond and Python on your system to set the package up.
-This is because the pdf files that are used for the graphics driven commands aren't tracked in Git.
-When you have cloned the repository for the first time or have fetched updates that include new image files, you will have to run the \texttt{rebuild-pdfs.py} script in the \texttt{/py} scripts directory of the package.
-This will run LilyPond multiple times to create the necessary image files.
-Without these files the respective commands won't compile in your \LaTeX{} documents.
-And if you think you might do without this subset of the available commands, consider that you won't even be able to compile the manual from its .tex source, which isn't included as a PDF file either -- another issue to consider.
-But since you are reading this, you will probably have already managed to download the PDF version from GitHub \dots
+\todo{Does one have to uninstall the distribution version of the package in order to use the Git one?
+Or does a package in the personal \texttt{texmf} tree “hides” the distribution's one?}
 
-The big advantage of directly using the repository is that it is the easiest way to get updates that might occur quite often. 
-Each time someone adds new items to the list of commands they will be instantly accessible through the repository, but regular releases will happen much less frequently.
-If updates should somehow break things in existing documents you can easily (and temporarily) check out the earlier version of the package that you used when originally writing your documents.
-Another advantage of the repository version is that you have all the tools at hand (especially the Python scripts) that make your life easier if you want to extend the package four yourself.
+The most immediate advantage of using \lilyglyphs{} through the Git repository is that it is the easiest way to keep the package up to date.
+Each time someone adds new items to the list of commands they will be instantly accessible through the repository while regular releases will happen much less frequently.
+And if updates should somehow break things in existing documents you can easily (and temporarily) check out the earlier version of the package you had used when originally writing your documents.
+Another advantage of the repository version is that you have “direct access” to extending the package with predefined commands in a way that makes it for us easy to incorporate your contribution in the official package.
 
-If you know that you will only \emph{use} the \lilyglyphs package, then you can download one of the archived versions from the download page on the package's GitHub site.
-These versions contain all necessary binary files to use the package from your documents, but strips off any supplementary files that you might need to extend the package.
+If you haven't got \lilyglyphs{} through your \LaTeX{} distribution you may have to take care that you use a sufficiently current distribution.
+Development of \package{fontspec} and \hologo{LuaLaTeX} are quite active, and we know that for running \lilyglyphs{} with \hologo{LuaLaTeX} fairly recent versions of its packages are necessary. 
+If you experience any issues with this or other topics during installation please give us feedback so we can improve our documentation.
 
-An “intermediate” solution would be to download an automatically archived version of the complete repository. 
-This will contain the scripts and the supplementary files, but not the binary files.
-You should be able to download archives with the binary files for any released version from the download page.
-
-\medskip
-The initial requirement is to make the package file (lilyglyphs.sty) available to your \LaTeX{} distribution. \textit{The usual way to achieve this is to extract the archive or clone the repository to a place in the \LaTeX{} search path. This might for example be a subfolder of \texttt{texmf/tex/latex} in your home directory. On Linux you'd have to run \texttt{texhash ~/texmf} afterwards to update \LaTeX's cache.}
-
-Of course the fonts have to be accessible to \texttt{fontspec}. 
-Please refer to the \texttt{fontspec} documentation on how to make fonts visible to it. 
-
-\textit{On a Linux system it may be enough to copy the \emmentaler font files to your home directory's .fonts directory or in a new subdirectory of it, possibly running \texttt{fc-cache} afterwards to update the fontconfig cache. 
-The font files are located in the usr/share/lilypond/current/fonts/otf subdirectory of your LilyPond installation. 
-Eight .otf files (representing different optical sizes, see \fref{sec:optical_size}) are also included in the distribution archive of \lilyglyphs}.
-
-If you experience any issues during installation that would call for diferrent instructions then please provide us some feedback.
+\section{License}
+\label{sec:license}
 
 \chapter{Usage}
 \label{chap:usage}
