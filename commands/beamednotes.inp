@@ -36,14 +36,7 @@
 
 % two beamed quavers with diagonal beam
 % created by buildglyphimages.py on 2012-11-08
-\newcommand*{\twoBeamedQuaversBase}[1][]{%
+\newcommand*{\twoBeamedQuavers}[1][]{%
     \setkeys{lilyDesignOptions}{scale=0.7,raise=-0.4}%
     \lilyPrintImage[#1]{twoBeamedQuavers}%
 }
-\newcommand*{\twoBeamedQuavers}[1][]{\twoBeamedQuaversBase[#1] }
-\WithSuffix\newcommand\twoBeamedQuavers*[1][]{\twoBeamedQuaversBase[#1]}
-
-
-
-
-
