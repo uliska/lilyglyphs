@@ -28,8 +28,11 @@ This document lists all changes in the development of *lilyglyphs*.
 All changes should be present in the manual, but only the finished versions printed bold are available as pdf downloads. (Latest changes are only found in the master branch of the git repository. They should be documentd in the lilyglyphs.tex file there too.)
 So the lines above the topmost bold version line represent the changes not available in the downloadable pdf documentation.
 
+- Drop support/necessity for starred commands  
+  All commands by default now don't print a space after them.
+  To achieve that effect one has to write a pair of curly braces.  
+  This is in line with default behaviour of e.g \LaTeX{} and similar commands
 - The command generation scripts accept scale= and raise= entries that set default values for subsequent commands
-
 - Fix \lilyTimeSignature  
 Now scales correctly and doesn't have a fraction line anymore.  
 'raise' still doesn't work.
