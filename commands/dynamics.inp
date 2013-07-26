@@ -62,41 +62,28 @@
 % so we provide predefined commands for them
 
 % rinforzando 
-\newcommand{\lilyRFBase}[1][]{%
-	\mbox{%
-		\lilyDynamics[#1]{r\hspace{0.035ex}f}%
-	}%
+\newcommand{\lilyRF}[1][]{%
+	\mbox{\lilyDynamics[#1]{r\hspace{0.035ex}f}}%
 }
-\newcommand*{\lilyRF}[1][]{\lilyRFBase[#1] }
-\WithSuffix\newcommand\lilyRF*[1][]{\lilyRFBase[#1]}
 	
 % rinforzando with trailing z
-\newcommand{\lilyRFZBase}[1][]{%
-	\mbox{%
-		\lilyDynamics[#1]{r\hspace{0.035ex}fz}%
-	}%
+\newcommand{\lilyRFZ}[1][]{%
+	\mbox{\lilyDynamics[#1]{r\hspace{0.035ex}fz}}%
 }
-\newcommand{\lilyRFZ}[1][]{\lilyRFZBase[#1] }
-\WithSuffix\newcommand\lilyRFZ*[1][]{\lilyRFZBase[#1]}
 
 %------------------------
 % Graphical Dynamic Signs
 
-% two beamed quavers with diagonal beam
+% decrescendo Hairpin
 % created by buildglyphimages.py on 2012-11-08
-\newcommand*{\decrescHairpinBase}[1][]{%
+\newcommand*{\decrescHairpin}[1][]{%
     \setkeys{lilyDesignOptions}{scale=0.9,raise=0}%
     \lilyPrintImage[#1]{decrescHairpin}%
 }
-\newcommand*{\decrescHairpin}[1][]{\decrescHairpinBase[#1] }
-\WithSuffix\newcommand\decrescHairpin*[1][]{\decrescHairpinBase[#1]}
 
-% two beamed quavers with diagonal beam
+% crescendo Hairpin
 % created by buildglyphimages.py on 2012-11-08
-\newcommand*{\crescHairpinBase}[1][]{%
+\newcommand*{\crescHairpin}[1][]{%
     \setkeys{lilyDesignOptions}{scale=0.9,raise=0}%
     \lilyPrintImage[#1]{crescHairpin}%
 }
-\newcommand*{\crescHairpin}[1][]{\crescHairpinBase[#1] }
-\WithSuffix\newcommand\crescHairpin*[1][]{\crescHairpinBase[#1]}
-

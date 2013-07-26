@@ -33,48 +33,36 @@
 
 %%%%%%%%%%%%%%
 % \treble clef
-\newcommand*{\clefGBase}[1][]{%
+\newcommand*{\clefG}[1][]{%
 	\setkeys{lilyDesignOptions}{scale=1.2,raise=0.25}%
 	\lilyPrint[#1]{\lilyGetGlyph{clefs.G}}%
 }
-\newcommand*{\clefG}[1][]{\clefGBase[#1] }
-\WithSuffix\newcommand\clefG*[1][]{\clefGBase[#1]}
 
-\newcommand*{\clefGInlineBase}[1][]{%
+\newcommand*{\clefGInline}[1][]{%
 	\setkeys{lilyDesignOptions}{scale=0.8,raise=0.15}%
 	\lilyPrint[#1]{\lilyGetGlyph{clefs.G}}%
 }
-\newcommand*{\clefGInline}[1][]{\clefGInlineBase[#1] }
-\WithSuffix\newcommand\clefGInline*[1][]{\clefGInlineBase[#1]}
 
 %%%%%%%%%%%%
 % \bass clef
-\newcommand*{\clefFBase}[1][]{%
+\newcommand*{\clefF}[1][]{%
 	\setkeys{lilyDesignOptions}{scale=1.4,raise=0.5}%
 	\lilyPrint[#1]{\lilyGetGlyph{clefs.F}}%
 }
-\newcommand*{\clefF}[1][]{\clefFBase[#1] }
-\WithSuffix\newcommand\clefF*[1][]{\clefFBase[#1]}
 
-\newcommand*{\clefFInlineBase}[1][]{%
+\newcommand*{\clefFInline}[1][]{%
 	\setkeys{lilyDesignOptions}{scale=1.1,raise=0.65}%
 	\lilyPrint[#1]{\lilyGetGlyph{clefs.F}}%
 }
-\newcommand*{\clefFInline}[1][]{\clefFInlineBase[#1] }
-\WithSuffix\newcommand\clefFInline*[1][]{\clefFInlineBase[#1]}
 
 %%%%%%%%%%%%
 % \alto clef
-\newcommand*{\clefCBase}[1][]{%
+\newcommand*{\clefC}[1][]{%
 	\setkeys{lilyDesignOptions}{scale=1.1,raise=0.6}%
 	\lilyPrint[#1]{\lilyGetGlyph{clefs.C}}%
 }
-\newcommand*{\clefC}[1][]{\clefCBase[#1] }
-\WithSuffix\newcommand\clefC*[1][]{\clefCBase[#1]}
 
-\newcommand*{\clefCInlineBase}[1][]{%
+\newcommand*{\clefCInline}[1][]{%
 	\setkeys{lilyDesignOptions}{scale=0.9,raise=0.6}%
 	\lilyPrint[#1]{\lilyGetGlyph{clefs.C}}%
 }
-\newcommand*{\clefCInline}[1][]{\clefCInlineBase[#1] }
-\WithSuffix\newcommand\clefCInline*[1][]{\clefCInlineBase[#1]}

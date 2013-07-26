@@ -26,7 +26,7 @@
 \ProvidesPackage{lilyglyphs}
 
 % Enable the creation of starred commands
-\RequirePackage{suffix}
+%\RequirePackage{suffix}
 
 % Introduce key=value options
 \RequirePackage{keyval}
@@ -86,10 +86,8 @@
 
 % lilyglyphs logo to be used in texts about lilyglyphs
 % created by genGlyphCommands.py on 2012-11-10
-\newcommand*{\lilyglyphsBase}[1][]{%
+\newcommand*{\lilyglyphs}[1][]{%
     \setkeys{lilyDesignOptions}{scale=0.9,raise=-0.8}%
     \lilyPrintImage[#1]{lilyglyphs_logo}%
 }
-\newcommand*{\lilyglyphs}[1][]{\lilyglyphsBase[#1] }
-\WithSuffix\newcommand\lilyglyphs*[1][]{\lilyglyphsBase[#1]}
 
