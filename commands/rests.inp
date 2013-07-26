@@ -35,24 +35,20 @@
 % Whole note rests
 
 % "rests.1o - half note rest upwards"
-\newcommand*{\wholeNoteRestBase}[1][]{%
+\newcommand*{\wholeNoteRest}[1][]{%
 	\setkeys{lilyDesignOptions}{scale=1.3,raise=0.4}%
 	\lilyPrint[#1]{\hspace*{0.25ex}\lilyGetGlyph{rests.0o}}%
 }
-\newcommand*{\wholeNoteRest}[1][]{\wholeNoteRestBase[#1] }
-\WithSuffix\newcommand\wholeNoteRest*[1][]{\wholeNoteRestBase[#1]\hspace{0.35ex}}
 
 % Dotted half note rest
-\newcommand*{\wholeNoteRestDottedBase}[1][]{%
+\newcommand*{\wholeNoteRestDotted}[1][]{%
 	% define the optional arguments for the dot
 	\setkeys{lilyDesignOptions}{scale=0.8,raise=0.2}%
 	% Calculate effective scale/raise and the hspace for the dot
 	\lilySetDotOptions[#1]{0}{0.5}{0.4}%
 	% Print the rest and then the dot
-	\wholeNoteRest*[#1]\lilyDotSpace\lilyPrintDot
+	\wholeNoteRest[#1]\lilyDotSpace\lilyPrintDot
 }
-\newcommand*{\wholeNoteRestDotted}[1][]{\wholeNoteRestDottedBase[#1] }
-\WithSuffix\newcommand\wholeNoteRestDotted*[1][]{\wholeNoteRestDottedBase[#1]}
 
 
 %%%%%%%%%%%%%%%%%
@@ -60,37 +56,30 @@
 %%%%%%%%%%%%%%%%%
 
 % "rests.1o - half note rest upwards"
-\newcommand*{\halfNoteRestBase}[1][]{%
+\newcommand*{\halfNoteRest}[1][]{%
 	\setkeys{lilyDesignOptions}{scale=1.3,raise=0.4}%
 	\lilyPrint[#1]{\hspace*{0.25ex}\lilyGetGlyph{rests.1o}}%
 }
-\newcommand*{\halfNoteRest}[1][]{\halfNoteRestBase[#1] }
-\WithSuffix\newcommand\halfNoteRest*[1][]{\halfNoteRestBase[#1]\hspace{0.35ex}}
-
 
 % Dotted half note rest
-\newcommand*{\halfNoteRestDottedBase}[1][]{%
+\newcommand*{\halfNoteRestDotted}[1][]{%
 	% define the optional arguments for the dot
 	\setkeys{lilyDesignOptions}{scale=0.8,raise=0.2}%
 	% Calculate effective scale/raise and the hspace for the dot
 	\lilySetDotOptions[#1]{0}{0.5}{0.4}%
 	% Print the rest and then the dot
-	\halfNoteRest*[#1]\lilyDotSpace\lilyPrintDot
+	\halfNoteRest[#1]\lilyDotSpace\lilyPrintDot
 }
-\newcommand*{\halfNoteRestDotted}[1][]{\halfNoteRestDottedBase[#1] }
-\WithSuffix\newcommand\halfNoteRestDotted*[1][]{\halfNoteRestDottedBase[#1]}
 
 %%%%%%%%%%%%%%%%%
 % Crotchet Rests
 %%%%%%%%%%%%%%%%%
 
 % Crotchet Rest
-\newcommand*{\crotchetRestBase}[1][]{%
+\newcommand*{\crotchetRest}[1][]{%
 	\setkeys{lilyDesignOptions}{scale=1.3,raise=0.5}%
 	\lilyPrint[#1]{\lilyGetGlyph{rests.2}}%
 }
-\newcommand*{\crotchetRest}[1][]{\crotchetRestBase[#1] }
-\WithSuffix\newcommand\crotchetRest*[1][]{\crotchetRestBase[#1]\hspace{0.1ex}}
 
 % Dotted crotched rest
 \newcommand*{\crotchetRestDotted}[1][]{%
@@ -99,7 +88,7 @@
 	% Calculate effective scale/raise and the hspace for the dot
 	\lilySetDotOptions[#1]{0}{0}{-0.5}%
 	% Print the rest and then the dot
-	\crotchetRest*[#1]\lilyPrintDot%
+	\crotchetRest[#1]\lilyPrintDot%
 }
 
 %%%%%%%%%%%%%%%
@@ -107,24 +96,20 @@
 %%%%%%%%%%%%%%%
 
 % Quaver Rest
-\newcommand*{\quaverRestBase}[1][]{%
+\newcommand*{\quaverRest}[1][]{%
 	\setkeys{lilyDesignOptions}{scale=1.3,raise=0.5}%
 	\lilyPrint[#1]{\lilyGetGlyph{rests.3}}%
 }
-\newcommand*{\quaverRest}[1][]{\quaverRestBase[#1] }
-\WithSuffix\newcommand\quaverRest*[1][]{\quaverRestBase[#1]}
 
 % Dotted crotched rest
-\newcommand*{\quaverRestDottedBase}[1][]{%
+\newcommand*{\quaverRestDotted}[1][]{%
 	% define the optional arguments for the dot
 	\setkeys{lilyDesignOptions}{scale=0.8,raise=0.2}%
 	% Calculate effective scale/raise and the hspace for the dot
 	\lilySetDotOptions[#1]{0}{0}{-0.5}%
 	% Print the rest and then the dot
-	\quaverRest*[#1]\lilyPrintDot%
+	\quaverRest[#1]\lilyPrintDot%
 }
-\newcommand*{\quaverRestDotted}[1][]{\quaverRestDottedBase[#1] }
-\WithSuffix\newcommand\quaverRestDotted*[1][]{\quaverRestDottedBase[#1]}
 
 
 %%%%%%%%%%%%%%%%%%
@@ -132,21 +117,17 @@
 %%%%%%%%%%%%%%%%%%
 
 % Semiquaver Rest
-\newcommand*{\semiquaverRestBase}[1][]{%
+\newcommand*{\semiquaverRest}[1][]{%
 	\setkeys{lilyDesignOptions}{scale=1.3,raise=0.5}%
 	\lilyPrint[#1]{\lilyGetGlyph{rests.4}}%
 }
-\newcommand*{\semiquaverRest}[1][]{\semiquaverRestBase[#1] }
-\WithSuffix\newcommand\semiquaverRest*[1][]{\semiquaverRestBase[#1]}
 
 % Dotted crotchet rest
-\newcommand*{\semiquaverRestDottedBase}[1][]{%
+\newcommand*{\semiquaverRestDotted}[1][]{%
 	% define the optional arguments for the dot
 	\setkeys{lilyDesignOptions}{scale=0.8,raise=0.2}%
 	% Calculate effective scale/raise and the hspace for the dot
 	\lilySetDotOptions[#1]{0}{0}{-0.3}%
 	% Print the rest and then the dot
-	\semiquaverRest*[#1]\lilyPrintDot%
+	\semiquaverRest[#1]\lilyPrintDot%
 }
-\newcommand*{\semiquaverRestDotted}[1][]{\semiquaverRestDottedBase[#1] }
-\WithSuffix\newcommand\semiquaverRestDotted*[1][]{\semiquaverRestDottedBase[#1]}
