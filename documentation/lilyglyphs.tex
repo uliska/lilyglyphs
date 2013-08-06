@@ -536,16 +536,16 @@ The predefined commands should of course have this already built in.
 \section{Documentation of the generic access commands}
 \label{sec:internals_generic_access}
 This section is essential for readers who want to understand how this package works internally, for example if they want to actively participate in its development.
-And it is recommended (but not exactly mandatory) for readers who want to write their own predefined commands or to contribute to the package by adding commands to it. 
-The latter target group might be satisfied reading the next section about writing predefined commands, but understanding will be easier and deeper with this subsection.
+It is structured from the perspective of the package's behaviour instead of from a user's POV.
+If you simply want to add your own predefined commands “the \lilyglyphs{} way” it is a good idea to read this section too, but you may also skip it and directly go to \fref{sec:howto_predefined_commands}.
 
 \medskip
-In order to make the package .sty file easier to understand, its contents are split into multiple input files which are located in the \texttt{/commands} and \texttt{/core} subfolders.
+In order to make the package's \texttt{.sty} file easier to understand, its content is split into multiple input files which are located in the \texttt{/commands} and \texttt{/core} subfolders.
 The most fundamental definitions are in the \texttt{keyval.inp} and \texttt{genericAccess.inp} files.
 
 \subsection{Accessing \emmentaler{} Glyphs}
 \label{subsec:accessing_emmentaler_glyphs}
-The command that actually prints glyphs from the \emmentaler fonts is \cmd{lilyPrint}, defined in \texttt{genericAccess.inp}.
+The command that actually prints glyphs from the Emmentaler font is \cmd{lilyPrint}, defined in \texttt{core/genericAccess.inp}.
 It isn't intended to be called directly within a document, but only from the predefined commands.
 It takes two arguments, the first -- optional -- being the comma-separated list of \texttt{<key=value>} pairs, the second the actual content to be printed.
 
@@ -559,7 +559,7 @@ It takes two arguments, the first -- optional -- being the comma-separated list 
 \end{verbatim}
 
 At first the command \cmd{interpretLilyOptions} is called, where the options of the different levels are evaluated and calculated to their effective values.
-Then the content of \#2 is printed, within a \textbackslash raisebox and with the currently selected opticals version of the \emmentaler font.
+Then the content of \#2 is printed, within a \cmd{raisebox} and with the currently selected opticals version of the \emmentaler font.
 
 \begin{verbatim}
 \newcommand*{\interpretLilyOptions}[1]{%
@@ -573,33 +573,31 @@ Then the content of \#2 is printed, within a \textbackslash raisebox and with th
 \end{verbatim}
 \cmd{interpretLilyOptions} is defined in \texttt{keyval.inp}.\\
 The \texttt{<key=value>} mechanism is achieved using the \texttt{keyval} package as the most basic solution available.
-{\color{red} If this can be implemented more elegant, extensible or powerful using other packages, e.\,g.\ \texttt{pgfkeys}, we'd appreciate any input.}
+{\color{red} If this can be implemented in a more elegant, extensible and/or powerful way using other packages, e.\,g.\ \package{pgfkeys}, we'd appreciate any input.}
 It uses three families of keys, corresponding to the three levels of options:
 \texttt{lilyGlobalOptions}, \texttt{lilyDesignOptions} and \texttt{lilyCmdOptions}.
 
 In a first step the keys for the actual command options are initialized to a neutral state.
-This is necessary because otherwise options that aren't actually present in the command invocation were in an uninitialized state or in the state set by the last occurence of the option.
-After this the command options are set to the actual state given in the command (i.\,e. the command the end user writes in the document).
-Options that are explicitely given override the default state while options that are not present don't affect it.
-Finally the effective values of the options are calculated from the global, the design and the command options. 
+This is necessary because otherwise options not present in the command invocation would be in an uninitialized or unknown state.
+After this the options provided by the command invocation (i.\,e. the ones in the end user's document) are applied.
+Finally the effective values of the options are calculated from the global, the design and the command invocation options. 
 The scaling values are multiplied, the raise values added.
 While the command options have just been determined, the global options are valid globally (and can be changed globally) and the design options have been set by the command that actually called \cmd{lilyPrint}.
 This is the reason why \cmd{lilyPrint} should never be invoked directly -- the design options would be in the unknown state of the previous invocation of\cmd{lilyPrint}.
 
 \medskip
-The next higher level are the three generic access functions \cmd{lilyGlyph}, \cmd{lilyGlyphByNumber} and \cmd{lilyText}, defined in \texttt{genericAccess.inp}.
+At the next higher level there are the three generic access functions \cmd{lilyGlyph}, \cmd{lilyGlyphByNumber} and \cmd{lilyText}, defined in \texttt{genericAccess.inp}.
 They are very similar and differ only in the way they determine the actual content to be printed.
 As stated in the end user part of this documentation they expect two arguments, the optional \texttt{<key=value>} pair list and the contents.
 As a first step the commands initialize the design options to a neutral state, because the “design” of the generic glyphs has to be neutral by design.
 In the second step they invoke \cmd{lilyPrint}, passing the optional argument along and determine the printed content individually:
 \cmd{lilyGlyph} calls the helper function \cmd{lilyGetGlyph}, \cmd{lilyGlyphByNumber} calls \cmd{lilyGetGlyphByNumber}, while \cmd{lilyText} just passes its contents argument unchanged to \cmd{lilyPrint}.
 
-\medskip
-These helper functions are important because most predefined commands call one of them to select glyphs from the \emmentaler fonts.\\
+These helper functions are important because most predefined commands call one of them to select glyphs from the Emmentaler fonts.\\
 \cmd{lilyGetGlyph} takes the glyph name as found in the LilyPond documentation.\\
 \cmd{lilyGetGlyphByNumber} takes the Unicode character index of the intended glyph.
-But be aware that the Unicode index may change at any time with new versions of the \emmentaler font, so it usually isn't a good idea to access glyphs through their index.
-There may be some uses for numerical access, however, e.\,g.\ to iterate through a range of glyphs.
+But be aware that the Unicode index may change at any time with new versions of the Emmentaler font, so it usually isn't a good idea to access glyphs through their index.
+There may be some uses for numerical access, however, e.\,g.\ to iterate over a range of glyphs.
 
 \subsection{Printing image files}
 \label{subsec:printing_image_files}
@@ -624,9 +622,9 @@ But as an additional step \cmd{lilyScaleImage} is called, and finally it uses \c
 I won't explain this in detail, but in effect it multiplies the \cmd{lilyEffectiveScale} calculated before with the ratio of the current font size to the \cmd{normalsize} size.
 
 What is finally given as the content to be printed is the basename of an image file.
-With \hologo{XeLaTeX} this can be a file in .pdf, .png or .jpg format, but we highly recommend using .pdf files for sake of printing quality.
+This can be a file in \texttt{.pdf}, \texttt{.png} or \texttt{.jpg} format, but we highly recommend using \textsc{pdf} files for sake of printing quality.
 
-As with printing \emmentaler glyphs there is no handling of design time options here, and for that reason you should never call this command directly from a document.
+As with printing Emmentaler glyphs there is no handling of design time options here, and for that reason you should never call this command directly from a document.
 Please use \cmd{lilyImage} instead which does the same as \cmd{lilyPrintImage} but additionally defaults the design time options to neutral values.
 
 \section{How to write predefined commands}
@@ -640,59 +638,41 @@ Let's review an example of a predefined command, the \cmd{doublesharp}.
 
 \begin{verbatim}
 % "accidentals.doublesharp"
-\newcommand*{\doublesharpBase}[1][]{%
+\newcommand*{\doublesharp}[1][]{%
     \setkeys{lilyDesignOptions}{scale=1.5,raise=0.35}%
     \lilyPrint[#1]{\lilyGetGlyph{accidentals.doublesharp}}%
 }
-
-\newcommand*{\doublesharp}[1][]{\doublesharpBase[#1] }
-
-\WithSuffix\newcommand\doublesharp*[1][]{\doublesharpBase[#1]}
 \end{verbatim}
-As you can see there are actually three commands, a base command and the starred and the unstarred versions.
-But let's start with the original command.
 
-We use the starred version of \cmd{newcommand}, because we always know that our commands are restricted to single paragraphs.
-We declare that our command accepts one optional argument, which defaults to empty. 
+We use the starred version of \cmd{newcommand}, because a glyph command naturally doesn't span paragraphs.
+We declare to accept one optional argument, which defaults to empty. 
 This argument can take the list of \texttt{<key=value>} options.
 When writing the commands, please take care not to omit the \texttt{\%} characters at the line endings, as they prevent unwanted whitespace to be introduced in the output.
 
 In the second line we define the design options for your command.
-In the example the designer has decided that a doublesharp glyph should be scaled to 1.5 and placed 0.35 ex above its default level.
+In the example the designer has decided that a doublesharp glyph should be scaled to 1.5 and raised 0.35\,ex compared to its default appearance.
 
 The third line calls the internal \cmd{lilyPrint} command. 
 It passes the optional argument, with which the end user can override (i.\,e.\ modify) the designed values.
 As the \doublesharp is a glyph that has to be selected by its glyph name, we call \cmd{lilyGetGlyph}, supplying the glyph name found in the documentation.
 The result of this command is passed as the \texttt{\#2} to \cmd{lilyPrint}.
 
-To summarize: Writing a predefined command for printing a glyph from \emmentaler involves just two steps, setting the design time options and calling \cmd{lilyPrint} with the appropriate \#2 argument.
-
-\medskip
-If we have done it right, the new command prints the desired glyph without any trailing space. 
-The side-effect is that \LaTeX{} will ignore any whitespace after the command.
-While it is always possible to write a pair of curly braces after or around the command to allow trailing whitespace, we decided to offer the starred and unstarred versions of commands.
-The unstarred versions provide a trailing space and are therefore intended for general use in continuous text. 
-The starred versions don't have this space and are intended for use before punctuation marks, in words or in combinations with other glyphs.
-For these we need the \cmd{WithSuffix} construct that is shown in the example.
-We name the commands identical to the original command except for the trailing *.
-We give the same set of one optional argument, and in the command itself we just call the base one, passing the \texttt{\#1} argument along and add a trailing space.
+To summarize: Writing a predefined command for printing an Emmentaler glyph involves just two steps, setting the design time options and calling \cmd{lilyPrint} with the appropriate \#2 argument.
 
 \medskip
 If you know the Unicode number of the desired glyph you can call \cmd{lilyGetGlyphByNumber} instead of \cmd{lilyGetGlyph}, but you can't be sure this number will stay the same forever.
 
 \medskip
-Creating commands using image files is practically the sameand even simpler.
+Creating commands using image files is practically the same and even simpler.
 If you look at the definition of a \cmd{crotchet}, 
 \begin{verbatim}
-\newcommand*{\crotchetBase}[1][]{%
+\newcommand*{\crotchet}[1][]{%
     \setkeys{lilyDesignOptions}{scale=0.9,raise=-0.2}%
     \lilyPrintImage[#1]{crotchet}%
 }
-\newcommand*{\crotchet}[1][]{\crotchetBase[#1] }
-\WithSuffix\newcommand\crotchet*[1][]{\crotchetBase[#1]}
 \end{verbatim}
 you will notice that the only differences are that the actual printing is done with \cmd{lilyPrintImage} instead of \cmd{lilyPrint} and that therefore the basename of the image file can be passed directly.
-In \fref{chap:buildglyphimages} you will see a tool that allows to create numerous image commands quite easily.
+In \fref{sec:generating_commands_image} you will see a tool that allows to create numerous image commands quite easily.
 
 \bigskip
 As a last example we will look at the definition of \lilyRFZ \cmd{lilyRFZ}.
@@ -707,19 +687,12 @@ As a last example we will look at the definition of \lilyRFZ \cmd{lilyRFZ}.
 As mentioned in \fref{sec:dynamic_text}, \cmd{lilyDynamics} is just a wrapper around \cmd{lilyText}, setting the \texttt{scale} factor to 1.5.
 While the other generic commands only print single glyphs, \cmd{lilyText} can print 'plain text', so usually there is no need to write predefined commands only to combine letters to a single command.
 In some cases this may however be necessary.
-In the given example of \cmd{lilyRFZ} we need to apply a little bit of extra space between the \lilyDynamics{r} and the \lilyDynamics{z}.
+In the given example of \cmd{lilyRFZ} we need to apply a little bit of extra space between the \lilyDynamics{r} and the \lilyDynamics{f}.
 We see that we can insert a \cmd{hspace} command between the letters without any problems.
-But as it turns out \LaTeX{} may now decide to insert a line break at any time, so we have to additionally enclose this call to \cmd{lilyDynamics} in a \cmd{mbox}.
-The command just passes the optional argument to \cmd{lilyDynamics}, so you can use these arguments as usual.
-This example is meant to encourage you to experiment with the definition of predefined commands. This is pretty much the same as usual when inventing new commands. You just have to deal with the design time options, the optional argument and getting the correct input as the second argument.
+But as it turns out \LaTeX{} may now decide to insert a line break at its discretion, so we have to additionally enclose this call to \cmd{lilyDynamics} in a \cmd{mbox}.
+The command just passes the optional argument to \cmd{lilyDynamics}, so you can use these arguments in your document as usual.
 
-If you had created this command you would have noticed that you can't get any whitespace after it -- it is silently ignored.
-So you would want to create starred and unstarred versions of the command, which works as in the first example. 
-In \lilyglyphs this is in fact implemented this way.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
-% Appendix: Licenses
+This example is meant to encourage you to experiment with the definition of new commands. It is pretty much the same as usual when inventing new commands. You just have to deal with the design time options, the optional argument and getting the correct input as the second argument.
 
 \subsubsection{Create Dotted Symbols}
 \label{subsubsec:dotted_symbols}
@@ -728,23 +701,21 @@ It is not exactly trivial to  create dotted symbols as predefined commands.
 Of course you can always use \cmd{lilyDot} to print LilyPond's dot glyph, but if you want to create commands that combine a glyph and one ore more dots you encounter two difficulties:
 You can't apply the optional arguments independently on the two items, and there may be issues with the scaling and the gap between the two glyphs.
 
-There is some infrastructure in \lilyglyphs (defined in the file dotted.inp) to faciliate dealing with dotted symbols, but this implementation may not be completely satisfactory so far.
+There is some infrastructure in \lilyglyphs{} (defined in the file dotted.inp) to faciliate dealing with dotted symbols, but this implementation may not be completely satisfactory so far.
 Great care has been taken to hide as much complexity as possible in the mentioned file, in order to make the definition of actual commands as clean and concise as possible.
 
 Let's analyze the implementation of a dotted half note rest:
 \begin{verbatim}
 % Dotted half note rest
-\newcommand*{\halfNoteRestDottedBase}[1][]{%
+\newcommand*{\halfNoteRestDotted}[1][]{%
     % define the optional arguments for the dot
     \setkeys{lilyDesignOptions}{scale=0.8,raise=0.2}%
     % Calculate effective scale/raise and the hspace for the dot
     \lilySetDotOptions[#1]{0.05}{0.5}{0}%
     % Print the rest and then the dot
-    \halfNoteRest*[#1]\lilyDotSpace\lilyPrintDot
+    \halfNoteRest[#1]\lilyDotSpace\lilyPrintDot
 }
 \end{verbatim}
-
-As you will note the command is a \texttt{...Base} command that will be have to be complemented by the starred and unstarred versions, but we will silently ignore this issue here (see \fref{sec:commands_emmentaler-glyphs}).
 
 The command takes the usual optional argument that can contain \texttt{<key=value>} pairs.
 This applies to the dotted symbol as a whole.
@@ -785,8 +756,7 @@ Please understand that they may be partially or totally overwritten by the next 
 So you have to call this command immediately before actually printing the dot, otherwise it may or may not provide satisfying results.
 
 The final line actually calls three commands:\\
-\cmd{halfNoteRest*[\#1]} prints the already defined main glyph.
-Note the use of the starred version, because the trailing space of the unstarred version would make it much harder to determine the parameters for the gap.\\
+\cmd{halfNoteRest[\#1]} prints the already defined main glyph.
 \cmd{lilyDotSpace} prints a horizontal space that is determined by the previous call to \cmd{lilySetDotOptions}.\\
 \cmd{lilyPrintDot} finally prints the dot with the settings just defined.
 
@@ -813,15 +783,12 @@ For this purpose we have implemented the command \cmd{lilyPrintMoreDots}.
 This prints a dot with the same characteristics as the preceding one from a dotted command (but remember that there shouldn't be any calls to other predefined commands in betwen).
 The horizontal gap between the dots scales linearly with a default of 0.25\emph{ex} per unit of \texttt{scale}.
 But if you pass an number as an optional argument this is interpreted as a different gap in \emph{ex}.
-This command is available in a starred and an unstarred version.
-Use the unstarred version when you need a space after the symbol, the starred one when you have a punctuation or another dot after it.
 
-\todo{check the (commented) paragraphs (for dotted issue):}
-%\noindent \cmd{halfNoteRestDotted}\cmd{lilyPrintMoreDots}! 
-%\halfNoteRestDotted\lilyPrintMoreDots!\\
-%\cmd{halfNoteRestDotted[scale=1.5]}\cmd{lilyPrintMoreDots} and 
-%\halfNoteRestDotted[scale=1.5]\lilyPrintMoreDots and 
-
+\bigskip
+Once you have defined your new command you of course have to make it available to \LaTeX.
+If it is a “local” command that you just use for a specific document you can simply put it in the document's preamble or a dedicated helper \texttt{.sty} file.
+Of course if it is an image driven command you will have created the image file before and will have to place it in a location where \LaTeX{} can find it.
+For more information on how to publicly contribute your new commands to the package see \fref{chap:contributing}.
 
 \chapter{Easily create commands with Python scripts}
 \label{chap:python_scripts}
@@ -829,7 +796,7 @@ As we have seen in \fref{subsubsec:commands_single-glyphs} it isn't really compl
 But we have developed a set of tools and templates to streamline this process even further.
 With them it is mostly a matter of telling what you want, naming it and running a Python script.
 But keep in mind that you can always do it manually if the pre-set workflow imposes any restrictions that you don't want to accept.
-And it is nevertheless a good idea to have read \fref{subsec:howto_predefined_commands} to have a good understanding of what is going on.
+And it is nevertheless a good idea to have read \fref{sec:howto_predefined_commands} to have a good understanding of what is going on.
 
 The process basically consists of writing a definitions file (something like a template), calling a script and then putting the results to a useful place.
 However it slightly differs if you create commands for using images or for using \emmentaler glyphs.
@@ -1097,6 +1064,7 @@ It doesn't create any intermediate files and doesn't invoke LilyPond, however.
 
 You finish off the process exactly like with the image driven commands, so we don't have to repeat that here.
 
-\pagebreak
+\chapter{Contributing to \lilyglyphs}
+\label{chap:contributing}
 
 \end{document}
