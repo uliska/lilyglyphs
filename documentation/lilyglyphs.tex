@@ -322,17 +322,16 @@ The general plan would be to create different versions of the glyph by creating 
 \chapter{Reference of Predefined Commands}
 \label{chap:list_predefined_commands}
 The following sections document the predefined commands that already have been implemented.
-They generally contain a list of all glyphs from the \emmentaler documentation, explanations on the use of the commands (if necessary) and a table listing the implemented commands.
+They generally contain explanations on the specific use of the commands (if necessary) and a table listing the implemented commands.
 Be aware that the lists and tables may be on different pages than the section header.
 Sections whose implementations haven't started yet may be present or not, so if you are missing glyphs please refer to LilyPond's documentation.
 
-The documentation contains information if the commands are available in starred and unstarred commands, and if they are based on image files or \emmentaler glyphs -- image commands are mentioned explicitely.
+The documentation explicitely mentions if the commands are are based on image files.
 
 \section{Single Notes}
 \label{sec:singlenotes}
-Single notes may be one of the most frequently used glyphs.
-They aren't present in \emmentaler*, so they all are realized using included pdf image files.
-They have starred and unstarred versions.
+Single notes may well be the most frequently used glyphs.
+Unfortunately they aren't present in \emmentaler{} because LilyPond draws them by itself, so they are realized using included pdf image files.
 See \fref{tab:singlenotes} for the available predefined commands.
 
 \begin{reftable}{Single Notes}{singlenotes}
@@ -368,9 +367,9 @@ See \fref{tab:singlenotes} for the available predefined commands.
 
 We will only provide a few complex symbols like beamed notes for default use.
 Of course one could have the wish for indefinite variations like  notes with variable beam slope.
-But as long as it isn't possible to make this parametrical and draw them directly from within \lilyglyphs it is probably a good idea to stick to a few basic commands.
-However it would be quite simple to create “plugin modules” that provide a series of related symbols, and maybe we will think about such an extension.
-For now see \fref{tab:beamedNotes} for the implemented commands. They are available in starred and unstarred versions.
+But as long as it isn't possible to make this parametrical and draw them directly from within \lilyglyphs{} it is probably a good idea to stick with a few basic commands.
+However it would be quite simple to create “plugin modules” that provide a series of related symbols, and maybe we will think about such an extension in the future.
+For now see \fref{tab:beamedNotes} for the implemented commands.
 
 \begin{reftable}{Beamed Notes}{beamedNotes}
 \twoBeamedQuavers & \cmd{twoBeamedQuavers}\\
@@ -379,12 +378,10 @@ For now see \fref{tab:beamedNotes} for the implemented commands. They are availa
 
 \section{Clefs}
 \label{sec:clefs}
-%\glyphlist{\emmentaler Clef glyphs}{clefs}{lily-76dbcd67}
 Some of the clef glyphs are among the few that are too large by default. 
-You couldn't use a G clef within continuous text without severely \clefG damaging line spacing. 
-But if you scale them to a size that doesn't disturb line spacing, they look quite disproportionate, especially when combined with other elements: \mbox{ \clefCInline \natural.}
-Therefore we provide the clefs in two forms, a standard form which can be problematic in continuous text, and an -Inline version which looks somewhat funny but can be used within the line.
-The clef commands are available in the starred and in the unstarred form.
+You couldn't use a G clef at default size within continuous text without severely \clefG{} damaging line spacing. 
+But if you scale them to a size that doesn't disturb line spacing, they look quite disproportionate, especially when combined with other elements: \mbox{ \clefCInline{} \natural.}
+To ease the handling of that issue we provide the clefs in two forms, at ordinary  size which can be problematic in continuous text, and as an -Inline version which looks somewhat funny but can be used within the line.
 
 See \fref{tab:clefs} for the available predefined commands.
 
@@ -396,16 +393,16 @@ See \fref{tab:clefs} for the available predefined commands.
 
 \section{Time Signatures}
 \label{sec:timesignatures}
-%\glyphlist{\emmentaler Number glyphs}{timesignatures}{lily-8b332c94}
 
-\emmentaler provides two “real” glyphs for time signatures, the \lilyTimeC and the \lilyTimeCHalf*.
-The commands \cmd{lilyTimeC} and \cmd{lilyTimeCHalf} have starred and unstarred versions. 
+The Emmentaler font provides two “real” glyphs for time signatures, the \lilyTimeC{} and the \lilyTimeCHalf.
 
-Numerical (single and compound) time signatures can be printed using \cmd{lilyTimeSignature}: \lilyTimeSignature{4}{4}.
+The numerical (single and compound) time signatures can be printed using \cmd{lilyTimeSignature}: \lilyTimeSignature{4}{4}.
 This command expects two mandatory arguments: numerator and denominator.
-They are treated as \cmd{lilyText}, so you can easily write compound time signatures like \cmd{lilyTimeSignature\{4 + 7\}\{8\}}: \lilyTimeSignature{4 + 7}{8}.
+They are treated as \cmd{lilyText}, so you can enter anything this command expects (see \fref{sec:generic_access_commands}).
+This way you can easily write compound time signatures like \cmd{lilyTimeSignature\{4 + 7\}\{8\}}: \lilyTimeSignature{4 + 7}{8}.
+But be aware that the command does \emph{not} have a notion of columns, so you have to take care about the horizontal alignment yourself if there are more than one item in both rows, for example by adding explicite space.
 
-\cmd{lilyTimeSignature} doesn't need a starred version as it behaves as you would expect: It doesn't print a trailing space but respects any whitespace after the closing bracket.
+\cmd{lilyTimeSignature} respects any whitespace after the closing bracket so you don't have to supply the pair of curly braces.
 
 \begin{reftable}{Time Signatures}{timesignatures}
 \lilyTimeC & \cmd{lilyTimeC} & timesig.C44\\
@@ -415,31 +412,24 @@ They are treated as \cmd{lilyText}, so you can easily write compound time signat
 \end{reftable}
 
 \paragraph*{Known issues and warnings:} \cmd{lilyTimeSignature} also expects the optional argument as the other commands, but it doesn't understand the \texttt{raise} option correctly.
-The box with the time signature is vertically centered so it should generally be OK, but if you for some reason have to change its vertical position you should surround it manually by a \cmd{raisebox}.
+The box with the time signature is vertically centered so it should generally be OK, but if you for some reason have to change its vertical position you should manually surround the whole command by a \cmd{raisebox}.
 
 \section{Numbers}
 \label{sec:numbers}
-%\glyphlist{\emmentaler Number glyphs}{numbers}{lily-8d8bb8a3}
 Numbers can be entered with the already known \cmd{lilyText} command. 
 Access through the glyph names is possible but not necessary.
 Therefore we don't provide predefined commands for them.
-There are all ten numbers available. 
 With the default scaling of 1.0 they generally fit as lowercase letters like \lilyText{0 1 2 3 4 5 6 7 8 9} \cmd{lilyText\{0 1 2 3 4 5 6 7 8 9\}}. 
-For Uppercase letters you can start trying a scaling of 1.3. A future version of the package will provide convenience functions with default scalings for upper/lowercase letters, fingerings, figured bass numbers, time signature numbers etc.
+For Uppercase letters you can start trying a scaling of 1.3. A future version of the package may provide convenience commands with default scalings for upper/lowercase letters, fingerings, figured bass numbers, time signature numbers etc.
 
-A special case are four glyphs that are grouped among the numbers:\\
-\lilyText[scale=1.5]{+~-~.~,} (plus, hyphen, fullstop and comma). \\
-These are also accessible through \cmd{lilyText}, the example in the previous sentence being written as \cmd{lilyText[scale=1.5]\{+~-~.~,\}}.
+A special case are four glyphs that are related to numbers: \lilyText[scale=1.5]{+~-~.~,} (plus, hyphen, fullstop and comma).
+These are also accessible through \cmd{lilyText} and their respective characters, the example in the previous sentence being written as \cmd{lilyText[scale=1.5]\{+~-~.~,\}}.
 
 \section{Accidentals}
 \label{sec:accidentals}
-%\glyphlist{\emmentaler Accidental glyphs}{accidentals}{lily-5b13ce04}
-%For the complete list of glyphs see \fref{fig:accidentals}.
 
-The \cmd{natural} \natural*, the \cmd{flat} \flat and the \cmd{sharp} \sharp replace the respective commands from standard \LaTeX. 
+The \cmd{natural} \natural, the \cmd{flat} \flat{} and the \cmd{sharp} \sharp{} replace the respective commands from standard \LaTeX. 
 Please note that all the accidentals are designed at the same scaling in order to allow a uniform appearance. You will however have to check if they don't affect an even line spacing.
-
-Accidentals are available in starred and unstarred versions.
 
 See \fref{tab:accidentals} for the list of implemented commands. 
 
@@ -462,23 +452,20 @@ See \fref{tab:accidentals} for the list of implemented commands.
 
 \section{Rests}
 \label{sec:rests}
-%\glyphlist{\emmentaler Rest glyphs}{rests}{lily-40869867}
 
-Rests are usually available in starred and unstarred versions.
-See \fref{tab:rests} for the implemented commands.
+See \fref{tab:rests} for the implemented rest commands.
 
 For more information on how to use \cmd{lilyPrintMoreDots} to produce multiply dotted rests please see \fref{sec:dotted_symbols}.
 
-\todo{check the (commented) paragraph (for dotted issue):}
 \begin{reftable}{Rests}{rests}
 \wholeNoteRest & \cmd{wholeNoteRest} & Whole Note Rest\\
 \wholeNoteRestDotted & \cmd{wholeNoteRestDotted} & DottedWhole Note Rest\\
 \midrule
 \halfNoteRest & \cmd{halfNoteRest} & Half Note Rest\\
-%\halfNoteRestDotted & \cmd{halfNoteRestDotted} & Dotted Half Note Rest\\
-%	\halfNoteRestDotted\lilyPrintMoreDots & 
-%	\cmd{halfNoteRestDotted}\cmd{lilyPrintMoreDots} &
-%	Example of Double Dotted Rest\\
+\halfNoteRestDotted & \cmd{halfNoteRestDotted} & Dotted Half Note Rest\\
+	\halfNoteRestDotted\lilyPrintMoreDots & 
+	\cmd{halfNoteRestDotted}\cmd{lilyPrintMoreDots} &
+	Example of Double Dotted Rest\\
 \midrule
 \crotchetRest & \cmd{crotchetRest} & Crotchet Rest\\
 \crotchetRestDotted & \cmd{crotchetRestDotted} & Dotted Crotchet Rest\\
@@ -506,13 +493,14 @@ As a convenience there is a predefined command \cmd{lilyDynamics}, which is just
 \end{reftable}
 
 These Letters can be combined to make complex Dynamics. 
-\lilyglyphs doesn't provide a full set of predefined commands as they can easily be entered as single strings to \cmd{lilyDynamics}, like \cmd{lilyDynamics\{sffzrmp\}}, resulting in \lilyDynamics{sffzrmp}. 
+\lilyglyphs{} doesn't provide predefined commands as they can easily be entered as single strings to \cmd{lilyDynamics}, like \cmd{lilyDynamics\{sffzrmp\}}, resulting in \lilyDynamics{sffzrmp}. 
 In this specific situation you could enter a small horizontal space between the \lilyDynamics{z} and the \lilyDynamics{r} -- but as this combination wouldn't occur in real life, we don't need to demonstrate it here.
-There are a few predefinied commands (see \fref{tab:combinedDynLetters}) that are only used for the combination of letters that need some special “kerning” attention. These commands internally use \cmd{lilyDynamics} with its default scaling. These predefined commands need starred and unstarred versions again, as \LaTeX would ignore spaces after the unstarred command.
+There are a few predefined commands (see \fref{tab:combinedDynLetters}) handling the “kerning” of some special combination of letters. 
+Internally these commands internally use \cmd{lilyDynamics} with its default scaling.
 
 \begin{reftable}{Combined Dynamics Expressions}{combinedDynLetters}
-\lilyRF* & \cmd{lilyRF}, \cmd{lilyRF*} & rinforzando\\
-\lilyRFZ* & \cmd{lilyRFZ}, \cmd{lilyRFZ*} & rinforzando (alternative)\\
+\lilyRF & \cmd{lilyRF}  & rinforzando\\
+\lilyRFZ & \cmd{lilyRFZ} & rinforzando (alternative)\\
 
 \end{reftable}
 
@@ -520,7 +508,7 @@ There are a few predefinied commands (see \fref{tab:combinedDynLetters}) that ar
 \section{Graphical Dynamic Symbols}
 \label{sec:graphical_dynamic_symbols}
 
-Graphical dynamic symbols are realized by including image files and available as starred and unstarred versions.
+Graphical dynamic symbols like hairpins are realized by including image files.
 See \fref{tab:dynamicSigns} for the implemented commands.
 
 \begin{reftable}{Dynamics Signs}{dynamicSigns}
@@ -530,12 +518,10 @@ See \fref{tab:dynamicSigns} for the implemented commands.
 
 \section{Scripts}
 \label{sec:scripts}
-%\glyphlist{\emmentaler Script glyphs (part 1)}{scriptsI}{lily-20e8632d-1}
-%\glyphlist{\emmentaler Script glyphs (part 2)}{scriptsII}{lily-20e8632d-2}
 
-Script implementation has just begun. For the implemented glyphs \fref{tab:scripts}.
+Script implementation has just begun. For the implemented glyphs see \fref{tab:scripts}.
 
-You may find it strange that script glyphs sometimes seem to print too far to the left, clashing with the preceding text.
+If you manually enter scripts through \cmd{lilyGlyph} you will notice that they usually seem to print too far to the left, clashing with the preceding text.
 This is due to the fact that in musical engraving scripts are centered relative to the note they belong to.
 Therefore you often have to add extra space before the glyph if you access them directly.
 The predefined commands should of course have this already built in.
@@ -557,7 +543,7 @@ The latter target group might be satisfied reading the next section about writin
 In order to make the package .sty file easier to understand, its contents are split into multiple input files which are located in the \texttt{/commands} and \texttt{/core} subfolders.
 The most fundamental definitions are in the \texttt{keyval.inp} and \texttt{genericAccess.inp} files.
 
-\subsection{Accessing \emmentaler Glyphs}
+\subsection{Accessing \emmentaler{} Glyphs}
 \label{subsec:accessing_emmentaler_glyphs}
 The command that actually prints glyphs from the \emmentaler fonts is \cmd{lilyPrint}, defined in \texttt{genericAccess.inp}.
 It isn't intended to be called directly within a document, but only from the predefined commands.
