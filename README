@@ -1,0 +1,42 @@
+README for 'lilyglyphs'
+
+'lilyglyphs' is a package to make musical symbols and
+notational elements of the LilyPond engraving software
+(http://www.lilypond.org) available to LaTeX documents.
+
+(C) Urs Liska and others 2012-2013
+
+Symbols can be inserted like characters in the continuous text,
+either through a growing number of predefined commands or through
+generic access commands that can insert and print virtually anything
+that can be achieved with LilyPond.
+Different from any other solution I have found so far 'lilyglyphs' 
+items scale perfectly with any text font size and provide
+detailed control over their placement and scaling.
+
+'lilyglyphs' uses 'fontspec' to access LilyPond's 'Emmentaler' 
+OpenType fonts, so it can only be used with LuaLaTeX and XeLaTeX, 
+which are both supported.
+The manual uses the (free) fonts 'Linux Libertine O', 'Linux
+Biolinum O' and 'DejaVu Sans Mono', so in order to compile the manual
+you need these fonts installed or have to manually modify/replace
+the file 'documentation/lilyglyphsManualFonts.sty'.
+
+Symbols that aren't covered by the 'Emmentaler' fonts are provided
+with the help of small pdf image files that have been generated with
+LilyPond itself. If you want to extend the package with your own 
+commands based on images you have to use LilyPond, i.e. you need a 
+working installation. This isn't necessary to _use_ 'lilyglyphs', however.
+The package contains helper scripts that streamline the creation
+of new commands. If you want to make use of them you will also
+need a working installation of Python 2. Of course this too isn't
+a requirement for using the package.
+
+'lilyglyphs' is distributed under the LaTeX Project Public License 
+Version 1.3c (license/COPYING.LPPL),
+the included Emmentaler OpenType fonts are distributed under the
+SIL Open Font License, Version 1.1 (otf/LICENSE.OFL)
+
+The project homepage is http://www.openlilylib.org/lilyglyphs
+The development platform is at https://github.com/openlilylib/lilyglyphs
+There you can report and discuss bugs, problems, suggestions etc.
