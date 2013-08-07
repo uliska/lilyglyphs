@@ -1,6 +1,7 @@
 \documentclass[oneside]{scrreprt}
 \usepackage{lilyglyphsStyle}
 \usepackage{lilyglyphsManualFonts}
+\usepackage{paralist}
 \begin{document}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -851,63 +852,235 @@ This prints a dot with the same characteristics as the preceding one from a dott
 The horizontal gap between the dots scales linearly with a default of 0.25\emph{ex} per unit of \texttt{scale}.
 But if you pass an number as an optional argument this is interpreted as a different gap in \emph{ex}.
 
-\chapter{Easily create commands with Python scripts}
+\chapter{Generating Commands with Python}
 \label{chap:python_scripts}
-As we have seen in \fref{subsubsec:commands_single-glyphs} it isn't really complicated to create predefined commands.
-But we have developed a set of tools and templates to streamline this process even further.
-With them it is mostly a matter of telling what you want, naming it and running a Python script.
-But keep in mind that you can always do it manually if the pre-set workflow imposes any restrictions that you don't want to accept.
-And it is nevertheless a good idea to have read \fref{sec:howto_predefined_commands} to have a good understanding of what is going on.
+As we have seen in \fref{subsubsec:commands_single-glyphs} it is quite easy to create predefined commands.
+At least with regard to the Emmentaler glyphs it is really straightforward to simply create a command based on existing models and the documentation.
+Nothing prevents you from simply adding new commands to your document or helper package.
+Image driven commands are slightly more complex.
+The \LaTeX{} part is equally straightforward, but you also have to provide the \textsc{pdf} image by creating a score with LilyPond and produce the right output file which involves a few steps.
 
-The process basically consists of writing a definitions file (something like a template), calling a script and then putting the results to a useful place.
-However it slightly differs if you create commands for using images or for using \emmentaler glyphs.
-Both ways require a working Python 2 installation to work, creating commands with images additionally involves running LilyPond.
-And the necessary scripts (and partially source files) are only available in the Git repository version of the package.
-If you don't have Git installed but want to profit from them you can download zipped versions of the complete repository from GitHub.
-You can't create image glyph commands at all without having LilyPond installed on your system, but you don't need Python in order to create new commands -- it just provides a much more convenient workflow.
+Therefore we have developed a set of tools and templates to streamline the  process of creating new commands even further. 
+These tools are Python 2 scripts, so in order to use them you will need a working Python installation.
+If you want to create image driven commands you will of course have to have LilyPond installed too.
+In both cases the process basically consists of writing a definitions file (something like a template), calling a script and then putting the results to a useful place.
 
-\section{Generating Commands with Image Glyphs}
+To summarize your options for extending the symbols coverage:
+\begin{itemize*}
+\item If you only have the plain \lilyglyphs{} package you can create new commands using Emmentaler glyphs.\\
+You can also create image driven commands using any preexisting images (e.\,g. scans or output from any software).
+\item If you also have LilyPond installed you can additionally create image driven commands that match the ones already present in the package.
+\item If you have Python working you can make use of our tools to generate Emmentaler and LilyPond commands (LilyPond presence provided).
+\end{itemize*}
+
+\section{Generating Commands for \emmentaler{} Glyphs}
+\label{sec:generating_commands_emmentaler}
+
+Generating commands that print Emmentaler glyphs with our tools is a straightforward process.
+The steps involved are few:
+\begin{inparaenum}[1)]
+\item create an input definitions file,
+\item run a Python script on it,
+\item fine-tune the commands in the generated \LaTeX{} file, and
+\item move the resulting code to an appropriate place.
+\end{inparaenum}
+We'll go through these steps in the following subsections.
+Be assured that although these instructions span several pages the actual process of creating new commands is very fast once you have got used to it.
+
+\subsection{Preparing the Input File}
+\label{subsec:GGC_preparing_input_file}
+
+\todo{I assume that the path issue is updated according to my Trello card.}
+
+The first step is to create a text file with entries for any number of new commands to be created.
+You can save it to any convenient location, and it is up to you to keep this file for reference after use.
+
+The input file consists of one ore more command definitions.
+Each command definition is composed of a set of lines with \texttt{key=value} pairs (please note that you shouldn't use whitespace around the equals sign).
+The end of the definition is indicated by an empty line, therefore it is important that your file ends with a complete empty line, otherwise the last entry will be discarded.
+Lines beginning  with Python and \LaTeX{} style comments (\% and \#) are ignored, so you can use them to document your file if you want.
+
+
+\medskip
+A command entry consists of several mandatory or optional lines.
+The order doesn't matter, but it is advisable to stick to one style.
+The following items are possible/necessary:
+\begin{itemize}
+	\item \textsf{\textbf{cmd} (mandatory)}: Specifies the command name. 
+	You have to make sure that it is a valid \LaTeX{} name and that it isn't in use already.
+	\item \textsf{\textbf{comment} (optional)}: You can pass a single line comment that will be used before the command definition.
+	(If you want to have a multiline comment instead you can insert line breaks with \cmd{n}.)
+	\item \textsf{\textbf{element} (mandatory)}: The actual element to be passed to the internal printing functions.
+	The possible kind of values depends on the type of the command, as described below.
+	\item \textsf{\textbf{type} (mandatory, but defaulted)}: The type determines the internal printing command to be used with the command.
+	Please refer to \fref{sec:generic_access_commands} for more information.
+	The option is mandatory but defaults to “glyphname”, so you can skip it for the most common case that the glyph is called by name.
+
+	\begin{itemize}
+		\item \textbf{\texttt{glyphname:}} The glyph is selected by its glyphname, which is what you have to specify as “element” (e.\,g. “accidentals.sharp“ (without the quotes)).
+		You can look up the glyph names in LilyPond's documentation or in the glyph list contained in the package.
+		
+		\item \textbf{\texttt{number:}} The Unicode number is used to determine the glyph.
+		
+		\item \textbf{\texttt{text:}} The content is passed as plain text (works only for Dynamic letters, numbers and + - , .)
+		
+		\item \textbf{\texttt{dynamics:}} The content is also passed as plain text, but the \cmd{lilyDynamics} function is used to print it (applying the suitable default scaling).
+		
+		\item \textbf{\texttt{image:}} The command prints an image file.\\
+		This is the preferred way to create such a command if you already have an image file obtained from or created with any other source than LilyPond (e.\,g. a scanned image from a printed edition or an autograph).
+		You can even use this to create non-musical commands that print images and profit from \lilyglyphs' infrastructure (like the automatic scaling with text size).
+		For this purpose you can use .pdf files (preferred) or any image files your \LaTeX{} installation can process.
+		
+		The “element” for an image driven command is the plain file name without extension or path.
+		The file has to be stored in a location that is visible to \LaTeX, and you are responsible for avoiding name clashes.
+		If you have set up a private directory structure as recommended in 	\fref{subsec:private_directory_structure}, its \dir{custom\_images} subdirectory is a good choice.
+	\end{itemize}
+	\item \textsf{\textbf{scale / raise} (optional):} 
+	If a line contains one of the keys \verb|scale=| or \verb|raise=| the value after the equals sign is used for the design time options of the new command.
+	These values are also kept for subsequent command entries until the file is finished or the script finds a new entry -- which would replace its value.
+	The idea behind this option is to simplify the (likely) process of defining a set of related commands within an input file with its high probability of sharing default values.
+\end{itemize}
+
+\noindent Here you can see two examples of command entries:
+\begin{quote}
+\begin{verbatim}
+cmd=fermataDown
+element=scripts.dfermata
+comment=downward fermata
+# type glyphname is implicitely used
+
+cmd=rinforzando
+element=rfz
+comment=Rinforzando, to be kerned
+type=dynamics
+\end{verbatim}
+\end{quote}
+
+In the following subsection you can see what these commands are processed to.
+
+\subsection{Generating the \LaTeX{} code}
+\label{subsec:GGC_processing}
+
+The Python script that processes your input file is \texttt{genGlyphCommands.py}, located in the \dir{/py} subdirectory of the package.
+You simply pass it the (absolute or relative) filename of the input file as its first parameter.
+The program parses the input file and creates a new file, by default one with the same basename but a \texttt{.tex} extension, in the same folder where the input file is.
+
+\todo{Make sure this is true and correct. Add and document new options for the script}
+
+The resulting file is a working \LaTeX{} document that uses the \lilyglyphs{} package.
+It contains \LaTeX{} \cmd{newcommand} definitions for each command definition in the input file.
+The visible part of the document contains a reference table (as used throughout this manual) with all generated commands and additionally example text for each generated command.
+
+\todo{Insert examples how the both examples from the previous sections would be processed.}
+
+\subsection{Fine-tuning the \LaTeX{} Commands}
+\label{subsec:GGC_fine-tuning}
+So what are we going to do with the contents of this file?
+Well, it depends on how/where you want to eventually use it, but the first step will be to fine-tune the commands.
+
+The first thing the generated example text does is showing that the command actually works.
+But its more important purpose is to print the new glyph in different contexts: in continuous text, before punctuations, at the beginning of a line etc.
+You should use these blocks of example text to adjust the arguments in the \verb|\setkeys{lilyDesignOptions}| clause.
+The script generates default values for the design time values of the optional argument, and it would of course be purely random if they would be perfect right away.
+Even if you supplied \texttt{scale} and/or \texttt{raise} values in the input file you're likely to have to tune the results.
+You should specifically keep an eye on spacing issues: Does the glyph affect line spacing, is the “kerning” of the glyph correct?
+On the other hand you should probably try to keep corresponding glyphs at an equal scaling.
+Besides tweaking the optional argument values you can add space before or after the glyph -- keep in mind that you may as well use negative \cmd{hspace}.
+And of course you can adjust the commands any way you like, but if you are going to make experimental commands you will probably rather write them manually as described in \fref{sec:howto_predefined_commands}.
+
+\subsection{Finishing Off (and Contributing)}
+\label{subsec:GGC_finishing_off}
+If you are satisfied with the new command(s) you will have to move them to a useful place.
+If you are just creating the commands for your personal or one-time use you can either copy the command definitions to the preamble of your current \LaTeX{} document or to any style file you might maintain.
+A good choice would be the \package{lilyglyphsPrivate.sty} as described in \fref{subsec:private_directory_structure}.
+In this case it is recommended to supply documentation in the \texttt{lilyglyphsPrivate.tex} file on the same directory for your own reference.
+
+But of course we would be happy if you decided to contribute your commands as additions to the package -- we consider increasing coverage of glyphs through user contribution a natural way of evolution for \lilyglyphs.
+Be prepared for compilation errors when your contribution returns to you as package updates.
+Once this happens your own command definitions will try to re-define the commands, and \LaTeX{} will throw out error messages.
+In that case you will have to remove your definitions from your private packages (wherever you have put them) -- they are obsolete now anyway.
+
+Probably the simplest way to contribute is sending the processed \texttt{.tex} file as an email to the package maintainer (currently \href{mailto:ul@openlilylib.org}{\nolinkurl{ul@openlilylib.org}}). 
+He would then incorporate them into the package.
+\emph{Please} keep the generated reference table in the file as we will need it to update the command reference in the manual.
+And please also add some information about your additions in the file: where it belongs, where it should be documented etc.
+If your commands need any special considerations (e.\,g. specific arguments) please also add some material suitable for the manual.
+
+If you are working on a fork of the GitHub repository (as is recommended for potential participators) you can incoporate the new commands directly and send us a pull request (preferably as soon as possible to minimize risk of conflicts with others' changes).
+This works by completing the following steps:
+\begin{itemize}
+\item Create a new branch with a suitable name.
+\item Move/copy the command definitions (with all comments) to appropriate .inp files in the package's \dir{/commands} subdirectory.
+If you find you should create a new .inp file because your commands belong to a new category please take the existing files as a model and add an appropriate \cmd{input} statement to \texttt{lilyglyphs.sty}.
+For any new files you might create copy\,\&\,paste the usual copyright comment at the beginning from another file.
+\item \emph{Please} add documentation for your commands in the manual (\texttt{/documentation/lilyglyphs.tex}).
+Find the appropriate subsection in the “Predefined commands” section (or create a new one) and add information to it.
+At least we need the entries in the reference table, but if there is anything special to note about the commands please explain this too.
+If you add to an existing subsection you may copy the rows from the table in the file generated by the script, otherwise you should copy the whole table (but update the caption and label fields appropriately).
+\item If you are happy with the result you can push to your fork of the repository and send a pull request through the GitHub web site.
+\end{itemize}
+
+If you have any questions on these procedures it is certainly a good idea to get in contact with us \emph{before} starting any substantial work.
+
+\section{Generating Commands with Glyph Images}
 \label{sec:generating_commands_image}
-
-The heart of the toolset is the Python script \texttt{buildglyphimages.py}, which is located in the \texttt{/py} directory.
-It reads in an input file with one or more command definitions in it, generates compilable LilyPond source files from them and uses LilyPond to create small pdf files containing the images to be included in the \LaTeX{} file.
-Then the script creates a new \LaTeX{} file with command definitions and example text, which can then be used to fine-tune the commands.
-Finally you will have to move the generated commands to some useful location.
+Creating commands with images generated by LilyPond is a significantly more complex task than simply inserting Emmentaler glyphs, and therefore the Python script \texttt{buildglyphimages.py}, located in the \texttt{/py} directory, is a more complex one.
+But from the end user's perspective the process is surprisingly similar:
+\begin{inparaenum}[1)]
+\item create an input definitions file,
+\item run a Python script on it,
+\item fine-tune the commands in the generated \LaTeX{} file, and
+\item move the resulting code to an appropriate place.
+\end{inparaenum}
+The main differences to consider are the different structure of the input files and some considerations about file locations.
 
 But let us start with looking at the form of the input files.
 
 
 \subsection{Preparing the Input Files}
 \label{subsec:BGI_preparing_input}
-\texttt{buildglyphimages.py} doesn't expect regular LilyPond source files as its input, but rather a file with one or multiple 'snippets' in it. 
-We will later see that it makes sense to provide compilable Lilypond files, though.
+\texttt{buildglyphimages.py} doesn't expect regular LilyPond source files as its input, but rather a file with one or multiple ‘snippets’ in it, similar to those for \texttt{genGlyphCommands.py}. 
+We will later see that it is possible and makes sense to provide compilable Lilypond files, though.
 
-Input definition files are to be stored in the subdirectory \texttt{definitions} of our \texttt{/glyphimages} directory.
+Depending on the type of your \lilyglyphs{} installation you may work either in the \dir{/glyphimages} directory of the package or in the \dir{lilyglyphs\_private} directory you set up according to \fref{subsec:private_directory_structure}.
+So in the context of the following instructions \dir{/} or \texttt{ROOT} refer to the appropriate one of these two directories.
 
-The script parses the input file line by line until it finds a line that contains the special key \verb|%%lilyglyphs|.																																																					
-Then it starts reading in an entry for a single glyph command.
+Input definition files are to be stored in the \dir{/definitions} subdirectory .
+Other than the files used for the generation of Emmentaler commands these files are considered persistent and should remain in place to be able to recreate the images at a later time.
+Therefore it is recommended to define related commands in one file and give it an appropriate name.
+A filename extension isn't mandatory but you may use \texttt{.ly} as you will see later.
+The file name will also be reflected in auto-generated directory names so you should consider the naming thoroughly.
 
-Any subsequent line that starts with the percent sign as a LilyPond comment is interpreted as a comment.
-This comment will later be used for marking the command in the \LaTeX{} file.
-If a line contains the special key \verb|%%protected|, the script skips this command.
-You should use this key whenever you consider a command finished.
-This won't only save the time of the LilyPond compilation, but will also prevent the existing command to be generated again in your output file.
+As with the Emmentaler commands the definitions file can contain any number of command entries, although they are structured differently.
 
-If a line contains one of the keys \verb|scale=| or \verb|raise=| the value after the equals sign is interpreted as a new default value that the generated command gets as its design time options.
-These values are also kept for subsequent command entries until the file is finished or the script finds a new entry -- which would replace the value.
-The idea behind this option is that it is likely that one defines a set of related commands within an input file.
-And it is likely that these related functions share common default values.
-For example all single notes were created with a default scaling of 0.75.
-Without this option you would have to adapt your result file for any single command, with it you can decide which default values you prefer for the commands at hand. 
+A command entry starts with the special key \verb|%%lilyglyphs|.																																																					
+
+After this there may be any number of lines starting with a single \% as a LilyPond comment.
+These comment lines are used for commenting the command in the resulting \LaTeX{} file.
+
+If a line consists of the special key \verb|%%protected| the script skips the entire command.
+You should use this key whenever you consider a command finished because it will prevent LilyPond from recompiling the command%
+\footnote{This is especially important when working inside a Git repository.
+With any new or different LilyPond installation the generated \texttt{pdf} files are likely to be different and would therefore be considered as ‘modified’ by Git}
+and the script from re-generating the \LaTeX{} command.
+
+If a line contains one of the keys \verb|scale=| or \verb|raise=| the value after the equals sign is used for the design time options of the new command.
+These values are also kept for subsequent command entries until the file is finished or the script finds a new entry -- which would replace its value.
+The idea behind this option is to simplify the (likely) process of defining a set of related commands within an input file with its high probability of sharing default values.
 The setting of option defaults also works if a command is marked as “protected”.
 Generally this is an advantage since you don't have to take care to correctly update the file when you mark something as protected.
 But there may be cases where you will want to remove the defaults setting from a \texttt{\%\%protected} clause.
 
 Afterwards you provide the actual LilyPond command in the form of a variable holding a musical expression.
 The first line should contain exactly the name, the '=' and the opening curly brace.
-The following lines are read as LilyPond code until the parser finds a line starting with the closing curly brace.
+The name of the variable is very important because it will also be used as the file name of the image file and the \LaTeX{} command name.
+The following lines are interpreted as LilyPond code until the parser finds a line starting with the closing curly brace.
+This will also end the command entry, but for readability's sake it is surely a good idea to enter at least one empty line after the entry.
 
-Here you can see a concise example of a lilyglyphs entry section:
+One important thing to know is that by default the generated image will \emph{not} print staff lines, a time signature and the clef.
+\todo{What is the way to create images \emph{with} these elements? IS there a way? If not refer to a future version.}
+
+This is a minimal working example of a \lilyglyphs{} entry section:
 
 \begin{verbatim}
 %%lilyglyphs
@@ -916,43 +1089,86 @@ crotchet = {
   g'4
 }
 \end{verbatim}
-The name of the variable is very important, because it will also be used as the file name of the image file and the \LaTeX{} command name.
 
 \paragraph*{Warning:}
 So far the parser isn't very smart.
-It just assumes that the input file it parses is correct.
+It just \emph{assumes} that the input file it parses is correct.
 If you provide code with deviations from this explanation, the script will probably produce erroneous results or just stop working.
 Probably it won't do any harm, but we can't make any promises on that.
 Please consider the script as being in a \textbf{very experimental} state.\\
-
 
 You can define as many entries in one file as you like -- they will all be processed at once. 
 Of course it is recommended to combine a coherent set of commands.
 
 Everything that is outside of the lilyglyph entries is ignored by the script, so you can make use of these places to make a usable LilyPond file out of it.
-You can start off with the file \texttt{definitions/\_template.ly}.
-After the definition of the lilyglyph entry it places a markup, then it copies the variable to a new variable named \texttt{symbol} and finally includes a score from a special include file \texttt{score.ily}.
-This will print your variable as the only element in a new score block that is prepared not to print staff, time signature and clef.
-You can repeat this several times and have LilyPond produce a sheet with all defined symbols.
-This way you can finish your design in “pure LilyPond” before actually going on to the \LaTeX{} part.
+You can start off with the file \texttt{/definitions/\_template.ly} to see how it works.
 
+Basically you have to copy your definition to a new variable named \texttt{symbol} and then include a special include file \texttt{score.ily} (which is provided in that \dir{/definitions} directory).
+This will print your command definition as the only element in a new score block that is prepared not to print staff, time signature and clef.
+You can repeat this several times, inserting top-level \cmd{markup}s and have LilyPond produce a sheet with all defined symbols.
+This way you can finish your design in “pure LilyPond” before actually going on to the \LaTeX{} part -- and at the same time prepare a reference sheet of your work.
+
+\begin{quote}
+\begin{verbatim}
+\version "2.16.2"
+
+%%lilyglyphs
+% crotchet with upward stem
+crotchet = {
+  g'4
+}
+\markup "Crotchet with upward stem"
+symbol = \crotchet
+\include "score.ily"
+
+% %lilyglyphs
+% crotchet with downward stem
+crotchetDown = {
+  \stemDown
+  c'4
+}
+\markup "Crotchet with downward stem"
+symbol = \crotchetDown
+\include "score.ily"
+
+% and so on ...
+\end{verbatim}
+\end{quote}
 
 \subsection{Running the Script}
 \label{subsec:BGI_running}
 
+\todo{Update the script to be more versatile with directories.
+In particular it should work on the package subdir or the private dir.
+When updated document correct behaviour.}
+
 If you have prepared your input file you can run the \texttt{/py/buildglyphimages.py} script, passing the file name (without the path) along with the option \verb|-i| (or \verb|--input|). The script will look for the filein the \texttt{/glyphimages/definitions} directory.
 
-In a first step the program parses this file and extracts information about the command definitions that haven't been marked as protected. Then it generates one compilable LilyPond source file for each command and saves it to a subdirectory of \texttt{/glyphimages/generated\_src} .
-Each file is named according to the name of the command you specified in the input definition file, and the subdirectory is named according to the input file.
-So if you combined several glyphs in a file \texttt{singlenotes.ly} the results will be stored in a \texttt{singlenotes} subdirectory.
+Now the script will do several things:
+
+\paragraph*{Generate LilyPond source files:}
+In a first step the program parses the input file and extracts information about the command definitions that haven't been marked as protected. 
+For each command definition it generates one compilable LilyPond source file.
+This will be named according to the command name and put in a subdirectory of \dir{/generated\_src}, named according to the input file.
+So if you combined several glyphs in a file \texttt{singlenotes.ly} the results will be stored in a \dir{singlenotes} subdirectory.
 And if you run the script again on a file with the same name but other definitions in it, it will add the new items to the directory.
+Commands that have been processed earlier and that aren't marked as protected will overwrite the existing LilyPond file.
 
-Now these generated source files are compiled using LilyPond. 
-The command line option \verb|-dpreview| takes care of producing a pdf file with the smallest possible bounding box around its content.
-The directory is then cleaned up, and the resulting small PDF files are moved to the corresponding subdirectory below \texttt{glyphimages/pdfs}.
+\todo{Completely review this file name behaviour.
+The problem is that it doesn't prevent name clashes reliably.
+Even if I have a check in the script this can be tricked by manual processes, it would be better to have a control mechanism on filesystem level.
+So it would be better to have all commands in one directory (i.\,e. one generated.. dir and one pdf dir, without subdirs.
+The downside is that this can become quite crowded if \emph{all} commands live in the same directory.
+OTOH there exist plenty of applications with subdirs with thousands of items.)}
 
-The final task of the script is to generate a \LaTeX{} file that is stored as \texttt{/stash\_new\_commands/imgages/newImageGlyphs.tex}.
-Any existing file (i.\,e. the result of the previous run) will be overwritten.
+
+\paragraph*{Compile images with LilyPond:}
+Now these generated source files are compiled using LilyPond with the command line option \verb|-dpreview|.
+The directory is then cleaned up, and the resulting small PDF files are moved to the corresponding subdirectory below \dir{/pdfs}.
+
+\paragraph*{Generate \LaTeX{} commands:}
+Finally the script generates a \LaTeX{} file that is comparable to the one generated by the Emmentaler command generation script.
+\todo{Think about where this is stored. Implement the change in the script.}
 
 
 \subsection{Utilizing the results}
@@ -964,55 +1180,29 @@ If you have successfully run the script you have the following results:
 \item PDF files in the \texttt{/glyphimages/pdfs/INPUT\_FILE\_NAME} folder and
 \item the file \texttt{/stash\_new\_commands/images/newImageGlyphs.tex}.
 \end{itemize}
-You shouldn't touch the first two items but go on and open the .tex file.
-Keep in mind that this file will be overwritten by the next run of the script, so if you want to make any changes and/or keep the generated contents, you should immediately rename the file.
-It is a good idea to name it according to the definitions input file because these two files form a natural pair.
-This file is a working \LaTeX{} document that uses the \lilyglyphs package.
-It contains \LaTeX{} \cmd{newcommand} definitions with starred and unstarred versions, one for each definition of the input file that hasn't been skipped in the process.
-The visible part of the document contains a documentation table (as used throughout this manual) with all generated commands and example text for each generated command.
 
-So what are we going to do with this file?
-Well, it depends on how/where you want to eventually use it, but the first step will be to fine-tune the commands.
+\todo{Review when script has been updated}
 
-The script generates default values for the design time values of the optional argument, and it would of course be purely random if it would be perfect right away.
-The first thing the generated example text does is showing that the command actually works.
-But its more important purpose is to print the new glyph in different contexts: in continuous text, before punctuations, at the beginning of a line etc.
-You should use these blocks of example text to adjust the arguments in the \verb|\setkeys{lilyDesignOptions}| clause.
-You should specifically keep an eye on spacing issues: Does the glyph affect line spacing, is the “kerning” of the glyph correct?
-On the other hand you should probably try to keep corresponding glyphs at an equal scaling.
-Besides tweaking the optional argument values you can add space before or after the glyph, possibly for the starred and unstarred commands independently.
-Keep in mind that you may as well use negative \cmd{hspace}.
+You shouldn't touch the first two items but go on and open the \texttt{.tex} file.
+This file will in fact be the same as one generated by \texttt{genGlyphCommands.py}, and also the way to finish off and possibly contribute your commands is essentially the same as described in \fref{subsec:GGC_fine-tuning} and \fref{subsec:GGC_finishing_off}.
 
-Sometimes you will find that a rather tall glyph is difficult to accomodate because you have to scale it down so much in order not to affect the line spacing that it looks unnaturally small.
+There are a few differences however:
+
+\begin{itemize}
+\item You should always keep the original definitions file so you can later re-generate the image from it.
+This can happen when you need to modify it -- or when you want to upgrade the package to a new version of \emmentaler.
+\item Don't forget to mark finished command definitions as ‘protected’.
+\item Keep in mind that this file will be overwritten by the next time the same input file is processed by the script, so if you need to make any changes to the \LaTeX{} command definitions you should immediately copy them to a safe place.
+\item Sometimes you will find that a rather tall glyph is difficult to accomodate because the necessary scaling will make it look unnaturally small.
 In such a case you might consider going back to the LilyPond side to review the design of your glyph (for example the glyphs for the single note commands have shortened stems).
 Please make sure that you understand the implications of the following section about partial processing.
-
-\medskip
-If you are satisfied with the new commands you will have to move them to a useful place.
-In any case you should keep copies of the input files as well as the current .tex file as a reference.
-If you have put the command definitions in another file (e.\,g. in one of the .inp files of the \lilyglyphs package) you have to remove them from the generated file, otherwise you will get compilation errors.
-
-If you are just creating the commands for your personal use, you can either copy the command definitions to the preamble of your working \LaTeX{} document or to a style file you might maintain.
-But of course we would be happy if you decided to contribute them to the package, for which there are several possible ways:
-
-Probably the simplest way is to send the definitions file and your processed results file as an email to the package maintainer. He would then run the script to generate the intermediate LilyPond and the pdf files and copy your edited command definitions to appropriate places in the package.
-
-If you are working on a fork of the GitHub repository (as is recommended for potential participators) you could do even better by incorporating the new commands directly and sending us a pull request.
-This works by completing the following steps:
-\begin{itemize}
-\item Move/copy the command definitions (with all comments) to appropriate .inp files in the \texttt{commands} subdirectory of the package root.
-If you find you should create a new .inp file because your commands belong to a new category please take the existing files as a model and add an appropriate \cmd{input} statement to \texttt{lilyglyphs.sty}.
-Please leave your definitions file in the \texttt{glyphimages/definitins} folder, with all commands marked as 'protected' (see next section for details).
-Please also leave the generated LilyPond files in their subdirectory (you would have a hard time finding them anyway).
-For any new files you might create please add the usual copyright comment at the beginning.
-\item \emph{Please} add documentation for your added commands in the manual (\texttt{lilyglyphs.tex}).
-Find the appropriate subsection in the “Predefined commands” section and add information to it.
-At least we need the entries in the documentation table, but if there is anything special to note about the commands please explain this too.
-If you add to an existing subsection you may copy the rows from the table in the file generated by the script, otherwise you should copy the whole table (but update the caption and label fields appropriately).
-\item If you are happy with the result you can push to your fork of the repository and send a pull request through the GitHub web site.
-It would be nice if we would receive such a pull request as a single commit (use \texttt{rebase -i}), as this is much easier to check.
+\item If you want to submit new commands by email we need 
+\begin{inparaenum}[1)]
+\item the original definition,
+\item the generated LilyPond source, and
+\item the final \LaTeX{} command.
+\end{inparaenum}
 \end{itemize}
-
 
 \subsection{Partial processing of the input file}
 \label{subsec:BGI_partial_processing}
@@ -1026,104 +1216,20 @@ To do this you enter a line containing \verb|%%protected| in your entry definiti
 You can see an example for this in the \texttt{\_template.ly} file -- because the example entry shouldn't be processed at all.
 From now on the marked command won't be processed anymore.
 This means that the LilyPond source file won't be generated again, LilyPond isn't run again for the script (which would be the most annoying thing), and the \LaTeX{} commands won't be generated again.
-The output file will of course be overwritten (you have renamed it before re-running the script, isn't it?) but it won't be cluttered with commands that you have already dealt with earlier.
+The output file will of course be overwritten (you have renamed it before re-running the script, didn't you?) but it won't be cluttered with commands that you have already dealt with earlier.
 
 
 \subsection{Recreating Image Files}
 \label{subsec:BGI_recreating_images}
 
-There are occasions when you have to (re)create the pdf files that serve as the glyph images without having to regenerate the \LaTeX{} commands or the LilyPond source files.
-If you clone the Git repository then the pdf files are not present because they aren't tracked by Git.
-Or if you pull updates from the remote repository that introduce new glyph images the pdf files won't be included for the same reason.
+There also are occasions when you might have to (re)create the \textsc{pdf} files that serve as the glyph images without having to regenerate the \LaTeX{} commands or the LilyPond source files.
+One example would be the upgrade to a new \emmentaler{} version.
 In that case you can run the script \texttt{rebuild-pdfs.py}, which is also located in the \texttt{/py} directory.
 This script essentially compares the directories with the generated LilyPond sources and with the created pdf files, and if it finds a source without a corresponding pdf it will call LilyPond to recreate it.
 Of course this script will only work with a working LilyPond installation.
 
-
-
-\section{Generating Commands for \emmentaler Glyphs}
-\label{sec:generating_commands_emmentaler}
-
-Generating commands that print \emmentaler glyphs is very similar to the process with images described in the previous section, and it actually is even simpler, because there are no intermediate LilyPond files and compilations involved.
-All there is to it is: create an input definitions file, run the \texttt{/py/genGlyphCommands.py} on it and fine-tune the generated \LaTeX{} file.
-So in this chapter we mainly discuss the differences to the process as was already described.
-
-
-\subsection{Preparing the input file}
-\label{subsec:GGC_preparing_input_file}
-
-The structure of the input file for the \texttt{genGlyphCommands} script is actually simpler than that for the \texttt{buildglyphimages} script.
-This is due to the fact that we wanted the latter to be valid LilyPond source file as well -- a restriction we don't need to consider here.
-As there is no creation of secondary files with LilyPond involved, the input file is much less important than with the image glyphs process.
-There you need to keep the input files in order to be able to re-create or change the image files at any given moment, but here you only need to keep them if you want to keep track of what you have done.
-
-The script will look for the input file in the \texttt{/stash\_new\_commands/emmentaler} directory, so you have to save it to that directory.
-It can have any name and any or no file extension.
-
-The input file should consist of one ore more command definitions.
-Each command definition is composed of a set of lines with \texttt{key=value} pairs and finished by an empty line.
-Please note that you shouldn't use whitespace around the equals sign.
-Python and \LaTeX{} style commands are ignored, so you can use them if you want.
-But keep in mind that empty lines have the special meaning of closing a command definition.
-Therefore it is important that your file ends with a complete empty line, otherwise the last entry will be discarded.
-
 \medskip
-A command entry consists of several mandatory or optional lines.
-The order doesn't matter, but it is surely advisable to stick to one style.
-The following items are possible/necessary:
-\begin{itemize}
-	\item \textsf{\textbf{cmd} (mandatory)}: Specifies the command name. 
-	You have to make sure that it is a valid \LaTeX{} name and that it isn't in use already.
-	\item \textsf{\textbf{comment} (optional)}: You can pass a single line comment that will be used before the command definition.
-	(If you want to have a multiline comment instead you can insert line breaks with \cmd{n}.)
-	\item \textsf{\textbf{element} (mandatory)}: The actual element to be passed to the internal printing functions.
-	The possible kind of values depends on the type of the command, as described with these types.
-	\item \textsf{\textbf{type} (mandatory, but defaulted)}: The type determines the internal printing command to be used with the command.
-	Please refer to \fref{sec:generic_access_commands} for more information.
-	The option is mandatory but defaults to “glyphname”, so you can skip it for the most common case that the glyph is called by name.
-
-	\begin{itemize}
-		\item \textbf{“glyphname”:} The glyph is selected by its glyphname, which is what you have to specify as “element” (e.\,g. “accidentals.sharp“).
-		You can look the glyph names up in LilyPond's documentation or in the glyph list contained in the package.
-		\item \textbf{“number”:} The Unicode number is used to determine the glyph.
-		\item \textbf{“text”:} The content is passed as plain text (works only for Dynamic letters, numbers and + - , .)
-		\item \textbf{“dynamics”:} The content is also passed as plain text, but the scaling defaults to 1.5, which is quite suitable for dynamics.
-		\item \textbf{“image”:} The command prints an image file.
-		The usual way for creating such a command would seem to be using the other script, \texttt{buildglyphimages.py}, but this way you can also create commands using image files you obtained/created from any other source than LilyPond.
-		You can even use this to create non-musical commands that print images and profit from \lilyglyphs*' infrastructure (like the automatic scaling with text size).
-		You can use .pdf files (preferred) or .png or .jpg images for this purpose.
-		You are encouraged to save these files to a dedicated folder different from the one where the LilyPond images are stored automatically.
-		This folder has to be in view of \LaTeX, but if you use one inside the \lilyglyphs directory this isn't an issue.
-		Of course such externally created image files aren't automatically tracked by Git and therefore aren't promoted to other users of the package.\\
-		The “element” for an image driven command is the plain file name without extension or path.
-	\end{itemize}
-	\item \textsf{\textbf{scale / raise} (optional):} If one of these items is found they are set to be the new default value for the command's optional argument. 
-	As described in \fref{subsec:BGI_preparing_input} the value is kept until the end of the file is reached or the value is set newly.
-\end{itemize}
-
-\noindent Here you can see two examples of command entries:
-\begin{verbatim}
-cmd=fermataDown
-element=scripts.dfermata
-comment=downward fermata
-# type glyphname is implicitely used
-
-cmd=rinforzando
-element=rfz
-comment=Rinforzando, to be kerned
-type=dynamics
-\end{verbatim}
-
-\subsection{Running the script and Utilizing the Results}
-\label{subsec:GGC_running_utilizing}
-
-You can run the \texttt{/py/genGlyphCommands.py} script and simply pass the prepared input file as the first (and only) parameter.
-The script will only look for the file in the \texttt{/stash\_new\_commands/emmentaler} directory.
-
-The program parses the input file and creates a new file \texttt{/stash\_new\_commands/emmentaler/newGlyphCommands.tex} that is exactly like the one created by \texttt{buildglyphimages.py} (see \fref{subsec:BGI_utilizing_results}).
-It doesn't create any intermediate files and doesn't invoke LilyPond, however.
-
-You finish off the process exactly like with the image driven commands, so we don't have to repeat that here.
+Maybe in the future there will be functionality to detect changes in the glyphs' definitions, or remove \textsc{pdf} files that don't have a corresponding source file anymore.
 
 \chapter{Contributing to \lilyglyphs}
 \label{chap:contributing}
