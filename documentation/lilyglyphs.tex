@@ -1,5 +1,6 @@
 \documentclass[oneside]{scrreprt}
 \usepackage{lilyglyphsStyle}
+\usepackage{lilyglyphsManualFonts}
 \begin{document}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -163,7 +164,7 @@ Commands without mandatory arguments behave like e.\,g. the well-known \cmd{LaTe
 So in order to allow a space to be printed afterwards you have to supply a pair of curly braces, like \cmd{flat\{\} and more} to print “\,\flat{}\ and more”.
 Commands with arguments don't need this special treatment, so you can simply write a space character after them or not like \cmd{lilyDynamics\{mf\} or \textbackslash lilyDynamics\{pp\}.} to achieve \lilyDynamics{mf} or \lilyDynamics{pp}.
 
-\section{Generic Access Ccommands}
+\section{Generic Access Commands}
 \label{sec:generic_access_commands}
 
 There is a wealth of conceivable musical symbols and only a limited number of predefined commands.
@@ -537,7 +538,7 @@ The predefined commands should of course have this already built in.
 \label{sec:internals_generic_access}
 This section is essential for readers who want to understand how this package works internally, for example if they want to actively participate in its development.
 It is structured from the perspective of the package's behaviour instead of from a user's POV.
-If you simply want to add your own predefined commands “the \lilyglyphs{} way” it is a good idea to read this section too, but you may also skip it and directly go to \fref{sec:howto_predefined_commands}.
+If you simply want to add your own predefined commands “the \lilyglyphs{} way” it is a good idea to read this section too, but you may also skip it and directly go to \ref{sec:directory_structure}.
 
 \medskip
 In order to make the package's \texttt{.sty} file easier to understand, its content is split into multiple input files which are located in the \texttt{/commands} and \texttt{/core} subfolders.
@@ -622,7 +623,7 @@ But as an additional step \cmd{lilyScaleImage} is called, and finally it uses \c
 I won't explain this in detail, but in effect it multiplies the \cmd{lilyEffectiveScale} calculated before with the ratio of the current font size to the \cmd{normalsize} size.
 
 What is finally given as the content to be printed is the basename of an image file.
-This can be a file in \texttt{.pdf}, \texttt{.png} or \texttt{.jpg} format, but we highly recommend using \textsc{pdf} files for sake of printing quality.
+This can be any file format understood by the used \TeX engine but we highly recommend using \textsc{pdf} files for sake of printing quality.
 
 As with printing Emmentaler glyphs there is no handling of design time options here, and for that reason you should never call this command directly from a document.
 Please use \cmd{lilyImage} instead which does the same as \cmd{lilyPrintImage} but additionally defaults the design time options to neutral values.
@@ -739,15 +740,18 @@ As a last example we will look at the definition of \lilyRFZ \cmd{lilyRFZ}.
     }%
 }
 \end{verbatim}
+You may notice that we use \cmd{lilyDynamics} here, one of the Generic Access Commands (see \fref{sec:generic_access_commands}) instead of the low-level printing command.
+We can do this and also use the other ones: \cmd{lilyText}, \cmd{lilyGlyph}, \cmd{lilyGlyphByNumber} or \cmd{lilyImage}.
+This is actually simpler because we don't have to set the design time options -- but that's also the main disadvantage: this way we \emph{can't} set them and have to use the given default parameters.
 As mentioned in \fref{sec:dynamic_text}, \cmd{lilyDynamics} is just a wrapper around \cmd{lilyText}, setting the \texttt{scale} factor to 1.5.
-While the other generic commands only print single glyphs, \cmd{lilyText} can print 'plain text', so usually there is no need to write predefined commands only to combine letters to a single command.
+While the other generic commands only print single glyphs, \cmd{lilyText} can print ‘plain text’, so usually there is no need to write predefined commands only to combine letters to a single command.
 In some cases this may however be necessary.
 In the given example of \cmd{lilyRFZ} we need to apply a little bit of extra space between the \lilyDynamics{r} and the \lilyDynamics{f}.
 We see that we can insert a \cmd{hspace} command between the letters without any problems.
 But as it turns out \LaTeX{} may now decide to insert a line break at its discretion, so we have to additionally enclose this call to \cmd{lilyDynamics} in a \cmd{mbox}.
 The command just passes the optional argument to \cmd{lilyDynamics}, so you can use these arguments in your document as usual.
 
-This example is meant to encourage you to experiment with the definition of new commands. It is pretty much the same as usual when inventing new commands. You just have to deal with the design time options, the optional argument and getting the correct input as the second argument.
+This example is meant to encourage you to experiment with the definition of new commands. All you have to deal with is setting the design time options and the optional argument, and chosing the appropriate input method for the second argument.
 
 \bigskip
 Once you have defined your new command you of course have to make it available to \LaTeX.
@@ -846,12 +850,6 @@ For this purpose we have implemented the command \cmd{lilyPrintMoreDots}.
 This prints a dot with the same characteristics as the preceding one from a dotted command (but remember that there shouldn't be any calls to other predefined commands in betwen).
 The horizontal gap between the dots scales linearly with a default of 0.25\emph{ex} per unit of \texttt{scale}.
 But if you pass an number as an optional argument this is interpreted as a different gap in \emph{ex}.
-
-\bigskip
-Once you have defined your new command you of course have to make it available to \LaTeX.
-If it is a “local” command that you just use for a specific document you can simply put it in the document's preamble or a dedicated helper \texttt{.sty} file.
-Of course if it is an image driven command you will have created the image file before and will have to place it in a location where \LaTeX{} can find it.
-For more information on how to publicly contribute your new commands to the package see \fref{chap:contributing}.
 
 \chapter{Easily create commands with Python scripts}
 \label{chap:python_scripts}
