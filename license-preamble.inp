@@ -3,9 +3,10 @@
 %      This file is part of the 'lilyglyphs' LaTeX package.              %
 %                                ==========                              %
 %                                                                        %
-%              https://github.com/uliska/lilyglyphs                      %
+%              https://github.com/openlilylib/lilyglyphs                 %
+%               http://www.openlilylib.org/lilyglyphs                    %
 %                                                                        %
-%  Copyright 2012 by Urs Liska, git@ursliska.de                          %
+%  Copyright 2012-2013 Urs Liska, ul@openlilylib.org                     %
 %                                                                        %
 %  'lilyglyphs' is free software: you can redistribute it and/or modify  %
 %  it under the terms of the GNU General Public License as published by  %
