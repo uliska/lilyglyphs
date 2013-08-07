@@ -627,6 +627,61 @@ This can be a file in \texttt{.pdf}, \texttt{.png} or \texttt{.jpg} format, but 
 As with printing Emmentaler glyphs there is no handling of design time options here, and for that reason you should never call this command directly from a document.
 Please use \cmd{lilyImage} instead which does the same as \cmd{lilyPrintImage} but additionally defaults the design time options to neutral values.
 
+\section{The Package's Directory Structure}
+\label{sec:directory_structure}
+This section is relevant if you want to write new commands on a regular basis, and especially if you want to contribute your results back to the package or if you want to use the Python scripts as described in \fref{chap:python_scripts}.
+
+If you are using \lilyglyphs{} from a \TeX{} distribution you shouldn't really consider the contents of the directory structure: probably you don't have write access there anyway, and any updates of the package or the distro might overwrite your manual additions without warning.
+Please see \fref{chap:contributing} for recommendations how to set up your installation.
+
+\paragraph*{The root directory}
+contains the usual number of files such as \textsc{readme}, installation hints and licensing information as well as the main package file \texttt{lilyglyphs.sty}.
+
+\paragraph*{\dir{/core}%
+\footnote{For this section a leading “/” in directory names refer to the package root directory.}}
+consists of include files for \texttt{lilyglyphs.sty} that contain the fundamental program logic of the package.
+
+\paragraph*{The \dir{/commands} directory}
+contains files that define the glyph commands that are available to the end user of \lilyglyphs.
+If you are going to write new commands you will include them in these files or add new files here.
+
+\paragraph*{\dir{/otf}}
+contains the \emmentaler{} font files, copied from LilyPond \todo{enter version number}.
+
+\paragraph*{\dir{/py}}
+contains Python scripts that simplify the generation and management of new commands.
+
+\paragraph*{\dir{/glyphimages}}
+contains all material for the image based commands: original input files, generated LilyPond source files and the resulting \textsc{pdf} images.
+If you are going to create new commands using LilyPond generated images you will work in this directory.
+This is explained in more detail in \fref{sec:generating_commands_image}.
+
+\paragraph*{\dir{/documentation}}
+contains the manual, its source and helper file(s).
+Of particular interest in this directory may be the \dir{glyphlist} folder containing an overview of the \emmentaler{} glyphs and the \dir{lilyglyphs\_logo} providing the \lilyglyphs{} logo as \textsc{pdf} and \textsc{png} files.
+
+\begin{itemize}
+\item \todo{Think about stash\_new\_commands}
+\end{itemize}
+
+\subsection{“Private” Directory Structure}
+\label{subsec:private_directory_structure}
+If you have obtained \lilyglyphs{} any other way than through its Git repository you probably don't want to (or can't) modify the package files directly.
+Instead we recommend you set up a private “shadow” directory structure in your \LaTeX{} search path where you can safely place your own additions.
+A good choice for example would be \dir{\textasciitilde/texmf/tex/latex/lilyglyphs-private}.
+We have prepared such a structure in the \texttt{lilyglyphsPrivate.tar.gz} file in the root directory.
+If you extract this archive to the suggested path you should be ready to go.
+
+In the first level of this directory you'll find two nearly empty stubs: \texttt{lilyglyphsPrivate.sty} and \texttt{lilyglyphsPrivate.tex}.
+The first file is a \LaTeX{} package where you can store and organize your own predefined commands, the second a file where you can (and are strongly advised to) document your additions.
+If you make use of these files in a structured way (following the hints in the comments in these files) it will be very easy for us to incorporate any additions you send to us by email (if you don't want to go the Git way).
+
+The rest is a copy of the directory structure below \dir{/glyphimages}.
+There you can store sources and results of commands generated with LilyPond.
+Please adhere to the model of the directories in the package for this.
+Currently this approach is very limited because the Python scripts are only designed to work within the original package directory, but we'll soon update this -- and then we'll extend the current documentation too.
+Please also see the chapter \fref{chap:contributing} on contributing.
+
 \section{How to write predefined commands}
 \label{sec:howto_predefined_commands}
 Writing your own predefined commands is actually quite straightforward -- and identical if you want to write a command for your document or for inclusion in the package.
@@ -693,6 +748,14 @@ But as it turns out \LaTeX{} may now decide to insert a line break at its discre
 The command just passes the optional argument to \cmd{lilyDynamics}, so you can use these arguments in your document as usual.
 
 This example is meant to encourage you to experiment with the definition of new commands. It is pretty much the same as usual when inventing new commands. You just have to deal with the design time options, the optional argument and getting the correct input as the second argument.
+
+\bigskip
+Once you have defined your new command you of course have to make it available to \LaTeX.
+If it is a “local” command that you just use for a specific document you can simply put it in the document's preamble or a dedicated helper \texttt{.sty} file.
+If it is an image driven command you will have created the image file before and will have to place it in a location where \LaTeX{} can find it.
+But the best place you can permanently store your new commands is the \package{lilyglyphsPrivate} package described in \fref{subsec:private_directory_structure}.
+Please don't forget to document your command in \texttt{lilyglyphsPrivate.tex}.
+For more information on how to contribute your new commands to the package see \fref{chap:contributing}.
 
 \subsubsection{Create Dotted Symbols}
 \label{subsubsec:dotted_symbols}
