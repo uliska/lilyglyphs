@@ -78,22 +78,30 @@ lilyglyphs_copyright_string = """
 %      This file is part of the 'lilyglyphs' LaTeX package.              %
 %                                ==========                              %
 %                                                                        %
-%              https://github.com/uliska/lilyglyphs                      %
+%              https://github.com/openlilylib/lilyglyphs                 %
+%               http://www.openlilylib.org/lilyglyphs                    %
 %                                                                        %
-%  Copyright 2012 by Urs Liska, git@ursliska.de                          %
+%  Copyright 2012-2013 Urs Liska and others, ul@openlilylib.org          %
 %                                                                        %
 %  'lilyglyphs' is free software: you can redistribute it and/or modify  %
-%  it under the terms of the GNU General Public License as published by  %
-%  the Free Software Foundation, either version 3 of the License, or     %
-%  (at your option) any later version.                                   %
+%  it under the terms of the LaTeX Project Public License, either        %
+%  version 1.3 of this license or (at your option) any later version.    %
+%  You may find the latest version of this license at                    %
+%               http://www.latex-project.org/lppl.txt                    %
+%  more information on                                                   %
+%               http://latex-project.org/lppl/                           %
+%  and version 1.3 or later is part of all distributions of LaTeX        %
+%  version 2005/12/01 or later.                                          %
+%                                                                        %
+%  This work has the LPPL maintenance status 'maintained'.               %
+%  The Current Maintainer of this work is Urs Liska (see above).         %
+%                                                                        %
+%  This work consists of the files listed in the file 'manifest.txt'     %
+%  which can be found in the 'license' directory.                        %
 %                                                                        %
 %  This program is distributed in the hope that it will be useful,       %
 %  but WITHOUT ANY WARRANTY; without even the implied warranty of        %
-%  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the          %
-%  GNU General Public License for more details.                          %
-%                                                                        %
-%  You should have received a copy of the GNU General Public License     %
-%  along with this program.  If not, see <http://www.gnu.org/licenses/>. %
+%  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                  %
 %                                                                        %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 """
@@ -155,11 +163,11 @@ testcode_template = """
 
 \\noindent\\textbf{\\textsf{Continuous text for} \\cmd{CMD}:}\\\\
 Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-sed \\CMD do eiusmod tempor incididunt ut labore et dolore magna aliqua \\CMD*.\\\\
-\\CMD Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+sed \\CMD{} do eiusmod tempor incididunt ut labore et dolore magna aliqua \\CMD.\\\\
+\\CMD{} Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
 ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur\\CMD.
-\\CMD Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+cillum dolore eu fugiat nulla pariatur \\CMD.
+\\CMD{} Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 \\bigskip
 """
@@ -173,51 +181,41 @@ DEF_RAISE = '0'
 # 'ELEM' will be replaced by the actual content element to be rendered
 
 cmd_templates = {}
-cmd_templates['image'] = """\\newcommand*{\\CMDBase}[1][]{%
+cmd_templates['image'] = """\\newcommand*{\\CMD}[1][]{%
     \\setkeys{lilyDesignOptions}{scale=SCALE,raise=RAISE}%
     \\lilyPrintImage[#1]{ELEM}%
 }
-\\newcommand*{\\CMD}[1][]{\\CMDBase[#1] }
-\\WithSuffix\\newcommand\\CMD*[1][]{\\CMDBase[#1]}
 
 """
 
-cmd_templates['glyphname'] = """\\newcommand*{\\CMDBase}[1][]{%
+cmd_templates['glyphname'] = """\\newcommand*{\\CMD}[1][]{%
 	\\setkeys{lilyDesignOptions}{scale=SCALE,raise=RAISE}%
 	\\lilyPrint[#1]{\\lilyGetGlyph{ELEM}}%
 }
-\\newcommand*{\\CMD}[1][]{\\CMDBase[#1] }
-\\WithSuffix\\newcommand\\CMD*[1][]{\\CMDBase[#1]}
 
 """
 
-cmd_templates['number'] = """\\newcommand*{\\CMDBase}[1][]{%
+cmd_templates['number'] = """\\newcommand*{\\CMD}[1][]{%
 	\\setkeys{lilyDesignOptions}{scale=SCALE,raise=RAISE}%
 	\\lilyPrint[#1]{\\lilyGetGlyphByNumber{ELEM}}%
 }
-\\newcommand*{\\CMD}[1][]{\\CMDBase[#1] }
-\\WithSuffix\\newcommand\\CMD*[1][]{\\CMDBase[#1]}
 
 """
 
-cmd_templates['dynamics'] = """\\newcommand{\\CMDBase}[1][]{%
+cmd_templates['dynamics'] = """\\newcommand{\\CMD}[1][]{%
 	\\mbox{%
 		\\lilyDynamics[#1]{ELEM}%
 	}%
 }
-\\newcommand*{\\CMD}[1][]{\\CMDBase[#1] }
-\\WithSuffix\\newcommand\\CMD*[1][]{\\CMDBase[#1]}
 
 """
 
-cmd_templates['text'] = """\\newcommand{\\CMDBase}[1][]{%
+cmd_templates['text'] = """\\newcommand{\\CMD}[1][]{%
 	\\setkeys{lilyDesignOptions}{scale=SCALE,raise=RAISE}%
 	\\mbox{%
 		\\lilyText[#1]{ELEM}%
 	}%
 }
-\\newcommand*{\\CMD}[1][]{\\CMDBase[#1] }
-\\WithSuffix\\newcommand\\CMD*[1][]{\\CMDBase[#1]}
 
 """
 
@@ -239,7 +237,7 @@ def check_lilyglyphs_root():
 
     # set global variable
     lilyglyphs_root = cwd[:cwd.find('lilyglyphs') + 11]
-    dir_stash = lilyglyphs_root + 'stash_new_commands/'
+    dir_stash = os.path.join(lilyglyphs_root,  'stash_new_commands')
     # set current working dir
     os.chdir(lilyglyphs_root)
 
@@ -379,7 +377,7 @@ def signature():
     return '% created by ' + script_name() + ' on ' + str(datetime.date.today())
 
 def write_latex_file(file_name):
-    fout = open(dir_stash + file_name, 'w')
+    fout = open(os.path.join(dir_stash, file_name), 'w')
     fout.write('% New Glyphs for the lilyglyphs package\n')
     fout.write(signature() + '\n')
     fout.write(latexfile_start_comment.replace('SCRIPT_NAME', script_name()))

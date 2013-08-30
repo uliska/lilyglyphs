@@ -43,17 +43,15 @@
 import lilyglyphs_common as lg, os, sys
 
 def main(input_file):
-    lg.check_lilyglyphs_root()
-    os.chdir(lg.dir_stash)
-    if not os.path.exists('emmentaler'):
-        os.mkdir('emmentaler')
-    os.chdir('emmentaler')
+    print os.getcwd(), input_file
     lg.read_input_file(input_file)
     read_entries()
     
     lg.generate_latex_commands()
     
-    lg.write_latex_file('emmentaler/newGlyphCommands.tex')
+    out_file, out_ext = os.path.splitext(input_file)
+    
+    lg.write_latex_file(os.path.join(os.getcwd(), out_file + '.tex'))
     
     
 def read_entries():
@@ -119,4 +117,10 @@ if __name__ == "__main__":
         print 'No filename argument given.\n'
         usage()
         sys.exit(2)
-    main(sys.argv[1])
+    if not os.path.exists(sys.argv[1]):
+        print 'File not found: ' + sys.argv[1] + '\n'
+        usage()
+        sys.exit(2)
+    in_dir, in_file = os.path.split(sys.argv[1])
+    os.chdir(in_dir)
+    main(in_file)
