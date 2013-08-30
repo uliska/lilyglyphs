@@ -51,11 +51,10 @@
 }
 
 %{
-doubledotted semiquaver with downward stem
+doubledotted semiquaver with upward stem
 %}
 
 semiquaverDottedDouble = {
-  \stemDown
   \override Stem#'length = #6.5
   g'16..
 }
