@@ -51,6 +51,7 @@
 
 % Enhanced table commands
 \RequirePackage{booktabs}
+\RequirePackage{longtable}
 
 % Tightly spaced lists
 \RequirePackage{mdwlist}
@@ -66,20 +67,18 @@
 % Common table format for reference tables
 \newenvironment{reftable}[2]
 	{%
-		\begin{table}[ht]
 			\begin{center}
-				\caption{#1}
-				\label{tab:#2}
-				\begin{tabular}[t]{lll}
+				\begin{longtable}[H]{lll}
+				\caption{#1}\\
+				\label{tab:#2}\\
 					\toprule
 					&\\
 	}
 	{%
 					&\\
 					\bottomrule
-				\end{tabular}
+				\end{longtable}
 			\end{center}
-		\end{table}
 	}
 
 % Insert a picture with a glyph list from LilyPond's glyph list
