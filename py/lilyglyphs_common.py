@@ -181,51 +181,41 @@ DEF_RAISE = '0'
 # 'ELEM' will be replaced by the actual content element to be rendered
 
 cmd_templates = {}
-cmd_templates['image'] = """\\newcommand*{\\CMDBase}[1][]{%
+cmd_templates['image'] = """\\newcommand*{\\CMD}[1][]{%
     \\setkeys{lilyDesignOptions}{scale=SCALE,raise=RAISE}%
     \\lilyPrintImage[#1]{ELEM}%
 }
-\\newcommand*{\\CMD}[1][]{\\CMDBase[#1] }
-\\WithSuffix\\newcommand\\CMD*[1][]{\\CMDBase[#1]}
 
 """
 
-cmd_templates['glyphname'] = """\\newcommand*{\\CMDBase}[1][]{%
+cmd_templates['glyphname'] = """\\newcommand*{\\CMD}[1][]{%
 	\\setkeys{lilyDesignOptions}{scale=SCALE,raise=RAISE}%
 	\\lilyPrint[#1]{\\lilyGetGlyph{ELEM}}%
 }
-\\newcommand*{\\CMD}[1][]{\\CMDBase[#1] }
-\\WithSuffix\\newcommand\\CMD*[1][]{\\CMDBase[#1]}
 
 """
 
-cmd_templates['number'] = """\\newcommand*{\\CMDBase}[1][]{%
+cmd_templates['number'] = """\\newcommand*{\\CMD}[1][]{%
 	\\setkeys{lilyDesignOptions}{scale=SCALE,raise=RAISE}%
 	\\lilyPrint[#1]{\\lilyGetGlyphByNumber{ELEM}}%
 }
-\\newcommand*{\\CMD}[1][]{\\CMDBase[#1] }
-\\WithSuffix\\newcommand\\CMD*[1][]{\\CMDBase[#1]}
 
 """
 
-cmd_templates['dynamics'] = """\\newcommand{\\CMDBase}[1][]{%
+cmd_templates['dynamics'] = """\\newcommand{\\CMD}[1][]{%
 	\\mbox{%
 		\\lilyDynamics[#1]{ELEM}%
 	}%
 }
-\\newcommand*{\\CMD}[1][]{\\CMDBase[#1] }
-\\WithSuffix\\newcommand\\CMD*[1][]{\\CMDBase[#1]}
 
 """
 
-cmd_templates['text'] = """\\newcommand{\\CMDBase}[1][]{%
+cmd_templates['text'] = """\\newcommand{\\CMD}[1][]{%
 	\\setkeys{lilyDesignOptions}{scale=SCALE,raise=RAISE}%
 	\\mbox{%
 		\\lilyText[#1]{ELEM}%
 	}%
 }
-\\newcommand*{\\CMD}[1][]{\\CMDBase[#1] }
-\\WithSuffix\\newcommand\\CMD*[1][]{\\CMDBase[#1]}
 
 """
 
