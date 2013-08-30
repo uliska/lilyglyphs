@@ -1006,10 +1006,10 @@ In the following subsection you can see what these commands are processed to.
 \label{subsec:GGC_processing}
 
 The Python script that processes your input file is \texttt{genGlyphCommands.py}, located in the \dir{/py} subdirectory of the package.
-You simply pass it the (absolute or relative) filename of the input file as its first parameter.
-The program parses the input file and creates a new file, by default one with the same basename but a \texttt{.tex} extension, in the same folder where the input file is.
-
-\todo{Make sure this is true and correct. Add and document new options for the script}
+You simply pass it the (absolute or relative) filename of the input file as its first and single parameter.
+The program parses the input file and creates a new file with the same basename but a \texttt{.tex} extension, in the same folder where the input file is.
+Please note that the script in its current implementation will silently overwrite any earlier file with that name. 
+So if you need to keep such a generated file for reference you'll have to copy/move it to a safe location.
 
 The resulting file is a working \LaTeX{} document that uses the \lilyglyphs{} package.
 It contains \LaTeX{} \cmd{newcommand} definitions for each command definition in the input file.
