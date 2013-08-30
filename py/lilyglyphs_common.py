@@ -237,7 +237,7 @@ def check_lilyglyphs_root():
 
     # set global variable
     lilyglyphs_root = cwd[:cwd.find('lilyglyphs') + 11]
-    dir_stash = lilyglyphs_root + 'stash_new_commands/'
+    dir_stash = os.path.join(lilyglyphs_root,  'stash_new_commands')
     # set current working dir
     os.chdir(lilyglyphs_root)
 
@@ -377,7 +377,7 @@ def signature():
     return '% created by ' + script_name() + ' on ' + str(datetime.date.today())
 
 def write_latex_file(file_name):
-    fout = open(dir_stash + file_name, 'w')
+    fout = open(os.path.join(dir_stash, file_name), 'w')
     fout.write('% New Glyphs for the lilyglyphs package\n')
     fout.write(signature() + '\n')
     fout.write(latexfile_start_comment.replace('SCRIPT_NAME', script_name()))

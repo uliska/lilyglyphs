@@ -53,7 +53,7 @@ def main(input_file):
     
     lg.generate_latex_commands()
     
-    lg.write_latex_file('emmentaler/newGlyphCommands.tex')
+    lg.write_latex_file(os.path.join(lg.dir_stash, 'emmentaler', 'newGlyphCommands.tex'))
     
     
 def read_entries():
