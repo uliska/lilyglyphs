@@ -161,12 +161,10 @@ or from openLilyLib's website%
 In this case it should be enough to simply unpack the downloaded archive to a directory within your \package{texmf} tree and possibly run \texttt{texhash} -- please refer to the documentation of your distribution for details on making packages available.
 
 The recommended -- although slightly more involved -- way to get \lilyglyphs{} is to clone or fork the GitHub repository at \url{https://github.com/openlilylib/lilyglyphs}.
+Place the lilyglyphs directory somewhere in your \texttt{texmf} tree and refer to the documentation of your \LaTeX{} distribution if there is anything unclear with manually installing packages.
 If you are completely sure that you'll never contribute to the package then cloning directly will be somewhat more straightforward for you.
 But if there is any chance you might someday contribute something it is a better idea to first fork the repository, clone your personal fork and then add the original repository as an additional remote.
 Please note that in our opinion intense use of the package quite naturally leads to contributing.
-
-\todo{Does one have to uninstall the distribution version of the package in order to use the Git one?
-Or does a package in the personal \texttt{texmf} tree “hides” the distribution's one?}
 
 The most immediate advantage of using \lilyglyphs{} through the Git repository is that it is the easiest way to keep the package up to date.
 Each time someone adds new items to the list of commands they will be instantly accessible through the repository while regular releases will happen much less frequently.
