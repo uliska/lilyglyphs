@@ -61,7 +61,7 @@ def main():
     check_paths()
 
     print ''
-    src_files = lg.check_missing_pdfs()
+    src_files = check_missing_pdfs()
     # is there anything to be done at all?
     if len(src_files) == 0:
         print ''
@@ -78,23 +78,52 @@ def main():
     # clean up directories
     lg.cleanup_lily_files()
 
+def check_missing_pdfs():
+    """Compares the list of LilyPond source and resulting PDF files.
+       Returns a list of LilyPond source file names (without folder)
+       which don't have a corresponding PDF file"""
+    print 'Reading file lists, counting missing pdf files'
+    img_files = []
+    for entry in os.listdir(lg.dir_pdfs):
+        entry = os.path.join(lg.dir_pdfs, entry)
+        if os.path.isfile(entry):
+            path, name =  os.path.split(entry)
+            basename,  ext = os.path.splitext(name)
+            if ext == '.pdf':
+                img_files.append(basename)
+
+    # read existing .ly source files in in_dir
+    # and add them to the sources list if the image is missing
+    src_files = []
+    for entry in os.listdir(lg.dir_lysrc):
+        entry = os.path.join(lg.dir_lysrc, entry)
+        if os.path.isfile(entry):
+            path, name = os.path.split(entry)
+            basename,  ext = os.path.splitext(name)
+            if ext == '.ly' and basename not in img_files:
+                src_files.append(basename)
+    return src_files
 
 def check_paths():
-    """Sets CWD to 'glyphimages' subdir
-       and makes sure that the necessary subdirectories are present"""
-    global lilyglyphs_root
-    lg.check_lilyglyphs_root()
-    os.chdir('glyphimages')
+    """Checks if we're in the right CWD
+       and makes sure that there is a pdf output directory available"""
 
+    print 'Checking directories ...'
+    
     # check the presence of the necessary subdirectories
     ls = os.listdir('.')
     if not 'generated_src' in ls:
         print 'No LilyPond source files directory found.'
         print 'Sorry, there is something wrong :-('
+        print 'Current working directory is: ' + os.getcwd()
+        print 'Please consult the manual.'
         sys.exit(2)
     if not 'pdfs' in ls:
         os.mkdir('pdfs')
     
+    print '... done'
+    print ''
+
 
 # ####################################
 # Finally launch the program

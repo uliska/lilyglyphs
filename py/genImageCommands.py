@@ -65,76 +65,58 @@ lily_src_score = """
   }
 """
 
-def main(argv):
-    global flag_force, definitions_file_name
-    short_options = 'i:'
-    long_options = []
-    long_options.append('input=')
-    try:
-        opts, args = getopt.getopt(argv, short_options, long_options)
-        for opt, arg in opts:
-            if opt in ("-i",  "--input"):
-                lg.input_files.append(arg)
-            else:
-                usage()
-                sys.exit(2)
-    except getopt.GetoptError:
-        usage()
-        sys.exit(2)
+def main():
 
     # Do the actual work of the script
     print ''
     print 'buildglyphimages.py,'
     print 'Part of lilyglyphs.'
-
     print ''
+    
+    # set CWD and ensure the necessary subdirs are present
     check_paths()
-
-    for input_file_name in lg.input_files:
-        print ''
-        lg.read_input_file('definitions/' + input_file_name)
-
-        basename, dummy = os.path.splitext(input_file_name)
-        lg.cat_subdir = basename + '/'
-
-        print ''
-        read_entries()
-
-        print ''
-        write_lily_src_files()
-
-        print ''
-        lg.compile_lily_files()
-
-        print ''
-        lg.generate_latex_commands()
-
     print ''
-    lg.cleanup_lily_files()
 
+    # load and parse input file
+    lg.read_input_file(in_file)
+    read_entries()
+    print ''
+
+    # generate LilyPond source files for each command
+    # and compile them
+    write_lily_src_files()
+    print ''
+    lg.compile_lily_files()
+    print ''
+    
+    # remove intermediate files and move pdfs to pdf directory
+    lg.cleanup_lily_files()
+    print ''
+    
+    # generate latex commands and example code
+    # and write them to the output file
+    lg.generate_latex_commands()
     print ''
     write_latex_file()
 
-
+    
 def check_paths():
-    """Sets CWD to 'glyphimages' subdir
+    """Sets CWD to 'glyphimages' subdir or root of lilyglyphs_private
        and makes sure that the necessary subdirectories are present"""
-    global lilyglyphs_root
-    lg.check_lilyglyphs_root()
-    os.chdir('glyphimages')
+    
+    # one level above 'definitions' is 'glyphimages'
+    os.chdir(os.path.join(in_path, '..'))
 
     # check the presence of the necessary subdirectories
     # and create them if necessary
     # (otherwise we'll get errors when trying to write in them)
     ls = os.listdir('.')
-    if not 'generated_src' in ls:
-        os.mkdir('generated_src')
-    if not 'pdfs' in ls:
-        os.mkdir('pdfs')
-    if not os.path.exists(lg.dir_stash):
-        os.mkdir(lg.dir_stash)
-    if not os.path.exists(lg.dir_stash + 'images'):
-        os.mkdir(lg.dir_stash + 'images')
+    if not lg.dir_lysrc in ls:
+        os.mkdir(lg.dir_lysrc)
+    if not lg.dir_pdfs in ls:
+        os.mkdir(lg.dir_pdfs)
+    if not lg.dir_cmd in ls:
+        os.mkdir(lg.dir_cmd)
 
 # set default scale and raise arguments to empty
 scale = ''
@@ -202,19 +184,22 @@ def read_entry(i):
         if rais:
             lg.in_cmds[cmd_name]['raise'] = rais
 
-        lg.lily_files.append((lg.cat_subdir, cmd_name))
+        lg.lily_files.append(cmd_name)
     return i
 
 
 def usage():
     print """buildglyphimages. Part of the lilyglyphs package.
-    Parses a .lysrc (lilyglyphs source) file, creates
+    Parses a template file, creates
     single .ly files from it, uses LilyPond to create single glyph
     pdf files and set up template files to be used in LaTeX.
+    The input file has to be located in the glyphimages folder
+    of either the lilyglyph package itself or of a copy of 
+    the lilyglyphs_private directory structure contained in the
+    distribution.
     For detailed instructions refer to the manual.
     Usage:
-    -i filename --input=filename (mandatory): Specifies the input file.
-    -f --force: overwrite files if they already exist
+    buildglyphimages.py in-file-name.
     """
 
 def write_file_info(name, fout):
@@ -237,18 +222,28 @@ def write_file_info(name, fout):
 def write_latex_file():
     """Composes LaTeX file and writes it to disk"""
     print 'Generate LaTeX file'
-    lg.write_latex_file('images/newImageGlyphs.tex')
+    print lg.dir_cmd, in_basename
+    lg.write_latex_file(os.path.join(os.getcwd(), lg.dir_cmd,  in_basename + '.tex'))
 
 def write_lily_src_files():
     """Generates one .ly file for each found new command"""
+    skip_cmds = []
     print 'Write .ly files for each entry:'
-    src_dir = lg.dir_lysrc + lg.cat_subdir[:-1]
-    if not os.path.exists(src_dir):
-        os.mkdir(src_dir)
     for cmd_name in lg.in_cmds:
         print '- ' + cmd_name
+        gen_src_name = os.path.join(lg.dir_lysrc, cmd_name + '.ly')
+        # handle existing commands
+        if os.path.exists(gen_src_name):
+            action = ''
+            while not (action == 'Y' or action == 'N'):
+                action = raw_input('already present. Overwrite (y/n)? ')
+                action = action.upper()
+            if action == 'N':
+                skip_cmds.append(cmd_name)
+                continue
+        
         # open a single lily src file for write access
-        fout = open(src_dir + '/' + cmd_name + '.ly',  'w')
+        fout = open(gen_src_name,  'w')
 
         #output the license information
         fout.write(lg.lilyglyphs_copyright_string)
@@ -280,8 +275,35 @@ def write_lily_src_files():
         fout.write('}\n\n')
 
         fout.close()
+    
+    # remove skipped commands from in_cmds
+    for cmd_name in skip_cmds:
+        del lg.in_cmds[cmd_name]
+        lg.lily_files.remove(cmd_name)
 
 # ####################################
 # Finally launch the program
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    if len(sys.argv) < 2:
+        print 'No filename argument given.\n'
+        usage()
+        sys.exit(2)
+    # process filename argument, providing absolute path
+    script_path, script_name = os.path.split(sys.argv[0])
+    in_file = sys.argv[1]
+    if not os.path.isabs(in_file):
+        in_file = os.path.join(script_path, in_file)
+    if not os.path.exists(in_file):
+        print 'File not found: ' + in_file + '\n'
+        usage()
+        sys.exit(2)
+    # check if the input file is in the right place
+    # this has to be the definitions subdir of
+    # the package directory or the lilyglyphs_private dir
+    in_path, in_filename = os.path.split(in_file)
+    if not (('lilyglyphs' in in_path) and (in_path.endswith('definitions'))):
+        print 'File in the wrong location: ' + in_path
+        usage()
+        sys.exit(2)
+    in_basename, in_ext = os.path.splitext(in_filename)
+    main()

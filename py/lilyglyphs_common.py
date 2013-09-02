@@ -51,12 +51,10 @@ definitions_file = []
 # Directories
 lilyglyphs_root = ''
 
-dir_defs = 'definitions/'
-dir_lysrc = 'generated_src/'
-dir_pdfs = 'pdfs/'
-dir_stash = 'stash_new_commands/'
-# subdirectory to save the lily sources and the pdf to
-cat_subdir = ''
+dir_defs = 'definitions'
+dir_lysrc = 'generated_src'
+dir_pdfs = 'pdfs'
+dir_cmd = 'generated_cmd'
 
 # LilyPond commands
 in_cmds = {}
@@ -219,55 +217,6 @@ cmd_templates['text'] = """\\newcommand{\\CMD}[1][]{%
 
 """
 
-def check_lilyglyphs_root():
-    """Checks if the current working directory
-       is within the rootline of the lilyglyphs package.
-       If this is the case it sets the cwd to be
-       the root of the package."""
-    global lilyglyphs_root, dir_stash
-
-    print 'Checking directories'
-    
-    # check current working dir
-    cwd = os.getcwd()
-    if not 'lilyglyphs' in cwd:
-        print 'Your current working directory seems to be wrong.'
-        print 'Please cd to a location in the lilyglyphs directory.'
-        sys.exit(2)
-
-    # set global variable
-    lilyglyphs_root = cwd[:cwd.find('lilyglyphs') + 11]
-    dir_stash = os.path.join(lilyglyphs_root,  'stash_new_commands')
-    # set current working dir
-    os.chdir(lilyglyphs_root)
-
-def check_missing_pdfs():
-    """Compares the list of LilyPond source and resulting PDF files.
-       Returns a list of LilyPond source file names (without folder)
-       which don't have a corresponding PDF file"""
-    print 'Reading file lists, counting missing pdf files'
-    img_files = []
-    for entry in os.listdir(dir_pdfs):
-        out_dir = dir_pdfs + entry + '/'
-        if os.path.isdir(out_dir):
-            # read existing .pdf files in out_dir
-            for file in os.listdir(out_dir):
-                name,  ext = os.path.splitext(file)
-                if ext == '.pdf':
-                    img_files.append(name)
-
-    # read existing .ly source files in in_dir
-    # and add them to the sources list if the image is missing
-    src_files = []
-    for entry in os.listdir(dir_lysrc):
-        in_dir = dir_lysrc + entry + '/'
-        if os.path.isdir(in_dir):
-            for file in os.listdir(in_dir):
-                name,  ext = os.path.splitext(file)
-                if ext == '.ly' and name not in img_files:
-                    src_files.append((entry + '/', name))
-    return src_files
-
 def cleanup_lily_files():
     """Removes unneccessary files from LilyPond compilation,
     rename and remove the preview PDF files to the right directory."""
@@ -275,30 +224,25 @@ def cleanup_lily_files():
     
     print 'Clean up directories'
     
-    # iterate through the subdirectories of dir_lysrc
-    for entry in os.listdir(dir_lysrc):
-        in_dir = dir_lysrc + entry + '/'
-        if os.path.isdir(in_dir):
-            # make sure there is a corresponding dir_pdfs directory
-            out_dir = dir_pdfs + entry + '/'
-            if not os.path.exists(out_dir):
-                os.mkdir(out_dir)
-            # iterate through the subdir
-            for file in os.listdir(in_dir):
-                name, extension = os.path.splitext(file)
-                #remove unnecessary files
-                if not extension in ['.pdf', '.ly']:
-                    os.remove(in_dir + file)
-                if extension == '.pdf':
-                    # remove full-page pdf
-                    if not '.preview' in name:
-                        os.remove(in_dir + file)
-                    else:
-                        newfile = file.replace('.preview.', '.')
-                        # rename/move small 'preview' pdf
-                        os.rename(in_dir + file,  out_dir + newfile)
-                    
-        
+    # iterate through dir_lysrc
+    os.chdir(dir_lysrc)
+    for entry in os.listdir('.'):
+        if os.path.isfile(entry):
+            name, extension = os.path.splitext(entry)
+            #remove unnecessary files
+            if not extension in ['.pdf', '.ly']:
+                os.remove(entry)
+            if extension == '.pdf':
+                # remove full-page pdf
+                if '.preview' in name:
+                    newfile = entry.replace('.preview.', '.')
+                    newfile = os.path.join('..', dir_pdfs, newfile)
+                    # rename/move small 'preview' pdf
+                    os.rename(entry, newfile)
+                else:
+                    os.remove(entry)                    
+    os.chdir('..')
+    
 def compile_lily_files():
     """Compiles LilyPond files to """
     print 'Compile with LilyPond:'
@@ -306,10 +250,10 @@ def compile_lily_files():
         args = []
         args.append("lilypond")
         args.append("-o")
-        args.append(dir_lysrc + file[0])
+        args.append(dir_lysrc)
         args.append("-dpreview")
         args.append("-dno-point-and-click")
-        args.append(dir_lysrc + file[0] + file[1] + ".ly")
+        args.append(os.path.join(dir_lysrc, file + ".ly"))
         subprocess.call(args)
         print ''
 
@@ -377,7 +321,7 @@ def signature():
     return '% created by ' + script_name() + ' on ' + str(datetime.date.today())
 
 def write_latex_file(file_name):
-    fout = open(os.path.join(dir_stash, file_name), 'w')
+    fout = open(file_name, 'w')
     fout.write('% New Glyphs for the lilyglyphs package\n')
     fout.write(signature() + '\n')
     fout.write(latexfile_start_comment.replace('SCRIPT_NAME', script_name()))
