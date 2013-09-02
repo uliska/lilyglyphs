@@ -38,6 +38,10 @@ So the lines above the topmost bold version line represent the changes not avail
 
 - lilyglyphs now also works with LuaLaTeX!  
   (Thanks to Dave Bellows)
+- considerable revision of the manual
+- Provide 'private' directory to add personal commands
+- pdf files for image based commands are now tracked in the Git repository
+- some modifications to the use of the Python scripts
 - Drop support/necessity for starred commands  
   All commands by default now don't print a space after them.
   To achieve that effect one has to write a pair of curly braces.  
