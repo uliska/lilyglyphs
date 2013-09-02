@@ -217,55 +217,6 @@ cmd_templates['text'] = """\\newcommand{\\CMD}[1][]{%
 
 """
 
-def check_lilyglyphs_root():
-    """Checks if the current working directory
-       is within the rootline of the lilyglyphs package.
-       If this is the case it sets the cwd to be
-       the root of the package."""
-    global lilyglyphs_root, dir_stash
-
-    print 'Checking directories'
-    
-    # check current working dir
-    cwd = os.getcwd()
-    if not 'lilyglyphs' in cwd:
-        print 'Your current working directory seems to be wrong.'
-        print 'Please cd to a location in the lilyglyphs directory.'
-        sys.exit(2)
-
-    # set global variable
-    lilyglyphs_root = cwd[:cwd.find('lilyglyphs') + 11]
-    dir_stash = os.path.join(lilyglyphs_root,  'stash_new_commands')
-    # set current working dir
-    os.chdir(lilyglyphs_root)
-
-def check_missing_pdfs():
-    """Compares the list of LilyPond source and resulting PDF files.
-       Returns a list of LilyPond source file names (without folder)
-       which don't have a corresponding PDF file"""
-    print 'Reading file lists, counting missing pdf files'
-    img_files = []
-    for entry in os.listdir(dir_pdfs):
-        out_dir = dir_pdfs + entry + '/'
-        if os.path.isdir(out_dir):
-            # read existing .pdf files in out_dir
-            for file in os.listdir(out_dir):
-                name,  ext = os.path.splitext(file)
-                if ext == '.pdf':
-                    img_files.append(name)
-
-    # read existing .ly source files in in_dir
-    # and add them to the sources list if the image is missing
-    src_files = []
-    for entry in os.listdir(dir_lysrc):
-        in_dir = dir_lysrc + entry + '/'
-        if os.path.isdir(in_dir):
-            for file in os.listdir(in_dir):
-                name,  ext = os.path.splitext(file)
-                if ext == '.ly' and name not in img_files:
-                    src_files.append((entry + '/', name))
-    return src_files
-
 def cleanup_lily_files():
     """Removes unneccessary files from LilyPond compilation,
     rename and remove the preview PDF files to the right directory."""

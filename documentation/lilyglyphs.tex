@@ -1254,6 +1254,7 @@ There also are occasions when you might have to (re)create the \textsc{pdf} file
 One example would be the upgrade to a new \emmentaler{} version.
 In that case you can run the script \texttt{rebuild-pdfs.py}, which is also located in the \texttt{/py} directory.
 This script essentially compares the directories with the generated LilyPond sources and with the created pdf files, and if it finds a source without a corresponding pdf it will call LilyPond to recreate it.
+If you don't want to regenerate \emph{missing} \textsc{pdf}s but rather replace \emph{existing} files you first have to delete the \emph{pdf} files on disk so the script can detect them as missing.
 Of course this script will only work with a working LilyPond installation.
 
 \medskip
