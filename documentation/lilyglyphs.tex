@@ -704,15 +704,11 @@ This is explained in more detail in \fref{sec:generating_commands_image}.
 contains the manual, its source and helper file(s).
 Of particular interest in this directory may be the \dir{glyphlist} folder containing an overview of the \emmentaler{} glyphs and the \dir{lilyglyphs\_logo} providing the \lilyglyphs{} logo as \textsc{pdf} and \textsc{png} files.
 
-\begin{itemize}
-\item \todo{Think about stash\_new\_commands}
-\end{itemize}
-
 \subsection{“Private” Directory Structure}
 \label{subsec:private_directory_structure}
 If you have obtained \lilyglyphs{} any other way than through its Git repository you probably don't want to (or can't) modify the package files directly.
 Instead we recommend you set up a private “shadow” directory structure in your \LaTeX{} search path where you can safely place your own additions.
-A good choice for example would be \dir{\textasciitilde/texmf/tex/latex/lilyglyphs-private}.
+A good choice for example would be \dir{\textasciitilde/texmf/tex/latex/lilyglyphs\_private}.
 We have prepared such a structure in the \texttt{lilyglyphsPrivate.tar.gz} file in the root directory.
 If you extract this archive to the suggested path you should be ready to go.
 
@@ -723,8 +719,7 @@ If you make use of these files in a structured way (following the hints in the c
 The rest is a copy of the directory structure below \dir{/glyphimages}.
 There you can store sources and results of commands generated with LilyPond.
 Please adhere to the model of the directories in the package for this.
-Currently this approach is very limited because the Python scripts are only designed to work within the original package directory, but we'll soon update this -- and then we'll extend the current documentation too.
-Please also see the chapter \fref{chap:contributing} on contributing.
+And please also see the chapter \fref{chap:contributing} on contributing.
 
 \section{How to write predefined commands}
 \label{sec:howto_predefined_commands}
