@@ -99,7 +99,7 @@ def main():
     print ''
     write_latex_file()
 
-
+    
 def check_paths():
     """Sets CWD to 'glyphimages' subdir or root of lilyglyphs_private
        and makes sure that the necessary subdirectories are present"""
@@ -227,11 +227,23 @@ def write_latex_file():
 
 def write_lily_src_files():
     """Generates one .ly file for each found new command"""
+    skip_cmds = []
     print 'Write .ly files for each entry:'
     for cmd_name in lg.in_cmds:
         print '- ' + cmd_name
+        gen_src_name = os.path.join(lg.dir_lysrc, cmd_name + '.ly')
+        # handle existing commands
+        if os.path.exists(gen_src_name):
+            action = ''
+            while not (action == 'Y' or action == 'N'):
+                action = raw_input('already present. Overwrite (y/n)? ')
+                action = action.upper()
+            if action == 'N':
+                skip_cmds.append(cmd_name)
+                continue
+        
         # open a single lily src file for write access
-        fout = open(os.path.join(lg.dir_lysrc, cmd_name + '.ly'),  'w')
+        fout = open(gen_src_name,  'w')
 
         #output the license information
         fout.write(lg.lilyglyphs_copyright_string)
@@ -263,6 +275,11 @@ def write_lily_src_files():
         fout.write('}\n\n')
 
         fout.close()
+    
+    # remove skipped commands from in_cmds
+    for cmd_name in skip_cmds:
+        del lg.in_cmds[cmd_name]
+        lg.lily_files.remove(cmd_name)
 
 # ####################################
 # Finally launch the program
