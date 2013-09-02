@@ -1,0 +1,18 @@
+INSTALL for 'lilyglyphs'
+
+'lilyglyphs' is a package to make musical symbols and
+notational elements of the LilyPond engraving software
+(http://www.lilypond.org) available to LaTeX documents.
+
+If you haven't obtained the package through a LaTeX distribution
+you should save/extract the complete directory somewhere in your
+LaTeX search tree, e.g. in ~/texmf/tex/latex/lilyglyphs.
+There should be no further dependencies to use it.
+
+If you want to compile the manual with LuaLaTeX or XeLaTeX you need 
+the (free) fonts 'Linux Libertine O', 'Linux Biolinum O' and 'DejaVu 
+Sans Mono'. If you don't want or can't install them you can modify
+'documentation/lilyglyphsManualFonts.sty' to use different fonts
+or remove the reference to it from 'documentation/lilyglyphs.tex'
+to use default fonts.
+
