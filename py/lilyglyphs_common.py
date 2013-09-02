@@ -49,8 +49,6 @@ definitions_file = []
 
 # ###########
 # Directories
-lilyglyphs_root = ''
-
 dir_defs = 'definitions'
 dir_lysrc = 'generated_src'
 dir_pdfs = 'pdfs'
@@ -59,13 +57,10 @@ dir_cmd = 'generated_cmd'
 # LilyPond commands
 in_cmds = {}
 # LilyPond source files (corresponds to in_cmds)
-# list of tuples (cat_subdir, name)
+# stores basenames without path and extension
 lily_files = []
 # LaTeX commands
 latex_cmds = {}
-
-# files with the glyph definitions
-input_files = []
 
 # #######
 # Strings
@@ -220,8 +215,7 @@ cmd_templates['text'] = """\\newcommand{\\CMD}[1][]{%
 def cleanup_lily_files():
     """Removes unneccessary files from LilyPond compilation,
     rename and remove the preview PDF files to the right directory."""
-    global cat_subdir
-    
+
     print 'Clean up directories'
     
     # iterate through dir_lysrc
@@ -262,7 +256,7 @@ def generate_latex_commands():
     These should manually be moved to the appropriate .inp files
     in lilyglyphs"""
 
-    
+    # iterate over the list of commands
     for cmd_name in in_cmds:
         latex_cmds[cmd_name] = {}
 
@@ -286,13 +280,10 @@ def generate_latex_commands():
         cmd.append(template.replace('ELEM', in_cmds[cmd_name]['element']))
         latex_cmds[cmd_name]['cmd'] = cmd
     
-        # create documentation table
-    
         # create LaTeX test code
         tc = []
         tc.append(testcode_template.replace('CMD', cmd_name))
         latex_cmds[cmd_name]['testcode'] = tc
-
 
 def read_input_file(in_file):
     """Reads the input source file and stores it 
@@ -349,5 +340,3 @@ def write_latex_file(file_name):
 
     fout.write('\\end{document}\n')
     fout.close()
-
-
