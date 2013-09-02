@@ -1,9 +1,9 @@
-![](https://github.com/openlilylib/lilyglyphs/raw/master/glyphimages/lilyglyphs_logo/lilyglyphs_logo.png)
+![](https://github.com/openlilylib/lilyglyphs/raw/master/documentation/lilyglyphs_logo/lilyglyphs_logo.png)
 
 'lilyglyphs' LaTeX package
 ==========================
 
-Package to make LilyPond's notational elements and glyphs from its Emmentaler OpenType Font available in LaTeX
+Package to make LilyPond's notational elements available in LaTeX
 
 This package is part of the **openLilyLib** family of resources for LaTeX and LilyPond  
 ([www.openlilylib.org](http://www.openlilylib.org)), its project homepage is http://www.openlilylib.org/lilyglyphs.
