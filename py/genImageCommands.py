@@ -34,15 +34,9 @@
 
 import lilyglyphs_common as lg, os, sys,  getopt,  datetime,  subprocess
 
-# ################
-# Global variables
-
-# flags
-flag_force = False
-
 # ###############
 # string to be printed before the actual command
-lily_src_prefix = """\\version "2.17.4"
+lily_src_prefix = """\\version "2.16.2"
 
 #(set-global-staff-size 14)
 
@@ -66,8 +60,7 @@ lily_src_score = """
 """
 
 def main():
-
-    # Do the actual work of the script
+    """Do the actual work of the script"""
     print ''
     print 'buildglyphimages.py,'
     print 'Part of lilyglyphs.'

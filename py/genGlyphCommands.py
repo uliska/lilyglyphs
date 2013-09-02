@@ -43,20 +43,24 @@
 import lilyglyphs_common as lg, os, sys
 
 def main(input_file):
-    print os.getcwd(), input_file
+    """Do the main work of the script"""
+    
+    # load and parse input file
     lg.read_input_file(input_file)
     read_entries()
     
+    # generate LaTeX commands and save them to output file
+    # (will be a .tex sibling of the input file)
     lg.generate_latex_commands()
-    
     out_file, out_ext = os.path.splitext(input_file)
-    
     lg.write_latex_file(os.path.join(os.getcwd(), out_file + '.tex'))
     
-    
 def read_entries():
+    """Parse the input file and fill a dictionary"""
     entry = {}
     def reset_entry():
+        """Set all members of the dict empty,
+           because not all are present in each entry."""
         entry['cmd'] = ''
         entry['element'] = ''
         entry['type'] = 'glyphname'
@@ -90,6 +94,7 @@ def read_entries():
         elif line[0] in '#%':
             continue
         else:
+            # add element to the entry
             keyval = line.split('=')
             if keyval[0] == 'scale':
                 scale = keyval[1]
@@ -113,10 +118,12 @@ def usage():
 # ####################################
 # Finally launch the program
 if __name__ == "__main__":
+    # check if there _is_ a filename argument
     if len(sys.argv) < 2:
         print 'No filename argument given.\n'
         usage()
         sys.exit(2)
+    # check if it is a valid file
     if not os.path.exists(sys.argv[1]):
         print 'File not found: ' + sys.argv[1] + '\n'
         usage()
