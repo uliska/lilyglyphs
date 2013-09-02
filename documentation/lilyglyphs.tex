@@ -1248,6 +1248,7 @@ The output file will of course be overwritten (you have renamed it before re-run
 There also are occasions when you might have to (re)create the \textsc{pdf} files that serve as the glyph images without having to regenerate the \LaTeX{} commands or the LilyPond source files.
 One example would be the upgrade to a new \emmentaler{} version.
 In that case you can run the script \texttt{rebuild-pdfs.py}, which is also located in the \texttt{/py} directory.
+In order to work the script expects the current working directory to be either the \dir{glyphimages} subdirectory of the package or the root of the \dir{lilyglyphs\_private} directory.
 This script essentially compares the directories with the generated LilyPond sources and with the created pdf files, and if it finds a source without a corresponding pdf it will call LilyPond to recreate it.
 If you don't want to regenerate \emph{missing} \textsc{pdf}s but rather replace \emph{existing} files you first have to delete the \emph{pdf} files on disk so the script can detect them as missing.
 Of course this script will only work with a working LilyPond installation.
