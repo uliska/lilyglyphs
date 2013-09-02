@@ -42,37 +42,40 @@
 # using LilyPond.                                                        #
 #                                                                        #
 # The main purpose is to allow the creation of pdf images of glyphs      #
-# that have been marked 'protected' in the input definitions,            #
-# but that aren't present because they aren't tracked by Git             #
+# that already have been processed to LaTeX commands but whose PDF       #
+# files have been lost.                                                  #
+# The other purpose is to update the set of PDF files to a new version   #
+# of Emmentaler or LilyPond without touching the definitions.            #
 #                                                                        #
 # ########################################################################
 
 import lilyglyphs_common as lg, os, sys, subprocess
 
-# ################
-# Global variables
-
 def main():
-
+    """Main walk through the program"""
     print 'rebuild-pdfs.py'
     print 'regenerate all pdf images that are not present (anymore)'
-    
     print ''
+    
+    # Check if we are in a legal CWD and ensure a PDF subdir is present
     check_paths()
 
-    print ''
+    # build a list of commands with missing PDF files
     src_files = check_missing_pdfs()
+
     # is there anything to be done at all?
     if len(src_files) == 0:
         print ''
         print 'No image files missing, nothing to be done.'
         print 'If you want to re-create pdfs, then delete them first'
         sys.exit(0)
-    lg.lily_files = src_files
     print ''
     print 'Found ' + str(len(src_files)) + ' missing file(s).'
-    
+    for cmd in src_files:
+        print '- ' + cmd
+
     # compile all LilyPond files without matching pdf
+    lg.lily_files = src_files
     lg.compile_lily_files()
     
     # clean up directories
@@ -80,15 +83,17 @@ def main():
 
 def check_missing_pdfs():
     """Compares the list of LilyPond source and resulting PDF files.
-       Returns a list of LilyPond source file names (without folder)
+       Returns a list of LilyPond source file basenames 
        which don't have a corresponding PDF file"""
     print 'Reading file lists, counting missing pdf files'
+    
+    # read existing .pdf files in lg.dir_pdfs
     img_files = []
     for entry in os.listdir(lg.dir_pdfs):
         entry = os.path.join(lg.dir_pdfs, entry)
         if os.path.isfile(entry):
             path, name =  os.path.split(entry)
-            basename,  ext = os.path.splitext(name)
+            basename, ext = os.path.splitext(name)
             if ext == '.pdf':
                 img_files.append(basename)
 
@@ -99,7 +104,7 @@ def check_missing_pdfs():
         entry = os.path.join(lg.dir_lysrc, entry)
         if os.path.isfile(entry):
             path, name = os.path.split(entry)
-            basename,  ext = os.path.splitext(name)
+            basename, ext = os.path.splitext(name)
             if ext == '.ly' and basename not in img_files:
                 src_files.append(basename)
     return src_files
