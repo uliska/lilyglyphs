@@ -39,7 +39,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % created by buildglyphimages.py on 2013-08-30
 
-\version "2.17.4"
+\version "2.16.2"
 
 #(set-global-staff-size 14)
 
