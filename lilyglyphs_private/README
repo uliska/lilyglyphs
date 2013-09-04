@@ -1,0 +1,9 @@
+This folder is a 'shadow' copy of the
+/glyphimages directory structure.
+It is meant for extending the package and should be
+placed somewhere in your local texmf tree.
+
+In addition to the main directory this shadow contains
+a folder 'custom_images'.
+You can use this to create image driven commands with
+images not obtained through the use of our scripts.

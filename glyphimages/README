@@ -1,0 +1,12 @@
+This folder contains all materials used for
+lilyglyphs commands based on pdf files.
+- definitions: raw 'template' files from which
+  everything is generated
+- generated_src: LilyPond input files that have
+  been generated from the 'definitions'
+- pdfs: pdf files generated from the 'generated_src'
+  files. These files are used by the package
+- generated_cmd: Volatile folder where the
+  generated LaTeX commands are stored. Usually
+  the content of the files will be moved to 
+  another, permanent location.
