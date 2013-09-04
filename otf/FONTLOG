@@ -11,8 +11,13 @@ available as character commands in LuaLaTeX/XeLaTeX documents.
 The font files distributed with lilyglyphs are the ones shipped with 
 LilyPond 2.16.2 without any modifications.
 
-The fonts have been created by "The LilyPond authors" and is licensed 
+The fonts have been created by "The LilyPond authors" and are licensed 
 under the SIL Open Font License, Version 1.1. See the file
 LICENSE.OFL in the same directory for details.
 More information on LilyPond and the Emmentaler fonts can be obtained
 at http://www.lilypond.org.
+
+The Metafont sources for the fonts can be obtained at LilyPond's 
+Git repository at http://savannah.gnu.org/git/?group=lilypond,
+in particular they are in the 'mf' directory of the source tree at
+http://git.savannah.gnu.org/cgit/lilypond.git/tree/
