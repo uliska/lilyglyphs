@@ -33,40 +33,37 @@
 \NeedsTeXFormat{LaTeX2e} 
 \ProvidesPackage{lilyglyphs}
 
-% Enable the creation of starred commands
-%\RequirePackage{suffix}
-
 % Introduce key=value options
 \RequirePackage{keyval}
 
 % Necessary for calculations.
-% Is that really necessary or can it be achieved much cheaper?
-% OTOH I assume that we will use tikz/pgf anyway.
+% TODO: Is that really necessary or can it be achieved much cheaper?
 \RequirePackage{pgf}
 
 % Create a vertically stacked box (time signatures)
 \RequirePackage[export]{adjustbox}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+% Core functionality %
+
 % select from the optical sizes fonts
 \input{core/opticals.inp}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % include the functionality for the key=value options
 \input{core/keyval.inp}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % include the basic functionality to select and print glyphs
 \input{core/genericAccess.inp}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % include logic and functionality to create dotted symbols
 \input{core/dotted.inp}
 
+% Core functionality %
+%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Definitions of the glyphs in groups
-% corresponding to the glyph list in the LilyPond docs
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Definitions of the glyphs in groups                  %
+% corresponding to the glyph list in the LilyPond docs %
 
 \input{commands/clefs.inp}
 
@@ -91,6 +88,8 @@
 
 \input{commands/beamednotes.inp}
 
+% End of command definitions %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % lilyglyphs logo to be used in texts about lilyglyphs
 % created by genGlyphCommands.py on 2012-11-10
@@ -98,4 +97,3 @@
     \setkeys{lilyDesignOptions}{scale=0.97,raise=-0.78}%
     \lilyPrintImage[#1]{lilyglyphs_logo}%
 }
-
