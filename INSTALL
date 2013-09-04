@@ -4,10 +4,27 @@ INSTALL for 'lilyglyphs'
 notational elements of the LilyPond engraving software
 (http://www.lilypond.org) available to LaTeX documents.
 
-If you haven't obtained the package through a LaTeX distribution
-you should save/extract the complete directory somewhere in your
-LaTeX search tree, e.g. in ~/texmf/tex/latex/lilyglyphs.
-There should be no further dependencies to use it.
+There are several ways to obtain the package, with different
+installation procedures.
+
+If you have obtained the package through a TeX distribution
+you should be able to use the package without further action.
+For advanced options and usage please refer to the manual.
+
+If you have downloaded lilyglyphs.zip from CTAN please extract the 
+archive to a location in your texmf tree, 
+e.g. ~/texmf/tex/latex/lilyglyphs. 
+
+If you have downloaded lilyglyphs.tds.zip from CTAN please extract
+the archive to the root of your texmf tree, e.g. ~/texmf.
+
+If you want to use the Github repository you should clone it
+(or your fork) to a directory in your local texmf tree, e.g.
+~/texmf/tex/latex/lilyglyphs. 
+
+Each of the above options should allow you to immediately use 
+the package. Please note that the Git repository doesn't contain
+a precompiled manual.
 
 If you want to compile the manual with LuaLaTeX or XeLaTeX you need 
 the (free) fonts 'Linux Libertine O', 'Linux Biolinum O' and 'DejaVu 
@@ -15,4 +32,3 @@ Sans Mono'. If you don't want or can't install them you can modify
 'documentation/lilyglyphsManualFonts.sty' to use different fonts
 or remove the reference to it from 'documentation/lilyglyphs.tex'
 to use default fonts.
-
