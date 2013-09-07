@@ -1,4 +1,4 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                        %
 %      This file is part of the 'lilyglyphs' LaTeX package.              %
 %                                ==========                              %
@@ -30,72 +30,32 @@
 %                                                                        %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\NeedsTeXFormat{LaTeX2e} 
-\ProvidesPackage{lilyglyphs}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This file defines a set of glyphs to be compiled in LilyPond %
+%                                                              %
+%   EXAMPLE                                                    %
+%                                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Introduce key=value options
-\RequirePackage{keyval}
+\version "2.17.5"
 
-% Necessary for calculations.
-% TODO: Is that really necessary or can it be achieved much cheaper?
-\RequirePackage{pgf}
+%{ template for a single entry
+   replace 'EXAMPLE_...' by actual content %}
 
-% Create a vertically stacked box (time signatures)
-\RequirePackage[export]{adjustbox}
-
-%%%%%%%%%%%%%%%%%%%%%%
-% Core functionality %
-
-% select from the optical sizes fonts
-\input{core/opticals.inp}
-
-% include the functionality for the key=value options
-\input{core/keyval.inp}
-
-% include the basic functionality to select and print glyphs
-\input{core/genericAccess.inp}
-
-% include logic and functionality to create dotted symbols
-\input{core/dotted.inp}
-
-% Core functionality %
-%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Definitions of the glyphs in groups                  %
-% corresponding to the glyph list in the LilyPond docs %
-
-\input{commands/clefs.inp}
-
-\input{commands/numbers.inp}
-
-\input{commands/timesignatures.inp}
-
-\input{commands/dynamics.inp}
-
-\input{commands/accidentals.inp}
-
-%\input{commands/noteheads.inp}
-
-\input{commands/rests.inp}
-
-\input{commands/scripts.inp}
-
-% Definitions of complex glyphs created with LilyPond
-% and included as image files
-
-\input{commands/singlenotes.inp}
-
-\input{commands/beamednotes.inp}
-
-\input{commands/fancyexamples.inp}
-
-% End of command definitions %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% lilyglyphs logo to be used in texts about lilyglyphs
-% created by genGlyphCommands.py on 2012-11-10
-\newcommand*{\lilyglyphs}[1][]{%
-    \setkeys{lilyDesignOptions}{scale=0.97,raise=-0.78}%
-    \lilyPrintImage[#1]{lilyglyphs_logo}%
+%%lilyglyphs 
+% example of a fancy notation
+fancyExample = \relative e' {
+  \override NoteHead.transparent = ##t
+  \override Stem #'length = #4
+  \override Stem #'thickness = #1.6
+  e4-.( e-. e-. e-.) \glissando
+  s4 \stemDown a4 \laissezVibrer
 }
+
+\markup { fancyExample }
+symbol = \fancyExample
+\include "score.ily"
+
+% Example ends here
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+

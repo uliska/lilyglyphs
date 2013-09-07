@@ -1,3 +1,4 @@
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                        %
 %      This file is part of the 'lilyglyphs' LaTeX package.              %
@@ -30,72 +31,44 @@
 %                                                                        %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\NeedsTeXFormat{LaTeX2e} 
-\ProvidesPackage{lilyglyphs}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+% This file defines a single glyph to be created with LilyPond: %
+%                                                               %
+%   fancyExample.ly                                             %
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% created by genImageCommands.py on 2013-09-07
 
-% Introduce key=value options
-\RequirePackage{keyval}
+\version "2.16.2"
 
-% Necessary for calculations.
-% TODO: Is that really necessary or can it be achieved much cheaper?
-\RequirePackage{pgf}
+#(set-global-staff-size 14)
 
-% Create a vertically stacked box (time signatures)
-\RequirePackage[export]{adjustbox}
-
-%%%%%%%%%%%%%%%%%%%%%%
-% Core functionality %
-
-% select from the optical sizes fonts
-\input{core/opticals.inp}
-
-% include the functionality for the key=value options
-\input{core/keyval.inp}
-
-% include the basic functionality to select and print glyphs
-\input{core/genericAccess.inp}
-
-% include logic and functionality to create dotted symbols
-\input{core/dotted.inp}
-
-% Core functionality %
-%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Definitions of the glyphs in groups                  %
-% corresponding to the glyph list in the LilyPond docs %
-
-\input{commands/clefs.inp}
-
-\input{commands/numbers.inp}
-
-\input{commands/timesignatures.inp}
-
-\input{commands/dynamics.inp}
-
-\input{commands/accidentals.inp}
-
-%\input{commands/noteheads.inp}
-
-\input{commands/rests.inp}
-
-\input{commands/scripts.inp}
-
-% Definitions of complex glyphs created with LilyPond
-% and included as image files
-
-\input{commands/singlenotes.inp}
-
-\input{commands/beamednotes.inp}
-
-\input{commands/fancyexamples.inp}
-
-% End of command definitions %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% lilyglyphs logo to be used in texts about lilyglyphs
-% created by genGlyphCommands.py on 2012-11-10
-\newcommand*{\lilyglyphs}[1][]{%
-    \setkeys{lilyDesignOptions}{scale=0.97,raise=-0.78}%
-    \lilyPrintImage[#1]{lilyglyphs_logo}%
+\paper {
+  indent = 0
 }
+\header {
+  tagline = ""
+}
+
+%{
+example of a fancy notation
+%}
+
+fancyExample = {
+  \override NoteHead.transparent = ##t
+  \override Stem #'length = #4
+  \override Stem #'thickness = #1.6
+  e4-.( e-. e-. e-.) \glissando
+  s4 \stemDown a4 \laissezVibrer
+}
+
+  \score {
+  \new Staff \with {
+    \remove "Staff_symbol_engraver"
+    \remove "Clef_engraver"
+    \remove "Time_signature_engraver"
+  }
+  \fancyExample
+}
+
