@@ -86,12 +86,12 @@
 % created by buildglyphimages.py on 2012-11-08
 \newcommand*{\decrescHairpin}[1][]{%
     \setkeys{lilyDesignOptions}{scale=0.9,raise=0}%
-    \lilyPrintImage[#1]{decrescHairpin}%
+    \lilyPrintImage[#1]{lily-decrescHairpin}%
 }
 
 % crescendo Hairpin
 % created by buildglyphimages.py on 2012-11-08
 \newcommand*{\crescHairpin}[1][]{%
     \setkeys{lilyDesignOptions}{scale=0.9,raise=0}%
-    \lilyPrintImage[#1]{crescHairpin}%
+    \lilyPrintImage[#1]{lily-crescHairpin}%
 }

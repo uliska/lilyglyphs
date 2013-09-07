@@ -46,5 +46,5 @@
 % created by buildglyphimages.py on 2012-11-08
 \newcommand*{\twoBeamedQuavers}[1][]{%
     \setkeys{lilyDesignOptions}{scale=0.7,raise=-0.4}%
-    \lilyPrintImage[#1]{twoBeamedQuavers}%
+    \lilyPrintImage[#1]{lily-twoBeamedQuavers}%
 }
