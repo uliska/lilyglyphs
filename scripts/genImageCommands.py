@@ -111,6 +111,14 @@ def check_paths():
     if not lg.dir_cmd in ls:
         os.mkdir(lg.dir_cmd)
 
+def cmd_filename(cmd_name):
+    if cmd_name.startswith('lily'):
+        return cmd_name[:4] + '-' + cmd_name[4:]
+    elif cmd_name.startswith('lily-'):
+        return cmd_name
+    else:
+        return 'lily-' + cmd_name
+
 # set default scale and raise arguments to empty
 scale = ''
 rais = ''
@@ -170,14 +178,14 @@ def read_entry(i):
         lg.in_cmds[cmd_name] = {}
         lg.in_cmds[cmd_name]['comment'] = comment
         lg.in_cmds[cmd_name]['lilySrc'] = lilySrc
-        lg.in_cmds[cmd_name]['element'] = cmd_name
+        lg.in_cmds[cmd_name]['element'] = cmd_filename(cmd_name)
         lg.in_cmds[cmd_name]['type'] = 'image'
         if scale:
             lg.in_cmds[cmd_name]['scale'] = scale
         if rais:
             lg.in_cmds[cmd_name]['raise'] = rais
 
-        lg.lily_files.append(cmd_name)
+        lg.lily_files.append(cmd_filename(cmd_name))
     return i
 
 
@@ -224,7 +232,7 @@ def write_lily_src_files():
     print 'Write .ly files for each entry:'
     for cmd_name in lg.in_cmds:
         print '- ' + cmd_name
-        gen_src_name = os.path.join(lg.dir_lysrc, cmd_name + '.ly')
+        gen_src_name = os.path.join(lg.dir_lysrc, cmd_filename(cmd_name) + '.ly')
         # handle existing commands
         if os.path.exists(gen_src_name):
             action = ''
@@ -285,7 +293,7 @@ if __name__ == "__main__":
     script_path, script_name = os.path.split(sys.argv[0])
     in_file = sys.argv[1]
     if not os.path.isabs(in_file):
-        in_file = os.path.join(script_path, in_file)
+        in_file = os.path.join(os.getcwd(), in_file)
     if not os.path.exists(in_file):
         print 'File not found: ' + in_file + '\n'
         usage()
@@ -294,6 +302,7 @@ if __name__ == "__main__":
     # this has to be the definitions subdir of
     # the package directory or the lilyglyphs_private dir
     in_path, in_filename = os.path.split(in_file)
+    in_path = os.path.normpath(in_path)
     if not (('lilyglyphs' in in_path) and (in_path.endswith('definitions'))):
         print 'File in the wrong location: ' + in_path
         usage()
