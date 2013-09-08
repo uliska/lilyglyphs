@@ -32,7 +32,30 @@
 #                                                                        %
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-import lilyglyphs_common as lg, os, sys,  getopt,  datetime,  subprocess
+import os, sys,  getopt,  datetime,  subprocess
+
+# import common library, depending on its location
+scr_path, scr_name = os.path.split(sys.argv[0])
+if not 'lilyglyphs_common.py' in os.listdir(scr_path):
+    # the library is not in the same dir as the script
+    # so we assume we're in a TeX installation.
+    try:
+        # use TeX's kpsewhich tool to locate the library file
+        # in the TeX installation
+        lib = subprocess.check_output(["kpsewhich",  
+                                       "--progname=lilyglyphs", 
+                                       "--format=texmfscripts", 
+                                       "lilyglyphs_common.py"])
+    except:
+        print '\nCommon library \"lilyglyphs_common.py\" not found.'
+        print 'Please refer to the manual for possible solutions.'
+        sys.exit(2)
+    # add the found path to Python's search path
+    sys.path.append(os.path.split(lib)[0])
+    
+import lilyglyphs_common as lg
+
+
 
 # ###############
 # string to be printed before the actual command
