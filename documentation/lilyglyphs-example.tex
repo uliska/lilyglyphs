@@ -32,9 +32,11 @@
 
 \documentclass[oneside,11pt]{article}
 \usepackage{lilyglyphsStyle}
-%\usepackage{lilyglyphsManualFonts}
-\setmainfont[Numbers=OldStyle]{Old Standard}
+\usepackage{lilyglyphsManualFonts}
+
+\newcommand{\superscript}[1]{{\addfontfeatures{VerticalPosition=Superior}#1}}
 \linespread{1.1}
+
 \begin{document}
 \begin{center}
 { \Huge \lilyglyphs }
@@ -46,9 +48,8 @@
 
 \end{center}
 
-\newcommand{\superscript}[1]{{\addfontfeatures{VerticalPosition=Superior}#1}}
-
 \bigskip
+
 \lilyglyphs{} makes the notational elements of LilyPond%
 \footnote{\url{http://www.lilypond.org}}
 available to \LaTeX{} documents.
