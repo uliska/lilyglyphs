@@ -49,7 +49,7 @@
 #                                                                        #
 # ########################################################################
 
-import os, sys, subprocess
+import os, sys, subprocess, argparse
 
 import os, sys
 
@@ -157,4 +157,9 @@ def check_paths():
 # ####################################
 # Finally launch the program
 if __name__ == "__main__":
+    # parse command line arguments
+    parser = argparse.ArgumentParser(
+                      description='Rebuild all pdfs missing in the \'pdfs\' subdiredtory', 
+                      parents=[lg.common_arguments])
+    args = parser.parse_args()
     main()

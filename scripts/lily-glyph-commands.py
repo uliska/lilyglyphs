@@ -40,7 +40,7 @@
 #                                                                        #
 # ########################################################################
 
-import os, sys
+import os, sys, argparse
 
 # import common library, depending on its location
 scr_path, scr_name = os.path.split(sys.argv[0])
@@ -68,8 +68,11 @@ import lilyglyphs_common as lg
 def main(input_file):
     """Do the main work of the script"""
     
+    in_dir, in_file = os.path.split(input_file)
+    os.chdir(in_dir)
+    
     # load and parse input file
-    lg.read_input_file(input_file)
+    lg.read_input_file(in_file)
     read_entries()
     
     # generate LaTeX commands and save them to output file
@@ -141,16 +144,16 @@ def usage():
 # ####################################
 # Finally launch the program
 if __name__ == "__main__":
-    # check if there _is_ a filename argument
-    if len(sys.argv) < 2:
-        print 'No filename argument given.\n'
-        usage()
-        sys.exit(2)
-    # check if it is a valid file
-    if not os.path.exists(sys.argv[1]):
-        print 'File not found: ' + sys.argv[1] + '\n'
-        usage()
-        sys.exit(2)
-    in_dir, in_file = os.path.split(sys.argv[1])
-    os.chdir(in_dir)
-    main(in_file)
+    # parse command line arguments
+    parser = argparse.ArgumentParser(
+                      description='Generate LaTeX commands using Emmentaler glyphs', 
+                      parents=[lg.common_arguments])
+    parser.add_argument('i', 
+                        type=lg.is_file, 
+                        metavar='INPUT', 
+                        help='File with command templates.')
+    args = parser.parse_args()
+    
+    # if we have exactly one existing file
+    # join its components and run the program
+    main(os.path.join(os.getcwd(), vars(args)['i']))

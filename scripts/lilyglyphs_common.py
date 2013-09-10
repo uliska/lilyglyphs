@@ -40,12 +40,28 @@
 #                                                                        #
 # ########################################################################
 
-import os, sys, datetime, subprocess
+import os, sys, datetime, subprocess, argparse
 
 # ################
 # Global variables
 
 definitions_file = []
+version_string = '0.2.1'
+
+# ######################
+# Common CL arguments
+common_arguments = argparse.ArgumentParser(add_help=False)
+common_arguments.add_argument('-v', '--version', 
+                               action='version', 
+                               version='%(prog)s ' + version_string)
+
+def is_file(filename):
+    if os.path.exists(filename):
+        return filename
+    else:
+        msg = "file %s not found" % filename
+        raise argparse.ArgumentTypeError(msg)
+
 
 # ###########
 # Directories

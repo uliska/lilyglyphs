@@ -32,7 +32,7 @@
 #                                                                        %
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-import os, sys,  getopt,  datetime,  subprocess
+import os, sys,  getopt,  datetime,  subprocess, argparse
 
 # import common library, depending on its location
 scr_path, scr_name = os.path.split(sys.argv[0])
@@ -152,6 +152,7 @@ def read_entries():
     for i in range(len(lg.definitions_file)):
         if '%%lilyglyphs' in lg.definitions_file[i]:
             i = read_entry(i)
+    print lg.lily_files
 
 def read_entry(i):
     """Reads a single glyph entry from the input file and stores it
@@ -301,26 +302,33 @@ def write_lily_src_files():
         fout.close()
     
     # remove skipped commands from in_cmds
+    print skip_cmds
     for cmd_name in skip_cmds:
         del lg.in_cmds[cmd_name]
-        lg.lily_files.remove(cmd_name)
+        lg.lily_files.remove(cmd_filename(cmd_name))
 
 # ####################################
 # Finally launch the program
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print 'No filename argument given.\n'
-        usage()
-        sys.exit(2)
+    
+    # parse command line arguments
+    parser = argparse.ArgumentParser(
+                      description='Process templates to LilyPond input files,' +
+                      'compile these and generate LaTeX commands.', 
+                      parents=[lg.common_arguments])
+    parser.add_argument('i', 
+                        type=lg.is_file, 
+                        metavar='INPUT', 
+                        help='File with command templates.')
+    args = parser.parse_args()
+    
+    # if we have exactly one existing file
+    # join its components and run the program
+
     # process filename argument, providing absolute path
     script_path, script_name = os.path.split(sys.argv[0])
-    in_file = sys.argv[1]
-    if not os.path.isabs(in_file):
-        in_file = os.path.join(os.getcwd(), in_file)
-    if not os.path.exists(in_file):
-        print 'File not found: ' + in_file + '\n'
-        usage()
-        sys.exit(2)
+
+    in_file = os.path.join(os.getcwd(), vars(args)['i'])
     # check if the input file is in the right place
     # this has to be the definitions subdir of
     # the package directory or the lilyglyphs_private dir
