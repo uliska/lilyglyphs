@@ -31,3 +31,10 @@ Contact
 This package is maintained by *Urs Liska*.  
 If you are interested in participating please write to ul@openlilylib.org  
 or subscribe to our [mailing list](https://lists.sourceforge.net/lists/listinfo/openlilylib-user)
+
+Example
+-------
+The following image is taken from the example document that can be found at
+[`documentation/lilyglyphs-example.tex`](https://github.com/openlilylib/lilyglyphs/blob/master/documentation/lilyglyphs-example.tex)
+
+![](https://github.com/openlilylib/lilyglyphs/raw/master/documentation/lilyglyphs-example-600.png)
