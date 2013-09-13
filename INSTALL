@@ -12,23 +12,33 @@ you should be able to use the package without further action.
 For advanced options and usage please refer to the manual.
 
 If you have downloaded lilyglyphs.zip from CTAN please extract the 
-archive to a location in your texmf tree, 
-e.g. ~/texmf/tex/latex/lilyglyphs. 
-
-If you have downloaded lilyglyphs.tds.zip from CTAN please extract
-the archive to the root of your texmf tree, e.g. ~/texmf.
+archive to a location in your TEXMFHOME tree, 
+e.g. ~/texmf/tex/latex/lilyglyphs on Linux. 
 
 If you want to use the Github repository you should clone it
 (or your fork) to a directory in your local texmf tree, e.g.
-~/texmf/tex/latex/lilyglyphs. 
+~/texmf/tex/latex/lilyglyphs on Linux. 
+It is advisable to first create a fork and additionally add 
+the official repository as an 'upstream' remote.
 
-Each of the above options should allow you to immediately use 
-the package. Please note that the Git repository doesn't contain
-a precompiled manual.
+With both options you should make sure the package directory is 
+actually called 'lilyglyphs'.
 
-If you want to compile the manual with LuaLaTeX or XeLaTeX you need 
-the (free) fonts 'Linux Libertine O', 'Linux Biolinum O' and 'DejaVu 
-Sans Mono'. If you don't want or can't install them you can modify
+With both downloaded options you have to make the enclosed 'Emmentaler' 
+OpenType font visible to LaTeX.  
+For this you can copy the fonts/ directory to your TEXMFHOME/fonts/opentype 
+directory and rename it to lilyglyphs or emmentaler. Even better, create a 
+link there to the original folder in the package. This way you won't be
+affected by updates of the font files in the package.
+It is important to note that you should not have the Emmentaler fonts 
+installed as system fonts in parallel because this might irritate
+XeLaTeX.  
+
+Please note that the Github repository doesn't contain a precompiled
+manual. If you want to compile the manual with LuaLaTeX or XeLaTeX 
+
+you need the (free) fonts 'Linux Libertine O', 'Linux Biolinum O' and 
+'DejaVu Sans Mono'. If you don't want or can't install them you can modify
 'documentation/lilyglyphsManualFonts.sty' to use different fonts
 or remove the reference to it from 'documentation/lilyglyphs.tex'
 to use default fonts.
