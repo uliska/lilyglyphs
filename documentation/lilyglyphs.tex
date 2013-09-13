@@ -427,9 +427,12 @@ See \fref{tab:singlenotes} for the available predefined commands.
 
 We will only provide a few complex symbols like beamed notes for default use.
 Of course one could have the wish for indefinite variations like  notes with variable beam slope.
-But as long as it isn't possible to make this parametrical and draw them directly from within \lilyglyphs{} it is probably a good idea to stick with a few basic commands.
-However it would be quite simple to create “plugin modules” that provide a series of related symbols, and maybe we will think about such an extension in the future.
+But as long as it isn't possible to make this parametrical%
+\footnote{See \ghIssue{64}}
+it is probably a good idea to stick with a few basic commands.
 For now see \fref{tab:beamedNotes} for the implemented commands.
+
+Beamed notes are implemented using \textsc{pdf} files.
 
 \begin{reftable}{Beamed Notes}{beamedNotes}
 \twoBeamedQuavers & \cmd{twoBeamedQuavers}\\
@@ -456,11 +459,10 @@ See \fref{tab:clefs} for the available predefined commands.
 
 The Emmentaler font provides two “real” glyphs for time signatures, the \lilyTimeC{} and the \lilyTimeCHalf.
 
-The numerical (single and compound) time signatures can be printed using \cmd{lilyTimeSignature}: \lilyTimeSignature{4}{4}.
-This command expects two mandatory arguments: numerator and denominator.
-They are treated as \cmd{lilyText}, so you can enter anything this command expects (see \fref{sec:generic_access_commands}).
+The numerical (single and compound) time signatures can be printed using \cmd{lilyTimeSignature\{numerator\}\{denominator\}}: \lilyTimeSignature{4}{4}.
+\texttt{numerator} and \texttt{denominator} are treated as \cmd{lilyText}, so you can enter anything this command can use (see \fref{sec:generic_access_commands}).
 This way you can easily write compound time signatures like \cmd{lilyTimeSignature\{4 + 7\}\{8\}}: \lilyTimeSignature{4 + 7}{8}.
-But be aware that the command does \emph{not} have a notion of columns, so you have to take care about the horizontal alignment yourself if there are more than one item in both rows, for example by adding explicite space.
+But be aware that the command does \emph{not} have a notion of columns, so you have to take care about the horizontal alignment yourself if there are more than one item in both rows, for example by adding explicit space.
 
 \cmd{lilyTimeSignature} respects any whitespace after the closing bracket so you don't have to supply the pair of curly braces.
 
@@ -554,7 +556,7 @@ As a convenience there is a predefined command \cmd{lilyDynamics}, which is just
 
 These Letters can be combined to make complex Dynamics. 
 \lilyglyphs{} doesn't provide predefined commands as they can easily be entered as single strings to \cmd{lilyDynamics}, like \cmd{lilyDynamics\{sffzrmp\}}, resulting in \lilyDynamics{sffzrmp}. 
-In this specific situation you could enter a small horizontal space between the \lilyDynamics{z} and the \lilyDynamics{r} -- but as this combination wouldn't occur in real life, we don't need to demonstrate it here.
+In this specific situation you could enter a small horizontal space between the \lilyDynamics{z} and the \lilyDynamics{r} -- but as this combination wouldn't occur in real life we don't need to demonstrate it here.
 There are a few predefined commands (see \fref{tab:combinedDynLetters}) handling the “kerning” of some special combination of letters. 
 Internally these commands internally use \cmd{lilyDynamics} with its default scaling.
 
