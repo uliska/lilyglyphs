@@ -37,6 +37,9 @@
 \newcommand{\superscript}[1]{{\addfontfeatures{VerticalPosition=Superior}#1}}
 \linespread{1.1}
 
+% make the glyphs lighter
+\lilyOpticalSize{26}
+
 \begin{document}
 \begin{center}
 { \Huge \lilyglyphs }
@@ -60,11 +63,11 @@ In m.\,24 the \decrescHairpin{} lasts from the 2\superscript{nd} \halfNote{} to 
 With the new package \lilyglyphs{} you can easily insert the notational elements of LilyPond%
 \footnote{\url{http://www.lilypond.org}}
 in your text documents.
-Accidentals like \flat{} or \sharp, but also articulation scripts (\hspace{.75ex}\fermata{}) and time signatures such as \lilyTimeCHalf{} or \lilyTimeSignature{5\,+\,7}{8} are readily available.
+Accidentals like \flat{} or \sharp, but also articulation scripts (\hspace{.65ex}\fermata{}) and time signatures such as \lilyTimeCHalf{} or \lilyTimeSignature{5\,+\,7}{8} are readily available.
 But you can also insert arbitrary notational constructs like this \fancyExample{} mockup example into your text or even make scanned images available as “characters”.
 This package may greatly extend your typographical options when authoring critical reports or analytical essays.
 
-One thing that sets \lilyglyphs{} apart from other solutions I had investigated is that one isn't restricted to a set of predefined symbols but can print \emph{any notation} that can be realized with LilyPond. 
+One thing that sets \lilyglyphs{} apart from other solutions I had investigated is that one isn't restricted to a set of predefined symbols but is able to print \emph{any notation} that can be realized with LilyPond. 
 
 \footnotesize
 The other nice thing is that the glyphs \halfNoteRest{} scale well with the surrounding font size, 
@@ -75,7 +78,7 @@ The other nice thing is that the glyphs \halfNoteRest{} scale well with the surr
 This flexibility has a “price”, though: You will have to change your mind-set and start using plain text based tools, \LaTeX{}%
 \footnote{\url{http://www.latex-project.org}}
 in particular.
-But if the above examples whet your appetite and match your professional needs you should really consider giving it a serious try -- it's all free anyway.
+But if the above examples whet your appetite and match your professional needs you should really consider giving it a serious try -- it's all Free Software anyway.
 You may find reading my essay on the advantages of plain text toolchains rewarding too%
 \footnote{\url{http://lilypondblog.org/2013/07/plain-text-files-in-music/}}.
  
