@@ -206,7 +206,7 @@ For details see \dir{/otf/LICENSE.OFL} and \dir{/otf/FONTLOG}.
 \chapter{Usage}
 \label{chap:usage}
 
-As mentioned in the Quick Start at the beginning of this document you have to activate \lilyglyphs{} with \cmd{usepackage\{lilyglyphs\}}.
+As mentioned in the Quick Start at the beginning of this document you have to activate \lilyglyphs{} with \cmd{usepackage\{fontspec\}} \cmd{usepackage\{lilyglyphs\}}.
 This will give you access to the predefined commands and some generic access commands.
 
 \section{Usage of Predefined Commands}
@@ -237,7 +237,10 @@ They all accept one mandatory and one optional argument, the mandatory one being
 This content has to be given in a form specific to the respective command.
 
 \paragraph*{\cmd{lilyGlyph}} expects the OpenType glyph name. 
-You can look up the glyph names in the Appendix of LilyPond's \emph{Notation Reference}\footnote{\url{http://www.lilypond.org/doc/v2.16/Documentation/notation/the-feta-font}} or in the somewhat reduced html page provided in the \dir{/glyphlist} directory of the package download. 
+You can look up the glyph names in the Appendix of LilyPond's \emph{Notation Reference}\footnote{\url{http://www.lilypond.org/doc/v2.16/Documentation/notation/the-feta-font}} or in the somewhat reduced html page provided in the \dir{/documentation} directory of the package download.\\
+Please note that many Emmentaler glyphs, especially articulations, are aligned to their center because that's what they are used like in a score.
+So don't be surprise if you need considerable extra space before such glyphs.
+This isn't a bug but rather a characteristic of using the glyphs in a different context than they were designed for.
 
 \paragraph*{\cmd{lilyGlyphByNumber}} expects the Unicode code number of the glyph. 
 You will generally not want to use this as the code positions aren't guaranteed to stay the same with new versions of the fonts. 
@@ -245,7 +248,7 @@ There may be some uses for numerical access however, e.\,g. if you want to itera
 
 \paragraph*{\cmd{lilyText}} expects ordinary text as its argument. 
 In fact it just switches the font to Emmentaler and then writes the string given as the argument. 
-This only works for Dynamics letters, numbers and the glyphs \lilyText[scale=2]{+ - , .} -- as these glyphs are located at their ordinary character position in the font. 
+This only works for Dynamics letters, numbers and the glyphs \lilyText[scale=2]{+ - , .} -- as these glyphs are located at their ordinary \textsc{ascii} character position in the font. 
 But you can also enter any spacing commands (like \cmd{hspace} or plain spaces) to control the spacing between glyphs.
 But keep in mind that this may result in line breaking inside your expression.
 If you need to prevent this you can surround your expression by an \cmd{mbox}.\\
@@ -272,7 +275,6 @@ This results in an image that is rotated around the center of the bottom line of
 You will therefore have to add an appropriate \texttt{raise} value (try e.\,g. 2 as a starting point).
 You will have to take some care about the horizontal spacing, as such a flipped image seems to use it with inverted direction.
 But you can safely put extra horizontal space after the image, and it is a valid and practical way to create two symbols from one image file.
-\todo{Verify this. Would that apply to the faulty downways half note rests?}
 
 \paragraph*{\texttt{raise}}
 changes the vertical placement of the glyph.
@@ -292,6 +294,7 @@ the layout adjustments default to values that leave the glyphs unaltered (i.\,e.
 A document author can override these defaults at any time with \cmd{lilyGlobalOptions\{<options>\}}.
 This may for example be necessary if you use a text font which doesn't harmonize well with \lilyglyphs' default settings, for example because of its unusual x-height.
 You can use this command at the beginning of the document to modify the appearance for the whole document, or you can change its settings multiple times throughout the document.
+This is what you generally have to do when using \cmd{lilyGlyph} for printing individual glyphs from Emmentaler.
 
 \paragraph*{At command invocation}
 you can pass the layout adjustment options for the specific instance of the glyph.
@@ -322,15 +325,15 @@ First we increase the size of the glyph with the \texttt{scale} argument. We fin
 As you can see the glyph is -- as most Emmentaler glyphs are -- placed too low, so you have to add the \texttt{raise} argument. A value of 0.3 seems fine -- remember, the raise argument is interpreted as \emph{ex}, but you don't write down the unit.\\
  \cmd{lilyGlyph[scale=1.4,raise=0.3]\{scripts.ufermta\}} -- \lilyGlyph[scale=1.4,raise=0.6]{scripts.ufermata}
  
-You can now further see that the glyph is placed too far to the left -- which is probably due to the fact that articulations are originally intended to be centered relative to their reference point (the note).
+You can now further see that the glyph is placed too far to the left -- which is a good example of the behaviour described earlier with the \cmd{lilyGlyph} command. 
 In fact it seems the point in the middle of the fermata is placed where we would expect the glyph to start.
 So you have to add some leading space, which might be practical to be entered in \emph{ex}:\\
 \cmd{hspace\{1ex\}}\cmd{lilyGlyph[scale=1.4,raise=0.3]\{scripts.ufermta\}} -- \hspace{1ex}\lilyGlyph[scale=1.4,raise=0.3]{scripts.ufermata}
 
 \medskip
 If you want you can now simply enclose this definition in a \cmd{newcommand} to be able to reuse it.
-\cmd{newcommand\{\textbackslash ufermata\}\{hspace\{1ex\}}\cmd{lilyGlyph[scale=1.4,raise=0.3]\{scripts.ufermta\}}.
-Then you can enter your tweaked symbol by simply writing \cmd{ufermata}.
+\cmd{newcommand\{\textbackslash fermata\}\{hspace\{1ex\}}\cmd{lilyGlyph[scale=1.4,raise=0.3]\{scripts.ufermta\}}.
+After this you can enter your tweaked symbol by simply writing \cmd{fermata}.
 However you are encouraged to create such a command the way we define predefined commands in \lilyglyphs{} itself.
 This way it will gain the flexibility of the predefined commands, and it will be easier to be incorporated in the package itself.
 See our instructions on how to create predefined commands the \lilyglyphs{} way in \fref{sec:howto_predefined_commands}.
