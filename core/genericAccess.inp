@@ -47,12 +47,7 @@
 	\interpretLilyOptions{#1}%
 	% print the glyph in a raisebox
 	\raisebox{\lilyEffectiveRaise ex}{%
-	\ifxetex
 		{\fontspec[Scale=\lilyEffectiveScale]{emmentaler-\lilyOpticalSuffix.otf}#2}%
-	\fi
-	\ifluatex
-		{\fontspec[Scale=\lilyEffectiveScale]{Emmentaler-\lilyOpticalSuffix}#2}%
-	\fi
 	}%
 }
 
