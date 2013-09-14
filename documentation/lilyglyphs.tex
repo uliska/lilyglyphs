@@ -611,8 +611,8 @@ It is structured from the perspective of the package's behaviour instead of from
 If you simply want to add your own predefined commands “the \lilyglyphs{} way” it is a good idea to read this section too, but you may also skip it and directly go to \ref{sec:directory_structure}.
 
 \medskip
-In order to make the package's \texttt{.sty} file easier to understand, its content is split into multiple input files which are located in the \texttt{/commands} and \texttt{/core} subfolders.
-The most fundamental definitions are in the \texttt{keyval.inp} and \texttt{genericAccess.inp} files.
+In order to make the package's \texttt{.sty} file easier to understand, its content is split into multiple input files which are located in the \dir{/commands} and \dir{/core} subfolders.
+The most fundamental definitions are in the \dir{core/keyval.inp} and \dir{core/genericAccess.inp} files.
 
 \subsection{Accessing \emmentaler{} Glyphs}
 \label{subsec:accessing_emmentaler_glyphs}
@@ -624,13 +624,13 @@ It takes two arguments, the first -- optional -- being the comma-separated list 
 \newcommand*{\lilyPrint}[2][]{%
     \interpretLilyOptions{#1}%
     \raisebox{{\lilyEffectiveRaise}ex}{%
-        {\fontspec[Scale=\lilyEffectiveScale]{Emmentaler-\lilyOpticalSuffix}#2}%
+        {\fontspec[Scale=\lilyEffectiveScale]{emmentaler-\lilyOpticalSuffix.otf}#2}%
     }%
 }
 \end{verbatim}
 
 At first the command \cmd{interpretLilyOptions} is called, where the options of the different levels are evaluated and calculated to their effective values.
-Then the content of \#2 is printed, within a \cmd{raisebox} and with the currently selected opticals version of the \emmentaler font.
+Then the content of \#2 is printed, within a \cmd{raisebox} and with the currently selected opticals version of the \emmentaler{} font.
 
 \begin{verbatim}
 \newcommand*{\interpretLilyOptions}[1]{%
@@ -642,7 +642,7 @@ Then the content of \#2 is printed, within a \cmd{raisebox} and with the current
         \lilyGlobalOptions@raise + \lilyCmdOptions@raise + \lilyDesignOptions@raise}%
 }
 \end{verbatim}
-\cmd{interpretLilyOptions} is defined in \texttt{keyval.inp}.\\
+\cmd{interpretLilyOptions} is defined in \dir{core/keyval.inp}.\\
 The \texttt{<key=value>} mechanism is achieved using the \texttt{keyval} package as the most basic solution available.
 {\color{red} If this can be implemented in a more elegant, extensible and/or powerful way using other packages, e.\,g.\ \package{pgfkeys}, we'd appreciate any input.}
 It uses three families of keys, corresponding to the three levels of options:
@@ -657,7 +657,7 @@ While the command options have just been determined, the global options are vali
 This is the reason why \cmd{lilyPrint} should never be invoked directly -- the design options would be in the unknown state of the previous invocation of\cmd{lilyPrint}.
 
 \medskip
-At the next higher level there are the three generic access functions \cmd{lilyGlyph}, \cmd{lilyGlyphByNumber} and \cmd{lilyText}, defined in \texttt{genericAccess.inp}.
+At the next higher level there are the three generic access functions \cmd{lilyGlyph}, \cmd{lilyGlyphByNumber} and \cmd{lilyText}, defined in \dir{core/genericAccess.inp}.
 They are very similar and differ only in the way they determine the actual content to be printed.
 As stated in the end user part of this documentation they expect two arguments, the optional \texttt{<key=value>} pair list and the contents.
 As a first step the commands initialize the design options to a neutral state, because the “design” of the generic glyphs has to be neutral by design.
@@ -672,7 +672,7 @@ There may be some uses for numerical access, however, e.\,g.\ to iterate over a 
 
 \subsection{Printing image files}
 \label{subsec:printing_image_files}
-\cmd{lilyPrintImage}, defined in \texttt{genericAccess.inp}, is the command that prints glyphs from a supplied image file.
+\cmd{lilyPrintImage}, defined in \dir{core/genericAccess.inp}, is the command that prints glyphs from a supplied image file.
 It actually is quite similar to \cmd{lilyPrint}, with only the extra consideration of scaling the image to the text font size.
 
 \begin{verbatim}
