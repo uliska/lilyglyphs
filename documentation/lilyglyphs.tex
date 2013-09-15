@@ -700,44 +700,65 @@ Please use \cmd{lilyImage} instead which does the same as \cmd{lilyPrintImage} b
 
 \section{The Package's Directory Structure}
 \label{sec:directory_structure}
-This section is relevant if you want to write new commands on a regular basis, and especially if you want to contribute your results back to the package or if you want to use the Python scripts as described in \fref{chap:python_scripts}.
+This section describes the directory structure as found in the development repository on GitHub%
+\footnote{\url{https://github.com/openlilylib/lilyglyphs}}.
+If you have obtained \lilyglyphs{} from there and want to write new commands on a regular basis, especially if you want to contribute your results back to the package, you will need to have a fair understanding of it.
+The same is true if you want to use the Python scripts as described in \fref{chap:python_scripts}.
+If you intend to contribute or just start doing so it is highly recommended to go that way.
 
-If you are using \lilyglyphs{} from a \TeX{} distribution you shouldn't really consider the contents of the directory structure: probably you don't have write access there anyway, and any updates of the package or the distro might overwrite your manual additions without warning.
-Please see \fref{chap:contributing} for recommendations how to set up your installation.
+If you have downloaded \lilyglyphs{} from \textsc{ctan} there will be significant differences in the directory structure which are mentioned below, so you should read the section anyway.
+
+If you are using \lilyglyphs{} from a \TeX{} distribution you can't really consider the contents of this section because the files will be scattered over a number of system and distribution specific places which are out of our control.
+There is a way around this problem which is described in \fref{chap:python_scripts}, but we still recommend using the GitHub version for serious extending work.
+Getting an idea about the package content is a good idea nevertheless.
 
 \paragraph*{The root directory}
 contains the usual number of files such as \textsc{readme}, installation hints and licensing information as well as the main package file \texttt{lilyglyphs.sty}.
 
-\paragraph*{\dir{/core}%
+\paragraph*{\dir{/core}
 \footnote{For this section a leading “/” in directory names refer to the package root directory.}}
 consists of include files for \texttt{lilyglyphs.sty} that contain the fundamental program logic of the package.
 
 \paragraph*{The \dir{/commands} directory}
-contains files that define the glyph commands that are available to the end user of \lilyglyphs.
+contains files defining the predefined commands available to the end user of \lilyglyphs.
 If you are going to write new commands you will include them in these files or add new files here.
 
-\paragraph*{\dir{/otf}}
-contains the \emmentaler{} font files, copied from LilyPond \todo{enter version number}.
+\paragraph*{\dir{/documentation}}
+contains this manual and an example document, boxth as \texttt{.tex} and \textsc{pdf} files as well as an \textsc{html} document listing all glyphs of the \emmentaler{} font.
 
-\paragraph*{\dir{/scripts}}
-contains Python scripts that simplify the generation and management of new commands.
+The subdirectory \dir{resources} contains included files for the \textsc{html} document as well as helper packages for the \LaTeX{} documents.
+The subdirectory \dir{lilyglyphs\_logo} contains the logo of the package in \textsc{pdf} and \textsc{png} format along with its \texttt{.tex} source.
+
+\paragraph*{\dir{/fonts}}
+contains the \emmentaler{} font files, copied from LilyPond 2.16.2 as the latest stable version.
+This is the directory you will have copied or linked to during a manual installation of the package.
 
 \paragraph*{\dir{/glyphimages}}
 contains all material for the image based commands: original input files, generated LilyPond source files and the resulting \textsc{pdf} images.
 If you are going to create new commands using LilyPond generated images you will work in this directory.
 This is explained in more detail in \fref{sec:generating_commands_image}.
 
-\paragraph*{\dir{/documentation}}
-contains the manual, its source and helper file(s).
-Of particular interest in this directory may be the \dir{glyphlist} folder containing an overview of the \emmentaler{} glyphs and the \dir{lilyglyphs\_logo} providing the \lilyglyphs{} logo as \textsc{pdf} and \textsc{png} files.
+\paragraph*{\dir{/license}}
+contains the full \textsc{lppl} license for the package and the \textsc{ofl} license for the included Emmentaler fonts.
+
+\paragraph*{\dir{/scripts}}
+contains Python scripts that simplify the generation and management of new commands.
+In the \textsc{ctan} archive the contents of this directory is distributed over two directories, \dir{/bin} and \dir{/lib}.
+
+\paragraph*{\dir{source}}
+contains the \textsc{metafont} sources for the Emmentaler fonts.
+They are checked out from the LilyPond development repository at exactly the same state as the binary font files used.
 
 \subsection{“Private” Directory Structure}
 \label{subsec:private_directory_structure}
-If you have obtained \lilyglyphs{} any other way than through its Git repository you probably don't want to (or can't) modify the package files directly.
-Instead we recommend you set up a private “shadow” directory structure in your \LaTeX{} search path where you can safely place your own additions.
-A good choice for example would be \dir{\textasciitilde/texmf/tex/latex/lilyglyphs\_private}.
-We have prepared such a structure in the \texttt{lilyglyphsPrivate.tar.gz} file in the root directory.
-If you extract this archive to the suggested path you should be ready to go.
+If you have obtained \lilyglyphs{} any other way than through its Git repository you probably can't or don't want to modify the package files directly.
+Instead we recommend you set up a private “shadow” search path where you can safely place your own additions.
+Apart from potential issues with write access to files in the \TeX{} installation this procedure will avoid your changes being overwritten by package updates.
+
+We have provided a skeleton directory structure in the file \dir{lilyglyphs\_private.zip} which is located in the root directory of the package%
+\footnote{Please consult the documentation of your \TeX{} distribution where to find these.
+A good chance would be to run \texttt{kpsewhich lilyglyphs.sty} which should find the location of the main package file}.
+Extract this archive somehwere in your \LaTeX{} search path, e.\,g. to \dir{TEXMFHOME/tex/latex/lilyglyphs\_private}.
 
 In the first level of this directory you'll find two nearly empty stubs: \texttt{lilyglyphsPrivate.sty} and \texttt{lilyglyphsPrivate.tex}.
 The first file is a \LaTeX{} package where you can store and organize your own predefined commands, the second a file where you can (and are strongly advised to) document your additions.
@@ -1273,7 +1294,7 @@ The output file will of course be overwritten (you have renamed it before re-run
 \label{subsec:BGI_recreating_images}
 
 There also are occasions when you might have to (re)create the \textsc{pdf} files that serve as the glyph images without having to regenerate the \LaTeX{} commands or the LilyPond source files.
-One example would be the upgrade to a new \emmentaler{} version.
+One example would be the upgrade to a new an\emmentaler{} version.
 In that case you can run the script \texttt{lily-glyph-commands.py.py}, which is also located in the \texttt{/scripts} directory.
 In order to work the script expects the current working directory to be either the \dir{glyphimages} subdirectory of the package or the root of the \dir{lilyglyphs\_private} directory.
 This script essentially compares the directories with the generated LilyPond sources and with the created pdf files, and if it finds a source without a corresponding pdf it will call LilyPond to recreate it.
