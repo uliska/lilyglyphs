@@ -65,7 +65,7 @@ If you have downloaded the package please refer to \fref{sec:installation} for a
 \usepackage{lilyglyphs} % Currently there are no package options available
 \begin{document}
 \flatflat{} or \clefGInline. % Predefined commands, 
-                             % Use {} to allow traling whitespace
+                             % Use {} to allow trailing whitespace
 \lilyGlyph{timesig.neomensural64} % Access "Emmentaler" glyphs by their name
                               % Generic commands have one mandatory argument.
 \lilyDynamics[scale=1.1,raise=-0.3]{mf} % Optional placement arguments.
@@ -755,7 +755,7 @@ If you have obtained \lilyglyphs{} any other way than through its Git repository
 Instead we recommend you set up a private “shadow” search path where you can safely place your own additions.
 Apart from potential issues with write access to files in the \TeX{} installation this procedure will avoid your changes being overwritten by package updates.
 
-We have provided a skeleton directory structure in the file \dir{lilyglyphs\_private.zip} which is located in the root directory of the package%
+We have provided a skeleton directory structure in the file \dir{lilyglyphs\_private.zip} which is located in the \dir{documentation/} directory of the package%
 \footnote{Please consult the documentation of your \TeX{} distribution where to find these.
 A good chance would be to run \texttt{kpsewhich lilyglyphs.sty} which should find the location of the main package file}.
 Extract this archive somehwere in your \LaTeX{} search path, e.\,g. to \dir{TEXMFHOME/tex/latex/lilyglyphs\_private}.
