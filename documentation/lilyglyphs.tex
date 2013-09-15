@@ -761,7 +761,9 @@ A good chance would be to run \texttt{kpsewhich lilyglyphs.sty} which should fin
 Extract this archive somehwere in your \LaTeX{} search path, e.\,g. to \dir{TEXMFHOME/tex/latex/lilyglyphs\_private}.
 
 In the first level of this directory you'll find two nearly empty stubs: \texttt{lilyglyphsPrivate.sty} and \texttt{lilyglyphsPrivate.tex}.
-The first file is a \LaTeX{} package where you can store and organize your own predefined commands, the second a file where you can (and are strongly advised to) document your additions.
+The first file is a \LaTeX{} package where you can store and organize your own predefined commands%
+\footnote{Of course you will have to “use” this package to make the commands available to other documents}, 
+the second a file where you can (and are strongly advised to) document your additions.
 If you make use of these files in a structured way (following the hints in the comments in these files) it will be very easy for us to incorporate any additions you send to us by email (if you don't want to go the Git way).
 
 The rest is a copy of the directory structure below \dir{/glyphimages}.
@@ -791,12 +793,12 @@ We declare to accept one optional argument, which defaults to empty.
 This argument can take the list of \texttt{<key=value>} options.
 When writing the commands, please take care not to omit the \texttt{\%} characters at the line endings, as they prevent unwanted whitespace to be introduced in the output.
 
-In the second line we define the design options for your command.
+In the second line we define the design options for the command.
 In the example the designer has decided that a doublesharp glyph should be scaled to 1.5 and raised 0.35\,ex compared to its default appearance.
 
 The third line calls the internal \cmd{lilyPrint} command. 
 It passes the optional argument, with which the end user can override (i.\,e.\ modify) the designed values.
-As the \doublesharp is a glyph that has to be selected by its glyph name, we call \cmd{lilyGetGlyph}, supplying the glyph name found in the documentation.
+As the \doublesharp{} is a glyph that has to be selected by its glyph name, we call \cmd{lilyGetGlyph}, supplying the glyph name found in the documentation.
 The result of this command is passed as the \texttt{\#2} to \cmd{lilyPrint}.
 
 To summarize: Writing a predefined command for printing an Emmentaler glyph involves just two steps, setting the design time options and calling \cmd{lilyPrint} with the appropriate \#2 argument.
@@ -817,7 +819,7 @@ you will notice that the only differences are that the actual printing is done w
 In \fref{sec:generating_commands_image} you will see a tool that allows to create numerous image commands quite easily.
 
 \bigskip
-As a last example we will look at the definition of \lilyRFZ \cmd{lilyRFZ}.
+As a last example we will look at the definition of \cmd{lilyRFZ} \lilyRFZ.
 
 \begin{verbatim}
 \newcommand{\lilyRFZ}[1][]{%
@@ -837,12 +839,14 @@ We see that we can insert a \cmd{hspace} command between the letters without any
 But as it turns out \LaTeX{} may now decide to insert a line break at its discretion, so we have to additionally enclose this call to \cmd{lilyDynamics} in a \cmd{mbox}.
 The command just passes the optional argument to \cmd{lilyDynamics}, so you can use these arguments in your document as usual.
 
-This example is meant to encourage you to experiment with the definition of new commands. All you have to deal with is setting the design time options and the optional argument, and chosing the appropriate input method for the second argument.
+This example is meant to encourage you to experiment with the definition of new commands. 
+All you have to deal with is setting the design time options and the optional argument, and chosing the appropriate input method for the second argument.
+Apart from this you can design commands as you aanre used to.
 
 \bigskip
-Once you have defined your new command you of course have to make it available to \LaTeX.
+Once you have defined your new command you of course have to make it av ailable to \LaTeX.
 If it is a “local” command that you just use for a specific document you can simply put it in the document's preamble or a dedicated helper \texttt{.sty} file.
-If it is an image driven command you will have created the image file before and will have to place it in a location where \LaTeX{} can find it.
+If it is an image driven command you will have created the image file before and will have to place this in a location where \LaTeX{} can find it.
 But the best place you can permanently store your new commands is the \package{lilyglyphsPrivate} package described in \fref{subsec:private_directory_structure}.
 Please don't forget to document your command in \texttt{lilyglyphsPrivate.tex}.
 For more information on how to contribute your new commands to the package see \fref{chap:contributing}.
