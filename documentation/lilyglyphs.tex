@@ -1338,20 +1338,20 @@ Maybe in the future there will be functionality to detect changes in the glyphs'
 
 The original motivation to create \lilyglyphs{} was the need to include musical symbols in a critical report of a scholarly edition.
 Looking around on the internet and \textsc{ctan} I didn't find a solution that was even near the flexibility and output quality I wanted for this edition (and my work in general), so I came up with the idea of accessing the glyphs of LilyPond's \emmentaler{} font.
-Fortunately I realized very early that I should make all this more generic and create a public package.
+Fortunately I realized very early that I should make all this more generic and create a public \LaTeX{} package.
 When I found the solution to incorporate non-Emmentaler glyphs through LilyPond-generated \textsc{pdf} images I saw that it worked out quite well.
-By now I have a solution that completely works for my personal needs and can be a useful package for any \LaTeX{} authors interested in incorporating musical symbols in their documents.
+By now I have a solution that completely works for my personal needs and presumably is a useful package for any \LaTeX{} authors interested in incorporating musical symbols in their documents.
 
 But \lilyglyphs{} definitely is a package that lives on community contribution.
 Why? Because one of the main goals for continuing development is a growing coverage of glyphs.
 This task is very “scalable“ and prone to “crowd-development” because any number of contributors can add commands from the fields they are working on and need glyphs from.
-I personally will probably only add new commands as I need them for my work, maybe sometimes get the hang and complete a group.
+I personally will probably only add new commands as I need them for my work, maybe sometimes getting the hang and complete a group.
 So anybody who uses the package to a more than casual degree is highly encouraged to share his additions with me and the community.
 
 There are also existing issues with the \LaTeX{} implementation that can be seen in the project's issue tracker on GitHub (\url{https://github.com/openlilylib/lilyglyphs}).
 Furthermore I'm sure there are quite a few things that could be implemented more elegantly, more efficiently, or with less package dependencies -- this package is actually my first serious work with \LaTeX{} \dots
 
-And finally I have some ideas how \lilyglyphs' functionality could be enhanced, and others could come with other ideas.
+And finally I have some ideas how \lilyglyphs' functionality could be enhanced, and others could come up with more ideas.
 For example I would be interested in having parametrized commands that can print a number of related glyphs, there could be more layout options, I would like to be able to use global layout options for specific glyph groups (e.g. raise all accidentals by a certain amount) etc.
 And one day I would like to make the package compliant to the currently emerging SMuFL standard%
 \footnote{\url{http://www.smufl.org}}
