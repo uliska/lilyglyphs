@@ -35,9 +35,13 @@
 % and defines one subset of glyphs            %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%
-% fancy example %
-%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% fancy example                                  %
+% This isn't a command for any real-world usage  %
+% but only an example for creating complex,      %
+% i.e. composed notation that can be turned      %
+% into a predefined command                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % example of a fancy notation
 % created by genImageCommands.py on 2013-09-07
