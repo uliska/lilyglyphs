@@ -37,4 +37,4 @@ Example
 The following image is taken from the example document that can be found at
 [`documentation/lilyglyphs-example.tex`](https://github.com/openlilylib/lilyglyphs/blob/master/documentation/lilyglyphs-example.tex)
 
-![](https://github.com/openlilylib/lilyglyphs/raw/master/documentation/lilyglyphs-example-600.png)
+![](https://github.com/openlilylib/lilyglyphs/raw/master/documentation/lilyglyphs-example-400.png)
