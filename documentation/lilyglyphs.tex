@@ -54,8 +54,8 @@
 notation software like characters in continuous text.
 As it uses \package{fontspec} to access glyphs from an OpenType font \lilyglyphs{} works with \hologo{XeLaTeX} or \hologo{LuaLaTeX} exclusively.
 
-If you have obtained the package as part of a \TeX{} distribution the following Minimal Working Example should get you going in a minute.
-If you have downloaded the package please refer to \fref{sec:installation} for a few more preliminary steps.
+If you have obtained the package as part of a \TeX{} distribution the following Minimal Working Example should get you going in a minute and show if everything works correctly.
+If you have downloaded the package please refer to \fref{sec:installation} for a few more preliminary installation steps.
 
 \medskip
 
@@ -66,9 +66,11 @@ If you have downloaded the package please refer to \fref{sec:installation} for a
 \begin{document}
 \flatflat{} or \clefGInline. % Predefined commands, 
                              % Use {} to allow trailing whitespace
-\lilyGlyph{timesig.neomensural64} % Access "Emmentaler" glyphs by their name
-                              % Generic commands have one mandatory argument.
-\lilyDynamics[scale=1.1,raise=-0.3]{mf} % Optional placement arguments.
+\lilyGlyph[scale=1.2, raise=.5]{timesig.neomensural64} 
+                             % Access "Emmentaler" glyphs by their name
+                             % Generic commands have one mandatory 
+                             % and one optional (placement) argument.
+\twoBeamedQuavers % Commands that include images instead of font glyphs.
 \end{document}
 \end{lstlisting}
 
@@ -79,18 +81,18 @@ For the available predefined commands consult the reference in \fref{chap:list_p
 
 Glyphs that are part of LilyPond's \emmentaler{} font but not covered by a predefined command yet can be accessed through the generic command \cmd{lilyGlyph\{GLYPHNAME\}}, the glyph names being listed in \url{http://www.lilypond.org/doc/v2.16/Documentation/notation/the-feta-font.html}
 or in the file \dir{the-feta-font-2-16-2.html} located in the the \dir{documentation} directory of the package.
-As an example take this neomensural time signature \lilyGlyph[scale=1.2, raise=.5]{timesig.neomensural64}.\\
-Dynamics have a special command \cmd{lilyDynamics\{mf\}} which simply takes a string of Dynamics letters as its argument.
-
-\lilyglyphs{} elements \tiny automatically \halfNoteRest{} \normalsize or manually \huge \halfNoteRest{} \normalsize scale with the \halfNoteRest{} text size commands.
+As an example take this neomensural time signature \lilyGlyph[scale=1.2, raise=.5]{timesig.neomensural64}.
+Other symbols can be included as image files \twoBeamedQuavers[scale=.95], but from the author's perspective this doesn't make a difference.
 
 All commands accept an optional argument containing \texttt{key=value} pairs.
 Currently two keys are supported:
 \texttt{scale} multiplies the size of the glyph by the given factor while \texttt{raise} shifts it vertically by the given amount interpreted as \emph{ex}.
-Glyphs accessed individually generally need these options, the above neomensural time signature having actually been scaled by 1.2 and raised by 0.5.
+Glyphs accessed individually generally need these options, see the neomensural time signature in the example.
 
 Apart from the Emmentaler glyphs \lilyglyphs{} can include any notational construct that LilyPond can produce.
 Please refer to \fref{sec:generic_access_commands} to learn about the \emph{generic access commands} and to \fref{sec:generating_commands_image} for detailed instructions how to create custom commands.
+
+\lilyglyphs{} elements \tiny automatically \halfNoteRest{} \normalsize or manually \huge \halfNoteRest{} \normalsize scale with the \halfNoteRest{} text size commands.
 
 \tableofcontents
 \vfill
