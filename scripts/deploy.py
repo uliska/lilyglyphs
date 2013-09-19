@@ -69,22 +69,25 @@ def main():
     # copy individual files from the root directory
     cp_root()
     # copy complete directories to their corresponding dest
-    cp_folder('commands', 'tex/commands')
-    cp_folder('core', 'tex/core')
     cp_folder('fonts')
     cp_folder('license')
+    cp_folder('scripts')
+    # remove deploy.py script from archive
+    # (it is easier to do it that way than excluding it from the start)
+    os.remove(dir_deploy + '/scripts/deploy.py')
+    os.remove(dir_deploy + '/scripts/lilyglyphs_common.pyc')
     cp_folder('source')
     
     # copy lilyglyphs.sty to /tex
     shutil.copy2('lilyglyphs.sty', dir_deploy + '/tex/lilyglyphs.sty')
     manifest.append('/tex/lilyglyphs.sty')
     
-
     # copy directories to different locations
+    cp_folder('commands', 'tex/commands')
+    cp_folder('core', 'tex/core')
     cp_folder('glyphimages/definitions', 'source/glyphimages/definitions')
     cp_folder('glyphimages/generated_src', 'source/glyphimages/generated_src')
     cp_folder('glyphimages/pdfs', 'tex/pdfs')
-    cp_scripts()
     cp_doc()
     lg_private()
     
