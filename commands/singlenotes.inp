@@ -39,51 +39,23 @@
 % Single notes %
 %%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%
-% crotchets
+%%%%%%%%%%%%%
+% whole notes
 
-% crotchet with upward stem
-% created by buildglyphimages.py on 2012-11-06
-\newcommand*{\crotchet}[1][]{%
-    \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.25}%
-    \lilyPrintImage[#1]{lily-crotchet}%
+% whole note 
+\newcommand*{\wholeNote}[1][]{%
+    \setkeys{lilyDesignOptions}{scale=1,raise=0.2}%
+    \lilyPrint[#1]{\lilyGetGlyph{noteheads.s0}}%
 }
 
-% crotchet with downward stem
-% created by buildglyphimages.py on 2012-11-13
-\newcommand*{\crotchetDown}[1][]{%
-    \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.4}%
-    \lilyPrintImage[#1]{lily-crotchetDown}%
+% dotted whole note 
+\newcommand*{\wholeNoteDotted}[1][]{%
+    \setkeys{lilyDesignOptions}{scale=1,raise=0.2}%
+	% Calculate effective scale/raise and the hspace for the dot
+	\lilySetDotOptions[#1]{0}{0.5}{0.4}%
+	% Print the rest and then the dot
+	\wholeNote[#1]\lilyDotSpace\lilyPrintDot
 }
-
-% dotted crotchet with upward stem
-% created by buildglyphimages.py on 2012-11-07
-\newcommand*{\crotchetDotted}[1][]{%
-    \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.25}%
-    \lilyPrintImage[#1]{lily-crotchetDotted}%
-}
-
-% dotted crotchet with downward stem
-% created by buildglyphimages.py on 2012-11-13
-\newcommand*{\crotchetDottedDown}[1][]{%
-    \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.4}%
-    \lilyPrintImage[#1]{lily-crotchetDottedDown}%
-}
-
-% doubledotted crotchet with upward stem
-% created by buildglyphimages.py on 2012-11-08
-\newcommand*{\crotchetDottedDouble}[1][]{%
-    \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.25}%
-    \lilyPrintImage[#1]{lily-crotchetDottedDouble}%
-}
-
-% doubledotted crotchet with downward stem
-% created by buildglyphimages.py on 2012-11-13
-\newcommand*{\crotchetDottedDoubleDown}[1][]{%
-    \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.4}%
-    \lilyPrintImage[#1]{lily-crotchetDottedDoubleDown}%
-}
-
 
 %%%%%%%%%%%%
 % half notes
@@ -128,6 +100,52 @@
 \newcommand*{\halfNoteDottedDoubleDown}[1][]{%
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.6}%
     \lilyPrintImage[#1]{lily-halfNoteDottedDoubleDown}%
+}
+
+
+%%%%%%%%%%%
+% crotchets
+
+% crotchet with upward stem
+% created by buildglyphimages.py on 2012-11-06
+\newcommand*{\crotchet}[1][]{%
+    \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.25}%
+    \lilyPrintImage[#1]{lily-crotchet}%
+}
+
+% crotchet with downward stem
+% created by buildglyphimages.py on 2012-11-13
+\newcommand*{\crotchetDown}[1][]{%
+    \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.4}%
+    \lilyPrintImage[#1]{lily-crotchetDown}%
+}
+
+% dotted crotchet with upward stem
+% created by buildglyphimages.py on 2012-11-07
+\newcommand*{\crotchetDotted}[1][]{%
+    \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.25}%
+    \lilyPrintImage[#1]{lily-crotchetDotted}%
+}
+
+% dotted crotchet with downward stem
+% created by buildglyphimages.py on 2012-11-13
+\newcommand*{\crotchetDottedDown}[1][]{%
+    \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.4}%
+    \lilyPrintImage[#1]{lily-crotchetDottedDown}%
+}
+
+% doubledotted crotchet with upward stem
+% created by buildglyphimages.py on 2012-11-08
+\newcommand*{\crotchetDottedDouble}[1][]{%
+    \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.25}%
+    \lilyPrintImage[#1]{lily-crotchetDottedDouble}%
+}
+
+% doubledotted crotchet with downward stem
+% created by buildglyphimages.py on 2012-11-13
+\newcommand*{\crotchetDottedDoubleDown}[1][]{%
+    \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.4}%
+    \lilyPrintImage[#1]{lily-crotchetDottedDoubleDown}%
 }
 
 
