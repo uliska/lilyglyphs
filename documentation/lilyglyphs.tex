@@ -165,11 +165,11 @@ Otherwise there are a few steps of manual installation.
 So if you haven't got \lilyglyphs{} through your \LaTeX{} distribution you may have to take care that you use a sufficiently current distribution.
 
 \paragraph{CTAN Download}
-If you've downloaded the package from CTAN you should extract the archive to a location in the \dir{tex/latex/} directory of your \textsc{texmfhome} (e.\.g. \dir{\textasciitilde/texmf} on Linux or \dir{\textasciitilde/Library/texmf} on Mac OS X).
+If you've downloaded the package from CTAN you should extract the archive to a location in the \dir{tex/latex/} directory of your \textsc{texmfhome} (e.\.g. \dir{\textasciitilde/texmf/} on Linux or \dir{\textasciitilde/Library/texmf/} on Mac OS X).
 
 \paragraph{GitHub Download}
 If you're familiar with Git the recommended way to use \lilyglyphs{} is to create a fork of the GitHub repository (assuming you already have a Github account).
-Inside the same \dir{tex/latex/} dir run \texttt{git clone git@github.com:YOURUSERNAME/lilyglyphs.git} -- please don't provide an alternative destination name because the package should actually be in a directory called \dir{lilyglyphs}.
+Inside the same \dir{tex/latex/} dir run \texttt{git clone git@github.com:YOURUSERNAME/lilyglyphs.git} -- please don't provide an alternative destination name because the package should actually reside in a directory called \dir{lilyglyphs/}.
 Then \texttt{cd} into that directory and add the original repository with \texttt{git remote add upstream git@github.com:openlilylib/lilyglyphs.git}.
 From now on you will refer to your fork as \texttt{origin} and to the official repository as \texttt{upstream}.
 
@@ -184,8 +184,9 @@ Copy the complete \dir{fonts/} folder from the package directory to \dir{TEXMFHO
 An even better way would be not to copy the files but rather create a symlink to it with \texttt{cd TEXMFHOME/fonts/opentype} and \texttt{ln -s /path/to/lilyglyphs/fonts emmentaler} \todo{check on Windows}.
 That way no manual adjustments have to be made when \lilyglyphs{} is updated and might bring new versions of the font files with it.\\
 \textbf{\textsf{Note:}} the package probably won't work with \hologo{XeLaTeX} if you also have installed \emmentaler{} as a system font.\\
-\textbf{\textsf{Note:}} If you create a link instead of a copy you have to place this directly in the \dir{opentype/} directory and not in a subdirectory like \dir{opentype/lilyglyphs/} because \hologo{LuaLaTeX} won't find the font otherwise.
-If you \emph{need} this extra level of structure (for example because you have a lot of fonts) a workaround is to add an empty directory beside the link.  
+\textbf{\textsf{Note:}} If you create a link instead of a copy you have to make sure that there is at least one regular file or subdirectory in the directory beside the link.
+Otherwise \hologo{LuaLaTeX} won't find the font, which is a limitation in the \texttt{kpathsea} library.
+The easiest way is to simply add an empty \dir{dummy/} subdir.
 
 \medskip
 If you experience any issues with this or other topics during installation please give us feedback so we can improve documentation .
