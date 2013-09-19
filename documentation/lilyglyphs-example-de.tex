@@ -1,0 +1,91 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                        %
+%      This file is part of the 'lilyglyphs' LaTeX package.              %
+%                                ==========                              %
+%                                                                        %
+%              https://github.com/openlilylib/lilyglyphs                 %
+%               http://www.openlilylib.org/lilyglyphs                    %
+%                                                                        %
+%  Copyright 2012-2013 Urs Liska and others, ul@openlilylib.org          %
+%                                                                        %
+%  'lilyglyphs' is free software: you can redistribute it and/or modify  %
+%  it under the terms of the LaTeX Project Public License, either        %
+%  version 1.3 of this license or (at your option) any later version.    %
+%  You may find the latest version of this license at                    %
+%               http://www.latex-project.org/lppl.txt                    %
+%  more information on                                                   %
+%               http://latex-project.org/lppl/                           %
+%  and version 1.3 or later is part of all distributions of LaTeX        %
+%  version 2005/12/01 or later.                                          %
+%                                                                        %
+%  This work has the LPPL maintenance status 'maintained'.               %
+%  The Current Maintainer of this work is Urs Liska (see above).         %
+%                                                                        %
+%  This work consists of the files listed in the file 'manifest.txt'     %
+%  which can be found in the 'license' directory.                        %
+%                                                                        %
+%  This program is distributed in the hope that it will be useful,       %
+%  but WITHOUT ANY WARRANTY; without even the implied warranty of        %
+%  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                  %
+%                                                                        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[oneside,11pt]{article}
+\usepackage{lilyglyphsStyle}
+\usepackage{lilyglyphsManualFonts}
+
+\usepackage{polyglossia}
+\setmainlanguage{german}
+
+\pagestyle{empty}
+
+
+% make the glyphs lighter
+\lilyOpticalSize{26}
+
+\begin{document}
+\begin{center}
+{ \Huge \lilyglyphs }
+
+\bigskip
+{ \Large Urs Liska }
+
+\emph{September 2013} 
+
+\end{center}
+
+\bigskip
+
+Sie schreiben Texte über Musik, vielleicht als Musikwissenschaftler, Lehrer oder Komponist?
+Sie bereiten solche Dokumente zum Druck vor und haben schon immer die Möglichkeit vermisst, Dinge wie das Folgende zu setzen?
+
+\begin{quote}
+„In T.\,24 gilt das \decrescHairpin{} von der 2.\,\halfNote{} bis zum \lilyDynamics{sf} auf dem 11.\,\semiquaverDown[raise=-.5].“
+\end{quote}
+
+Das neue Paket \lilyglyphs{}%
+\footnote{\url{http://www.openlilylib.org/lilyglyphs} -- \href{mailto:info@openlilylib.org}{info@openlilylib.org}}
+erlaubt es auf komfortable Weise, Notationselemente aus LilyPond%
+\footnote{\url{http://www.lilypond.org}}
+in Textdokumenten zu verwenden.
+Vorzeichen wie \flat{} oder \sharp, aber auch Zeichen wie \hspace{.5ex}\fermata{} und Taktangaben wie \lilyTimeCHalf{} oder \lilyTimeSignature{5\,+\,7}{8} sind unmittelbar zugänglich.
+Aber Sie können auch beliebige Notationskonstrukte wie \lilyFancyExample{} dieses sinnfreie Beispiel in den Fließtext einfügen oder gar eingescannte Bilddateien als „Zeichen“ verfügbar machen.
+Dieses Paket kann Ihre typographischen Optionen für das Schreiben oder Setzen von kritischen Berichten, analytischen Texten oder Unterrichtsmaterial erheblich erweitern.
+
+Ein Aspekt, der \lilyglyphs{} von allen mir bekannten Lösungen unterscheidet, ist, dass es nicht auf einen Satz vorgefertigter Symbole beschränkt ist, sondern \emph{jegliche} Notation setzen kann, die mit LilyPond realisierbar ist.
+
+\footnotesize
+Die andere Besonderheit ist die \halfNoteRest{} automatische Größenanpassung an die umgebende Schriftgröße,
+\large was es leicht macht, die \halfNoteRest{} Zeichen im Fließtext zu verwenden.
+\normalsize 
+Sie passen sich grundsätzlich von selbst an, können aber auch \clefF[scale=.4] manuell skaliert werden, einzeln oder pauschal \clefG[scale=1.3,raise=-2.9].
+
+\medskip
+Zu schön um wahr zu sein? 
+Zugegeben, die Sache hat einen Haken: \lilyglyphs{} ist ein \LaTeX{}%
+\footnote{\url{http://www.latex-project.org}}-Paket und erfordert daher möglicherweise ein Umdenken.
+Sollten die obigen Beispiele aber Ihr Interesse geweckt haben oder Ihren professionellen Bedürfnissen entgegenkommen, dann machen Sie doch einfach einmal einen Versuch -- es ist ohnehin alles Freie Software.
+(Vielleicht ist auch mein Aufsatz über textbasiertes Arbeiten eine hilfreiche Lektüre%
+\footnote{\url{http://lilypondblog.org/2013/07/plain-text-files-in-music/}}).
+ 
+\end{document}
