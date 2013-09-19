@@ -45,7 +45,7 @@
 
 % example of a fancy notation
 % created by genImageCommands.py on 2013-09-07
-\newcommand*{\fancyExample}[1][]{%
+\newcommand*{\lilyFancyExample}[1][]{%
     \setkeys{lilyDesignOptions}{scale=.7,raise=-.7}%
     \lilyPrintImage[#1]{lily-fancyExample}%
 }

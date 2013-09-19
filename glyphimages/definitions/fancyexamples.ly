@@ -44,7 +44,7 @@
 
 %%lilyglyphs 
 % example of a fancy notation
-fancyExample = \relative e' {
+lilyFancyExample = \relative e' {
   \override NoteHead.transparent = ##t
   \override Stem #'length = #4
   \override Stem #'thickness = #1.6
@@ -52,7 +52,7 @@ fancyExample = \relative e' {
   s4 \stemDown a4 \laissezVibrer
 }
 
-\markup { fancyExample }
+\markup { lilyFancyExample }
 symbol = \fancyExample
 \include "score.ily"
 
