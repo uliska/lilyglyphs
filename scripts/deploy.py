@@ -176,7 +176,7 @@ def write_readme():
     fout.write('Generated on ' + str(datetime.date.today()) + '\n')
     fout.close()
     
-    fout = open(dir_deploy + '/tex/README', 'w')
+    fout = open(dir_deploy + '/tex/README-tex', 'w')
     fout.write('This directory contains files to be found by LaTeX.\n\n')
     fout.write('The core/ and commands/ subdirectories\n')
     fout.write('_must_ remain beside the lilyglyphs.sty package!\n\n')
