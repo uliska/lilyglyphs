@@ -38,7 +38,9 @@ So the lines above the topmost bold version line represent the changes not avail
 
 - Fix bug with library lookup in Python scripts
 - Add predefined commands:  
-  `\wholeNote`, `\wholeNoteDotted`
+  `\wholeNote`, `\wholeNoteDotted`  
+  Accordion notation (available Emmentaler glyphs)
+
 - Rename `\fancyExample` to `\lilyFancyExample` to avoid confusion
 - lilyglyphs is now available through CTAN and TeXLive
 

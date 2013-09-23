@@ -30,74 +30,87 @@
 %                                                                        %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\NeedsTeXFormat{LaTeX2e} 
-\ProvidesPackage{lilyglyphs}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This file is part of the lilyglyphs package %
+% and defines one subset of glyphs            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Introduce key=value options
-\RequirePackage{keyval}
+%%%%%%%%%%%%%%%%%%%%%%%
+% Accordion registers %
+%%%%%%%%%%%%%%%%%%%%%%%
 
-% Necessary for calculations.
-% TODO: Is that really necessary or can it be achieved much cheaper?
-\RequirePackage{pgf}
+%------------------
+% Emmentaler glyphs
 
-% Create a vertically stacked box (time signatures)
-\RequirePackage[export]{adjustbox}
-
-%%%%%%%%%%%%%%%%%%%%%%
-% Core functionality %
-
-% select from the optical sizes fonts
-\input{core/opticals.inp}
-
-% include the functionality for the key=value options
-\input{core/keyval.inp}
-
-% include the basic functionality to select and print glyphs
-\input{core/genericAccess.inp}
-
-% include logic and functionality to create dotted symbols
-\input{core/dotted.inp}
-
-% Core functionality %
-%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Definitions of the glyphs in groups                  %
-% corresponding to the glyph list in the LilyPond docs %
-
-\input{commands/clefs.inp}
-
-\input{commands/numbers.inp}
-
-\input{commands/timesignatures.inp}
-
-\input{commands/dynamics.inp}
-
-\input{commands/accidentals.inp}
-
-%\input{commands/noteheads.inp}
-
-\input{commands/rests.inp}
-
-\input{commands/scripts.inp}
-
-\input{commands/accordion.inp}
-
-% Definitions of complex glyphs created with LilyPond
-% and included as image files
-
-\input{commands/singlenotes.inp}
-
-\input{commands/beamednotes.inp}
-
-\input{commands/fancyexamples.inp}
-
-% End of command definitions %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% lilyglyphs logo to be used in texts about lilyglyphs
-% created by genGlyphCommands.py on 2012-11-10
-\newcommand*{\lilyglyphs}[1][]{%
-    \setkeys{lilyDesignOptions}{scale=0.97,raise=-0.78}%
-    \lilyPrintImage[#1]{lilyglyphs_logo}%
+% accordion bayan bass
+% created by lily-glyph-commands.py on 2013-09-23
+\newcommand*{\accordionBayanBass}[1][]{%
+	\setkeys{lilyDesignOptions}{scale=1,raise=-.2}%
+	\hspace*{.5ex}%
+	\lilyPrint[#1]{\lilyGetGlyph{accordion.bayanbass}%
+		\hspace*{-.3ex}}%
 }
+
+% accordion discant
+% created by lily-glyph-commands.py on 2013-09-23
+\newcommand*{\accordionDiscant}[1][]{%
+	\setkeys{lilyDesignOptions}{scale=1,raise=-.2}%
+	\hspace*{.6ex}%
+	\lilyPrint[#1]{\lilyGetGlyph{accordion.discant}%
+	\hspace*{-.3ex}}%
+}
+
+% accordion dot
+% created by lily-glyph-commands.py on 2013-09-23
+\newcommand*{\accordionDot}[1][]{%
+	\setkeys{lilyDesignOptions}{scale=1,raise=-.2}%
+	\hspace*{.7ex}%
+	\lilyPrint[#1]{\lilyGetGlyph{accordion.dot}}%
+}
+
+% accordion free bass
+% created by lily-glyph-commands.py on 2013-09-23
+\newcommand*{\accordionFreeBass}[1][]{%
+	\setkeys{lilyDesignOptions}{scale=1,raise=-.2}%
+	\hspace*{.5ex}%
+	\lilyPrint[#1]{\lilyGetGlyph{accordion.freebass}}%
+}
+
+% accordion old EE
+% created by lily-glyph-commands.py on 2013-09-23
+\newcommand*{\accordionOldEE}[1][]{%
+	\setkeys{lilyDesignOptions}{scale=1,raise=-.2}%
+	\hspace*{.5ex}%
+	\lilyPrint[#1]{\lilyGetGlyph{accordion.oldEE}}%
+}
+
+% accordion pull
+% created by lily-glyph-commands.py on 2013-09-23
+\newcommand*{\accordionPull}[1][]{%
+	\setkeys{lilyDesignOptions}{scale=1,raise=-.2}%
+	\hspace*{.2ex}%
+	\lilyPrint[#1]{\lilyGetGlyph{accordion.pull}}%
+}
+
+% accordion push
+% created by lily-glyph-commands.py on 2013-09-23
+\newcommand*{\accordionPush}[1][]{%
+	\setkeys{lilyDesignOptions}{scale=1,raise=-.2}%
+	\hspace*{.5ex}%
+	\lilyPrint[#1]{\lilyGetGlyph{accordion.push}}%
+}
+
+% accordion standard bass
+% created by lily-glyph-commands.py on 2013-09-23
+\newcommand*{\accordionStdBass}[1][]{%
+	\setkeys{lilyDesignOptions}{scale=1,raise=-.2}%
+	\hspace*{.9ex}%
+	\lilyPrint[#1]{\lilyGetGlyph{accordion.stdbass}%
+	\hspace*{-.4ex}}%
+}
+
+%------------------------------
+% Combined glyphs, image based
+
+%TODO
+
