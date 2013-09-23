@@ -36,6 +36,7 @@ This document lists all changes in the development of *lilyglyphs*.
 All changes should be present in the manual, but only the finished versions printed bold are available as pdf downloads. (Latest changes are only found in the master branch of the git repository. They should be documentd in the lilyglyphs.tex file there too.)
 So the lines above the topmost bold version line represent the changes not available in the downloadable pdf documentation.
 
+- Fix bug with library lookup in Python scripts
 - Add predefined commands:  
   `\wholeNote`, `\wholeNoteDotted`
 - Rename `\fancyExample` to `\lilyFancyExample` to avoid confusion
