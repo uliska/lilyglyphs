@@ -305,6 +305,8 @@ def read_input_file(in_file):
     """Reads the input source file and stores it 
     in the global variable definitions_file"""
     global definitions_file
+    
+    in_file = os.path.normpath(in_file)
 
     print 'Read input file ' + in_file
     
