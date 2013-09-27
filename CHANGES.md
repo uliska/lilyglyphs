@@ -36,11 +36,19 @@ This document lists all changes in the development of *lilyglyphs*.
 All changes should be present in the manual, but only the finished versions printed bold are available as pdf downloads. (Latest changes are only found in the master branch of the git repository. They should be documentd in the lilyglyphs.tex file there too.)
 So the lines above the topmost bold version line represent the changes not available in the downloadable pdf documentation.
 
-- Fix bug with library lookup in Python scripts
+0.2.2
+-----
+(2013-09-27)  
+Mainly resolving some issues that have become visible *due to* the intial release
+
+- Fix upright quotes in code examples
+- Fix path bug with Python scripts in OS X
+- Fix bug with library lookup in Python scripts,  
+  revert some settings unnecessarily made for TeXLive distribution
+- Add German version of example document
 - Add predefined commands:  
   `\wholeNote`, `\wholeNoteDotted`  
   Accordion notation (available Emmentaler glyphs)
-
 - Rename `\fancyExample` to `\lilyFancyExample` to avoid confusion
 - lilyglyphs is now available through CTAN and TeXLive
 
