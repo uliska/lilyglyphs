@@ -39,18 +39,14 @@
 
 \version "2.17.5"
 
-%{ template for a single entry
-   replace 'EXAMPLE_...' by actual content %}
-
-% lilyglyphs entry
-%%protected (use this line if you don't want the command to be generated)
-%{ EXAMPLE_comment %}
-EXAMPLE_command_name = {
+%%lilyglyphs
+% example comment
+exampleCommand = {
   g'4
 }
-
-\markup { EXAMPLE_command_name }
-symbol = \EXAMPLE_command_name
+ 
+\markup { exampleCommand}
+symbol = \exampleCommand
 \include "score.ily"
 
 % Example ends here
