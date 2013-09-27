@@ -31,6 +31,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \documentclass{scrartcl}
+\usepackage{fontspec}
 \usepackage{lilyglyphs}
 \usepackage[%
 	top=0cm,
@@ -46,8 +47,11 @@
 \noindent
 \textit{lily}%
 	\hspace*{0.05ex}\clefGInline[scale=0.8,raise=0.2]%
+	\lilyOpticalSize{26}%
 	ly\lilyDynamics{p}%
+	\lilyOpticalSize{13}%
 	\hspace*{0.2ex}\flat[scale=0.9,raise=0.2]%
+	\lilyOpticalSize{11}%
 	\lilyDynamics{s}
 
 \end{document}
