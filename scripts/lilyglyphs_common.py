@@ -46,7 +46,7 @@ import os, sys, datetime, subprocess, argparse
 # Global variables
 
 definitions_file = []
-version_string = '0.2.1'
+version_string = '0.2.2'
 
 # ######################
 # Common CL arguments
