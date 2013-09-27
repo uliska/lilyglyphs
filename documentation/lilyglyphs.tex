@@ -105,11 +105,11 @@ Please refer to \fref{sec:generic_access_commands} to learn about the \emph{gene
 \chapter{Introduction}
 \label{chap:introduction}
 
-\lilyglyphs{} came into existence when Urs Liska looked for a way to include arbitrary notational elements in the continuous text of \LaTeX{} documents.
-Unfortunately all packages he could find were quite restricted in the number of available symbols and/or their flexibility in scaling with the text size.
+\lilyglyphs{} came into existence when I looked for a way to include arbitrary notational elements in the continuous text of \LaTeX{} documents.
+Unfortunately all packages I could find were quite restricted in the number of available symbols and/or their flexibility in scaling with the text size.
 Moreover no solution came near the beauty of the engraving of LilyPond%
 \footnote{\url{http://www.lilypond.org}}.
-Therefore Urs decided to “roll his own” package and make the notation font and notational elements of LilyPond available to \LaTeX{} documents.
+Therefore I decided to “roll my own” package and make the notation font and notational elements of LilyPond available to \LaTeX{} documents.
 
 LilyPond is a promising competitor in producing the most beautiful musical engraving on the market, and one of the foundations of this beauty is its \emmentaler{} font.
 \lilyglyphs{} accesses the Emmentaler font through the \package{fontspec} package and inserts its glyphs in the continuous text applying sophisticated control over scaling and spacing.
@@ -135,18 +135,20 @@ Details about extending \lilyglyphs{} with additional commands can be found in \
 
 As the number of possible commands seems endless we would be extremely happy about any contribution of new material.
 But there are also technical details with regard to \LaTeX{} programming where additional competence would be highly welcome.
+You may have a look at the issue tracker%
+\footnote{\url{https://github.com/openlilylib/lilyglyphs/issues}}
+to get an idea where you could help.
 
 \bigskip
 
-Originally \lilyglyphs{} was a single project but by now it is part of a rather large family of projects around engraving musical scores with LilyPond and typesetting with \LaTeX: openLilyLib%
+Originally \lilyglyphs{} was a project on its own but by now it is part of a rather large family of projects around engraving musical scores with LilyPond and typesetting texts with \LaTeX: openLilyLib%
 \footnote{\url{http://www.openlilylib.org}}.
 If you have come here mainly as a \LaTeX{} document author you should also have a look at the \package{musicexamples} package%
 \footnote{\url{http://www.openlilylib.org/musicexamples}}.
-If you are also interested in LilyPond itself you might find the tutorials section, \package{lilylib} and \package{lilypond-doc} interesting too  .
-
-\lilyglyphs{} is developed in a Git repository on GitHub%
-\footnote{\url{https://github.com/openlilylib/lilyglyphs}}.
-There you can inspect the source, clone or fork the repository, and submit issue reports.
+If you are also interested in LilyPond itself you might find the tutorials section, \package{lilylib} and \package{lilypond-doc} interesting too.
+A few more projects are still in the planning phase, and you can always see the current state of affairs at our Github starting page%
+\footnote{\url{https://github.com/openlilylib}}.
+\lilyglyphs{} is developed in the \dir{lilyglyphs} directory of this project site, there you can inspect the source, clone or fork the repository, and submit issue reports.
 If you are interested in participating in the development of \lilyglyphs, don't hesitate to contact us directly\footnote{\url{mailto:ul@openlilylib.org}}.
 
 \section{Installation}
