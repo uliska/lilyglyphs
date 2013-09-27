@@ -79,6 +79,7 @@ def main():
     cp_folder('source')
     
     # copy lilyglyphs.sty to /tex
+    os.mkdir(dir_deploy + '/tex')
     shutil.copy2('lilyglyphs.sty', dir_deploy + '/tex/lilyglyphs.sty')
     manifest.append('/tex/lilyglyphs.sty')
     
@@ -88,6 +89,7 @@ def main():
     cp_folder('glyphimages/definitions', 'source/glyphimages/definitions')
     cp_folder('glyphimages/generated_src', 'source/glyphimages/generated_src')
     cp_folder('glyphimages/pdfs', 'tex/pdfs')
+    os.remove(dir_deploy + '/tex/pdfs/.gitignore')
     cp_doc()
     lg_private()
     
