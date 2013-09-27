@@ -39,10 +39,13 @@
 \RequirePackage{lilyglyphs}
 
 % fontspec base settings
-\defaultfontfeatures{Ligatures=TeX}
 \setmainfont[%
+	Ligatures=TeX,
 	Numbers=OldStyle]{Linux Libertine O}
-\setsansfont[Scale=MatchLowercase,ItalicFont=LinBiolinumOI,BoldFont=LinBiolinumOB]{LinBiolinumO}
+\setsansfont[Scale=MatchLowercase,
+	ItalicFont=LinBiolinumOI,
+	BoldFont=LinBiolinumOB,
+	Ligatures=TeX]{LinBiolinumO}
 \setmonofont[Scale=MatchLowercase]{DejaVu Sans Mono}
 
 \linespread{1.05}
