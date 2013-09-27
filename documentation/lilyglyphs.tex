@@ -647,28 +647,31 @@ The command that actually prints glyphs from the Emmentaler font is \cmd{lilyPri
 It isn't intended to be called directly within a document, but only from the predefined commands.
 It takes two arguments, the first -- optional -- being the comma-separated list of \texttt{<key=value>} pairs, the second the actual content to be printed.
 
-\begin{verbatim}
+\begin{lstlisting}[language={[LaTeX]TeX}]
 \newcommand*{\lilyPrint}[2][]{%
     \interpretLilyOptions{#1}%
     \raisebox{{\lilyEffectiveRaise}ex}{%
-        {\fontspec[Scale=\lilyEffectiveScale]{emmentaler-\lilyOpticalSuffix.otf}#2}%
+        {\fontspec[Scale=\lilyEffectiveScale]
+        {emmentaler-\lilyOpticalSuffix.otf}#2}%
     }%
 }
-\end{verbatim}
+\end{lstlisting}
 
 At first the command \cmd{interpretLilyOptions} is called, where the options of the different levels are evaluated and calculated to their effective values.
 Then the content of \#2 is printed, within a \cmd{raisebox} and with the currently selected opticals version of the \emmentaler{} font.
 
-\begin{verbatim}
+\begin{lstlisting}[language={[LaTeX]TeX}]
 \newcommand*{\interpretLilyOptions}[1]{%
     \setkeys{lilyCmdOptions}{scale=1,raise=0}%
     \setkeys{lilyCmdOptions}{#1}%
     \pgfmathsetmacro{\lilyEffectiveScale}{%
-        \lilyGlobalOptions@scale * \lilyCmdOptions@scale * \lilyDesignOptions@scale}%
+        \lilyGlobalOptions@scale *
+        \lilyCmdOptions@scale * \lilyDesignOptions@scale}%
     \pgfmathsetmacro{\lilyEffectiveRaise}{%
-        \lilyGlobalOptions@raise + \lilyCmdOptions@raise + \lilyDesignOptions@raise}%
+        \lilyGlobalOptions@raise +
+        \lilyCmdOptions@raise + \lilyDesignOptions@raise}%
 }
-\end{verbatim}
+\end{lstlisting}
 \cmd{interpretLilyOptions} is defined in \dir{core/keyval.inp}.\\
 The \texttt{<key=value>} mechanism is achieved using the \texttt{keyval} package as the most basic solution available.
 {\color{red} If this can be implemented in a more elegant, extensible and/or powerful way using other packages, e.\,g.\ \package{pgfkeys}, we'd appreciate any input.}
@@ -702,7 +705,7 @@ There may be some uses for numerical access, however, e.\,g.\ to iterate over a 
 \cmd{lilyPrintImage}, defined in \dir{core/genericAccess.inp}, is the command that prints glyphs from a supplied image file.
 It actually is quite similar to \cmd{lilyPrint}, with only the extra consideration of scaling the image to the text font size.
 
-\begin{verbatim}
+\begin{lstlisting}[language={[LaTeX]TeX}]
 \newcommand*{\lilyPrintImage}[2][]{%
     % interpret optional argument
     \interpretLilyOptions{#1}%
@@ -714,7 +717,7 @@ It actually is quite similar to \cmd{lilyPrint}, with only the extra considerati
         \includegraphics[scale=\lilyImageEffectiveScale]{#2}%
     }%
 }
-\end{verbatim}
+\end{lstlisting}
 First the command calls \cmd{interpretLilyOptions}, which is the same as with \cmd{lilyPrint}.
 But as an additional step \cmd{lilyScaleImage} is called, and finally it uses \cmd{lilyImageEffectiveScale} as the scaling factor instead of \cmd{lilyEffectiveScale}.
 I won't explain this in detail, but in effect it multiplies the \cmd{lilyEffectiveScale} calculated before with the ratio of the current font size to the \cmd{normalsize} size.
@@ -807,13 +810,13 @@ So if you find yourself creating predefined commands that you think are useful f
 \label{subsubsec:commands_single-glyphs}
 Let's review an example of a predefined command, the \cmd{doublesharp}.
 
-\begin{verbatim}
+\begin{lstlisting}[language={[LaTeX]TeX}]
 % "accidentals.doublesharp"
 \newcommand*{\doublesharp}[1][]{%
     \setkeys{lilyDesignOptions}{scale=1.5,raise=0.35}%
     \lilyPrint[#1]{\lilyGetGlyph{accidentals.doublesharp}}%
 }
-\end{verbatim}
+\end{lstlisting}
 
 We use the starred version of \cmd{newcommand}, because a glyph command naturally doesn't span paragraphs.
 We declare to accept one optional argument, which defaults to empty. 
@@ -836,25 +839,25 @@ If you know the Unicode number of the desired glyph you can call \cmd{lilyGetGly
 \medskip
 Creating commands using image files is practically the same and even simpler.
 If you look at the definition of a \cmd{crotchet}, 
-\begin{verbatim}
+\begin{lstlisting}[language={[LaTeX]TeX}]
 \newcommand*{\crotchet}[1][]{%
     \setkeys{lilyDesignOptions}{scale=0.9,raise=-0.2}%
     \lilyPrintImage[#1]{crotchet}%
 }
-\end{verbatim}
+\end{lstlisting}
 you will notice that the only differences are that the actual printing is done with \cmd{lilyPrintImage} instead of \cmd{lilyPrint} and that therefore the basename of the image file can be passed directly.
 In \fref{sec:generating_commands_image} you will see a tool that allows to create numerous image commands quite easily.
 
 \bigskip
 As a last example we will look at the definition of \cmd{lilyRFZ} \lilyRFZ.
 
-\begin{verbatim}
+\begin{lstlisting}[language={[LaTeX]TeX}]
 \newcommand{\lilyRFZ}[1][]{%
     \mbox{%
         \lilyDynamics[#1]{r\hspace{0.035ex}fz}%
     }%
 }
-\end{verbatim}
+\end{lstlisting}
 You may notice that we use \cmd{lilyDynamics} here, one of the Generic Access Commands (see \fref{sec:generic_access_commands}) instead of the low-level printing command.
 We can do this and also use the other ones: \cmd{lilyText}, \cmd{lilyGlyph}, \cmd{lilyGlyphByNumber} or \cmd{lilyImage}.
 This is actually simpler because we don't have to set the design time options -- but that's also the main disadvantage: this way we \emph{can't} set them and have to use the given default parameters.
@@ -889,7 +892,7 @@ There is some infrastructure in \lilyglyphs{} (defined in the file dotted.inp) t
 Great care has been taken to hide as much complexity as possible in the mentioned file, in order to make the definition of actual commands as clean and concise as possible.
 
 Let's analyze the implementation of a dotted half note rest:
-\begin{verbatim}
+\begin{lstlisting}[language={[LaTeX]TeX}]
 % Dotted half note rest
 \newcommand*{\halfNoteRestDotted}[1][]{%
     % define the optional arguments for the dot
@@ -899,7 +902,7 @@ Let's analyze the implementation of a dotted half note rest:
     % Print the rest and then the dot
     \halfNoteRest[#1]\lilyDotSpace\lilyPrintDot
 }
-\end{verbatim}
+\end{lstlisting}
 
 The command takes the usual optional argument that can contain \texttt{<key=value>} pairs.
 This applies to the dotted symbol as a whole.
@@ -907,17 +910,17 @@ Please note that in the last line the predefined command \cmd{halfNoteRest[\#1]}
 You can only use this technique of creating dotted symbols on top of correctly implemented predefined commands.
 
 The first thing you have to do is to define the DesignTimeOptions for the dot. They are relative to the original design of \cmd{lilyDot}, and you have to adjust them so the dot suits the main glyph in its size and vertical position (you can ignore the horizontal spacing for now):
-\begin{verbatim}
+\begin{lstlisting}[language={[LaTeX]TeX}]
     % define the optional arguments for the dot
     \setkeys{lilyDesignOptions}{scale=0.8,raise=0.2}%
-\end{verbatim}
+\end{lstlisting}
 You should always set these options because otherwise you might get strange results or error messages.
 
 The next step is to call a quite complex command \cmd{lilySetDotOptions} that sets several options for the dot:
-\begin{verbatim}
+\begin{lstlisting}[language={[LaTeX]TeX}]
     % Calculate effective scale/raise and the hspace for the dot
     \lilySetDotOptions[#1]{0}{0.5}{0.4}%
-\end{verbatim}
+\end{lstlisting}
 This command takes one optional and three mandatory arguments.
 The optional argument is just the one that is written in the \LaTeX{} document and that is passed into the function. The remaining three arguments control the horizontal spacing between the main glyph and the dot.
 As we now have two individual elements we have to control the gap between them explicitely as it doesn't scale relative to the \texttt{scale} argument by itself.
@@ -943,10 +946,10 @@ The final line actually calls three commands:\\
 \cmd{halfNoteRest[\#1]} prints the already defined main glyph.
 \cmd{lilyDotSpace} prints a horizontal space that is determined by the previous call to \cmd{lilySetDotOptions}, and \cmd{lilyPrintDot} finally prints the dot with the settings just defined.
 
-\begin{verbatim}
+\begin{lstlisting}[language={[LaTeX]TeX}]
     % Print the rest and then the dot
     \halfNoteRest*[#1]\lilyDotSpace\lilyPrintDot
-\end{verbatim}
+\end{lstlisting}
 
 This was an explanation from the perspective of designing new predefined commands.
 If you want to know how this is implemented internally, please look at the generously commented file \texttt{core/dotted.inp}.
@@ -1074,8 +1077,7 @@ The following items are possible/necessary:
 \end{itemize}
 
 \noindent Here you can see two examples of command entries:
-\begin{quote}
-\begin{verbatim}
+\begin{lstlisting}
 cmd=fermataDown
 element=scripts.dfermata
 comment=downward fermata
@@ -1085,8 +1087,7 @@ cmd=rinforzando
 type=dynamics
 element=rfz
 comment=Rinforzando (kerned)
-\end{verbatim}
-\end{quote}
+\end{lstlisting}
 
 In the following subsection you can see what these commands are processed to.
 
@@ -1104,8 +1105,7 @@ It contains \LaTeX{} \cmd{newcommand} definitions for each command definition in
 The visible part of the document contains a reference table (as used throughout this manual) with all generated commands and additionally example text for each generated command.
 
 The examples above would be processed to the following two \LaTeX{} commands:
-\begin{quote}
-\begin{verbatim}
+\begin{lstlisting}[language={[LaTeX]TeX}]
 % downward fermata
 \newcommand*{\fermataDown}[1][0]{%
     \setkeys{lilyDesignOptions}{scale=1,raise=0}%
@@ -1117,8 +1117,7 @@ The examples above would be processed to the following two \LaTeX{} commands:
     \setkeys{lilyDesignOptions}{scale=1,raise=0}%
     \lilyDynamics{rfz}}%
 }
-\end{verbatim}
-\end{quote}
+\end{lstlisting}
 
 \subsection{Fine-tuning the \LaTeX{} Commands}
 \label{subsec:GGC_fine-tuning}
@@ -1229,13 +1228,13 @@ One important thing to know is that by default the generated image will \emph{no
 
 This is a minimal working example of a \lilyglyphs{} entry section:
 
-\begin{verbatim}
+\begin{lstlisting}
 %%lilyglyphs
 % crotchet with upward stem
 crotchet = {
   g'4
 }
-\end{verbatim}
+\end{lstlisting}
 
 \paragraph*{Warnings:}
 So far the parser isn't very smart.
@@ -1260,8 +1259,7 @@ This will print your command definition as the only element in a new score block
 You can repeat this several times, inserting top-level \cmd{markup}s and have LilyPond produce a sheet with all defined symbols.
 This way you can finish your design in “pure LilyPond” before actually going on to the \LaTeX{} part -- and at the same time prepare a reference sheet of your work.
 
-\begin{quote}
-\begin{verbatim}
+\begin{lstlisting}
 \version "2.16.2"
 
 %%lilyglyphs
@@ -1284,8 +1282,7 @@ symbol = \crotchetDown
 \include "score.ily"
 
 % and so on ...
-\end{verbatim}
-\end{quote}
+\end{lstlisting}
 
 \subsection{Running the Script}
 \label{subsec:BGI_running}
