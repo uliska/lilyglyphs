@@ -157,7 +157,6 @@
 \newcommand*{\quaver}[1][]{%
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.3}%
     \lilyPrintImage[#1]{lily-quaver}%
-	\hspace*{-0.5ex}%
 }
 
 % quaver with downward stem
@@ -204,7 +203,6 @@
 \newcommand*{\semiquaver}[1][]{%
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.15}%
     \lilyPrintImage[#1]{lily-semiquaver}%
-	\hspace*{-0.4ex}%
 }
 
 % semiquaver with downward stem
