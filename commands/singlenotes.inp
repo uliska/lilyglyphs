@@ -239,3 +239,48 @@
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.8}%
     \lilyPrintImage[#1]{lily-semiquaverDottedDoubleDown}%
 }
+
+%%%%%%%%%%%%%%%%%
+% demisemiquavers
+
+% demisemiquaver with upward stem
+% created by lily-image-commands.py on 2013-11-18
+\newcommand*{\demisemiquaver}[1][]{%
+    \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.4}%
+    \lilyPrintImage[#1]{lily-demisemiquaver}%
+}
+
+% dotted demisemiquaver with upward stem
+% created by lily-image-commands.py on 2013-11-18
+\newcommand*{\demisemiquaverDotted}[1][]{%
+    \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.4}%
+    \lilyPrintImage[#1]{lily-demisemiquaverDotted}%
+}
+
+% doubledotted demisemiquaver with upward stem
+% created by lily-image-commands.py on 2013-11-18
+\newcommand*{\demisemiquaverDottedDouble}[1][]{%
+    \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.4}%
+    \lilyPrintImage[#1]{lily-demisemiquaverDottedDouble}%
+}
+
+% doubledotted demisemiquaver with downward stem
+% created by lily-image-commands.py on 2013-11-18
+\newcommand*{\demisemiquaverDottedDoubleDown}[1][]{%
+    \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.4}%
+    \lilyPrintImage[#1]{lily-demisemiquaverDottedDoubleDown}%
+}
+
+% dotted demisemiquaver with downward stem
+% created by lily-image-commands.py on 2013-11-18
+\newcommand*{\demisemiquaverDottedDown}[1][]{%
+    \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.4}%
+    \lilyPrintImage[#1]{lily-demisemiquaverDottedDown}%
+}
+
+% demisemiquaver with downward stem
+% created by lily-image-commands.py on 2013-11-18
+\newcommand*{\demisemiquaverDown}[1][]{%
+    \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.4}%
+    \lilyPrintImage[#1]{lily-demisemiquaverDown}%
+}

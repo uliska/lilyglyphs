@@ -93,7 +93,7 @@ symbol = \halfNoteDotted
 %%lilyglyphs
 % dotted half note with downward stem
 %%protected
-halfNoteDottedDown = {#
+halfNoteDottedDown = {
   \stemDown
   \override Stem#'length = 5
   g'2.
@@ -310,4 +310,60 @@ semiquaverDottedDoubleDown = {
   g'16..
 }
 
-    
+%%lilyglyphs
+% demisemiquaver with upward stem
+demisemiquaver = {
+  \override Stem#'length = #6.5
+  g'32
+}
+
+\markup { demisemiquaver }
+symbol = \demisemiquaver
+\include "score.ily"
+
+
+%%lilyglyphs
+% demisemiquaver with downward stem
+demisemiquaverDown = {
+  \stemDown
+  \override Stem#'length = #6.5
+  g'32
+}
+
+%%lilyglyphs
+% dotted demisemiquaver with upward stem
+demisemiquaverDotted = {
+  \override Stem#'length = #6.5
+  g'32.
+}
+
+\markup { demisemiquaverDotted }
+symbol = \demisemiquaverDotted
+\include "score.ily"
+
+%%lilyglyphs
+% dotted demisemiquaver with downward stem
+demisemiquaverDottedDown = {
+  \stemDown
+  \override Stem#'length = #6.5
+  g'32.
+}
+
+%%lilyglyphs
+% doubledotted demisemiquaver with upward stem
+demisemiquaverDottedDouble = {
+  \override Stem#'length = #6.5
+  g'32..
+}
+
+\markup { demisemiquaverDottedDouble }
+symbol = \demisemiquaverDottedDouble
+\include "score.ily"
+
+%%lilyglyphs
+% doubledotted demisemiquaver with downward stem
+demisemiquaverDottedDoubleDown = {
+  \stemDown
+  \override Stem#'length = #6.5
+  g'32..
+}
