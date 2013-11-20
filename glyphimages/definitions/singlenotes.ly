@@ -312,8 +312,9 @@ semiquaverDottedDoubleDown = {
 
 %%lilyglyphs
 % demisemiquaver with upward stem
+%%protected
 demisemiquaver = {
-  \override Stem#'length = #6.5
+  \override Stem#'length = #7.5
   g'32
 }
 
@@ -324,16 +325,18 @@ symbol = \demisemiquaver
 
 %%lilyglyphs
 % demisemiquaver with downward stem
+%%protected
 demisemiquaverDown = {
   \stemDown
-  \override Stem#'length = #6.5
+  \override Stem#'length = #7.5
   g'32
 }
 
 %%lilyglyphs
 % dotted demisemiquaver with upward stem
+%%protected
 demisemiquaverDotted = {
-  \override Stem#'length = #6.5
+  \override Stem#'length = #7.5
   g'32.
 }
 
@@ -343,16 +346,18 @@ symbol = \demisemiquaverDotted
 
 %%lilyglyphs
 % dotted demisemiquaver with downward stem
+%%protected
 demisemiquaverDottedDown = {
   \stemDown
-  \override Stem#'length = #6.5
+  \override Stem#'length = #7.5
   g'32.
 }
 
 %%lilyglyphs
 % doubledotted demisemiquaver with upward stem
+%%protected
 demisemiquaverDottedDouble = {
-  \override Stem#'length = #6.5
+  \override Stem#'length = #7.5
   g'32..
 }
 
@@ -362,8 +367,9 @@ symbol = \demisemiquaverDottedDouble
 
 %%lilyglyphs
 % doubledotted demisemiquaver with downward stem
+%%protected
 demisemiquaverDottedDoubleDown = {
   \stemDown
-  \override Stem#'length = #6.5
+  \override Stem#'length = #7.5
   g'32..
 }

@@ -38,7 +38,7 @@
 %   demisemiquaverDottedDoubleDown.ly                           %
 %                                                               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% created by lily-image-commands.py on 2013-11-18
+% created by lily-image-commands.py on 2013-11-21
 
 \version "2.16.2"
 
@@ -57,7 +57,7 @@ doubledotted demisemiquaver with downward stem
 
 demisemiquaverDottedDoubleDown = {
   \stemDown
-  \override Stem#'length = #6.5
+  \override Stem#'length = #7.5
   g'32..
 }
 
