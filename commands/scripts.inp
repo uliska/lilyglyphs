@@ -36,7 +36,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%
-% Sripts %
+% Scripts %
 %%%%%%%%%%%%%%%
 
 % "scripts.ufermata"
@@ -44,3 +44,78 @@
 	\setkeys{lilyDesignOptions}{scale=1.2,raise=0.5}%
 	\lilyPrint[#1]{\hspace*{0.55ex}\lilyGetGlyph{scripts.ufermata}}%
 }
+
+%%%%%%%%%%%%%%%
+% Articulations
+%%%%%%%%%%%%%%%
+
+% Accent symbol
+% created by lily-glyph-commands.py on 2013-11-20
+\newcommand*{\lilyAccent}[1][]{%
+	\setkeys{lilyDesignOptions}{scale=1.4,raise=0.5}%
+	\lilyPrint[#1]{\hspace{0.75ex}\lilyGetGlyph{scripts.sforzato}\hspace{-0.4ex}}%
+}
+
+% Espressivo
+% created by lily-glyph-commands.py on 2013-11-20
+\newcommand*{\lilyEspressivo}[1][]{%
+	\setkeys{lilyDesignOptions}{scale=1.4,raise=0.5}%
+	\lilyPrint[#1]{\hspace{1.7ex}\lilyGetGlyph{scripts.espr}\hspace{-0.4ex}}%
+}
+
+% Staccato dot
+% created by lily-glyph-commands.py on 2013-11-20
+\newcommand*{\lilyStaccato}[1][]{%
+	\setkeys{lilyDesignOptions}{scale=1.6,raise=0.5}%
+	\lilyPrint[#1]{\hspace{0.1ex}\lilyGetGlyph{scripts.staccato}\hspace{-0.2ex}}%
+}
+
+% Thumb pizzicato for string instruments
+% created by lily-glyph-commands.py on 2013-11-20
+\newcommand*{\lilyThumb}[1][]{%
+	\setkeys{lilyDesignOptions}{scale=1.6,raise=0.65}%
+	\lilyPrint[#1]{\hspace{0.1ex}\lilyGetGlyph{scripts.thumb}\hspace{-0.3ex}}%
+}
+
+% marcato articulation
+% created by lily-glyph-commands.py on 2013-11-20
+\newcommand*{\marcato}[1][]{%
+	\setkeys{lilyDesignOptions}{scale=1.4,raise=0.5}%
+	\lilyPrint[#1]{\lilyGetGlyph{scripts.umarcato}\hspace{-0.3ex}}%
+}
+
+% marcato articulation downwards
+% created by lily-glyph-commands.py on 2013-11-20
+\newcommand*{\marcatoDown}[1][]{%
+	\setkeys{lilyDesignOptions}{scale=1.4,raise=1}%
+	\lilyPrint[#1]{\lilyGetGlyph{scripts.dmarcato}\hspace{-0.3ex}}%
+}
+
+% portato articulation
+% created by lily-glyph-commands.py on 2013-11-20
+\newcommand*{\portato}[1][]{%
+	\setkeys{lilyDesignOptions}{scale=1.4,raise=0.5}%
+	\lilyPrint[#1]{\hspace{0.2ex}\lilyGetGlyph{scripts.uportato}\hspace{-0.4ex}}%
+}
+
+% portato articulation downwards
+% created by lily-glyph-commands.py on 2013-11-20
+\newcommand*{\portatoDown}[1][]{%
+	\setkeys{lilyDesignOptions}{scale=1.4,raise=1}%
+	\lilyPrint[#1]{\hspace{0.2ex}\lilyGetGlyph{scripts.dportato}\hspace{-0.4ex}}%
+}
+
+% staccatissimo articulation
+% created by lily-glyph-commands.py on 2013-11-20
+\newcommand*{\staccatissimo}[1][]{%
+	\setkeys{lilyDesignOptions}{scale=1.4,raise=0.5}%
+	\lilyPrint[#1]{\lilyGetGlyph{scripts.ustaccatissimo}}%
+}
+
+% tenuto articulation
+% created by lily-glyph-commands.py on 2013-11-20
+\newcommand*{\tenuto}[1][]{%
+	\setkeys{lilyDesignOptions}{scale=1.4,raise=0.8}%
+	\lilyPrint[#1]{\lilyGetGlyph{scripts.tenuto}\hspace{-0.4ex}}%
+}
+
