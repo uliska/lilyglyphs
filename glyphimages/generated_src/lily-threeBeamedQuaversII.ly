@@ -1,3 +1,4 @@
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                        %
 %      This file is part of the 'lilyglyphs' LaTeX package.              %
@@ -30,82 +31,42 @@
 %                                                                        %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% This file defines a set of glyphs to be compiled in LilyPond %
-%                                                              %
-%   Beamed notes                                               %
-%                                                              %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+% This file defines a single glyph to be created with LilyPond: %
+%                                                               %
+%   threeBeamedQuaversII.ly                                     %
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% created by lily-image-commands.py on 2013-11-21
 
-\version "2.17.5"
+\version "2.16.2"
 
-%%%%%%%%%%%%%%%%%%%%%%%
-% Groups with two beams
+#(set-global-staff-size 14)
 
-%%lilyglyphs
-% two beamed quavers with diagonal beam
-%%protected
-twoBeamedQuavers = {
-  \override Beam#'damping = 0
-  d'8[ e']
+\paper {
+  indent = 0
+}
+\header {
+  tagline = ""
 }
 
-\markup { twoBeamedQuavers }
-symbol = \twoBeamedQuavers
-\include "score.ily"
+%{
+three beamed quavers, first dotted
+%}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%
-% Groups with three beams
-
-%%lilyglyphs
-% raise=-0.6
-% scale=0.9
-% three beamed quavers
-%%protected
-threeBeamedQuavers = {
-  \override Beam #'positions = #'(1 . 1)
-  e'8[ e' e']
-}
-
-\markup { threeBeamedQuavers }
-symbol = \threeBeamedQuavers
-\include "score.ily"
-
-%%lilyglyphs
-% three beamed quavers, second dotted
-%%protected
-threeBeamedQuaversI = {
-  \override Beam #'positions = #'(1 . 1)
-  \override Score.SpacingSpanner #'common-shortest-duration = #(ly:make-moment 1/8)
-  e'8[ e'8. e'16]
-}
-
-\markup { threeBeamedQuaversI }
-symbol = \threeBeamedQuaversI
-\include "score.ily"
-
-%%lilyglyphs
-% three beamed quavers, first dotted
-%%protected
 threeBeamedQuaversII = {
   \override Beam #'positions = #'(1 . 1)
   \override Score.SpacingSpanner #'common-shortest-duration = #(ly:make-moment 1/12)
   e'8.[ e'16 e'8]
 }
 
-\markup { threeBeamedQuaversII }
-symbol = \threeBeamedQuaversII
-\include "score.ily"
-
-%%lilyglyphs
-% three beamed quavers, last dotted
-%%protected
-threeBeamedQuaversIII = {
-  \override Beam #'positions = #'(1 . 1)
-  \override Score.SpacingSpanner #'common-shortest-duration = #(ly:make-moment 1/12)
-  e'16[ e'8. e'8]
+  \score {
+  \new Staff \with {
+    \remove "Staff_symbol_engraver"
+    \remove "Clef_engraver"
+    \remove "Time_signature_engraver"
+  }
+  \threeBeamedQuaversII
 }
 
-\markup { threeBeamedQuaversIII }
-symbol = \threeBeamedQuaversIII
-\include "score.ily"

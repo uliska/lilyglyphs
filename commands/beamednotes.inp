@@ -48,3 +48,34 @@
     \setkeys{lilyDesignOptions}{scale=0.7,raise=-0.4}%
     \lilyPrintImage[#1]{lily-twoBeamedQuavers}%
 }
+
+%--------------------------------
+% Three notes connected by a beam
+
+% three beamed quavers
+% created by lily-image-commands.py on 2013-11-21
+\newcommand*{\threeBeamedQuavers}[1][]{%
+    \setkeys{lilyDesignOptions}{scale=0.9,raise=-0.6}%
+    \lilyPrintImage[#1]{lily-threeBeamedQuavers}%
+}
+
+% three beamed quavers, second dotted
+% created by lily-image-commands.py on 2013-11-21
+\newcommand*{\threeBeamedQuaversI}[1][]{%
+    \setkeys{lilyDesignOptions}{scale=0.9,raise=-0.6}%
+    \lilyPrintImage[#1]{lily-threeBeamedQuaversI}%
+}
+
+% three beamed quavers, first dotted
+% created by lily-image-commands.py on 2013-11-21
+\newcommand*{\threeBeamedQuaversII}[1][]{%
+    \setkeys{lilyDesignOptions}{scale=0.9,raise=-0.6}%
+    \lilyPrintImage[#1]{lily-threeBeamedQuaversII}%
+}
+
+% three beamed quavers, last dotted
+% created by lily-image-commands.py on 2013-11-21
+\newcommand*{\threeBeamedQuaversIII}[1][]{%
+    \setkeys{lilyDesignOptions}{scale=0.9,raise=-0.6}%
+    \lilyPrintImage[#1]{lily-threeBeamedQuaversIII}%
+}

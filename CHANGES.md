@@ -37,6 +37,7 @@ All changes should be present in the manual, but only the finished versions prin
 So the lines above the topmost bold version line represent the changes not available in the downloadable pdf documentation.
 
 - Add set of articulation symbols
+- Add a set of \threeBeamedQuavers commands
 - Add \demisemiquaver commands (up/down, dotted)
 - Fix trailing space of \quaver and \semiquaver  
   (may affect spacing of existing documents)
