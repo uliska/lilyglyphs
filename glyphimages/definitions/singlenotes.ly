@@ -207,6 +207,7 @@ symbol = \quaver
 
 %%lilyglyphs
 % dotted quaver with upward stem
+%%protected
 quaverDotted = {
   \override Stem#'length = 6
   g'8.
@@ -228,6 +229,7 @@ quaverDottedDown = {
 
 %%lilyglyphs
 % doubledotted quaver with upward stem
+%%protected
 quaverDottedDouble = {
   \override Stem#'length = 6
   g'8..
