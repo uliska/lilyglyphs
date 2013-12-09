@@ -39,68 +39,79 @@
 % Single notes %
 %%%%%%%%%%%%%%%%
 
+% The commands are defined in British English
+% and are followed by their American English synonyms
+
 %%%%%%%%%%%%%
 % whole notes
 
 % whole note 
-\newcommand*{\wholeNote}[1][]{%
+\newcommand*{\semibreve}[1][]{%
     \setkeys{lilyDesignOptions}{scale=1,raise=0.2}%
     \lilyPrint[#1]{\lilyGetGlyph{noteheads.s0}}%
 }
+\newcommand{\wholeNote}[1][]{\semibreve[#1]}
 
 % dotted whole note 
-\newcommand*{\wholeNoteDotted}[1][]{%
+\newcommand*{\semibreveDotted}[1][]{%
     \setkeys{lilyDesignOptions}{scale=1,raise=0.2}%
 	% Calculate effective scale/raise and the hspace for the dot
 	\lilySetDotOptions[#1]{0}{0.5}{0.4}%
 	% Print the rest and then the dot
 	\wholeNote[#1]\lilyDotSpace\lilyPrintDot
 }
+\newcommand*{\wholeNoteDotted}[1][]{\semibreveDotted[#1]}
 
 %%%%%%%%%%%%
 % half notes
 
 % half note with upward stem
 % created by buildglyphimages.py on 2012-11-06
-\newcommand*{\halfNote}[1][]{%
+\newcommand*{\minim}[1][]{%
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.2}%
     \lilyPrintImage[#1]{lily-halfNote}%
 }
+\newcommand*{\halfNote}[1][]{\minim[#1]}
 
 % half note with downward stem
 % created by buildglyphimages.py on 2012-11-13
-\newcommand*{\halfNoteDown}[1][]{%
+\newcommand*{\minimDown}[1][]{%
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.6}%
     \lilyPrintImage[#1]{lily-halfNoteDown}%
 }
+\newcommand*{\halfNoteDown}[1][]{\minimDown[#1]}
 
 % dotted half note with upward stem
 % created by buildglyphimages.py on 2012-11-07
-\newcommand*{\halfNoteDotted}[1][]{%
+\newcommand*{\minimDotted}[1][]{%
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.2}%
     \lilyPrintImage[#1]{lily-halfNoteDotted}%
 }
+\newcommand*{\halfNoteDotted}[1][]{\minimDotted[#1]}
 
 % dotted half note with downward stem
 % created by buildglyphimages.py on 2012-11-13
-\newcommand*{\halfNoteDottedDown}[1][]{%
+\newcommand*{\minimDottedDown}[1][]{%
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.6}%
     \lilyPrintImage[#1]{lily-halfNoteDottedDown}%
 }
+\newcommand*{\halfNoteDottedDown}[1][]{\minimDottedDown[#1]}
 
 % doubledotted half note with upward stem
 % created by buildglyphimages.py on 2012-11-08
-\newcommand*{\halfNoteDottedDouble}[1][]{%
+\newcommand*{\minimDottedDouble}[1][]{%
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.2}%
     \lilyPrintImage[#1]{lily-halfNoteDottedDouble}%
 }
+\newcommand*{\halfNoteDottedDouble}[1][]{\minimDottedDouble[#1]}
 
 % doubledotted half note with downward stem
 % created by buildglyphimages.py on 2012-11-13
-\newcommand*{\halfNoteDottedDoubleDown}[1][]{%
+\newcommand*{\minimDottedDoubleDown}[1][]{%
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.6}%
     \lilyPrintImage[#1]{lily-halfNoteDottedDoubleDown}%
 }
+\newcommand*{\halfNoteDottedDoubleDown}[1][]{\minimDottedDoubleDown[#1]}
 
 
 %%%%%%%%%%%
@@ -112,6 +123,7 @@
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.25}%
     \lilyPrintImage[#1]{lily-crotchet}%
 }
+\newcommand*{\quarterNote}[1][]{\crotchet[#1]}
 
 % crotchet with downward stem
 % created by buildglyphimages.py on 2012-11-13
@@ -119,6 +131,7 @@
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.4}%
     \lilyPrintImage[#1]{lily-crotchetDown}%
 }
+\newcommand*{\quarterNoteDown}[1][]{\crotchetDown[#1]}
 
 % dotted crotchet with upward stem
 % created by buildglyphimages.py on 2012-11-07
@@ -126,6 +139,7 @@
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.25}%
     \lilyPrintImage[#1]{lily-crotchetDotted}%
 }
+\newcommand*{\quarterNoteDotted}[1][]{\crotchetDotted[#1]}
 
 % dotted crotchet with downward stem
 % created by buildglyphimages.py on 2012-11-13
@@ -133,6 +147,7 @@
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.4}%
     \lilyPrintImage[#1]{lily-crotchetDottedDown}%
 }
+\newcommand*{\quarterNoteDottedDown}[1][]{\crotchetDottedDown[#1]}
 
 % doubledotted crotchet with upward stem
 % created by buildglyphimages.py on 2012-11-08
@@ -140,6 +155,7 @@
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.25}%
     \lilyPrintImage[#1]{lily-crotchetDottedDouble}%
 }
+\newcommand*{\quarterNoteDottedDouble}[1][]{\crotchetDottedDouble[#1]}
 
 % doubledotted crotchet with downward stem
 % created by buildglyphimages.py on 2012-11-13
@@ -147,6 +163,7 @@
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.4}%
     \lilyPrintImage[#1]{lily-crotchetDottedDoubleDown}%
 }
+\newcommand*{\quarterNoteDottedDoubleDown}[1][]{\crotchetDottedDoubleDown[#1]}
 
 
 %%%%%%%%%
@@ -158,6 +175,7 @@
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.3}%
     \lilyPrintImage[#1]{lily-quaver}%
 }
+\newcommand*{\eighthNote}[1][]{\quaver[#1]}
 
 % quaver with downward stem
 % created by buildglyphimages.py on 2012-11-13
@@ -165,6 +183,7 @@
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.7}%
     \lilyPrintImage[#1]{lily-quaverDown}%
 }
+\newcommand*{\eighthNoteDown}[1][]{\quaverDown[#1]}
 
 % dotted quaver with upward stem
 % created by buildglyphimages.py on 2012-11-13
@@ -172,6 +191,7 @@
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.3}%
     \lilyPrintImage[#1]{lily-quaverDotted}%
 }
+\newcommand*{\eighthNoteDotted}[1][]{\quaverDotted[#1]}
 
 % dotted quaver with downward stem
 % created by buildglyphimages.py on 2012-11-13
@@ -179,6 +199,7 @@
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.7}%
     \lilyPrintImage[#1]{lily-quaverDottedDown}%
 }
+\newcommand*{\eighthNoteDottedDown}[1][]{\quaverDottedDown[#1]}
 
 % doubledotted quaver with upward stem
 % created by buildglyphimages.py on 2012-11-13
@@ -186,6 +207,7 @@
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.3}%
     \lilyPrintImage[#1]{lily-quaverDottedDouble}%
 }
+\newcommand*{\eighthNoteDottedDouble}[1][]{\quaverDottedDouble[#1]}
 
 % doubledotted quaver with downward stem
 % created by buildglyphimages.py on 2012-11-13
@@ -193,6 +215,7 @@
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.7}%
     \lilyPrintImage[#1]{lily-quaverDottedDoubleDown}%
 }
+\newcommand*{\eighthNoteDottedDoubleDown}[1][]{\quaverDottedDoubleDown[#1]}
 
 
 %%%%%%%%%%%%%
@@ -204,6 +227,7 @@
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.15}%
     \lilyPrintImage[#1]{lily-semiquaver}%
 }
+\newcommand*{\sixteenthNote}[1][]{\semiquaver[#1]}
 
 % semiquaver with downward stem
 % created by buildglyphimages.py on 2012-11-13
@@ -211,6 +235,7 @@
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.8}%
     \lilyPrintImage[#1]{lily-semiquaverDown}%
 }
+\newcommand*{\sixteenthNoteDown}[1][]{\semiquaverDown[#1]}
 
 % dotted semiquaver with upward stem
 % created by buildglyphimages.py on 2012-11-07
@@ -218,6 +243,7 @@
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.15}%
     \lilyPrintImage[#1]{lily-semiquaverDotted}%
 }
+\newcommand*{\sixteenthNoteDotted}[1][]{\semiquaverDotted[#1]}
 
 % dotted semiquaver with downward stem
 % created by buildglyphimages.py on 2012-11-13
@@ -225,6 +251,7 @@
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.8}%
     \lilyPrintImage[#1]{lily-semiquaverDottedDown}%
 }
+\newcommand*{\sixteenthNoteDottedDown}[1][]{\semiquaverDottedDown[#1]}
 
 % doubledotted semiquaver with upward stem
 % created by buildglyphimages.py on 2012-11-08
@@ -232,6 +259,7 @@
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.15}%
     \lilyPrintImage[#1]{lily-semiquaverDottedDouble}%
 }
+\newcommand*{\sixteenthNoteDottedDouble}[1][]{\semiquaverDottedDouble[#1]}
 
 % doubledotted semiquaver with downward stem
 % created by buildglyphimages.py on 2012-11-13
@@ -239,6 +267,7 @@
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.8}%
     \lilyPrintImage[#1]{lily-semiquaverDottedDoubleDown}%
 }
+\newcommand*{\sixteenthNoteDottedDoubleDown}[1][]{\semiquaverDottedDoubleDown[#1]}
 
 %%%%%%%%%%%%%%%%%
 % demisemiquavers
@@ -249,6 +278,7 @@
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.4}%
     \lilyPrintImage[#1]{lily-demisemiquaver}%
 }
+\newcommand*{\thirtysecondNote}[1][]{\demisemiquaver[#1]}
 
 % dotted demisemiquaver with upward stem
 % created by lily-image-commands.py on 2013-11-18
@@ -256,6 +286,7 @@
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.4}%
     \lilyPrintImage[#1]{lily-demisemiquaverDotted}%
 }
+\newcommand*{\thirtysecondNoteDotted}[1][]{\demisemiquaverDotted[#1]}
 
 % doubledotted demisemiquaver with upward stem
 % created by lily-image-commands.py on 2013-11-18
@@ -263,6 +294,7 @@
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.4}%
     \lilyPrintImage[#1]{lily-demisemiquaverDottedDouble}%
 }
+\newcommand*{\thirtysecondNoteDottedDouble}[1][]{\demisemiquaverDottedDouble[#1]}
 
 % doubledotted demisemiquaver with downward stem
 % created by lily-image-commands.py on 2013-11-18
@@ -270,6 +302,7 @@
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.4}%
     \lilyPrintImage[#1]{lily-demisemiquaverDottedDoubleDown}%
 }
+\newcommand*{\thirtysecondNoteDottedDoubleDown}[1][]{\demisemiquaverDottedDoubleDown[#1]}
 
 % dotted demisemiquaver with downward stem
 % created by lily-image-commands.py on 2013-11-18
@@ -277,6 +310,7 @@
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.4}%
     \lilyPrintImage[#1]{lily-demisemiquaverDottedDown}%
 }
+\newcommand*{\thirtysecondNoteDottedDown}[1][]{\demisemiquaverDottedDown[#1]}
 
 % demisemiquaver with downward stem
 % created by lily-image-commands.py on 2013-11-18
@@ -284,3 +318,4 @@
     \setkeys{lilyDesignOptions}{scale=0.75,raise=-0.4}%
     \lilyPrintImage[#1]{lily-demisemiquaverDown}%
 }
+\newcommand*{\thirtysecondNoteDown}[1][]{\demisemiquaverDown[#1]}

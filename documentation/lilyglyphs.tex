@@ -401,41 +401,42 @@ The documentation explicitely mentions if the commands are based on image files.
 \label{sec:singlenotes}
 Single notes may well be the most frequently used glyphs.
 Unfortunately they aren't present in \emmentaler{} because LilyPond draws them by itself, so \lilyglyphs{} realizes them using included pdf image files.
+The commands are available identically in British and American form.
 See \fref{tab:singlenotes} for the available predefined commands.
 
 \begin{reftable}{Single Notes}{singlenotes}
-\wholeNote & \cmd{wholeNote}\\
-\wholeNoteDotted & \cmd{wholeNoteDotted}\\
-\crotchet & \cmd{crotchet}\\
-\crotchetDown & \cmd{crotchetDown}\\
-\crotchetDotted & \cmd{crotchetDotted}\\
-\crotchetDottedDown & \cmd{crotchetDottedDown}\\
-\crotchetDottedDouble & \cmd{crotchetDottedDouble}\\
-\crotchetDottedDoubleDown & \cmd{crotchetDottedDoubleDown}\\
-\halfNote & \cmd{halfNote}\\
-\halfNoteDown & \cmd{halfNoteDown}\\
-\halfNoteDotted & \cmd{halfNoteDotted}\\
-\halfNoteDottedDown & \cmd{halfNoteDottedDown}\\
-\halfNoteDottedDouble & \cmd{halfNoteDottedDouble}\\
-\halfNoteDottedDoubleDown & \cmd{halfNoteDottedDoubleDown}\\
-\quaver & \cmd{quaver}\\
-\quaverDown & \cmd{quaverDown}\\
-\quaverDotted & \cmd{quaverDotted}\\
-\quaverDottedDown & \cmd{quaverDottedDown}\\
-\quaverDottedDouble & \cmd{quaverDottedDouble}\\
-\quaverDottedDoubleDown & \cmd{quaverDottedDoubleDown}\\
-\semiquaver & \cmd{semiquaver}\\
-\semiquaverDown & \cmd{semiquaverDown}\\
-\semiquaverDotted & \cmd{semiquaverDotted}\\
-\semiquaverDottedDown & \cmd{semiquaverDottedDown}\\
-\semiquaverDottedDouble & \cmd{semiquaverDottedDouble}\\
-\semiquaverDottedDoubleDown & \cmd{semiquaverDottedDoubleDown}\\
-\demisemiquaver & \cmd{demisemiquaver}\\
-\demisemiquaverDotted & \cmd{demisemiquaverDotted}\\
-\demisemiquaverDottedDouble & \cmd{demisemiquaverDottedDouble}\\
-\demisemiquaverDottedDoubleDown & \cmd{demisemiquaverDottedDoubleDown}\\
-\demisemiquaverDottedDown & \cmd{demisemiquaverDottedDown}\\
-\demisemiquaverDown & \cmd{demisemiquaverDown}\\
+\wholeNote & \cmd{semibreve} -- \cmd{wholeNote}\\
+\wholeNoteDotted & \cmd{semibreveDotted} -- \cmd{wholeNoteDotted}\\
+\halfNote & \cmd{minim} -- \cmd{halfNote}\\
+\halfNoteDown & \cmd{minimDown} -- \cmd{halfNoteDown}\\
+\halfNoteDotted & \cmd{minimDotted} -- \cmd{halfNoteDotted}\\
+\halfNoteDottedDown & \cmd{minimDottedDown} -- \cmd{halfNoteDottedDown}\\
+\halfNoteDottedDouble & \cmd{minimDottedDouble} -- \cmd{halfNoteDottedDouble}\\
+\halfNoteDottedDoubleDown & \cmd{minimDottedDoubleDown} -- \cmd{halfNoteDottedDoubleDown}\\
+\crotchet & \cmd{crotchet} -- \cmd{quarterNote}\\
+\crotchetDown & \cmd{crotchetDown} -- \cmd{quarterNoteDown}\\
+\crotchetDotted & \cmd{crotchetDotted} -- \cmd{quarterNoteDotted}\\
+\crotchetDottedDown & \cmd{crotchetDottedDown} -- \cmd{quarterNoteDottedDown}\\
+\crotchetDottedDouble & \cmd{crotchetDottedDouble} -- \cmd{quarterNoteDottedDouble}\\
+\crotchetDottedDoubleDown & \cmd{crotchetDottedDoubleDown} -- \cmd{quarterNoteDottedDoubleDown}\\
+\quaver & \cmd{quaver} -- \cmd{eighthNote}\\
+\quaverDown & \cmd{quaverDown} -- \cmd{eighthNoteDown}\\
+\quaverDotted & \cmd{quaverDotted} -- \cmd{eighthNoteDotted}\\
+\quaverDottedDown & \cmd{quaverDottedDown} -- \cmd{eighthNoteDottedDown}\\
+\quaverDottedDouble & \cmd{quaverDottedDouble} -- \cmd{eighthNoteDottedDouble}\\
+\quaverDottedDoubleDown & \cmd{quaverDottedDoubleDown} -- \cmd{eighthNoteDottedDoubleDown}\\
+\semiquaver & \cmd{semiquaver} -- \cmd{sixteenthNote}\\
+\semiquaverDown & \cmd{semiquaverDown} -- \cmd{sixteenthNoteDown}\\
+\semiquaverDotted & \cmd{semiquaverDotted} -- \cmd{sixteenthNoteDotted}\\
+\semiquaverDottedDown & \cmd{semiquaverDottedDown} -- \cmd{sixteenthNoteDottedDown}\\
+\semiquaverDottedDouble & \cmd{semiquaverDottedDouble} -- \cmd{sixteenthNoteDottedDouble}\\
+\semiquaverDottedDoubleDown & \cmd{semiquaverDottedDoubleDown} -- \cmd{sixteenthNoteDottedDoubleDown}\\
+\demisemiquaver & \cmd{demisemiquaver} -- \cmd{thirtysecondNote}\\
+\demisemiquaverDown & \cmd{demisemiquaverDown} -- \cmd{thirtysecondNoteDown}\\
+\demisemiquaverDotted & \cmd{demisemiquaverDotted} -- \cmd{thirtysecondNoteDotted}\\
+\demisemiquaverDottedDown & \cmd{demisemiquaverDottedDown} -- \cmd{thirtysecondNoteDottedDown}\\
+\demisemiquaverDottedDouble & \cmd{demisemiquaverDottedDouble} -- \cmd{thirtysecondNoteDottedDouble}\\
+\demisemiquaverDottedDoubleDown & \cmd{demisemiquaverDottedDoubleDown} -- \cmd{thirtysecondNoteDottedDoubleDown}\\
 \end{reftable}
 
 
