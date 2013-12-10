@@ -33,3 +33,4 @@ otf/*
 # exclude generated LaTeX files for new commands
 /stash_new_commands/emmentaler/newGlyphCommands.tex
 /stash_new_commands/images/newImageGlyphs.tex
+*.gz(busy)
