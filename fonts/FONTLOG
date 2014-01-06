@@ -9,7 +9,7 @@ lilyglyphs is a package that makes LilyPond's notational elements
 available as character commands in LuaLaTeX/XeLaTeX documents.
 
 The font files distributed with lilyglyphs are the ones shipped with 
-LilyPond 2.16.2 without any modifications.
+LilyPond 2.18.0 without any modifications.
 
 The fonts have been created by "The LilyPond authors" and are licensed 
 under the SIL Open Font License, Version 1.1. See the file

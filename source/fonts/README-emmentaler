@@ -1,8 +1,8 @@
-The archive emmentaler-2-16-2 contains
+The archive emmentaler-2-18-0 contains
 the Metafont sources used to create the
 Emmentaler OpenType fonts in the /fonts
 directory.
 They were taken from LilyPond's original
 Git repository at 
 http://savannah.gnu.org/git/?group=lilypond
-with the 2.16.2 release checked out.
+with the 2.18.0 release checked out.
