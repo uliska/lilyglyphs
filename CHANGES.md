@@ -36,6 +36,7 @@ This document lists all changes in the development of *lilyglyphs*.
 All changes should be present in the manual, but only the finished versions printed bold are available as pdf downloads. (Latest changes are only found in the master branch of the git repository. They should be documentd in the lilyglyphs.tex file there too.)
 So the lines above the topmost bold version line represent the changes not available in the downloadable pdf documentation.
 
+- Update Emmentaler fonts to 2.18.0
 - Provide consistent BE and AE versions of singlenote commands
 - Add set of articulation symbols
 - Add a set of \threeBeamedQuavers commands
