@@ -128,7 +128,7 @@ local chr = slot_of_name(font.current(), chr, false)
 if chr and type(chr) == "number" then
 texsprint
  (\the\CatcodeTableLaTeX, 
-  stringformat ([[\char"%X"]], chr))
+  stringformat ([[\char"%X]], chr))
 end
 end
 \end{luacode}
