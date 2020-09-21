@@ -55,9 +55,9 @@ manifest = []
 def main():
     
     if os.path.exists('deploy'):
-        overwrite = raw_input('deploy directory exists. Overwrite? ')
+        overwrite = input('deploy directory exists. Overwrite? ')
         if overwrite != 'y':
-            print 'Aborted'
+            print('Aborted')
             sys.exit(1)
         shutil.rmtree('deploy')
     os.mkdir('deploy')
@@ -65,7 +65,7 @@ def main():
     
     # now we're guaranteed to have an empty 'deploy/lilyglyphs' directory
     
-    print 'Copying files:'
+    print('Copying files:')
     # copy individual files from the root directory
     cp_root()
     # copy complete directories to their corresponding dest
@@ -140,12 +140,12 @@ def cp_folder(src, dest = None):
     global manifest
     if not dest:
         dest = src
-    print '-', src
+    print('-', src)
     shutil.copytree(src, dir_deploy + '/' + dest)
     append_manifest(src, dest)
     
 def cp_root():
-    print '- root'
+    print('- root')
     f = []
     f.append('CHANGES.md')
     f.append('INSTALL')
@@ -153,7 +153,7 @@ def cp_root():
     copy_files(f, '')
 
 def cp_scripts():
-    print '- scripts'
+    print('- scripts')
     os.mkdir(dir_deploy + '/bin')
     os.mkdir(dir_deploy + '/lib')
     for file in os.listdir('scripts'):
@@ -165,7 +165,7 @@ def cp_scripts():
             manifest.append('/lib/' + file)
     
 def lg_private():
-    print '- lilyglyphs_private'
+    print('- lilyglyphs_private')
     zip = zipfile.ZipFile(dir_deploy + '/documentation/lilyglyphs_private.zip', 'w')
     for root, dirs, files in os.walk('lilyglyphs_private'):
         for file in files:
@@ -216,15 +216,15 @@ if __name__ == "__main__":
         for part in version_parts:
             int(part)
     except:
-        print 'Malformed version argument:', version
-        print 'Use three integers separated by dots'
+        print('Malformed version argument:', version)
+        print('Use three integers separated by dots')
         sys.exit(1)
     
-    print 'Preparing lilyglyphs deployment', version + '.'
-    print 'CWD is', os.getcwd()
-    print 'This should be the root of lilyglyphs.'
-    print 'This script will not work on Windows.'
-    check = raw_input('Proceed (y/..)? ')
+    print('Preparing lilyglyphs deployment', version + '.')
+    print('CWD is', os.getcwd())
+    print('This should be the root of lilyglyphs.')
+    print('This script will not work on Windows.')
+    check = input('Proceed (y/..)? ')
     if check != 'y':
         sys.exit(1)
     

@@ -232,7 +232,7 @@ def cleanup_lily_files():
     """Removes unneccessary files from LilyPond compilation,
     rename and remove the preview PDF files to the right directory."""
 
-    print 'Clean up directories'
+    print('Clean up directories')
     
     # iterate through dir_lysrc
     os.chdir(dir_lysrc)
@@ -255,7 +255,7 @@ def cleanup_lily_files():
     
 def compile_lily_files():
     """Compiles LilyPond files to """
-    print 'Compile with LilyPond:'
+    print('Compile with LilyPond:')
     for file in lily_files:
         args = []
         args.append("lilypond")
@@ -265,7 +265,7 @@ def compile_lily_files():
         args.append("-dno-point-and-click")
         args.append(os.path.join(dir_lysrc, file + ".ly"))
         subprocess.call(args)
-        print ''
+        print('')
 
 def generate_latex_commands():
     """Generates the templates for the commands in a new LaTeX file.
@@ -308,12 +308,12 @@ def read_input_file(in_file):
     
     in_file = os.path.normpath(in_file)
 
-    print 'Read input file ' + in_file
+    print('Read input file ' + in_file)
     
     # check for existence of input file
     if not os.path.exists(in_file):
-                    print 'File ' + in_file + ' not found.'
-                    print 'Please specify an input file'
+                    print('File ' + in_file + ' not found.')
+                    print('Please specify an input file')
                     sys.exit(2)
 
     fin = open(in_file,  'r')
@@ -336,7 +336,7 @@ def write_latex_file(file_name):
     fout.write(latexfile_start_comment.replace('SCRIPT_NAME', script_name()))
 
     # write out command definitions
-    sorted_cmds = sorted(latex_cmds.iterkeys())
+    sorted_cmds = sorted(latex_cmds.keys())
     for cmd_name in sorted_cmds:
         for line in latex_cmds[cmd_name]['cmd']:
             fout.write(line)

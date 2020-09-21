@@ -80,10 +80,10 @@ def read_entries():
         if not len(line):
             # skip if cmd and glyph haven't been filled both
             if not (entry['cmd'] and entry['element']):
-                print 'Skip malformed entry \'' + entry['cmd'] + '\'. Please check input file'
+                print('Skip malformed entry \'' + entry['cmd'] + '\'. Please check input file')
                 reset_entry()
             else:
-                print 'Read entry \'' + entry['cmd'] + '\''
+                print('Read entry \'' + entry['cmd'] + '\'')
                 lg.in_cmds[entry['cmd']] = {}
                 lg.in_cmds[entry['cmd']]['element'] = entry['element']
                 lg.in_cmds[entry['cmd']]['type'] = entry['type']
@@ -110,13 +110,13 @@ def read_entries():
 
     
 def usage():
-    print 'genGlyphCommands.py'
-    print 'is part of the lilyglyphs package'
-    print ''
-    print 'Usage:'
-    print 'Pass the name (without path) of an input definitions file'
-    print '(this has to be located in the /stash_new_commands directory.'
-    print 'Please refer to the manual (documentation/lilyglyphs.pdf).'
+    print('genGlyphCommands.py')
+    print('is part of the lilyglyphs package')
+    print('')
+    print('Usage:')
+    print('Pass the name (without path) of an input definitions file')
+    print('(this has to be located in the /stash_new_commands directory.')
+    print('Please refer to the manual (documentation/lilyglyphs.pdf).')
 
 # ####################################
 # Finally launch the program
