@@ -51,8 +51,8 @@ version_string = '0.2.2'
 # ######################
 # Common CL arguments
 common_arguments = argparse.ArgumentParser(add_help=False)
-common_arguments.add_argument('-v', '--version', 
-                               action='version', 
+common_arguments.add_argument('-v', '--version',
+                               action='version',
                                version='%(prog)s ' + version_string)
 
 def is_file(filename):
@@ -232,8 +232,8 @@ def cleanup_lily_files():
     """Removes unneccessary files from LilyPond compilation,
     rename and remove the preview PDF files to the right directory."""
 
-    print 'Clean up directories'
-    
+    print('Clean up directories')
+
     # iterate through dir_lysrc
     os.chdir(dir_lysrc)
     for entry in os.listdir('.'):
@@ -250,12 +250,12 @@ def cleanup_lily_files():
                     # rename/move small 'preview' pdf
                     os.rename(entry, newfile)
                 else:
-                    os.remove(entry)                    
+                    os.remove(entry)
     os.chdir('..')
-    
+
 def compile_lily_files():
     """Compiles LilyPond files to """
-    print 'Compile with LilyPond:'
+    print('Compile with LilyPond:')
     for file in lily_files:
         args = []
         args.append("lilypond")
@@ -265,7 +265,7 @@ def compile_lily_files():
         args.append("-dno-point-and-click")
         args.append(os.path.join(dir_lysrc, file + ".ly"))
         subprocess.call(args)
-        print ''
+        print('')
 
 def generate_latex_commands():
     """Generates the templates for the commands in a new LaTeX file.
@@ -295,25 +295,25 @@ def generate_latex_commands():
         template = template.replace('RAISE', rais)
         cmd.append(template.replace('ELEM', in_cmds[cmd_name]['element']))
         latex_cmds[cmd_name]['cmd'] = cmd
-    
+
         # create LaTeX test code
         tc = []
         tc.append(testcode_template.replace('CMD', cmd_name))
         latex_cmds[cmd_name]['testcode'] = tc
 
 def read_input_file(in_file):
-    """Reads the input source file and stores it 
+    """Reads the input source file and stores it
     in the global variable definitions_file"""
     global definitions_file
-    
+
     in_file = os.path.normpath(in_file)
 
-    print 'Read input file ' + in_file
-    
+    print('Read input file ' + in_file)
+
     # check for existence of input file
     if not os.path.exists(in_file):
-                    print 'File ' + in_file + ' not found.'
-                    print 'Please specify an input file'
+                    print('File ' + in_file + ' not found.')
+                    print('Please specify an input file')
                     sys.exit(2)
 
     fin = open(in_file,  'r')
@@ -336,7 +336,7 @@ def write_latex_file(file_name):
     fout.write(latexfile_start_comment.replace('SCRIPT_NAME', script_name()))
 
     # write out command definitions
-    sorted_cmds = sorted(latex_cmds.iterkeys())
+    sorted_cmds = sorted(latex_cmds.keys())
     for cmd_name in sorted_cmds:
         for line in latex_cmds[cmd_name]['cmd']:
             fout.write(line)
